@@ -1,0 +1,142 @@
+@import "reset";
+@import "colors";
+@import "_variable";
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: Regular;
+  font-size: 16px;
+  color: $Black1;
+  line-height: 1.4;
+  overflow: hidden;
+  height: 100%;
+}
+
+input {
+  font-size: inherit;
+  color: inherit;
+  background: unset;
+  outline: none;
+  user-select: auto;
+  border: unset;
+
+  &::placeholder {
+    color: $Gray1;
+  }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+button {
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+*::-webkit-outer-spin-button,
+*::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.commonSelBox {
+  position: relative;
+}
+
+.react-datepicker {
+  &:first-child {
+    font-family: Regular;
+    border: 1px solid $Primary1;
+    border-radius: 10px;
+  }
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  .react-datepicker__header {
+    background-color: transparent;
+    color: $Black1;
+    border-bottom: none;
+    border-radius: 0;
+    padding: 0;
+
+    .react-datepicker__day-names {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 20px;
+      padding: 0px 24px;
+
+      .react-datepicker__day-name {
+        &:first-child {
+          color: $Red1;
+        }
+        color: #999;
+        font-size: 12px;
+        font-family: Bold;
+        width: 35px;
+      }
+    }
+  }
+
+  // 닫기 있을 경우 bottom padding 수정 해야함
+  .react-datepicker__month {
+    padding: 10px 24px;
+
+    .react-datepicker__week {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .react-datepicker__day {
+        &:hover {
+          border-radius: 50%;
+        }
+
+        &:first-child {
+          color: $Red1;
+        }
+      }
+
+      .react-datepicker__day--selected {
+        background-color: $Primary1;
+        border-radius: 50%;
+        font-weight: Bold;
+        &:first-child {
+          color: $White1;
+        }
+      }
+
+      .react-datepicker__day--keyboard-selected {
+        background-color: transparent;
+        border-radius: 50%;
+
+        &:hover {
+          background-color: #f0f0f0;
+        }
+      }
+
+      .react-datepicker__day--outside-month {
+        cursor: default;
+        visibility: hidden;
+      }
+    }
+  }
+
+  .react-datepicker__triangle {
+    display: none;
+  }
+}
