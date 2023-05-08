@@ -139,4 +139,13 @@ button {
   .react-datepicker__triangle {
     display: none;
   }
+
+  @font-face {
+    font-family: Pretendard-Regular;
+    src: url("../../public/fonts/Pretendard-Regular.woff2");
+  }
+  @font-face {
+    font-family: Pretendard-Bold;
+    src: url("../../public/fonts/Pretendard-Bold.woff2");
+  }
 }

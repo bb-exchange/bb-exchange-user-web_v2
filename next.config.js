@@ -1,6 +1,6 @@
 module.exports = {
   reactStrictMode: false,
-  output: 'standalone',
+  output: "standalone",
   webpack(config) {
     config.module.rules.push({
       loader: "@svgr/webpack",
@@ -21,6 +21,7 @@ module.exports = {
       },
       test: /\.svg$/,
     });
+
     return config;
   },
 };
