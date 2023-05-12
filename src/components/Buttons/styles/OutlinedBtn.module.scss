@@ -1,0 +1,16 @@
+@import "../../../styles/colors.scss";
+.outlinedBtn {
+  font-size: 16px;
+  font-weight: 700;
+  color: $Primary1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 12px;
+  gap: 10px;
+  border: 1px solid $Primary1;
+  min-width: 80px;
+  //   height: 44px;
+  border-radius: 8px;
+  white-space: nowrap;
+}
