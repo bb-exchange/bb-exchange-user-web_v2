@@ -1,0 +1,53 @@
+@import "../../../styles/colors.scss";
+
+#signIn {
+  background-color: $Primary5;
+  height: 100vh;
+  position: relative;
+
+  .contentBox {
+    position: absolute;
+    top: 115px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: $White1;
+    width: 588px;
+    border: 1px solid #f8faff;
+    box-shadow: 0px 4px 15px rgba(87, 139, 142, 0.06);
+    border-radius: 20px;
+    padding: 88px 116px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h2,
+    p {
+      text-align: center;
+    }
+    h2 {
+      font-size: 30px;
+      font-weight: 700;
+      margin-bottom: 25px;
+      line-height: 40px;
+    }
+    .badge {
+      margin: 44px 0;
+    }
+    .kakao {
+      margin-bottom: 24px;
+    }
+    .kakao,
+    .google,
+    .apple {
+      cursor: pointer;
+    }
+    .or {
+      margin: 24px 0;
+      color: $Black2;
+    }
+    .logoWrap {
+      display: flex;
+      gap: 24px;
+    }
+  }
+}

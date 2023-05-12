@@ -1,7 +1,27 @@
 @import "../../../styles/colors.scss";
 #Navbar {
-  height: 71px;
+  // height: 126px;
   width: 100%;
-  background-color: $White1;
   font-family: Pretendard-Regular;
+
+  .mainNavbar {
+    height: 80px;
+    padding: 18px 20%;
+    background-color: $White1;
+    section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .homeLink {
+      color: $Primary1;
+      font-size: 20px;
+      white-space: nowrap;
+    }
+  }
+  .subNavbar {
+    // height: calc(126px - 80px);
+    height: 46px;
+    background-color: $White1;
+  }
 }

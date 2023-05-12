@@ -16,7 +16,10 @@ body {
   overflow: hidden;
   height: 100%;
 }
-
+main {
+  overflow-y: scroll;
+  height: 100vh;
+}
 input {
   font-size: inherit;
   color: inherit;
@@ -142,10 +145,10 @@ button {
 
   @font-face {
     font-family: Pretendard-Regular;
-    src: url("../../public/fonts/Pretendard-Regular.woff2");
+    src: url("../../public/assets/fonts/Pretendard-Regular.woff2");
   }
   @font-face {
     font-family: Pretendard-Bold;
-    src: url("../../public/fonts/Pretendard-Bold.woff2");
+    src: url("../../public/assets/fonts/Pretendard-Bold.woff2");
   }
 }
