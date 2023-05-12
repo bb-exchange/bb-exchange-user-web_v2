@@ -3,8 +3,10 @@ import Badge from "../../../public/assets/images/splash_badge.svg";
 import Kakao from "../../../public/assets/images/kakao_login.svg";
 import Google from "../../../public/assets/images/google_logo.svg";
 import Apple from "../../../public/assets/images/apple_logo.svg";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 const SignIn = () => {
+  const sesstion = useSession();
+  console.log(sesstion);
   const kakaoSignIn = () => {
     window.Kakao.Auth.authorize({
       redirectUri: "http://localhost:3000/signin",
