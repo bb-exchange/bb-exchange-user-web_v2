@@ -3,9 +3,8 @@ import Badge from "../../../public/assets/images/splash_badge.svg";
 import Kakao from "../../../public/assets/images/kakao_login.svg";
 import Google from "../../../public/assets/images/google_logo.svg";
 import Apple from "../../../public/assets/images/apple_logo.svg";
-
 import { signIn, signOut, useSession } from "next-auth/react";
-import Image from "next/image";
+
 const SignIn = () => {
   const session = useSession();
   console.log(session);
