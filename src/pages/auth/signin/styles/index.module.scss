@@ -1,4 +1,4 @@
-@import "../../../styles/colors.scss";
+@import "../../../../styles/colors.scss";
 
 #signIn {
   background-color: $Primary5;
@@ -26,9 +26,13 @@
     }
     h2 {
       font-size: 30px;
-      font-weight: 700;
+      font-family: Pretendard-Bold;
       margin-bottom: 25px;
       line-height: 40px;
+    }
+    p {
+      font-size: 18px;
+      white-space: nowrap;
     }
     .badge {
       margin: 44px 0;
