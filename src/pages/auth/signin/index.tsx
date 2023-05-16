@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import Image from "next/image";
 
 const SignIn = () => {
-  const kakaoSignIn = async () => {
+  const kakaoSignIn = () => {
     window.Kakao.Auth.authorize({
       redirectUri: "http://localhost:3000/auth",
       scope: "openid",
