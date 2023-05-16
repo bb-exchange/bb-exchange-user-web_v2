@@ -18,7 +18,7 @@ const Auth = () => {
       (async () => {
         const { data } = await instance.post("oauth/token ", {
           grant_type: "authorization_code",
-          client_id: process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY,
+          client_id: process.env.NEXT_PUBLIC_KAKAO_JS_KEY,
           redirect_uri: "http://localhost:3000/auth",
           code: query.code,
         });

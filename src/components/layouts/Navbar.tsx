@@ -18,7 +18,7 @@ const Navbar = () => {
           <OutlinedBtn text={"문의하기"} />
         </section>
       </div>
-      {!pathname?.includes("/sign") && <div className={styles.subNavbar}></div>}
+      {!pathname?.includes("/auth") && <div className={styles.subNavbar}></div>}
     </nav>
   );
 };
