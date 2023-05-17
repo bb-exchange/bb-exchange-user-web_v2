@@ -1,34 +1,19 @@
 import EnrollHeader from ".src/components/enroll/enrollHeader";
 import styles from "./enroll.module.scss";
 import "react-quill/dist/quill.snow.css";
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import dynamic from "next/dynamic";
-import {
-  imgHandler,
-  quillFormats,
-  redoBtnHandler,
-  undoBtnHandler,
-} from ".src/util/textEditor";
+import { quillFormats } from ".src/util/textEditor";
+import useQuill from ".src/hooks/enroll/enroll";
+import ChevronDn from ".src/asset/images/icon/ChevronDn.svg";
 
 export default function Enroll() {
   const quillRef = React.useRef<any>(false);
+  const [modules] = useQuill(quillRef);
 
+  const [category, setCategory] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [value, setValue] = useState();
-
-  const modules = useMemo(
-    () => ({
-      toolbar: {
-        container: "#toolbar",
-        handlers: {
-          image: () => imgHandler(quillRef),
-          undoBtn: () => undoBtnHandler(quillRef),
-          redoBtn: () => redoBtnHandler(quillRef),
-        },
-      },
-    }),
-    []
-  );
 
   return (
     <>
@@ -38,6 +23,18 @@ export default function Enroll() {
         <article className={styles.contArea}>
           <div className={styles.editCont}>
             <div className={styles.topBar}>
+              <div className={styles.categoryBox}>
+                <button className={styles.selBtn} onClick={() => {}}>
+                  <input
+                    disabled
+                    value={category}
+                    placeholder="카테고리를 선택해주세요"
+                  />
+
+                  <ChevronDn />
+                </button>
+              </div>
+
               <div className={styles.titleBox}>
                 <input
                   value={title}

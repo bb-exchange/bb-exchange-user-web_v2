@@ -19,8 +19,27 @@
       margin: 0 auto;
 
       .topBar {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
         padding: 24px 0;
         border-bottom: 1px solid $Gray3;
+
+        .categoryBox {
+          position: relative;
+
+          .selBtn {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 24px;
+
+            input {
+              flex: 1;
+              height: 100%;
+            }
+          }
+        }
 
         .titleBox {
           height: 34px;
@@ -42,7 +61,7 @@
           & > div {
             padding: 0;
 
-            &::before{
+            &::before {
               left: 0;
             }
 
