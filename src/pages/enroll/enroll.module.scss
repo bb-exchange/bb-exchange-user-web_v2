@@ -1,27 +1,60 @@
 @import "/src/styles/variable";
 
-.enroll {
-  display: flex;
-  justify-content: center;
-  padding: 64px 0 0;
+.innerSec {
+  padding: 160px 0 0;
+  height: 100vh;
+  background: $Gray2;
+  position: relative;
 
-  .enrollSec {
-    width: 792px;
+  .contArea {
+    width: 996px;
+    height: 100%;
+    padding: 70px 0 98px;
+    overflow-y: scroll;
+    margin: 0 auto;
+    background: #fff;
 
-    .topBar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      height: 80px;
-      border-bottom: 1px solid $Gray3;
+    .editCont {
+      width: 792px;
+      margin: 0 auto;
 
-      .pageTitle {
-        font-size: 32px;
-        font-weight: 700;
+      .topBar {
+        padding: 24px 0;
+        border-bottom: 1px solid $Gray3;
+
+        .titleBox {
+          height: 34px;
+
+          input {
+            width: 100%;
+            font-size: 24px;
+            font-weight: 700;
+          }
+        }
       }
 
-      .utilCont {
-     
+      .quill {
+        padding: 44px 0 0;
+
+        & > div {
+          border: none;
+
+          & > div {
+            padding: 0;
+
+            &::before{
+              left: 0;
+            }
+
+            strong {
+              font-weight: 700;
+            }
+
+            em {
+              font-style: italic;
+            }
+          }
+        }
       }
     }
   }
