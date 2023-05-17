@@ -47,6 +47,10 @@ button {
   background: none;
   border: none;
   cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 }
 
 *::-webkit-outer-spin-button,

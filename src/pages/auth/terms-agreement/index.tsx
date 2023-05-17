@@ -32,3 +32,7 @@ const TermsAgreement = () => {
 };
 
 export default TermsAgreement;
+
+export function getStaticProps() {
+  return { props: { navBar: true } };
+}

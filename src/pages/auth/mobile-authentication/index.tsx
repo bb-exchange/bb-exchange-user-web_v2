@@ -3,3 +3,7 @@ const index = () => {
 };
 
 export default index;
+
+export function getStaticProps() {
+  return { props: { navBar: true } };
+}

@@ -1,0 +1,28 @@
+@import "/src/styles/variable";
+
+.enroll {
+  display: flex;
+  justify-content: center;
+  padding: 64px 0 0;
+
+  .enrollSec {
+    width: 792px;
+
+    .topBar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 80px;
+      border-bottom: 1px solid $Gray3;
+
+      .pageTitle {
+        font-size: 32px;
+        font-weight: 700;
+      }
+
+      .utilCont {
+     
+      }
+    }
+  }
+}

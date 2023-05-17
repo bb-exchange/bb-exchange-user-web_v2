@@ -2,11 +2,18 @@ import { ReactNode } from "react";
 import Navbar from "./Navbar";
 import { useRouter } from "next/router";
 
-const Layout = ({ children }: { children: ReactNode }) => {
+interface Iprops {
+  pageProps: any;
+  children: ReactNode;
+}
+
+const Layout = ({ pageProps, children }: Iprops) => {
   const { pathname } = useRouter();
+
   return (
     <>
-      {pathname !== "/auth" && <Navbar />}
+      {pageProps.navBar && <Navbar />}
+
       <main>{children}</main>
     </>
   );

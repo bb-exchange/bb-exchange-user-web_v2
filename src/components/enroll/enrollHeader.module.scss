@@ -1,0 +1,50 @@
+@import "/src/styles/variable";
+
+.enrollHeader {
+  .saveBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+    padding: 0 60px;
+
+    .leftArea {
+      .logoBtn {
+        display: flex;
+        align-items: center;
+
+        svg {
+          height: 20px;
+        }
+      }
+    }
+
+    .rightArea {
+      display: flex;
+      gap: 40px;
+
+      .tempSaveBox {
+        display: flex;
+        gap: 20px;
+
+        button {
+          font-size: 14px;
+          color: $Gray1;
+        }
+      }
+
+      .enrollBtn {
+        width: 140px;
+        height: 40px;
+        font-weight: 700;
+        color: #fff;
+        background: $Primary1;
+        border-radius: 8px;
+
+        &:disabled {
+          background: $Gray3;
+        }
+      }
+    }
+  }
+}

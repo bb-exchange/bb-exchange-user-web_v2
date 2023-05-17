@@ -46,3 +46,7 @@ const SignIn = () => {
 };
 
 export default SignIn;
+
+export function getStaticProps() {
+  return { props: { navBar: true } };
+}

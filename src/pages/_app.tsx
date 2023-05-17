@@ -21,7 +21,7 @@ export default function App({
   }
 
   return (
-    <Layout>
+    <Layout pageProps={pageProps}>
       <Component {...pageProps} />
       <Script
         src="https://developers.kakao.com/sdk/js/kakao.js"
