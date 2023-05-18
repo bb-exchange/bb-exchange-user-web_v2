@@ -50,7 +50,7 @@
         background: $Primary1;
         border-radius: 8px;
 
-        &:disabled {
+        &.disabled {
           background: $Gray3;
         }
       }

@@ -3,8 +3,14 @@ import styles from "./enrollHeader.module.scss";
 import LogoBlue from ".src/asset/images/logo/LogoBlue.svg";
 import Undo from ".src/asset/images/icon/Undo.svg";
 import Redo from ".src/asset/images/icon/Redo.svg";
+import useEnroll from ".src/hooks/enroll/enroll";
 
-export default function EnrollHeader() {
+interface Iprops {
+  isValid: boolean;
+  setErrMsgBusy: Function;
+}
+
+export default function EnrollHeader({ isValid, setErrMsgBusy }: Iprops) {
   const router = useRouter();
 
   return (
@@ -26,7 +32,12 @@ export default function EnrollHeader() {
             </button>
           </div>
 
-          <button disabled className={styles.enrollBtn} onClick={() => {}}>
+          <button
+            type="submit"
+            form="enrollForm"
+            className={`${styles.enrollBtn} ${isValid ? "" : styles.disabled}`}
+            onClick={() => setErrMsgBusy(false)}
+          >
             게시하기
           </button>
         </article>
@@ -67,7 +78,9 @@ export default function EnrollHeader() {
 
           <button className="ql-underline" />
 
-          <select className={`ql-color ${styles.selectBox} ${styles.selectIconBox}`}>
+          <select
+            className={`ql-color ${styles.selectBox} ${styles.selectIconBox}`}
+          >
             <option value="red" />
             <option value="green" />
             <option value="blue" />
