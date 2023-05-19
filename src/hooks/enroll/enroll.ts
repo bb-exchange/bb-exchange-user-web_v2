@@ -10,6 +10,7 @@ function useEnroll(quillRef: any) {
   const [errMsgBusy, setErrMsgBusy] = useState<boolean>(false);
   const [selCategoryPopup, setSelCategoryPopup] = useState<boolean>(false);
   const [errMsg, setErrMsg] = useState<string>("");
+  const [mobileView, setMobileView] = useState<boolean>(false);
 
   const { register, watch, setValue, formState, resetField, handleSubmit } =
     useForm<IenrollProps>();
@@ -192,6 +193,8 @@ function useEnroll(quillRef: any) {
     handleOnClickQuillImg,
     handleOnClickSetThumbnailBtn,
     handleOnClickDelImgBtn,
+    mobileView,
+    setMobileView,
   };
 }
 

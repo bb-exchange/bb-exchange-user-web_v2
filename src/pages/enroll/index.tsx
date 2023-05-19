@@ -7,6 +7,7 @@ import { quillFormats } from ".src/util/textEditor";
 import useEnroll from ".src/hooks/enroll/enroll";
 import ChevronDn from ".src/asset/images/icon/ChevronDn.svg";
 import CellPhoneBlue from ".src/asset/images/icon/CellPhoneBlue.svg";
+import PcBlue from ".src/asset/images/icon/PcBlue.svg";
 import PopupBg from ".src/components/common/popupBg";
 import SelCategoryPopup from ".src/components/enroll/selCategoryPopup";
 import ErrorMsgPopup from ".src/components/common/errorMsgPopup";
@@ -26,12 +27,12 @@ export default function Enroll() {
       />
 
       <section className={styles.innerSec}>
-        <article className={styles.contArea}>
-          <form
-            id="enrollForm"
-            className={styles.editCont}
-            onSubmit={useEnrollHook.handleSubmit(onSubmit)}
-          >
+        <article
+          className={`${styles.contArea} ${
+            useEnrollHook.mobileView ? styles.mobile : ""
+          }`}
+        >
+          <form id="enrollForm" onSubmit={useEnrollHook.handleSubmit(onSubmit)}>
             <div className={styles.topBar}>
               <div className={styles.categoryBox}>
                 <button
@@ -123,11 +124,14 @@ export default function Enroll() {
           </form>
         </article>
 
-        <button className={styles.phoneScreenBtn} onClick={() => {}}>
-          <p>모바일 화면</p>
+        <button
+          className={styles.phoneScreenBtn}
+          onClick={() => useEnrollHook.setMobileView(!useEnrollHook.mobileView)}
+        >
+          <p>{useEnrollHook.mobileView ? "PC 화면" : "모바일 화면"}</p>
 
           <span className={styles.imgBox}>
-            <CellPhoneBlue />
+            {useEnrollHook.mobileView ? <PcBlue /> : <CellPhoneBlue />}
           </span>
         </button>
       </section>
