@@ -12,6 +12,7 @@ import PopupBg from ".src/components/common/popupBg";
 import SelCategoryPopup from ".src/components/enroll/selCategoryPopup";
 import ErrorMsgPopup from ".src/components/common/errorMsgPopup";
 import SelImgPopup from ".src/components/common/selImgPopup";
+import RecentTagPopup from ".src/components/enroll/recentTagPopup";
 
 export default function Enroll() {
   const quillRef = React.useRef<any>(false);
@@ -102,14 +103,14 @@ export default function Enroll() {
                       key={i}
                       onClick={() => useEnrollHook.handleOnClickTagList(v)}
                     >
-                      <p>{v}</p>
+                      <p>#{v}</p>
                     </li>
                   ))}
                 </ul>
               )}
 
-              <span className={styles.inputBox}>
-                {useEnrollHook.watch("tagList")?.length >= 5 ? null : (
+              {useEnrollHook.watch("tagList")?.length >= 5 ? null : (
+                <span className={styles.inputBox}>
                   <input
                     {...useEnrollHook.register("tag")}
                     onKeyDown={useEnrollHook.handleKeyDown}
@@ -118,8 +119,12 @@ export default function Enroll() {
                       useEnrollHook.handleTagOnChange(e.target.value)
                     }
                   />
-                )}
-              </span>
+
+                  {useEnrollHook.watch("tag")?.length > 0 && (
+                    <RecentTagPopup useEnrollHook={useEnrollHook} />
+                  )}
+                </span>
+              )}
             </div>
           </form>
         </article>

@@ -109,6 +109,18 @@ function useEnroll(quillRef: any) {
     setErrMsgBusy(true);
   };
 
+  const setNewTag = (newTag: string) => {
+    newTag = newTag.replace(/#/g, "");
+
+    let _tagList = watch("tagList") || [];
+
+    if (_tagList.indexOf(newTag) === -1) {
+      _tagList.push(newTag);
+      setValue("tagList", _tagList);
+    }
+    resetField("tag");
+  };
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     let _newTag = watch("tag");
     if (!_newTag) return;
@@ -116,13 +128,7 @@ function useEnroll(quillRef: any) {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
 
-      let _tagList = watch("tagList") || [];
-
-      if (_tagList.indexOf(_newTag) === -1) {
-        _tagList.push(_newTag);
-        setValue("tagList", _tagList);
-      }
-      resetField("tag");
+      setNewTag(_newTag);
     }
   };
 
@@ -187,6 +193,7 @@ function useEnroll(quillRef: any) {
     errMsgBusy,
     setErrMsgBusy,
     closeErrMsg,
+    setNewTag,
     handleKeyDown,
     handleTagOnChange,
     handleOnClickTagList,
