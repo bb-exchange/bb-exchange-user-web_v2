@@ -10,29 +10,19 @@ import CellPhoneBlue from ".src/asset/images/icon/CellPhoneBlue.svg";
 import PopupBg from ".src/components/common/popupBg";
 import SelCategoryPopup from ".src/components/enroll/selCategoryPopup";
 import ErrorMsgPopup from ".src/components/common/errorMsgPopup";
+import SelImgPopup from ".src/components/common/selImgPopup";
 
 export default function Enroll() {
   const quillRef = React.useRef<any>(false);
-  const {
-    modules,
-    form,
-    selCategoryPopup,
-    setSelCategoryPopup,
-    errMsg,
-    setErrMsgBusy,
-    closeErrMsg,
-    handleKeyDown,
-    handleTagOnChange,
-    handleOnClickTagList,
-  } = useEnroll(quillRef);
+  const useEnrollHook = useEnroll(quillRef);
 
   function onSubmit() {}
 
   return (
     <>
       <EnrollHeader
-        isValid={form.formState.isValid}
-        setErrMsgBusy={setErrMsgBusy}
+        isValid={useEnrollHook.formState.isValid}
+        setErrMsgBusy={useEnrollHook.setErrMsgBusy}
       />
 
       <section className={styles.innerSec}>
@@ -40,18 +30,18 @@ export default function Enroll() {
           <form
             id="enrollForm"
             className={styles.editCont}
-            onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={useEnrollHook.handleSubmit(onSubmit)}
           >
             <div className={styles.topBar}>
               <div className={styles.categoryBox}>
                 <button
                   type="button"
                   className={styles.selBtn}
-                  onClick={() => setSelCategoryPopup(true)}
+                  onClick={() => useEnrollHook.setSelCategoryPopup(true)}
                 >
                   <input
                     disabled
-                    {...form.register("category", {
+                    {...useEnrollHook.register("category", {
                       required: "카테고리를 선택해주세요",
                     })}
                     placeholder="카테고리를 선택해주세요"
@@ -60,21 +50,25 @@ export default function Enroll() {
                   <ChevronDn />
                 </button>
 
-                {selCategoryPopup && (
+                {useEnrollHook.selCategoryPopup && (
                   <>
                     <SelCategoryPopup
-                      value={form.watch("category")}
-                      setValue={(v: string) => form.setValue("category", v)}
-                      off={() => setSelCategoryPopup(false)}
+                      value={useEnrollHook.watch("category")}
+                      setValue={(v: string) =>
+                        useEnrollHook.setValue("category", v)
+                      }
+                      off={() => useEnrollHook.setSelCategoryPopup(false)}
                     />
-                    <PopupBg off={() => setSelCategoryPopup(false)} />
+                    <PopupBg
+                      off={() => useEnrollHook.setSelCategoryPopup(false)}
+                    />
                   </>
                 )}
               </div>
 
               <div className={styles.titleBox}>
                 <input
-                  {...form.register("title", {
+                  {...useEnrollHook.register("title", {
                     required: "제목을 입력해주세요",
                     maxLength: { value: 40, message: "미정" },
                   })}
@@ -85,27 +79,28 @@ export default function Enroll() {
 
             <div
               className={styles.quillBox}
-              onClick={(e: React.MouseEvent) => {
-                console.log(e.target);
-              }}
+              onClick={useEnrollHook.handleOnClickQuillImg}
             >
               <ReactQuill
                 className={`${styles.quill}`}
                 theme="snow"
                 forwardedRef={quillRef}
                 formats={quillFormats}
-                modules={modules}
+                modules={useEnrollHook.modules}
                 placeholder="나누고 싶은 나만의 비법을 적어주세요."
-                value={form.watch("content")}
-                onChange={(v: any) => form.setValue("content", v)}
+                value={useEnrollHook.watch("content")}
+                onChange={(v: any) => useEnrollHook.setValue("content", v)}
               />
             </div>
 
             <div className={styles.tagBar}>
-              {form.watch("tagList")?.length > 0 && (
+              {useEnrollHook.watch("tagList")?.length > 0 && (
                 <ul className={styles.tagList}>
-                  {form.watch("tagList").map((v, i) => (
-                    <li key={i} onClick={() => handleOnClickTagList(v)}>
+                  {useEnrollHook.watch("tagList").map((v, i) => (
+                    <li
+                      key={i}
+                      onClick={() => useEnrollHook.handleOnClickTagList(v)}
+                    >
                       <p>{v}</p>
                     </li>
                   ))}
@@ -113,12 +108,14 @@ export default function Enroll() {
               )}
 
               <span className={styles.inputBox}>
-                {form.watch("tagList")?.length >= 5 ? null : (
+                {useEnrollHook.watch("tagList")?.length >= 5 ? null : (
                   <input
-                    {...form.register("tag")}
-                    onKeyDown={handleKeyDown}
+                    {...useEnrollHook.register("tag")}
+                    onKeyDown={useEnrollHook.handleKeyDown}
                     placeholder="# 멘션할 태그를 입력해주세요"
-                    onChange={(e) => handleTagOnChange(e.target.value)}
+                    onChange={(e) =>
+                      useEnrollHook.handleTagOnChange(e.target.value)
+                    }
                   />
                 )}
               </span>
@@ -135,10 +132,20 @@ export default function Enroll() {
         </button>
       </section>
 
-      {errMsg && (
+      {useEnrollHook.errMsg && (
         <>
-          <ErrorMsgPopup msg={errMsg} off={() => closeErrMsg()} />
-          <PopupBg bg off={() => closeErrMsg()} />
+          <ErrorMsgPopup
+            msg={useEnrollHook.errMsg}
+            off={() => useEnrollHook.closeErrMsg()}
+          />
+          <PopupBg bg off={() => useEnrollHook.closeErrMsg()} />
+        </>
+      )}
+
+      {useEnrollHook.selectImg && (
+        <>
+          <SelImgPopup useEnrollHook={useEnrollHook} />
+          <PopupBg bg off={() => useEnrollHook.setSelectImg(undefined)} />
         </>
       )}
     </>

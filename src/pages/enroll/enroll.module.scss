@@ -112,6 +112,12 @@
         }
 
         .inputBox {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          height: 100%;
+          position: relative;
+
           input {
             flex: 1;
             height: 100%;

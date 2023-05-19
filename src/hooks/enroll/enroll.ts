@@ -1,17 +1,18 @@
 import { useEffect, useMemo, useState } from "react";
 import { redoBtnHandler, undoBtnHandler } from ".src/util/textEditor";
 import { useForm } from "react-hook-form";
-import { watch } from "fs";
 
 function useEnroll(quillRef: any) {
+  const [selectImg, setSelectImg] = useState<HTMLImageElement>();
   const [errMsgBusy, setErrMsgBusy] = useState<boolean>(false);
   const [selCategoryPopup, setSelCategoryPopup] = useState<boolean>(false);
   const [errMsg, setErrMsg] = useState<string>("");
 
-  const form = useForm<IenrollProps>();
+  const { register, watch, setValue, formState, resetField, handleSubmit } =
+    useForm<IenrollProps>();
 
   useEffect(() => {
-    form.register("content", {
+    register("content", {
       required: "내용을 좀 더 입력하면 상장될 것 같아요",
       minLength: {
         value: 100,
@@ -23,7 +24,7 @@ function useEnroll(quillRef: any) {
   useEffect(() => {
     if (errMsgBusy) return;
 
-    const { errors } = form.formState;
+    const { errors } = formState;
 
     let _errKeys = Object.values(errors);
     let _errMsgs = _errKeys.map((e) => e.message);
@@ -31,7 +32,7 @@ function useEnroll(quillRef: any) {
     if (!_errMsgs[0]) return;
 
     setErrMsg(_errMsgs[0]!);
-  }, [form.formState]);
+  }, [formState]);
 
   const imgHandler = (quillRef: any) => {
     const quill = quillRef.current.getEditor();
@@ -91,19 +92,19 @@ function useEnroll(quillRef: any) {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    let _newTag = form.watch("tag");
+    let _newTag = watch("tag");
     if (!_newTag) return;
 
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
 
-      let _tagList = form.watch("tagList") || [];
+      let _tagList = watch("tagList") || [];
 
       if (_tagList.indexOf(_newTag) === -1) {
         _tagList.push(_newTag);
-        form.setValue("tagList", _tagList);
+        setValue("tagList", _tagList);
       }
-      form.resetField("tag");
+      resetField("tag");
     }
   };
 
@@ -112,21 +113,57 @@ function useEnroll(quillRef: any) {
 
     if (_str) {
       _str = "#" + _str;
-      form.setValue("tag", _str);
-    } else form.resetField("tag");
+      setValue("tag", _str);
+    } else resetField("tag");
   };
 
   const handleOnClickTagList = (v: string) => {
-    let _tagList = form.watch("tagList") || [];
+    let _tagList = watch("tagList") || [];
     _tagList = _tagList.filter((e) => e !== v);
-    form.setValue("tagList", _tagList);
+    setValue("tagList", _tagList);
+  };
+
+  const handleOnClickQuillImg = (e: React.MouseEvent) => {
+    let _target: any = e.target;
+
+    if (_target.tagName !== "IMG") return;
+    setSelectImg(_target);
+  };
+
+  const handleOnClickSetThumbnailBtn = () => {
+    if (!selectImg) return;
+
+    setValue("thumbNail", selectImg.src);
+    setSelectImg(undefined);
+  };
+
+  const handleOnClickDelImgBtn = () => {
+    if (!selectImg) return;
+
+    // content에서 이미지 삭제
+    let _imgString = `${selectImg?.outerHTML}`;
+    let _delImg = watch("content").replace(_imgString, "");
+    setValue("content", _delImg);
+
+    // 삭제 이미지가 섬네일일 경우 섬네일 삭제
+    if (watch("thumbNail") === selectImg.src) setValue("thumbNail", "");
+
+    // 선택이미지 비움
+    setSelectImg(undefined);
   };
 
   return {
     modules,
-    form,
+    register,
+    watch,
+    setValue,
+    formState,
+    resetField,
+    handleSubmit,
     selCategoryPopup,
     setSelCategoryPopup,
+    selectImg,
+    setSelectImg,
     errMsg,
     setErrMsg,
     errMsgBusy,
@@ -135,6 +172,9 @@ function useEnroll(quillRef: any) {
     handleKeyDown,
     handleTagOnChange,
     handleOnClickTagList,
+    handleOnClickQuillImg,
+    handleOnClickSetThumbnailBtn,
+    handleOnClickDelImgBtn,
   };
 }
 
