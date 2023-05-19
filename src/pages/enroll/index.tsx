@@ -80,16 +80,23 @@ export default function Enroll() {
               </div>
             </div>
 
-            <ReactQuill
-              className={`${styles.quill}`}
-              theme="snow"
-              forwardedRef={quillRef}
-              formats={quillFormats}
-              modules={modules}
-              placeholder="나누고 싶은 나만의 비법을 적어주세요."
-              value={form.watch("content")}
-              onChange={(v: any) => form.setValue("content", v)}
-            />
+            <div
+              className={styles.quillBox}
+              onClick={(e: React.MouseEvent) => {
+                console.log(e.target);
+              }}
+            >
+              <ReactQuill
+                className={`${styles.quill}`}
+                theme="snow"
+                forwardedRef={quillRef}
+                formats={quillFormats}
+                modules={modules}
+                placeholder="나누고 싶은 나만의 비법을 적어주세요."
+                value={form.watch("content")}
+                onChange={(v: any) => form.setValue("content", v)}
+              />
+            </div>
 
             <div className={styles.tagBar}>
               <input

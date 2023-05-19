@@ -1,9 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import {
-  imgHandler,
-  redoBtnHandler,
-  undoBtnHandler,
-} from ".src/util/textEditor";
+import { redoBtnHandler, undoBtnHandler } from ".src/util/textEditor";
 import { useForm } from "react-hook-form";
 
 function useEnroll(quillRef: any) {
@@ -16,6 +12,10 @@ function useEnroll(quillRef: any) {
   useEffect(() => {
     form.register("content", {
       required: "내용을 좀 더 입력하면 상장될 것 같아요",
+      minLength: {
+        value: 100,
+        message: "최소 100글자 이상 입력해주세요",
+      },
     });
   }, []);
 
@@ -31,6 +31,44 @@ function useEnroll(quillRef: any) {
 
     setErrMsg(_errMsgs[0]!);
   }, [form.formState]);
+
+  const imgHandler = (quillRef: any) => {
+    const quill = quillRef.current.getEditor();
+    let fileInput = quill.root.querySelector("input.ql-image[type=file]");
+
+    if (fileInput === null) {
+      fileInput = document.createElement("input");
+      fileInput.setAttribute("type", "file");
+      fileInput.setAttribute("accept", "image/*");
+      fileInput.classList.add("ql-image");
+
+      fileInput.addEventListener("change", () => {
+        const files = fileInput.files;
+        const range = quill.getSelection(true);
+
+        if (!files || !files.length) {
+          console.log("No files selected");
+          return;
+        }
+
+        if (files[0].size > 5242880) {
+          setErrMsg("5MB 이하의 이미지를 사용해 주세요");
+          return;
+        }
+
+        let reader = new FileReader();
+        reader.readAsDataURL(files[0]);
+        reader.onloadend = () => {
+          quill.insertEmbed(range.index, "image", reader.result);
+          quill.setSelection(range.index + 1);
+          fileInput.value = "";
+        };
+      });
+
+      quill.root.appendChild(fileInput);
+    }
+    fileInput.click();
+  };
 
   const modules = useMemo(
     () => ({
