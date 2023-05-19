@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { redoBtnHandler, undoBtnHandler } from ".src/util/textEditor";
 import { useForm } from "react-hook-form";
+import { watch } from "fs";
 
 function useEnroll(quillRef: any) {
   const [errMsgBusy, setErrMsgBusy] = useState<boolean>(false);
@@ -89,6 +90,38 @@ function useEnroll(quillRef: any) {
     setErrMsgBusy(true);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    let _newTag = form.watch("tag");
+    if (!_newTag) return;
+
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+
+      let _tagList = form.watch("tagList") || [];
+
+      if (_tagList.indexOf(_newTag) === -1) {
+        _tagList.push(_newTag);
+        form.setValue("tagList", _tagList);
+      }
+      form.resetField("tag");
+    }
+  };
+
+  const handleTagOnChange = (v: string) => {
+    let _str = v.replace(/#/g, "");
+
+    if (_str) {
+      _str = "#" + _str;
+      form.setValue("tag", _str);
+    } else form.resetField("tag");
+  };
+
+  const handleOnClickTagList = (v: string) => {
+    let _tagList = form.watch("tagList") || [];
+    _tagList = _tagList.filter((e) => e !== v);
+    form.setValue("tagList", _tagList);
+  };
+
   return {
     modules,
     form,
@@ -99,6 +132,9 @@ function useEnroll(quillRef: any) {
     errMsgBusy,
     setErrMsgBusy,
     closeErrMsg,
+    handleKeyDown,
+    handleTagOnChange,
+    handleOnClickTagList,
   };
 }
 

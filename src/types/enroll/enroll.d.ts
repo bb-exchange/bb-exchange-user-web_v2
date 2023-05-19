@@ -3,4 +3,5 @@ interface IenrollProps {
   title: string;
   content: string;
   tag: string;
+  tagList: string[];
 }

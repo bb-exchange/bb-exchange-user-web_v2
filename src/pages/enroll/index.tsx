@@ -21,6 +21,9 @@ export default function Enroll() {
     errMsg,
     setErrMsgBusy,
     closeErrMsg,
+    handleKeyDown,
+    handleTagOnChange,
+    handleOnClickTagList,
   } = useEnroll(quillRef);
 
   function onSubmit() {}
@@ -99,10 +102,26 @@ export default function Enroll() {
             </div>
 
             <div className={styles.tagBar}>
-              <input
-                {...form.register("tag")}
-                placeholder="# 멘션할 태그를 입력해주세요"
-              />
+              {form.watch("tagList")?.length > 0 && (
+                <ul className={styles.tagList}>
+                  {form.watch("tagList").map((v, i) => (
+                    <li key={i} onClick={() => handleOnClickTagList(v)}>
+                      <p>{v}</p>
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              <span className={styles.inputBox}>
+                {form.watch("tagList")?.length >= 5 ? null : (
+                  <input
+                    {...form.register("tag")}
+                    onKeyDown={handleKeyDown}
+                    placeholder="# 멘션할 태그를 입력해주세요"
+                    onChange={(e) => handleTagOnChange(e.target.value)}
+                  />
+                )}
+              </span>
             </div>
           </form>
         </article>

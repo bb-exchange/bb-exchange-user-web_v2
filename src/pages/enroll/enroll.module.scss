@@ -95,11 +95,27 @@
       .tagBar {
         display: flex;
         align-items: center;
+        gap: 20px;
         height: 60px;
 
-        input {
-          flex: 1;
-          height: 100%;
+        .tagList {
+          display: flex;
+          gap: 20px;
+
+          li {
+            cursor: pointer;
+
+            p {
+              color: $Primary1;
+            }
+          }
+        }
+
+        .inputBox {
+          input {
+            flex: 1;
+            height: 100%;
+          }
         }
       }
     }
