@@ -1,8 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { redoBtnHandler, undoBtnHandler } from ".src/util/textEditor";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
 
 function useEnroll(quillRef: any) {
+  const router = useRouter();
+
   const [selectImg, setSelectImg] = useState<HTMLImageElement>();
   const [errMsgBusy, setErrMsgBusy] = useState<boolean>(false);
   const [selCategoryPopup, setSelCategoryPopup] = useState<boolean>(false);
@@ -10,6 +13,10 @@ function useEnroll(quillRef: any) {
 
   const { register, watch, setValue, formState, resetField, handleSubmit } =
     useForm<IenrollProps>();
+
+  const beforeUnloadHandler = (e: BeforeUnloadEvent) => {
+    return ((e || window.event).returnValue = ""); // Gecko + Webkit, Safari, Chrome etc.
+  };
 
   useEffect(() => {
     register("content", {
@@ -19,6 +26,16 @@ function useEnroll(quillRef: any) {
         message: "최소 100글자 이상 입력해주세요",
       },
     });
+
+    window.addEventListener("beforeunload", beforeUnloadHandler, {
+      capture: true,
+    });
+
+    return () => {
+      window.removeEventListener("beforeunload", beforeUnloadHandler, {
+        capture: true,
+      });
+    };
   }, []);
 
   useEffect(() => {
