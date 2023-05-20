@@ -9,7 +9,7 @@
 }
 
 body {
-  font-family: Pretendard-Regular;
+  font-family: pretendard;
   font-size: 16px;
   color: $Black1;
   line-height: 1.4;
@@ -148,11 +148,13 @@ button {
   }
 
   @font-face {
-    font-family: Pretendard-Regular;
+    font-family: pretendard;
+    font-weight: 400;
     src: url("../../public/assets/fonts/Pretendard-Regular.woff2");
   }
   @font-face {
-    font-family: Pretendard-Bold;
+    font-family: pretendard;
+    font-weight: 700;
     src: url("../../public/assets/fonts/Pretendard-Bold.woff2");
   }
 }

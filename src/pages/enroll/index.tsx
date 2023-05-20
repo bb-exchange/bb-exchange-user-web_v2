@@ -5,14 +5,16 @@ import React from "react";
 import dynamic from "next/dynamic";
 import { quillFormats } from ".src/util/textEditor";
 import useEnroll from ".src/hooks/enroll/enroll";
-import ChevronDn from ".src/asset/images/icon/ChevronDn.svg";
-import CellPhoneBlue from ".src/asset/images/icon/CellPhoneBlue.svg";
-import PcBlue from ".src/asset/images/icon/PcBlue.svg";
+import ChevronDn from ".assets/icons/ChevronDn.svg";
+import CellPhoneBlue from ".assets/icons/CellPhoneBlue.svg";
+import PcBlue from ".assets/icons/PcBlue.svg";
 import PopupBg from ".src/components/common/popupBg";
 import SelCategoryPopup from ".src/components/enroll/selCategoryPopup";
 import ErrorMsgPopup from ".src/components/common/errorMsgPopup";
 import SelImgPopup from ".src/components/common/selImgPopup";
 import RecentTagPopup from ".src/components/enroll/recentTagPopup";
+import DraftsPopup from ".src/components/enroll/draftsPopup";
+import ConfirmPopup from ".src/components/common/confirmPopup";
 
 export default function Enroll() {
   const quillRef = React.useRef<any>(false);
@@ -22,10 +24,7 @@ export default function Enroll() {
 
   return (
     <>
-      <EnrollHeader
-        isValid={useEnrollHook.formState.isValid}
-        setErrMsgBusy={useEnrollHook.setErrMsgBusy}
-      />
+      <EnrollHeader useEnrollHook={useEnrollHook} />
 
       <section className={styles.innerSec}>
         <article
@@ -155,6 +154,56 @@ export default function Enroll() {
         <>
           <SelImgPopup useEnrollHook={useEnrollHook} />
           <PopupBg bg off={() => useEnrollHook.setSelectImg(undefined)} />
+        </>
+      )}
+
+      {useEnrollHook.draftsPopup && (
+        <>
+          <DraftsPopup
+            useEnrollHook={useEnrollHook}
+            off={() => useEnrollHook.setDraftsPopup(false)}
+          />
+          <PopupBg bg off={() => useEnrollHook.setDraftsPopup(false)} />
+        </>
+      )}
+
+      {useEnrollHook.delDraftPopup && (
+        <>
+          <ConfirmPopup
+            title="임시저장글을 삭제하시겠습니까?"
+            content={`선택한 임시저장글을 삭제하면
+다시 불러올 수 없습니다.`}
+            cancelFunc={() => useEnrollHook.setDelDraftPopup(false)}
+            confirmFunc={() => useEnrollHook.setDelDraftPopup(false)}
+            zIndex={80}
+          />
+          <PopupBg
+            bg
+            zIndex={70}
+            off={() => useEnrollHook.setDelDraftPopup(false)}
+          />
+        </>
+      )}
+
+      {useEnrollHook.loadDraftPopup && (
+        <>
+          <ConfirmPopup
+            title="선택한 글을 불러오시겠습니까?"
+            content={`임시글을 불러오면 작성 중인 글은
+사라집니다.`}
+            cancelFunc={() => useEnrollHook.setLoadDraftPopup(false)}
+            confirmFunc={() => {
+              useEnrollHook.setDraftsPopup(false);
+              useEnrollHook.setLoadDraftPopup(false);
+            }}
+            zIndex={80}
+          />
+          <PopupBg
+            bg
+            zIndex={70}
+            off={() => useEnrollHook.setLoadDraftPopup(false)}
+          />
+          <PopupBg bg off={() => useEnrollHook.setLoadDraftPopup(false)} />
         </>
       )}
     </>

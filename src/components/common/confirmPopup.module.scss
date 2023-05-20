@@ -1,0 +1,55 @@
+@import "/src/styles/variable";
+
+.confirmPopup {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 312px;
+  padding: 32px 16px 16px;
+  background: $White1;
+  border-radius: 20px;
+  top: 50%;
+  left: 50%;
+  position: fixed;
+  z-index: 60;
+  transform: translate(-50%, -50%);
+
+  .contentBox {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-align: center;
+
+    .title {
+      font-size: 18px;
+      line-height: 28px;
+      font-weight: 700;
+      color: $Black1;
+    }
+
+    .content {
+      line-height: 24px;
+      white-space: pre-wrap;
+      color: $Gray1;
+    }
+  }
+
+  .btnBar {
+    display: flex;
+    gap: 8px;
+
+    button {
+      flex: 1;
+      height: 52px;
+      font-weight: 700;
+      color: $Gray1;
+      background: $Gray2;
+      border-radius: 8px;
+
+      &.confirmBtn {
+        color: $White1;
+        background: $Primary1;
+      }
+    }
+  }
+}

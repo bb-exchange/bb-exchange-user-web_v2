@@ -1,16 +1,14 @@
 import { useRouter } from "next/router";
 import styles from "./enrollHeader.module.scss";
-import LogoBlue from ".src/asset/images/logo/LogoBlue.svg";
-import Undo from ".src/asset/images/icon/Undo.svg";
-import Redo from ".src/asset/images/icon/Redo.svg";
-import useEnroll from ".src/hooks/enroll/enroll";
+import LogoBlue from ".assets/logos/LogoBlue.svg";
+import Undo from ".assets/icons/Undo.svg";
+import Redo from ".assets/icons/Redo.svg";
 
 interface Iprops {
-  isValid: boolean;
-  setErrMsgBusy: Function;
+  useEnrollHook: any;
 }
 
-export default function EnrollHeader({ isValid, setErrMsgBusy }: Iprops) {
+export default function EnrollHeader({ useEnrollHook }: Iprops) {
   const router = useRouter();
 
   return (
@@ -27,7 +25,10 @@ export default function EnrollHeader({ isValid, setErrMsgBusy }: Iprops) {
             <button className={styles.tempSaveBtn2} onClick={() => {}}>
               임시 2
             </button>
-            <button className={styles.tempSaveBtn1} onClick={() => {}}>
+            <button
+              className={styles.tempSaveBtn1}
+              onClick={() => useEnrollHook.setDraftsPopup(true)}
+            >
               임시저장
             </button>
           </div>
@@ -35,8 +36,10 @@ export default function EnrollHeader({ isValid, setErrMsgBusy }: Iprops) {
           <button
             type="submit"
             form="enrollForm"
-            className={`${styles.enrollBtn} ${isValid ? "" : styles.disabled}`}
-            onClick={() => setErrMsgBusy(false)}
+            className={`${styles.enrollBtn} ${
+              useEnrollHook.formState.isValid ? "" : styles.disabled
+            }`}
+            onClick={() => useEnrollHook.setErrMsgBusy(false)}
           >
             게시하기
           </button>
