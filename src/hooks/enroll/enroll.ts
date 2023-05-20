@@ -1,11 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { redoBtnHandler, undoBtnHandler } from ".src/util/textEditor";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/router";
 
 function useEnroll(quillRef: any) {
-  const router = useRouter();
-
   const [selectImg, setSelectImg] = useState<HTMLImageElement>();
   const [errMsgBusy, setErrMsgBusy] = useState<boolean>(false);
   const [selCategoryPopup, setSelCategoryPopup] = useState<boolean>(false);

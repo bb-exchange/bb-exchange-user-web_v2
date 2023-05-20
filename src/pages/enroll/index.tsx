@@ -1,5 +1,5 @@
 import EnrollHeader from ".src/components/enroll/enrollHeader";
-import styles from "./enroll.module.scss";
+import styles from "./enrollScreen.module.scss";
 import "react-quill/dist/quill.snow.css";
 import React from "react";
 import dynamic from "next/dynamic";
@@ -108,22 +108,21 @@ export default function Enroll() {
                 </ul>
               )}
 
-              {useEnrollHook.watch("tagList")?.length >= 5 ? null : (
-                <span className={styles.inputBox}>
-                  <input
-                    {...useEnrollHook.register("tag")}
-                    onKeyDown={useEnrollHook.handleKeyDown}
-                    placeholder="# 멘션할 태그를 입력해주세요"
-                    onChange={(e) =>
-                      useEnrollHook.handleTagOnChange(e.target.value)
-                    }
-                  />
+              <span className={styles.inputBox}>
+                <input
+                  disabled={useEnrollHook.watch("tagList")?.length >= 10}
+                  {...useEnrollHook.register("tag")}
+                  onKeyDown={useEnrollHook.handleKeyDown}
+                  placeholder="# 멘션할 태그를 입력해주세요(최대 10개)"
+                  onChange={(e) =>
+                    useEnrollHook.handleTagOnChange(e.target.value)
+                  }
+                />
 
-                  {useEnrollHook.watch("tag")?.length > 0 && (
-                    <RecentTagPopup useEnrollHook={useEnrollHook} />
-                  )}
-                </span>
-              )}
+                {useEnrollHook.watch("tag")?.length > 0 && (
+                  <RecentTagPopup useEnrollHook={useEnrollHook} />
+                )}
+              </span>
             </div>
           </form>
         </article>
