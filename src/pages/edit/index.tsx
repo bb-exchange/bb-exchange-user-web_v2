@@ -1,10 +1,8 @@
-import EnrollHeader from ".src/components/enroll/enrollHeader";
-import styles from "./enrollScreen.module.scss";
+import styles from "./editScreen.module.scss";
 import "react-quill/dist/quill.snow.css";
 import React from "react";
 import dynamic from "next/dynamic";
 import { quillFormats } from ".src/util/textEditor";
-import useEnroll from ".src/hooks/enroll/enroll";
 import ChevronDn from ".assets/icons/ChevronDn.svg";
 import CellPhoneBlue from ".assets/icons/CellPhoneBlue.svg";
 import PcBlue from ".assets/icons/PcBlue.svg";
@@ -15,34 +13,41 @@ import SelImgPopup from ".src/components/common/selImgPopup";
 import RecentTagPopup from ".src/components/enroll/recentTagPopup";
 import DraftsPopup from ".src/components/enroll/draftsPopup";
 import ConfirmPopup from ".src/components/common/confirmPopup";
+import EditHeader from ".src/components/edit/editHeader";
+import useEdit from ".src/hooks/edit/edit";
+import { useRouter } from "next/router";
 
-export default function EnrollScreen() {
+export default function EditScreen() {
+  const router = useRouter();
+
   const quillRef = React.useRef<any>(false);
-  const useEnrollHook = useEnroll(quillRef);
+  const useEditHook = useEdit(quillRef);
 
-  function onSubmit() {}
+  function onSubmit() {
+    useEditHook.handleSubmitFunc();
+  }
 
   return (
     <>
-      <EnrollHeader useEnrollHook={useEnrollHook} />
+      <EditHeader useEnrollHook={useEditHook} />
 
       <section className={styles.innerSec}>
         <article
           className={`${styles.contArea} ${
-            useEnrollHook.mobileView ? styles.mobile : ""
+            useEditHook.mobileView ? styles.mobile : ""
           }`}
         >
-          <form id="enrollForm" onSubmit={useEnrollHook.handleSubmit(onSubmit)}>
+          <form id="enrollForm" onSubmit={useEditHook.handleSubmit(onSubmit)}>
             <div className={styles.topBar}>
               <div className={styles.categoryBox}>
                 <button
                   type="button"
                   className={styles.selBtn}
-                  onClick={() => useEnrollHook.setSelCategoryPopup(true)}
+                  onClick={() => useEditHook.setSelCategoryPopup(true)}
                 >
                   <input
                     disabled
-                    {...useEnrollHook.register("category", {
+                    {...useEditHook.register("category", {
                       required: "카테고리를 선택해주세요",
                     })}
                     placeholder="카테고리를 선택해주세요"
@@ -51,17 +56,17 @@ export default function EnrollScreen() {
                   <ChevronDn />
                 </button>
 
-                {useEnrollHook.selCategoryPopup && (
+                {useEditHook.selCategoryPopup && (
                   <>
                     <SelCategoryPopup
-                      value={useEnrollHook.watch("category")}
+                      value={useEditHook.watch("category")}
                       setValue={(v: string) =>
-                        useEnrollHook.setValue("category", v)
+                        useEditHook.setValue("category", v)
                       }
-                      off={() => useEnrollHook.setSelCategoryPopup(false)}
+                      off={() => useEditHook.setSelCategoryPopup(false)}
                     />
                     <PopupBg
-                      off={() => useEnrollHook.setSelCategoryPopup(false)}
+                      off={() => useEditHook.setSelCategoryPopup(false)}
                     />
                   </>
                 )}
@@ -69,7 +74,7 @@ export default function EnrollScreen() {
 
               <div className={styles.titleBox}>
                 <input
-                  {...useEnrollHook.register("title", {
+                  {...useEditHook.register("title", {
                     required: "제목을 입력해주세요",
                     maxLength: { value: 40, message: "미정" },
                   })}
@@ -80,27 +85,27 @@ export default function EnrollScreen() {
 
             <div
               className={styles.quillBox}
-              onClick={useEnrollHook.handleOnClickQuillImg}
+              onClick={useEditHook.handleOnClickQuillImg}
             >
               <ReactQuill
                 className={`${styles.quill}`}
                 theme="snow"
                 forwardedRef={quillRef}
                 formats={quillFormats}
-                modules={useEnrollHook.modules}
+                modules={useEditHook.modules}
                 placeholder="나누고 싶은 나만의 비법을 적어주세요."
-                value={useEnrollHook.watch("content")}
-                onChange={(v: any) => useEnrollHook.setValue("content", v)}
+                value={useEditHook.watch("content")}
+                onChange={(v: any) => useEditHook.setValue("content", v)}
               />
             </div>
 
             <div className={styles.tagBar}>
-              {useEnrollHook.watch("tagList")?.length > 0 && (
+              {useEditHook.watch("tagList")?.length > 0 && (
                 <ul className={styles.tagList}>
-                  {useEnrollHook.watch("tagList").map((v, i) => (
+                  {useEditHook.watch("tagList").map((v, i) => (
                     <li
                       key={i}
-                      onClick={() => useEnrollHook.handleOnClickTagList(v)}
+                      onClick={() => useEditHook.handleOnClickTagList(v)}
                     >
                       <p>#{v}</p>
                     </li>
@@ -110,17 +115,17 @@ export default function EnrollScreen() {
 
               <span className={styles.inputBox}>
                 <input
-                  disabled={useEnrollHook.watch("tagList")?.length >= 10}
-                  {...useEnrollHook.register("tag")}
-                  onKeyDown={useEnrollHook.handleKeyDown}
+                  disabled={useEditHook.watch("tagList")?.length >= 10}
+                  {...useEditHook.register("tag")}
+                  onKeyDown={useEditHook.handleKeyDown}
                   placeholder="# 멘션할 태그를 입력해주세요(최대 10개)"
                   onChange={(e) =>
-                    useEnrollHook.handleTagOnChange(e.target.value)
+                    useEditHook.handleTagOnChange(e.target.value)
                   }
                 />
 
-                {useEnrollHook.watch("tag")?.length > 0 && (
-                  <RecentTagPopup useEnrollHook={useEnrollHook} />
+                {useEditHook.watch("tag")?.length > 0 && (
+                  <RecentTagPopup useEnrollHook={useEditHook} />
                 )}
               </span>
             </div>
@@ -129,78 +134,112 @@ export default function EnrollScreen() {
 
         <button
           className={styles.phoneScreenBtn}
-          onClick={() => useEnrollHook.setMobileView(!useEnrollHook.mobileView)}
+          onClick={() => useEditHook.setMobileView(!useEditHook.mobileView)}
         >
-          <p>{useEnrollHook.mobileView ? "PC 화면" : "모바일 화면"}</p>
+          <p>{useEditHook.mobileView ? "PC 화면" : "모바일 화면"}</p>
 
           <span className={styles.imgBox}>
-            {useEnrollHook.mobileView ? <PcBlue /> : <CellPhoneBlue />}
+            {useEditHook.mobileView ? <PcBlue /> : <CellPhoneBlue />}
           </span>
         </button>
       </section>
 
-      {useEnrollHook.errMsg && (
+      {useEditHook.errMsg && (
         <>
           <ErrorMsgPopup
-            msg={useEnrollHook.errMsg}
-            confirmFunc={() => useEnrollHook.closeErrMsg()}
+            msg={useEditHook.errMsg}
+            confirmFunc={() => useEditHook.closeErrMsg()}
           />
-          <PopupBg bg off={() => useEnrollHook.closeErrMsg()} />
+          <PopupBg bg off={() => useEditHook.closeErrMsg()} />
         </>
       )}
 
-      {useEnrollHook.selectImg && (
+      {useEditHook.selectImg && (
         <>
-          <SelImgPopup useEnrollHook={useEnrollHook} />
-          <PopupBg bg off={() => useEnrollHook.setSelectImg(undefined)} />
+          <SelImgPopup useEnrollHook={useEditHook} />
+          <PopupBg bg off={() => useEditHook.setSelectImg(undefined)} />
         </>
       )}
 
-      {useEnrollHook.draftsPopup && (
+      {useEditHook.draftsPopup && (
         <>
           <DraftsPopup
-            useEnrollHook={useEnrollHook}
-            off={() => useEnrollHook.setDraftsPopup(false)}
+            useEnrollHook={useEditHook}
+            off={() => useEditHook.setDraftsPopup(false)}
           />
-          <PopupBg bg off={() => useEnrollHook.setDraftsPopup(false)} />
+          <PopupBg bg off={() => useEditHook.setDraftsPopup(false)} />
         </>
       )}
 
-      {useEnrollHook.delDraftPopup && (
+      {useEditHook.delDraftPopup && (
         <>
           <ConfirmPopup
             title="임시저장글을 삭제하시겠습니까?"
             content={`선택한 임시저장글을 삭제하면
 다시 불러올 수 없습니다.`}
-            cancelFunc={() => useEnrollHook.setDelDraftPopup(false)}
-            confirmFunc={() => useEnrollHook.setDelDraftPopup(false)}
+            cancelFunc={() => useEditHook.setDelDraftPopup(false)}
+            confirmFunc={() => useEditHook.setDelDraftPopup(false)}
             zIndex={80}
           />
           <PopupBg
             bg
             zIndex={70}
-            off={() => useEnrollHook.setDelDraftPopup(false)}
+            off={() => useEditHook.setDelDraftPopup(false)}
           />
         </>
       )}
 
-      {useEnrollHook.loadDraftPopup && (
+      {useEditHook.loadDraftPopup && (
         <>
           <ConfirmPopup
             title="선택한 글을 불러오시겠습니까?"
             content={`임시글을 불러오면 작성 중인 글은
 사라집니다.`}
-            cancelFunc={() => useEnrollHook.setLoadDraftPopup(false)}
+            cancelFunc={() => useEditHook.setLoadDraftPopup(false)}
             confirmFunc={() => {
-              useEnrollHook.setDraftsPopup(false);
-              useEnrollHook.setLoadDraftPopup(false);
+              useEditHook.setDraftsPopup(false);
+              useEditHook.setLoadDraftPopup(false);
             }}
             zIndex={80}
           />
           <PopupBg
             bg
             zIndex={70}
-            off={() => useEnrollHook.setLoadDraftPopup(false)}
+            off={() => useEditHook.setLoadDraftPopup(false)}
+          />
+        </>
+      )}
+
+      {useEditHook.confirmSaveEditPopup && (
+        <>
+          <ConfirmPopup
+            title="수정을 완료하시겠습니까?"
+            content={`심사 후 재판매 가능 여부를 알람을 통해 알려드리겠습니다. 판매가 개시되면 7일간 글을 수정할 수 없습니다.`}
+            cancelFunc={() => useEditHook.setConfirmSaveEditPopup(false)}
+            confirmFunc={() => {
+              useEditHook.setConfirmSaveEditPopup(false);
+              useEditHook.setCompEditPopup(true);
+            }}
+          />
+          <PopupBg bg off={() => useEditHook.setConfirmSaveEditPopup(false)} />
+        </>
+      )}
+
+      {useEditHook.compEditPopup && (
+        <>
+          <ErrorMsgPopup
+            msg="글 수정이 완료되었습니다."
+            confirmFunc={() => {
+              useEditHook.setConfirmSaveEditPopup(false);
+              router.push("/");
+            }}
+          />
+          <PopupBg
+            bg
+            off={() => {
+              useEditHook.setConfirmSaveEditPopup(false);
+              router.push("/");
+            }}
           />
         </>
       )}

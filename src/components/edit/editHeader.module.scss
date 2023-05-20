@@ -1,0 +1,106 @@
+@import "/src/styles/variable";
+
+.editHeader {
+  background: #fff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+  top: 0;
+  right: 0;
+  left: 0;
+  position: fixed;
+  z-index: 30;
+
+  .saveBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+    padding: 0 60px;
+    border-bottom: 1px solid $Gray3;
+
+    .leftArea {
+      .logoBtn {
+        display: flex;
+        align-items: center;
+
+        svg {
+          height: 20px;
+        }
+      }
+    }
+
+    .rightArea {
+      display: flex;
+      gap: 40px;
+
+      .tempSaveBox {
+        display: flex;
+        gap: 20px;
+
+        button {
+          font-size: 14px;
+          color: $Gray1;
+        }
+      }
+
+      .enrollBtn {
+        width: 140px;
+        height: 40px;
+        font-weight: 700;
+        color: #fff;
+        background: $Primary1;
+        border-radius: 8px;
+
+        &.disabled {
+          background: $Gray3;
+        }
+      }
+    }
+  }
+
+  .toolBar.toolBar2 {
+    display: flex;
+    align-items: center;
+    height: 80px;
+    padding: 0 60px;
+    border: none;
+    border-bottom: 1px solid $Gray3;
+
+    & > span {
+      display: flex;
+      align-items: center;
+      margin: 0 40px 0 0;
+
+      .selectBox {
+        height: 30px;
+
+        &.selectTextBox {
+          span {
+            &:nth-of-type(1) {
+              display: flex;
+              align-items: center;
+              font-size: 16px;
+            }
+          }
+        }
+
+        &.selectIconBox {
+          span {
+            padding: 0;
+
+            svg {
+              width: 30px;
+              height: 30px;
+            }
+          }
+        }
+      }
+
+      button {
+        width: 24px;
+        height: 24px;
+        padding: 0;
+        margin: 0 14px 0 0;
+      }
+    }
+  }
+}

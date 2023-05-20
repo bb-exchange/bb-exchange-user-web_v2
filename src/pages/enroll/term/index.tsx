@@ -50,7 +50,7 @@ export default function TermScreen() {
             className={styles.agreeBtn}
             onClick={() => {
               window.open("/enroll", "_blank", "noopener,noreferrer");
-              router.reload();
+              router.push("/");
             }}
           >
             동의합니다
