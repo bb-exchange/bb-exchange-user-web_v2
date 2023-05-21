@@ -21,8 +21,12 @@
       margin-bottom: 44px;
     }
     ul {
-      width: 343px;
+      width: 363px;
       margin-bottom: 44px;
+      .division {
+        width: 343px;
+        border-bottom: 1px solid $Gray3;
+      }
       li {
         padding: 12px 0px;
         color: $Black2;
@@ -38,7 +42,39 @@
       }
       .allAgreement {
         font-weight: 700;
-        border-bottom: 1px solid $Gray3;
+
+        // display: flex;
+        // justify-content: unset;
+      }
+      section {
+        .check {
+          display: none;
+        }
+        label {
+          position: relative;
+          padding-left: 28px;
+          cursor: pointer;
+        }
+        label::before {
+          content: "";
+          display: inline-block;
+          position: absolute;
+          left: 0;
+          top: 1px;
+          width: 16px;
+          height: 16px;
+          background: url("/assets/icons/Unchecked.svg") no-repeat;
+
+          margin-right: 8px;
+        }
+
+        .check:checked + label::before {
+          background: url("/assets/icons/Checked.svg") no-repeat;
+        }
+      }
+      .iconWrap {
+        padding: 0 20px;
+        cursor: pointer;
       }
     }
     button {
@@ -46,10 +82,15 @@
       padding: 12px 0;
       background: #d9d9d9;
       border-radius: 8px;
-      color: #ffffff;
+      color: $White1;
       font-weight: 700;
       font-size: 16px;
-      cursor: pointer;
+      cursor: unset;
+
+      &.active {
+        background-color: $Primary1;
+        cursor: pointer;
+      }
     }
   }
 }
