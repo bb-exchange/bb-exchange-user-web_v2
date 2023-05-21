@@ -1,13 +1,17 @@
 import { D_categoryList } from ".src/data/enroll/D_enroll";
 import styles from "./selCategoryPopup.module.scss";
+import useCategoryQuery from ".src/hooks/articles/useCategoryQuery";
 
 interface Iprops {
   off: Function;
-  value: string;
   setValue: Function;
 }
 
-export default function SelCategoryPopup({ off, value, setValue }: Iprops) {
+export default function SelCategoryPopup({ off, setValue }: Iprops) {
+  const categoryQuery = useCategoryQuery();
+
+  categoryQuery
+
   function handleClickCategory(v: string) {
     setValue(v);
     off();

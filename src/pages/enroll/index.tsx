@@ -4,7 +4,7 @@ import "react-quill/dist/quill.snow.css";
 import React from "react";
 import dynamic from "next/dynamic";
 import { quillFormats } from ".src/util/textEditor";
-import useEnroll from ".src/hooks/enroll/enroll";
+import useEnroll from ".src/hooks/enroll/useEnroll";
 import ChevronDn from ".assets/icons/ChevronDn.svg";
 import CellPhoneBlue from ".assets/icons/CellPhoneBlue.svg";
 import PcBlue from ".assets/icons/PcBlue.svg";

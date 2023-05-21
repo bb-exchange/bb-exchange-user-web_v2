@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { redoBtnHandler, undoBtnHandler } from ".src/util/textEditor";
 import { useForm } from "react-hook-form";
 
-function useEnroll(quillRef: any) {
+export default function useEnroll(quillRef: any) {
   const [selectImg, setSelectImg] = useState<HTMLImageElement>();
   const [errMsgBusy, setErrMsgBusy] = useState<boolean>(false);
   const [selCategoryPopup, setSelCategoryPopup] = useState<boolean>(false);
@@ -210,5 +210,3 @@ function useEnroll(quillRef: any) {
     setLoadDraftPopup,
   };
 }
-
-export default useEnroll;

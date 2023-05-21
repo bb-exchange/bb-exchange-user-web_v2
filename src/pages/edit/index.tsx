@@ -14,7 +14,7 @@ import RecentTagPopup from ".src/components/enroll/recentTagPopup";
 import DraftsPopup from ".src/components/enroll/draftsPopup";
 import ConfirmPopup from ".src/components/common/confirmPopup";
 import EditHeader from ".src/components/edit/editHeader";
-import useEdit from ".src/hooks/edit/edit";
+import useEdit from ".src/hooks/edit/useEdit";
 import { useRouter } from "next/router";
 
 export default function EditScreen() {
@@ -59,7 +59,6 @@ export default function EditScreen() {
                 {useEditHook.selCategoryPopup && (
                   <>
                     <SelCategoryPopup
-                      value={useEditHook.watch("category")}
                       setValue={(v: string) =>
                         useEditHook.setValue("category", v)
                       }
