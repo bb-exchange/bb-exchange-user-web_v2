@@ -1,7 +1,7 @@
 import styles from "./errorMsgPopup.module.scss";
 
 interface Iprops {
-  msg: string;
+  msg: any;
   confirmFunc: Function;
 }
 
