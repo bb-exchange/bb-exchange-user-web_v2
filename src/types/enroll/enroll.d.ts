@@ -1,6 +1,6 @@
 interface IenrollProps {
   thumbNail: string;
-  category: string;
+  category: Icategories;
   title: string;
   content: string;
   tag: string;

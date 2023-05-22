@@ -1,4 +1,3 @@
-import { D_categoryList } from ".src/data/enroll/D_enroll";
 import styles from "./selCategoryPopup.module.scss";
 import useCategoryQuery from ".src/hooks/articles/useCategoryQuery";
 
@@ -10,9 +9,7 @@ interface Iprops {
 export default function SelCategoryPopup({ off, setValue }: Iprops) {
   const categoryQuery = useCategoryQuery();
 
-  categoryQuery
-
-  function handleClickCategory(v: string) {
+  function handleClickCategory(v: Icategories) {
     setValue(v);
     off();
   }
@@ -20,9 +17,9 @@ export default function SelCategoryPopup({ off, setValue }: Iprops) {
   return (
     <section className={styles.selCategoryPopup}>
       <ul className={styles.dataList}>
-        {D_categoryList.map((v, i) => (
+        {(categoryQuery.data || []).map((v, i) => (
           <li key={i} onClick={() => handleClickCategory(v)}>
-            {v}
+            {v.description}
           </li>
         ))}
       </ul>

@@ -6,5 +6,5 @@ export default function useCategoryQuery() {
     retry: false,
   });
 
-  return { data };
+  return { data: data?.data.data as Icategories[] };
 }

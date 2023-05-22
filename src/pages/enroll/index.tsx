@@ -45,6 +45,7 @@ export default function EnrollScreen() {
                     {...useEnrollHook.register("category", {
                       required: "카테고리를 선택해주세요",
                     })}
+                    value={useEnrollHook.watch("category")?.description}
                     placeholder="카테고리를 선택해주세요"
                   />
 
@@ -54,8 +55,7 @@ export default function EnrollScreen() {
                 {useEnrollHook.selCategoryPopup && (
                   <>
                     <SelCategoryPopup
-                      value={useEnrollHook.watch("category")}
-                      setValue={(v: string) =>
+                      setValue={(v: Icategories) =>
                         useEnrollHook.setValue("category", v)
                       }
                       off={() => useEnrollHook.setSelCategoryPopup(false)}

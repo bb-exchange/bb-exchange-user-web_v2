@@ -50,12 +50,12 @@ export default function EnrollHeader({ useEnrollHook }: Iprops) {
         <span className="ql-formats">
           <select
             className={`ql-header ${styles.selectBox} ${styles.selectTextBox}`}
-            defaultValue={""}
             onChange={(e) => e.persist()}
+            defaultValue=""
           >
             <option value="1" />
             <option value="2" />
-            <option selected />
+            <option value="" />
           </select>
         </span>
 
@@ -66,7 +66,7 @@ export default function EnrollHeader({ useEnrollHook }: Iprops) {
 
           <button className="ql-list" value="bullet" />
 
-          <select className="ql-align">
+          <select className="ql-align" defaultValue="">
             <option value="" />
             <option value="center" />
             <option value="right" />
@@ -83,6 +83,7 @@ export default function EnrollHeader({ useEnrollHook }: Iprops) {
 
           <select
             className={`ql-color ${styles.selectBox} ${styles.selectIconBox}`}
+            defaultValue=""
           >
             <option value="red" />
             <option value="green" />
@@ -90,7 +91,7 @@ export default function EnrollHeader({ useEnrollHook }: Iprops) {
             <option value="orange" />
             <option value="violet" />
             <option value="#d0d1d2" />
-            <option selected />
+            <option value="" />
           </select>
         </span>
 
