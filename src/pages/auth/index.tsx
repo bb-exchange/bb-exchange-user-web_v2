@@ -3,6 +3,13 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 const Auth = () => {
+  //(비회원인 경우)
+  //카카오 인증 성공 -> 바로 닉네임 설정 페이지로 이동 (휴대폰 인증 단계 X)
+  //구글, 애플 인증 성공 -> 휴대폰 인증 페이지로 이동 -> 닉네임 설정 페이지로 이동 (중도 이탈 시 맨 처음부터 시작)
+
+  //(회원인 경우)
+  //인증 성공 -> 메인 페이지로 랜딩
+
   const { query } = useRouter();
   console.log(query);
   const instance = axios.create({
