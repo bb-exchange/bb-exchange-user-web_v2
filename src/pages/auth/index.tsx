@@ -20,26 +20,55 @@ const Auth = () => {
     },
   });
   useEffect(() => {
+    // if (query?.code) {
+    //   //getKakaoToken
+    //   (async () => {
+    //     const { data } = await instance.post("oauth/token ", {
+    //       grant_type: "authorization_code",
+    //       client_id: process.env.NEXT_PUBLIC_KAKAO_JS_KEY,
+    //       redirect_uri: "http://localhost:3000/auth",
+    //       code: query.code,
+    //     });
+    //     console.log(data);
+    //     //send kakaoToken to server
+    //     if (data) {
+    //       const res = await axios.post(
+    //         "https://api.stage-bibubex.com/v1/auth/oidc/login",
+    //         {
+    //           idToken: data.id_token,
+    //           accessToken: data.access_token,
+    //         }
+    //       );
+    //       console.log(res);
+    //     }
+    //   })();
+    // }
+    console.log(query.code);
     if (query?.code) {
-      //getKakaoToken
+      // const accessToken = hash.split("=")[1].split("&")[0];
       (async () => {
-        const { data } = await instance.post("oauth/token ", {
-          grant_type: "authorization_code",
-          client_id: process.env.NEXT_PUBLIC_KAKAO_JS_KEY,
-          redirect_uri: "http://localhost:3000/auth",
-          code: query.code,
-        });
-        console.log(data);
-        //send kakaoToken to server
-        if (data) {
-          const res = await axios.post(
+        const res = await axios.post(
+          `https://www.googleapis.com/oauth2/v4/token`,
+          {
+            code: query?.code,
+            client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+            client_secret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET,
+            grant_type: "authorization_code",
+            redirect_uri: "http://localhost:3000/auth",
+          },
+          { headers: { "content-type": "application/x-www-form-urlencoded" } }
+        );
+
+        console.log(res);
+        if (res) {
+          const response = await axios.post(
             "https://api.stage-bibubex.com/v1/auth/oidc/login",
             {
-              idToken: data.id_token,
-              accessToken: data.access_token,
+              idToken: res.data.id_token,
+              accessToken: res.data.access_token,
             }
           );
-          console.log(res);
+          console.log(response);
         }
       })();
     }

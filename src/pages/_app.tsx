@@ -4,11 +4,11 @@ import type { AppProps } from "next/app";
 import Script from "next/script";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-
 declare global {
   // Kakao 함수를 전역에서 사용할 수 있도록 선언
   interface Window {
     Kakao: any;
+    google: any;
   }
 }
 
@@ -33,7 +33,6 @@ export default function App({
           onLoad={kakaoInit}
         ></Script>
       </Layout>
-
       <ReactQueryDevtools />
     </QueryClientProvider>
   );
