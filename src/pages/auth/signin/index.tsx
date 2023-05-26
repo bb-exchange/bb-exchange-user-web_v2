@@ -4,7 +4,7 @@ import Kakao from "../../../../public/assets/images/kakao_login.svg";
 import Google from "../../../../public/assets/images/google_logo.svg";
 import Apple from "../../../../public/assets/images/apple_logo.svg";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 
 const SignIn = () => {
@@ -13,6 +13,11 @@ const SignIn = () => {
       redirectUri: "http://localhost:3000/auth",
       scope: "openid",
     });
+  };
+  const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&response_type=code&redirect_uri=http://localhost:3000/auth&scope=https://www.googleapis.com/auth/userinfo.email&access_type=offline`;
+
+  const googleSignIn = () => {
+    window.location.assign(GOOGLE_AUTH_URL);
   };
 
   return (
@@ -36,7 +41,7 @@ const SignIn = () => {
         <Kakao className={styles.kakao} onClick={kakaoSignIn} />
         <span className={styles.or}>또는</span>
         <section className={styles.logoWrap}>
-          <Google className={styles.google} />
+          <Google className={styles.google} onClick={googleSignIn} />
           <Apple className={styles.apple} />
         </section>
         {/* <button onClick={() => signOut()}>로그아웃</button> */}
