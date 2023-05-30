@@ -1,7 +1,6 @@
-import styles from "./styles/index.module.scss";
+import styles from "./index.module.scss";
 import IconArrow from "../../../../public/assets/icons/ArrowRight.svg";
 import IconCaution from "../../../../public/assets/icons/Caution.svg";
-import IconUnchecked from "../../../../public/assets/icons/Unchecked.svg";
 import { useEffect, useState } from "react";
 import ErrorMsgPopup from ".src/components/common/errorMsgPopup";
 import PopupBg from ".src/components/common/popupBg";
