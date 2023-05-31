@@ -1,4 +1,4 @@
-import styles from "./styles/index.module.scss";
+import styles from "./index.module.scss";
 import Badge from "../../../../public/assets/images/splash_badge.svg";
 import Kakao from "../../../../public/assets/images/kakao_login.svg";
 import Google from "../../../../public/assets/images/google_logo.svg";
@@ -8,16 +8,14 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 
 const SignIn = () => {
-  const kakaoSignIn = () => {
-    window.Kakao.Auth.authorize({
-      redirectUri: "http://localhost:3000/auth",
-      scope: "openid",
-    });
-  };
-  const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&response_type=code&redirect_uri=http://localhost:3000/auth&scope=https://www.googleapis.com/auth/userinfo.email&access_type=offline`;
+  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_JS_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&response_type=code&scope=openid`;
+  const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&response_type=code&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI}&scope=https://www.googleapis.com/auth/userinfo.email&access_type=offline`;
 
   const googleSignIn = () => {
     window.location.assign(GOOGLE_AUTH_URL);
+  };
+  const kakaoSignIn = () => {
+    window.location.assign(KAKAO_AUTH_URL);
   };
 
   return (
@@ -29,7 +27,7 @@ const SignIn = () => {
           다양한 비법들을 만나보세요!
         </h2>
         <p>적은 비용으로 어디에도 없던 숨은 비법을 즐기세요!</p>
-        {/* 뱃지 이미지만 safari에서 이미지 로드가 안 됨 */}
+        {/* TODO: 뱃지 이미지만 safari에서 이미지 로드가 안 됨 */}
         <Badge className={styles.badge} />
         {/* <Image
           src="/assets/images/splash_badge.svg"
@@ -44,7 +42,6 @@ const SignIn = () => {
           <Google className={styles.google} onClick={googleSignIn} />
           <Apple className={styles.apple} />
         </section>
-        {/* <button onClick={() => signOut()}>로그아웃</button> */}
       </div>
     </div>
   );

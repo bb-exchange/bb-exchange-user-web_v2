@@ -1,0 +1,50 @@
+@import "../../styles/colors.scss";
+
+#existingAccount {
+  background-color: $Primary5;
+  position: relative;
+  height: 100vh;
+  .contentBox {
+    position: absolute;
+    top: 115px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 588px;
+    height: 638px;
+    padding: 88px 102px;
+    background: $White1;
+    border: 1px solid $Primary4;
+    box-shadow: 0px 4px 15px rgba(87, 139, 142, 0.06);
+    border-radius: 20px;
+  }
+  .title {
+    font-size: 24px;
+    font-weight: 700;
+    color: $PrimaryBG1;
+  }
+  p {
+    color: $Black2;
+    margin-top: 24px;
+    font-size: 16px;
+  }
+  .signInBox {
+    display: flex;
+    align-items: center;
+    color: $Black2;
+    gap: 163px;
+    margin-top: 54px;
+    .logoWrap {
+      display: flex;
+      align-items: center;
+      span {
+        font-weight: 700;
+        margin-left: 12px;
+      }
+    }
+    button {
+      padding: 8px 12px;
+      width: 99px;
+      height: 40px;
+    }
+  }
+}

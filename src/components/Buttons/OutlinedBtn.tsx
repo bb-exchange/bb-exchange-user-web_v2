@@ -3,7 +3,7 @@ import styles from "./OutlinedBtn.module.scss";
 interface Props {
   text: string;
   type?: string;
-  onClick?: () => void;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const OutlinedBtn = ({
