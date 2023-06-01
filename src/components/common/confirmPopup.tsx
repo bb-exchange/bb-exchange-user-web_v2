@@ -2,7 +2,7 @@ import styles from "./confirmPopup.module.scss";
 
 interface Iprops {
   title?: string;
-  content?: string;
+  content?: any;
   cancelText?: string;
   cancelFunc: Function;
   confirmText?: string;

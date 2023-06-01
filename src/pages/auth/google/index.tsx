@@ -4,8 +4,8 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 //(비회원인 경우)
-//카카오 인증 성공 -> 바로 닉네임 설정 페이지로 이동 (휴대폰 인증 단계 X)
-//구글, 애플 인증 성공 -> 휴대폰 인증 페이지로 이동 -> 닉네임 설정 페이지로 이동 (중도 이탈 시 맨 처음부터 시작)
+//카카오 인증 성공 -> 서비스 이용동의 -> 바로 닉네임 설정 페이지로 이동 (휴대폰 인증 단계 X) (중도 이탈 시 맨 처음부터 시작)
+//구글, 애플 인증 성공 -> -> 서비스 이용동의-> 휴대폰 인증 페이지로 이동 -> 닉네임 설정 페이지로 이동 (중도 이탈 시 맨 처음부터 시작)
 
 //(회원인 경우)
 //인증 성공 -> 메인 페이지로 랜딩
@@ -13,6 +13,7 @@ import { useCookies } from "react-cookie";
 const GoogleAuth = () => {
   const { query, push } = useRouter();
   const setCookie = useCookies(["authKey"])[1];
+
   useEffect(() => {
     if (query?.code) {
       (async () => {
@@ -35,11 +36,11 @@ const GoogleAuth = () => {
               accessToken: res.data.access_token,
             }
           );
-          if (response.data.data.data.key) {
+          if (response.data.data.data.status === "OAUTH_VERIFIED") {
             setCookie("authKey", response.data.data.data.key, {
               path: "/",
             });
-            push("/auth/mobile-authentication");
+            push("/auth/terms-agreement");
           }
         }
       })();
