@@ -87,9 +87,22 @@ const TermsAgreement = () => {
       text: AGREEMENT_OF_MARKETING_ACCEPTANCE,
     };
   };
+  console.log(router.query.from);
+
+  const linkTo = () => {
+    if (btnActive) {
+      if (router.query.from === "kakao") {
+        router.push("/auth/register");
+      } else {
+        router.push("/auth/mobile-authentication");
+      }
+    } else {
+      return undefined;
+    }
+  };
 
   return (
-    <div id={styles.termsAgreement}>
+    <div id={styles.termsAgreement} className={styles.container}>
       <div className={styles.contentBox}>
         <p className={styles.title}>서비스 이용동의</p>
         <ul>
@@ -222,14 +235,7 @@ const TermsAgreement = () => {
           </li>
         </ul>
 
-        <button
-          className={btnActive ? styles.active : ""}
-          onClick={
-            btnActive
-              ? () => router.push("/auth/mobile-authentication")
-              : () => undefined
-          }
-        >
+        <button className={btnActive ? styles.active : ""} onClick={linkTo}>
           다음
         </button>
       </div>

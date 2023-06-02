@@ -1,0 +1,67 @@
+@import "../../../styles/colors.scss";
+@import "../../../styles/variable.scss";
+
+#register {
+  .title {
+    font-size: 24px;
+    font-weight: 700;
+  }
+  .blueText {
+    color: $Primary1;
+  }
+  .inputWrap {
+    display: flex;
+    gap: 12px;
+    margin-top: 90px;
+  }
+  .errorMessage {
+    color: $Red1;
+    font-size: 12px;
+  }
+  .confirmMessage {
+    color: $Primary1;
+    font-size: 12px;
+  }
+  .errorMessage,
+  .confirmMessage {
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+    svg {
+      margin-bottom: 3px;
+      margin-right: 1px;
+    }
+  }
+
+  form > button {
+    width: 100%;
+    margin-top: 238px;
+    font-size: 16px;
+  }
+
+  .inputLayout {
+    width: 286px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border: 1px solid #f3f3f3;
+    border-radius: 8px;
+
+    input {
+      line-height: 24px;
+      width: 100%;
+    }
+    input::placeholder {
+      color: #d9d9d9;
+      font-size: 16px;
+    }
+  }
+}
+.boldText {
+  color: $Black3;
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 4px;
+  display: block;
+}

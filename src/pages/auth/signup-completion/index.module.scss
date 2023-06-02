@@ -1,0 +1,28 @@
+@import "../../../styles/colors.scss";
+@import "../../../styles/variable";
+
+#signUpCompletion {
+  .contentBox {
+    height: 610px;
+  }
+  .imgWrap {
+    display: flex;
+    justify-content: center;
+  }
+  .title {
+    text-align: center;
+    font-weight: 700;
+    font-size: 32px;
+    margin-top: 44px;
+  }
+  p {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 18px;
+  }
+  button {
+    width: 100%;
+    margin-top: 52px;
+    font-size: 16px;
+  }
+}

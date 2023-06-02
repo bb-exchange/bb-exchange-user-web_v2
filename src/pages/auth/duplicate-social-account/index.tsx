@@ -1,0 +1,69 @@
+import styles from "./index.module.scss";
+import OutlinedBtn from ".src/components/Buttons/OutlinedBtn";
+import LogoKakao from "../../../../public/assets/images/kakao_logo.svg";
+import LogoGoogle from "../../../../public/assets/images/google_logo.svg";
+import LogoApple from "../../../../public/assets/images/apple_logo_v2.svg";
+import { useEffect, useState } from "react";
+import LocalStorage from ".src/util/localStorage";
+import { GOOGLE_AUTH_URL, KAKAO_AUTH_URL } from ".src/data/signin/D_authUrl";
+
+const DuplicateSocialAccount = () => {
+  const [oauthType, setOauthType] = useState<any>("");
+
+  useEffect(() => {
+    if (LocalStorage.getItem("oauthType"))
+      setOauthType(LocalStorage.getItem("oauthType"));
+  }, []);
+
+  return (
+    <div id={styles.duplicateSocialAccount} className={styles.container}>
+      <div className={styles.contentBox}>
+        <h2 className={styles.title}>이미 가입한 계정이 있어요</h2>
+        <p>
+          정보가 일치하는 계정이 존재합니다.
+          <br /> 아래 계정으로 로그인해주세요.
+        </p>
+
+        {oauthType === "KAKAO" ? (
+          <section className={styles.signInBox}>
+            <div className={styles.logoWrap}>
+              <LogoKakao />
+              <span>카카오</span>
+            </div>
+            <OutlinedBtn
+              text={"로그인"}
+              type="gray"
+              onClick={() => window.location.assign(KAKAO_AUTH_URL)}
+            />
+          </section>
+        ) : oauthType === "GOOGLE" ? (
+          <section className={styles.signInBox}>
+            <div className={styles.logoWrap}>
+              <LogoGoogle />
+              <span>구글</span>
+            </div>
+            <OutlinedBtn
+              text={"로그인"}
+              type="gray"
+              onClick={() => window.location.assign(GOOGLE_AUTH_URL)}
+            />
+          </section>
+        ) : oauthType === "APPLE" ? (
+          <section className={styles.signInBox}>
+            <div className={styles.logoWrap}>
+              <LogoApple />
+              <span>애플</span>
+            </div>
+            <OutlinedBtn text={"로그인"} type="gray" />
+          </section>
+        ) : null}
+      </div>
+    </div>
+  );
+};
+
+export default DuplicateSocialAccount;
+
+export function getStaticProps() {
+  return { props: { navBar: true } };
+}

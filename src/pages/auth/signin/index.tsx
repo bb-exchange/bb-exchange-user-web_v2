@@ -1,16 +1,11 @@
 import styles from "./index.module.scss";
-import Badge from "../../../../public/assets/images/splash_badge.svg";
 import Kakao from "../../../../public/assets/images/kakao_login.svg";
 import Google from "../../../../public/assets/images/google_logo.svg";
 import Apple from "../../../../public/assets/images/apple_logo.svg";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import Image from "next/image";
+import { GOOGLE_AUTH_URL, KAKAO_AUTH_URL } from ".src/data/signin/D_authUrl";
 
 const SignIn = () => {
-  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_JS_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&response_type=code&scope=openid`;
-  const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&response_type=code&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI}&scope=https://www.googleapis.com/auth/userinfo.email&access_type=offline`;
-
   const googleSignIn = () => {
     window.location.assign(GOOGLE_AUTH_URL);
   };
@@ -19,7 +14,7 @@ const SignIn = () => {
   };
 
   return (
-    <div id={styles.signIn}>
+    <div id={styles.signIn} className={styles.container}>
       <div className={styles.contentBox}>
         <h2>
           간편하게 로그인하고
@@ -27,15 +22,16 @@ const SignIn = () => {
           다양한 비법들을 만나보세요!
         </h2>
         <p>적은 비용으로 어디에도 없던 숨은 비법을 즐기세요!</p>
-        {/* TODO: 뱃지 이미지만 safari에서 이미지 로드가 안 됨 */}
-        <Badge className={styles.badge} />
-        {/* <Image
-          src="/assets/images/splash_badge.svg"
-          alt="dd"
-          width={119}
-          height={171}
-          className={styles.badge}
-        /> */}
+        <div className={styles.imgWrap}>
+          <Image
+            src="/assets/images/splash_badge.svg"
+            alt="스플래시 이미지"
+            width={119}
+            height={171}
+            className={styles.badge}
+          />
+        </div>
+
         <Kakao className={styles.kakao} onClick={kakaoSignIn} />
         <span className={styles.or}>또는</span>
         <section className={styles.logoWrap}>

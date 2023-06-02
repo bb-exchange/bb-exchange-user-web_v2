@@ -1,76 +1,61 @@
 @import "../../../styles/colors.scss";
+@import "../../../styles/variable.scss";
 
 #mobileAuth {
-  background-color: $Primary5;
-  position: relative;
-  height: 100vh;
-  .contentBox {
-    position: absolute;
-    top: 115px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 588px;
-    height: 638px;
-    padding: 88px 102px;
-    background: $White1;
-    border: 1px solid $Primary4;
-    box-shadow: 0px 4px 15px rgba(87, 139, 142, 0.06);
-    border-radius: 20px;
-    .title {
-      font-size: 24px;
-      font-family: pretendard;
-      margin-bottom: 80px;
-      font-weight: 700;
+  .title {
+    font-size: 24px;
+    font-family: pretendard;
+    margin-bottom: 80px;
+    font-weight: 700;
+  }
+  .blueText {
+    color: $Primary1;
+  }
+  section {
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+  }
+  .inputLayout {
+    width: 286px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border: 1px solid #f3f3f3;
+    border-radius: 8px;
+    &:last-of-type {
+      width: 384px;
+      margin-top: 16px;
     }
-    .blueText {
-      color: $Primary1;
-    }
-    section {
-      display: flex;
-      gap: 12px;
-      align-items: baseline;
-    }
-    .inputLayout {
-      width: 286px;
-      height: 48px;
-      display: flex;
-      align-items: center;
-      padding: 8px 12px;
-      border: 1px solid #f3f3f3;
-      border-radius: 8px;
-      &:last-of-type {
-        width: 384px;
-        margin-top: 16px;
-      }
-      input {
-        line-height: 24px;
-        width: 100%;
-      }
-      input::placeholder {
-        color: #d9d9d9;
-        font-size: 16px;
-      }
-    }
-    .timer {
-      color: $Red1;
-    }
-    .leftTimes {
-      display: flex;
-      align-items: center;
-      margin-top: 7px;
-      svg {
-        margin-right: 2px;
-      }
-    }
-    form + button {
-      margin-top: 174px;
+    input {
+      line-height: 24px;
       width: 100%;
+    }
+    input::placeholder {
+      color: #d9d9d9;
       font-size: 16px;
     }
-    .inputLayout + button {
-      padding: 8px 12px;
-      width: 86px;
-      height: 48px;
+  }
+  .timer {
+    color: $Red1;
+  }
+  .leftTimes {
+    display: flex;
+    align-items: center;
+    margin-top: 7px;
+    svg {
+      margin-right: 2px;
     }
+  }
+  form + button {
+    margin-top: 174px;
+    width: 100%;
+    font-size: 16px;
+  }
+  .inputLayout + button {
+    padding: 8px 12px;
+    width: 86px;
+    height: 48px;
   }
 }

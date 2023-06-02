@@ -1,97 +1,82 @@
 @import "../../../styles/colors.scss";
+@import "../../../styles/variable.scss";
 
 #termsAgreement {
-  background-color: $Primary5;
-  position: relative;
-  height: 100vh;
-  .contentBox {
-    position: absolute;
-    top: 115px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 588px;
-    padding: 88px 102px;
-    background: $White1;
-    border: 1px solid $Primary4;
-    box-shadow: 0px 4px 15px rgba(87, 139, 142, 0.06);
-    border-radius: 20px;
-    .title {
-      font-size: 24px;
-      font-weight: 700;
-      font-family: pretendard;
-      margin-bottom: 44px;
+  .title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 44px;
+  }
+  ul {
+    width: 363px;
+    margin-bottom: 44px;
+    .division {
+      width: 343px;
+      border-bottom: 1px solid $Gray3;
     }
-    ul {
-      width: 363px;
-      margin-bottom: 44px;
-      .division {
-        width: 343px;
-        border-bottom: 1px solid $Gray3;
-      }
-      li {
-        padding: 12px 0px;
-        color: $Black2;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-      .overAge {
-        justify-content: unset;
-        .iconCaution {
-          margin-left: 5px;
-        }
-      }
-      .allAgreement {
-        font-weight: 700;
-
-        // display: flex;
-        // justify-content: unset;
-      }
-      section {
-        .check {
-          display: none;
-        }
-        label {
-          position: relative;
-          padding-left: 28px;
-          cursor: pointer;
-        }
-        label::before {
-          content: "";
-          display: inline-block;
-          position: absolute;
-          left: 0;
-          top: 1px;
-          width: 16px;
-          height: 16px;
-          background: url("/assets/icons/Unchecked.svg") no-repeat;
-
-          margin-right: 8px;
-        }
-
-        .check:checked + label::before {
-          background: url("/assets/icons/Checked.svg") no-repeat;
-        }
-      }
-      .iconWrap {
-        padding: 0 20px;
-        cursor: pointer;
+    li {
+      padding: 12px 0px;
+      color: $Black2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .overAge {
+      justify-content: unset;
+      .iconCaution {
+        margin-left: 5px;
       }
     }
-    button {
-      width: 383px;
-      padding: 12px 0;
-      background: #d9d9d9;
-      border-radius: 8px;
-      color: $White1;
+    .allAgreement {
       font-weight: 700;
-      font-size: 16px;
-      cursor: unset;
 
-      &.active {
-        background-color: $Primary1;
+      // display: flex;
+      // justify-content: unset;
+    }
+    section {
+      .check {
+        display: none;
+      }
+      label {
+        position: relative;
+        padding-left: 28px;
         cursor: pointer;
       }
+      label::before {
+        content: "";
+        display: inline-block;
+        position: absolute;
+        left: 0;
+        top: 1px;
+        width: 16px;
+        height: 16px;
+        background: url("/assets/icons/Unchecked.svg") no-repeat;
+
+        margin-right: 8px;
+      }
+
+      .check:checked + label::before {
+        background: url("/assets/icons/Checked.svg") no-repeat;
+      }
+    }
+    .iconWrap {
+      padding: 0 20px;
+      cursor: pointer;
+    }
+  }
+  ul + button {
+    width: 383px;
+    padding: 12px 0;
+    background: #d9d9d9;
+    border-radius: 8px;
+    color: $White1;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: unset;
+
+    &.active {
+      background-color: $Primary1;
+      cursor: pointer;
     }
   }
 }

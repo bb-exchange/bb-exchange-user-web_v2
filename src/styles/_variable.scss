@@ -1,2 +1,25 @@
 /* 공통으로 사용되는 스타일 정의 */
-@import './colors.scss';
+@import "./colors.scss";
+
+.blueText {
+  color: $Primary1;
+}
+.container {
+  background-color: $Primary5;
+  position: relative;
+  height: 100vh;
+}
+
+.container > .contentBox {
+  position: absolute;
+  top: 115px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 588px;
+  height: 638px;
+  padding: 88px 102px;
+  background: $White1;
+  border: 1px solid $Primary4;
+  box-shadow: 0px 4px 15px rgba(87, 139, 142, 0.06);
+  border-radius: 20px;
+}
