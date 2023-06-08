@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import styles from "./termScreen.module.scss";
 import { D_termList } from ".src/data/enroll/D_term";
 import CommonHeader from ".src/components/common/commonHeader";
+import CommonFooter from ".src/components/common/commonFooter";
 
 export default function TermScreen() {
   const router = useRouter();
@@ -59,7 +60,7 @@ export default function TermScreen() {
         </article>
       </section>
 
-      <footer className={styles.temporaryFooter}></footer>
+      <CommonFooter />
     </>
   );
 }

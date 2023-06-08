@@ -1,6 +1,7 @@
 @import "/src/styles/variable";
 
 .commonHeader {
+  background: $White1;
   border-bottom: 1px solid $Gray2;
   top: 0;
   right: 0;
@@ -12,7 +13,6 @@
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    background: $White1;
 
     .topArea {
       display: flex;

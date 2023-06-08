@@ -9,7 +9,7 @@ import TriangleDn from ".assets/icons/TriangleDn.svg";
 import ChevronRt from ".assets/icons/ChevronRt.svg";
 import DefaultProfImg from ".assets/example/DefaultProfImg.png";
 import { useState } from "react";
-import { D_headerCategoryList } from ".src/data/common/header";
+import { D_commonHeaderCategoryList } from ".src/data/common/header";
 
 export default function CommonHeader() {
   const isLogin: boolean = false;
@@ -70,7 +70,7 @@ export default function CommonHeader() {
             </button>
 
             <ul className={styles.categoryList}>
-              {D_headerCategoryList.map((v, i) => (
+              {D_commonHeaderCategoryList.map((v, i) => (
                 <li key={i}>{v}</li>
               ))}
             </ul>

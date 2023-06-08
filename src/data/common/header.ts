@@ -1,1 +1,1 @@
-export const D_headerCategoryList: String[] = ["인기", "최신", "상장"];
+export const D_commonHeaderCategoryList: String[] = ["인기", "최신", "상장"];
