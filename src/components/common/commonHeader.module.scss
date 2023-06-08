@@ -1,0 +1,148 @@
+@import "/src/styles/variable";
+
+.commonHeader {
+  top: 0;
+  right: 0;
+  left: 0;
+  position: fixed;
+  z-index: 30;
+
+  .innerSec {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: $White1;
+    border-bottom: 1px solid $Gray2;
+
+    .topArea {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 64px;
+
+      .leftCont {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 44px;
+
+        .searchBox {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          max-width: 510px;
+          height: 48px;
+          background: $Primary4;
+          border-radius: 40px;
+
+          input {
+            flex: 1;
+            height: 100%;
+            padding: 0 24px;
+            font-size: 20px;
+          }
+
+          .searchBtn {
+            display: flex;
+            align-items: center;
+            margin: 0 24px 0 0;
+          }
+        }
+      }
+
+      .rightCont {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+
+        .writeBtn {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 4px;
+          height: 44px;
+          padding: 0 12px;
+          background: $Primary1;
+          border-radius: 8px;
+
+          p {
+            font-size: 16px;
+            font-weight: 700;
+            color: $White1;
+          }
+        }
+
+        .utilBox {
+          display: flex;
+          align-items: center;
+          gap: 24px;
+        }
+      }
+    }
+
+    .bottomArea {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 64px;
+
+      .leftCont {
+        display: flex;
+        align-items: center;
+        gap: 60px;
+
+        .categoryBtn {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+
+          .valueBox {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+
+            p {
+              font-size: 16px;
+              font-weight: 700;
+              color: $PrimaryBG1;
+            }
+          }
+        }
+
+        .categoryList {
+          display: flex;
+          align-items: center;
+          gap: 20px;
+
+          li {
+            padding: 0 4px;
+            font-size: 16px;
+            color: $Black2;
+          }
+        }
+      }
+
+      .rightCont {
+        .banner {
+          display: flex;
+          align-items: center;
+          height: 36px;
+          padding: 0 12px;
+          background: $Primary5;
+          border-radius: 12px;
+
+          p {
+            font-size: 13px;
+            line-height: 20px;
+            color: $Black2;
+
+            strong {
+              font-weight: 700;
+              color: $Primary1;
+            }
+          }
+        }
+      }
+    }
+  }
+}

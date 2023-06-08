@@ -1,13 +1,14 @@
 import { useRouter } from "next/router";
 import styles from "./termScreen.module.scss";
 import { D_termList } from ".src/data/enroll/D_term";
+import CommonHeader from ".src/components/common/commonHeader";
 
 export default function TermScreen() {
   const router = useRouter();
 
   return (
     <>
-      <header className={styles.temporaryHeader}></header>
+      <CommonHeader />
 
       <section className={styles.innerSec}>
         <article className={styles.topBar}>
