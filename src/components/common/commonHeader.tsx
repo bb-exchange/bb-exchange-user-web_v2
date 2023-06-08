@@ -12,6 +12,8 @@ import { useState } from "react";
 import { D_headerCategoryList } from ".src/data/common/header";
 
 export default function CommonHeader() {
+  const isLogin: boolean = false;
+
   const [search, setSearch] = useState<string>("");
 
   return (
@@ -34,17 +36,25 @@ export default function CommonHeader() {
             </div>
           </div>
 
-          <div className={styles.rightCont}>
+          <div className={`${styles.rightCont} ${isLogin ? "login" : ""} `}>
             <button className={styles.writeBtn} onClick={() => {}}>
               <WriteWhite />
               <p>작성하기</p>
             </button>
 
-            <Shop />
+            {isLogin ? (
+              <>
+                <Shop />
 
-            <Bell />
+                <Bell />
 
-            <img src={DefaultProfImg.src} alt="" />
+                <img src={DefaultProfImg.src} alt="" />
+              </>
+            ) : (
+              <button className={styles.authBtn} onClick={() => {}}>
+                <p>로그인/회원가입</p>
+              </button>
+            )}
           </div>
         </article>
 
@@ -69,8 +79,14 @@ export default function CommonHeader() {
           <div className={styles.rightCont}>
             <div className={styles.banner}>
               <p className={styles.cont}>
-                <strong className={styles.nickname}>치은짱짱맨</strong>
-                님, 나만의 비법, 지식, 경험을 공유하고 수익을 창출해 보세요!
+                {isLogin ? (
+                  <>
+                    <strong className={styles.nickname}>치은짱짱맨</strong>님,
+                  </>
+                ) : (
+                  <></>
+                )}
+                나만의 비법, 지식, 경험을 공유하고 수익을 창출해 보세요!
               </p>
               <ChevronRt />
             </div>

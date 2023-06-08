@@ -1,6 +1,7 @@
 @import "/src/styles/variable";
 
 .commonHeader {
+  border-bottom: 1px solid $Gray2;
   top: 0;
   right: 0;
   left: 0;
@@ -12,7 +13,6 @@
     max-width: 1200px;
     margin: 0 auto;
     background: $White1;
-    border-bottom: 1px solid $Gray2;
 
     .topArea {
       display: flex;
@@ -53,7 +53,11 @@
       .rightCont {
         display: flex;
         align-items: center;
-        gap: 24px;
+        gap: 12px;
+
+        &.login {
+          gap: 24px;
+        }
 
         .writeBtn {
           display: flex;
@@ -69,6 +73,19 @@
             font-size: 16px;
             font-weight: 700;
             color: $White1;
+          }
+        }
+
+        .authBtn {
+          height: 44px;
+          padding: 0 12px;
+          border: 1px solid $Primary1;
+          border-radius: 8px;
+
+          p {
+            font-size: 16px;
+            font-weight: 700;
+            color: $Primary1;
           }
         }
 
