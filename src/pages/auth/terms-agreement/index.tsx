@@ -87,7 +87,6 @@ const TermsAgreement = () => {
       text: AGREEMENT_OF_MARKETING_ACCEPTANCE,
     };
   };
-  console.log(router.query.from);
 
   const linkTo = () => {
     if (btnActive) {

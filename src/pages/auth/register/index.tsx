@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import PopupBg from ".src/components/common/popupBg";
 import ConfirmPopup from ".src/components/common/confirmPopup";
 import LocalStorage from ".src/util/localStorage";
+import { AxiosResponse } from "axios";
 interface Inputs {
   nickname: string;
 }
@@ -38,11 +39,11 @@ const Register = () => {
 
   //닉네임 중복체크
   const duplicateCheck = async (data: Inputs) => {
-    const res = await basicInstance.get(
+    const { isExists }: { isExists: boolean } = await basicInstance.get(
       `/v1/users/is-exists?nickname=${data.nickname}`
     );
-
-    if (res.data.data.isExists === true) {
+    console.log(isExists);
+    if (isExists === true) {
       setError("nickname", { message: "이미 사용중인 닉네임입니다" });
     } else {
       setAvailableNickname(data.nickname);
@@ -55,10 +56,10 @@ const Register = () => {
       nickname: data.nickname,
     });
 
-    if (res.data.data.accessToken) {
+    if (res.data.accessToken) {
       //가입성공
-      setCookies("accessToken", res.data.data.accessToken);
-      setCookies("refreshToken", res.data.data.refreshToken);
+      setCookies("accessToken", res.data.accessToken);
+      setCookies("refreshToken", res.data.refreshToken);
       LocalStorage.setItem("nickname", data.nickname);
       router.push("/auth/signup-completion");
     }
@@ -158,7 +159,7 @@ const Register = () => {
               cancelFunc={() => setOpenConfirmPopup(false)}
               confirmFunc={() => {
                 setOpenConfirmPopup(false);
-                window.history.go(-2);
+                router.push("/auth/signin");
               }}
               content={
                 <>

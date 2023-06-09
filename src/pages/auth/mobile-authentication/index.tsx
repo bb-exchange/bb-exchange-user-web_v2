@@ -22,6 +22,7 @@ const MobileAuth = () => {
   const [minutes, setMinutes] = useState<number>(3);
   const [seconds, setSeconds] = useState<number>(0);
   const [openExceedPopup, setOpenExceedPopup] = useState<boolean>(false); //일일인증횟수초과
+  const [leftCount, setLeftCount] = useState();
   const [openErrSecretPopup, setOpenErrSecretPopup] = useState<boolean>(false); //인증번호 에러
   const [openExpiredKeyPopup, setOpenExpiredKeyPopup] =
     useState<boolean>(false); //인증키 만료
@@ -49,10 +50,11 @@ const MobileAuth = () => {
 
       //인증번호 문자 전송 완료
       if (res.data.data.status === "SECRET_SENT") {
-        if (leftTimes === 0) {
+        if (res.data.data.leftCount === 0) {
           //남은 인증 회수가 없으면 팝업창 띄우기
           setOpenExceedPopup(true);
         } else {
+          setLeftCount(res.data.data.leftCount);
           setShowResendBtn(true);
           setMinutes(3);
           setSeconds(0);
@@ -118,7 +120,7 @@ const MobileAuth = () => {
           <span className={styles.blueText}>휴대폰 인증</span>을 해주세요
         </h2>
         <form>
-          <section>
+          <section className={styles.section}>
             <div className={styles.inputLayout}>
               <input
                 type="tel"
@@ -137,7 +139,7 @@ const MobileAuth = () => {
             ) : (
               <ContainedBtn
                 text={"인증받기"}
-                disabled={watch("phoneNumber")?.length >= 10 ? false : true}
+                disabled={watch("phoneNumber")?.length === 11 ? false : true}
                 onClick={handleSubmit(sendSecretCode)}
               />
             )}
@@ -145,8 +147,7 @@ const MobileAuth = () => {
           {showResendBtn && (
             <p className={styles.leftTimes}>
               <IconCheck />
-              {/* TODO: 인증 가능 건수 백엔드에서 받아오기 */}
-              일일 문자 인증 가능 건수가 5건 남았어요.
+              일일 문자 인증 가능 건수가 {leftCount}건 남았어요.
             </p>
           )}
 

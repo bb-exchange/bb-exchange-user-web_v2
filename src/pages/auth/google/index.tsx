@@ -1,3 +1,4 @@
+import { basicInstance } from ".src/api/instance";
 import axios from "axios";
 import { cookies } from "next/dist/client/components/headers";
 import { useRouter } from "next/router";
@@ -12,7 +13,11 @@ import { useCookies } from "react-cookie";
 
 const GoogleAuth = () => {
   const { query, push } = useRouter();
-  const setCookie = useCookies(["authKey"])[1];
+  const [cookie, setCookie] = useCookies([
+    "authKey",
+    "accessToken",
+    "refreshToken",
+  ]);
 
   useEffect(() => {
     if (query?.code) {
@@ -29,18 +34,25 @@ const GoogleAuth = () => {
           { headers: { "content-type": "application/x-www-form-urlencoded" } }
         );
         if (res) {
-          const response = await axios.post(
-            "https://api.stage-bibubex.com/v1/auth/oidc/login",
-            {
-              idToken: res.data.id_token,
-              accessToken: res.data.access_token,
-            }
-          );
-          if (response.data.data.data.status === "OAUTH_VERIFIED") {
-            setCookie("authKey", response.data.data.data.key, {
+          const response = await basicInstance.post("/v1/auth/oidc/login", {
+            idToken: res.data.id_token,
+            accessToken: res.data.access_token,
+          });
+
+          if (response.data.status === "OAUTH_VERIFIED") {
+            setCookie("authKey", response.data.key, {
               path: "/",
             });
             push("/auth/terms-agreement");
+          } else if (response.data.accessToken && response.data.refreshToken) {
+            setCookie("accessToken", response.data.accessToken, {
+              path: "/",
+            });
+            setCookie("refreshToken", response.data.refreshToken, {
+              path: "/",
+            });
+            push("/");
+            //TO DO: 리덕스 전역 login 처리
           }
         }
       })();
