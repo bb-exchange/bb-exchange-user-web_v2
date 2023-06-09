@@ -50,6 +50,7 @@ export default function EditScreen() {
                     {...useEditHook.register("category", {
                       required: "카테고리를 선택해주세요",
                     })}
+                    value={useEditHook.watch("category")?.description}
                     placeholder="카테고리를 선택해주세요"
                   />
 
@@ -59,7 +60,7 @@ export default function EditScreen() {
                 {useEditHook.selCategoryPopup && (
                   <>
                     <SelCategoryPopup
-                      setValue={(v: string) =>
+                      setValue={(v: Icategories) =>
                         useEditHook.setValue("category", v)
                       }
                       off={() => useEditHook.setSelCategoryPopup(false)}
