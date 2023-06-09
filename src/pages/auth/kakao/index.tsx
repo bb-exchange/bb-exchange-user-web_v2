@@ -1,3 +1,4 @@
+import { basicInstance } from ".src/api/instance";
 import LocalStorage from ".src/util/localStorage";
 import axios from "axios";
 import { useRouter } from "next/router";
@@ -28,26 +29,21 @@ const KakaoAuth = () => {
         );
         //send kakaoToken to server
         if (data) {
-          const response = await axios.post(
-            "https://api.stage-bibubex.com/v1/auth/oidc/login",
-            {
-              idToken: data.id_token,
-              accessToken: data.access_token,
-            }
-          );
+          const response = await basicInstance.post("/v1/auth/oidc/login", {
+            idToken: data.id_token,
+            accessToken: data.access_token,
+          });
           //reponse에 status가 PHONE_VERIFIED이면(비회원) => 서비스 이용동의 페이지 => 닉네임 설정 페이지
           //accessToken이 있으면(회원) => 메인페이지로 랜딩
-          if (response.data.data.data.status === "PHONE_VERIFIED") {
+          console.log(response.data);
+          if (response.data.status === "PHONE_VERIFIED") {
             setCookie("authKey", response.data.data.data.key, {
               path: "/",
             });
             push("/auth/terms-agreement?from=kakao");
-          } else if (response.data.data.data.oauthTypes) {
+          } else if (response.data.oauthTypes) {
             //이미 가입된 정보가 있는 경우(response에 oauthType 내려옴)
-            LocalStorage.setItem(
-              "oauthType",
-              response.data.data.data.oauthTypes[0]
-            );
+            LocalStorage.setItem("oauthType", response.data.oauthTypes[0]);
             push("/auth/duplicate-social-account");
           }
         }

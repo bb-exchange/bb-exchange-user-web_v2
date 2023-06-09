@@ -25,6 +25,7 @@
       justify-content: unset;
       .iconCaution {
         margin-left: 5px;
+        cursor: pointer;
       }
     }
     .allAgreement {
@@ -66,7 +67,7 @@
   }
   ul + button {
     width: 383px;
-    padding: 12px 0;
+    padding: 14px 16px;
     background: #d9d9d9;
     border-radius: 8px;
     color: $White1;
