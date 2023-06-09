@@ -24,30 +24,6 @@
         flex: 1;
         display: flex;
         align-items: center;
-        gap: 44px;
-
-        .searchBox {
-          flex: 1;
-          display: flex;
-          align-items: center;
-          max-width: 510px;
-          height: 48px;
-          background: $Primary4;
-          border-radius: 40px;
-
-          input {
-            flex: 1;
-            height: 100%;
-            padding: 0 24px;
-            font-size: 20px;
-          }
-
-          .searchBtn {
-            display: flex;
-            align-items: center;
-            margin: 0 24px 0 0;
-          }
-        }
       }
 
       .rightCont {

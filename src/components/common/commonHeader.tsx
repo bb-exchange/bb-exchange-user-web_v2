@@ -22,18 +22,6 @@ export default function CommonHeader() {
         <article className={styles.topArea}>
           <div className={styles.leftCont}>
             <LogoBlue />
-
-            <div className={styles.searchBox}>
-              <input
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="비법글을 검색해보세요"
-              />
-
-              <button className={styles.searchBtn} onClick={() => {}}>
-                <MagnifyingGlass />
-              </button>
-            </div>
           </div>
 
           <div className={`${styles.rightCont} ${isLogin ? "login" : ""} `}>
