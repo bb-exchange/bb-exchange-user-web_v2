@@ -1,6 +1,5 @@
 import styles from "./commonHeader.module.scss";
 import LogoBlue from ".assets/logos/LogoBlue.svg";
-import MagnifyingGlass from ".assets/icons/MagnifyingGlass.svg";
 import WriteWhite from ".assets/icons/WriteWhite.svg";
 import Shop from ".assets/icons/Shop.svg";
 import Bell from ".assets/icons/Bell.svg";
@@ -8,16 +7,15 @@ import Hamburger from ".assets/icons/Hamburger.svg";
 import TriangleDn from ".assets/icons/TriangleDn.svg";
 import ChevronRt from ".assets/icons/ChevronRt.svg";
 import DefaultProfImg from ".assets/example/DefaultProfImg.png";
-import { useState } from "react";
 import { D_commonHeaderCategoryList } from ".src/data/common/header";
 import { useSelector } from "react-redux";
 import { AppStore } from ".src/app/store";
 import { useRouter } from "next/router";
 
 export default function CommonHeader() {
-  const isSignedIn = useSelector((state: AppStore) => state.user.isSignedIn);
   const router = useRouter();
-  const [search, setSearch] = useState<string>("");
+
+  const isSignedIn = useSelector((state: AppStore) => state.user.isSignedIn);
 
   return (
     <header className={styles.commonHeader}>
@@ -65,7 +63,13 @@ export default function CommonHeader() {
 
             <ul className={styles.categoryList}>
               {D_commonHeaderCategoryList.map((v, i) => (
-                <li key={i}>{v}</li>
+                <li
+                  key={i}
+                  className={v === router.query.sort ? styles.on : ""}
+                  onClick={() => router.push(`?sort=${v}`)}
+                >
+                  <p>{v}</p>
+                </li>
               ))}
             </ul>
           </div>
