@@ -10,10 +10,13 @@ import ChevronRt from ".assets/icons/ChevronRt.svg";
 import DefaultProfImg from ".assets/example/DefaultProfImg.png";
 import { useState } from "react";
 import { D_commonHeaderCategoryList } from ".src/data/common/header";
+import { useSelector } from "react-redux";
+import { AppStore } from ".src/app/store";
+import { useRouter } from "next/router";
 
 export default function CommonHeader() {
-  const isLogin: boolean = false;
-
+  const isSignedIn = useSelector((state: AppStore) => state.user.isSignedIn);
+  const router = useRouter();
   const [search, setSearch] = useState<string>("");
 
   return (
@@ -24,13 +27,13 @@ export default function CommonHeader() {
             <LogoBlue />
           </div>
 
-          <div className={`${styles.rightCont} ${isLogin ? "login" : ""} `}>
+          <div className={`${styles.rightCont} ${isSignedIn ? "login" : ""} `}>
             <button className={styles.writeBtn} onClick={() => {}}>
               <WriteWhite />
               <p>작성하기</p>
             </button>
 
-            {isLogin ? (
+            {isSignedIn ? (
               <>
                 <Shop />
 
@@ -39,7 +42,10 @@ export default function CommonHeader() {
                 <img src={DefaultProfImg.src} alt="" />
               </>
             ) : (
-              <button className={styles.authBtn} onClick={() => {}}>
+              <button
+                className={styles.authBtn}
+                onClick={() => router.push("/auth/signin")}
+              >
                 <p>로그인/회원가입</p>
               </button>
             )}
@@ -67,7 +73,7 @@ export default function CommonHeader() {
           <div className={styles.rightCont}>
             <div className={styles.banner}>
               <p className={styles.cont}>
-                {isLogin ? (
+                {isSignedIn ? (
                   <>
                     <strong className={styles.nickname}>치은짱짱맨</strong>님,
                   </>

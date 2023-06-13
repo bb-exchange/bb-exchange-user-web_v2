@@ -1,12 +1,15 @@
 @import "../../../styles/colors.scss";
 #Navbar {
-  // height: 126px;
-  width: 100%;
   font-family: pretendard;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 
   .mainNavbar {
     height: 80px;
-    padding: 18px 20%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background-color: $White1;
     section {
       display: flex;
@@ -18,7 +21,7 @@
       font-size: 20px;
       white-space: nowrap;
     }
-    .homeLink + button {
+    section + button {
       padding: 10px 12px;
       width: 80px;
       height: 44px;

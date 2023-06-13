@@ -14,8 +14,8 @@ const Navbar = () => {
           <Link className={styles.homeLink} href={"/"}>
             <HomeLink />
           </Link>
-          <OutlinedBtn text={"문의하기"} />
         </section>
+        <OutlinedBtn text={"문의하기"} />
       </div>
       {!pathname?.includes("/auth") && <div className={styles.subNavbar}></div>}
     </nav>

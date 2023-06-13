@@ -1,9 +1,11 @@
 import { basicInstance } from ".src/api/instance";
+import { signIn } from ".src/features/userSlice";
 import axios from "axios";
 import { cookies } from "next/dist/client/components/headers";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
+import { useDispatch } from "react-redux";
 //(비회원인 경우)
 //카카오 인증 성공 -> 서비스 이용동의 -> 바로 닉네임 설정 페이지로 이동 (휴대폰 인증 단계 X) (중도 이탈 시 맨 처음부터 시작)
 //구글, 애플 인증 성공 -> -> 서비스 이용동의-> 휴대폰 인증 페이지로 이동 -> 닉네임 설정 페이지로 이동 (중도 이탈 시 맨 처음부터 시작)
@@ -18,6 +20,7 @@ const GoogleAuth = () => {
     "accessToken",
     "refreshToken",
   ]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (query?.code) {
@@ -51,8 +54,8 @@ const GoogleAuth = () => {
             setCookie("refreshToken", response.data.refreshToken, {
               path: "/",
             });
+            dispatch(signIn()); //전역 로그인 처리
             push("/");
-            //TO DO: 리덕스 전역 login 처리
           }
         }
       })();

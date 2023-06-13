@@ -22,7 +22,7 @@ const MobileAuth = () => {
   const [minutes, setMinutes] = useState<number>(3);
   const [seconds, setSeconds] = useState<number>(0);
   const [openExceedPopup, setOpenExceedPopup] = useState<boolean>(false); //일일인증횟수초과
-  const [leftCount, setLeftCount] = useState();
+  const [leftCount, setLeftCount] = useState<number>();
   const [openErrSecretPopup, setOpenErrSecretPopup] = useState<boolean>(false); //인증번호 에러
   const [openExpiredKeyPopup, setOpenExpiredKeyPopup] =
     useState<boolean>(false); //인증키 만료
@@ -43,27 +43,30 @@ const MobileAuth = () => {
   //휴대폰 인증번호 발송 api
   const sendSecretCode = async (data: Inputs) => {
     try {
-      const res = await basicInstance.post("/v1/auth/phones/send-secret", {
-        key: cookies.authKey,
-        phoneNumber: data.phoneNumber,
-      });
+      const res: resOfSendSecret = await basicInstance.post(
+        "/v1/auth/phones/send-secret",
+        {
+          key: cookies.authKey,
+          phoneNumber: data.phoneNumber,
+        }
+      );
 
       //인증번호 문자 전송 완료
-      if (res.data.data.status === "SECRET_SENT") {
-        if (res.data.data.leftCount === 0) {
-          //남은 인증 회수가 없으면 팝업창 띄우기
-          setOpenExceedPopup(true);
-        } else {
-          setLeftCount(res.data.data.leftCount);
-          setShowResendBtn(true);
-          setMinutes(3);
-          setSeconds(0);
-          setValue("secret", ""); //인증번호 입력창 초기화
-        }
+      if (res.status === "SECRET_SENT") {
+        setLeftCount(res.leftCount);
+        setShowResendBtn(true);
+        setMinutes(3);
+        setSeconds(0);
+        setValue("secret", ""); //인증번호 입력창 초기화
       }
     } catch (error: any) {
       if (error.response.data.message === "auth key not found") {
         setOpenExpiredKeyPopup(true);
+      } else if (
+        error.response.data.message ===
+        "인증 문자는 하루에 최대 6회 받을 수 있어요. 내일 다시 시도해주세요."
+      ) {
+        setOpenExceedPopup(true);
       }
     }
   };
