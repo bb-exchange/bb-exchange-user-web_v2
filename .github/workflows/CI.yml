@@ -28,6 +28,16 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 18.15.0
+          
+      - name: Generate Environment Variables File for Production
+        run: |
+          echo "NEXT_PUBLIC_GOOGLE_CLIENT_ID" >> .env.production
+          echo "NEXT_PUBLIC_GOOGLE_CLIENT_SECRET" >> .env.production
+          echo "NEXT_PUBLIC_GOOGLE_REDIRECT_URI" >> .env.production
+        env:
+          NEXT_PUBLIC_GOOGLE_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_GOOGLE_CLIENT_ID }}
+          NEXT_PUBLIC_GOOGLE_CLIENT_SECRET: ${{ secrets.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET }}
+          NEXT_PUBLIC_GOOGLE_REDIRECT_URI: ${{ secrets.NEXT_PUBLIC_GOOGLE_REDIRECT_URI }}
 
       - name: Install modules
         run: npm ci
