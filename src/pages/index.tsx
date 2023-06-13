@@ -1,5 +1,7 @@
 import Head from "next/head";
 import { Inter } from "next/font/google";
+import CommonHeader from ".src/components/common/commonHeader";
+import CommonFooter from ".src/components/common/commonFooter";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,4 +16,8 @@ export default function Home() {
       </Head>
     </>
   );
+}
+
+export function getStaticProps() {
+  return { props: { commonLayout: true } };
 }

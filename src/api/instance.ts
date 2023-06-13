@@ -4,6 +4,7 @@ const baseURL = "https://api.stage-bibubex.com";
 
 export const basicInstance = axios.create({
   baseURL,
+  withCredentials: true,
 });
 
 basicInstance.interceptors.request.use(

@@ -6,17 +6,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  // padding: 10px 12px;
   gap: 10px;
   border: 1px solid $Primary1;
-  // min-width: 80px;
-  //   height: 44px;
   border-radius: 8px;
   white-space: nowrap;
   cursor: pointer;
+  height: 44px;
+  padding: 0 12px;
+
   &.outlinedBtn_gray {
     border: 1px solid #d9d9d9;
     color: #555555;
-    // width: 100%;
   }
 }
