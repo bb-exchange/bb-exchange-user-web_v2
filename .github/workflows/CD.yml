@@ -55,9 +55,9 @@ jobs:
       - name: Generate Environment Variables File for Production
         run: |
           touch .env.production
-          echo "NEXT_PUBLIC_GOOGLE_CLIENT_ID" >> .env.production
-          echo "NEXT_PUBLIC_GOOGLE_CLIENT_SECRET" >> .env.production
-          echo "NEXT_PUBLIC_GOOGLE_REDIRECT_URI" >> .env.production
+          echo "NEXT_PUBLIC_GOOGLE_CLIENT_ID=$NEXT_PUBLIC_GOOGLE_CLIENT_ID" >> .env.production
+          echo "NEXT_PUBLIC_GOOGLE_CLIENT_SECRET=$NEXT_PUBLIC_GOOGLE_CLIENT_SECRET" >> .env.production
+          echo "NEXT_PUBLIC_GOOGLE_REDIRECT_URI=$NEXT_PUBLIC_GOOGLE_REDIRECT_URI" >> .env.production
         env:
           NEXT_PUBLIC_GOOGLE_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_GOOGLE_CLIENT_ID }}
           NEXT_PUBLIC_GOOGLE_CLIENT_SECRET: ${{ secrets.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET }}
