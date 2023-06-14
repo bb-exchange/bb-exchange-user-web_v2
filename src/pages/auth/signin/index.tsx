@@ -3,7 +3,11 @@ import Kakao from "../../../../public/assets/images/kakao_login.svg";
 import Google from "../../../../public/assets/images/google_logo.svg";
 import Apple from "../../../../public/assets/images/apple_logo.svg";
 import Image from "next/image";
-import { GOOGLE_AUTH_URL, KAKAO_AUTH_URL } from ".src/data/signin/D_authUrl";
+import {
+  APPLE_AUTH_URL,
+  GOOGLE_AUTH_URL,
+  KAKAO_AUTH_URL,
+} from ".src/data/signin/D_authUrl";
 
 const SignIn = () => {
   const googleSignIn = () => {
@@ -11,6 +15,10 @@ const SignIn = () => {
   };
   const kakaoSignIn = () => {
     window.location.assign(KAKAO_AUTH_URL);
+  };
+
+  const appleSignIn = () => {
+    window.location.assign(APPLE_AUTH_URL);
   };
 
   return (
@@ -36,7 +44,7 @@ const SignIn = () => {
         <span className={styles.or}>또는</span>
         <section className={styles.logoWrap}>
           <Google className={styles.google} onClick={googleSignIn} />
-          <Apple className={styles.apple} />
+          <Apple className={styles.apple} onClick={appleSignIn} />
         </section>
       </div>
     </div>
