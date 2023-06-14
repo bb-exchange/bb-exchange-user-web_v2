@@ -13,13 +13,10 @@ body {
   font-size: 16px;
   color: $Black1;
   line-height: 1.4;
-  overflow: hidden;
+  // overflow: hidden;
   height: 100%;
 }
-main {
-  overflow-y: scroll;
-  height: 100vh;
-}
+
 input {
   font-size: inherit;
   color: inherit;
