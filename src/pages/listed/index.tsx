@@ -5,10 +5,12 @@ import moment from "moment";
 import "moment/locale/ko";
 import PageNav from ".src/components/common/pageNav";
 import ScrollTopBtn from ".src/components/common/scrollTopBtn";
-import usePopular from ".src/hooks/posts/usePopular";
+import { useRouter } from "next/router";
+import useListed from ".src/hooks/posts/useListed";
 
 export default function Listed() {
-  const customHook = usePopular();
+  const router = useRouter();
+  const customHook = useListed();
 
   function getDiffStyle(diff: number) {
     if (diff > 0) return styles.up;
@@ -21,7 +23,7 @@ export default function Listed() {
         <section className={styles.postSec}>
           <ul className={styles.postList}>
             {customHook.dataList.map((v, i) => (
-              <li key={i}>
+              <li key={i} onClick={() => router.push(`/post/${i}`)}>
                 <div className={styles.leftArea}>
                   <div className={styles.infoCont}>
                     <div className={styles.titleBar}>

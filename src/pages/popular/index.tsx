@@ -9,8 +9,10 @@ import "moment/locale/ko";
 import usePopular from ".src/hooks/posts/usePopular";
 import PageNav from ".src/components/common/pageNav";
 import ScrollTopBtn from ".src/components/common/scrollTopBtn";
+import { useRouter } from "next/router";
 
 export default function Popular() {
+  const router = useRouter();
   const customHook = usePopular();
 
   function getDiffStyle(diff: number) {
@@ -30,7 +32,7 @@ export default function Popular() {
         <section className={styles.postSec}>
           <ul className={styles.postList}>
             {customHook.dataList.map((v, i) => (
-              <li key={i}>
+              <li key={i} onClick={() => router.push(`/post/${i}`)}>
                 <div className={styles.leftArea}>
                   <div className={styles.rankCont}>
                     <h2 className={styles.rank}>{i + 1}</h2>

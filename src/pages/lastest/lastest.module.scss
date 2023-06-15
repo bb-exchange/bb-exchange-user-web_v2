@@ -48,28 +48,28 @@
               align-items: center;
               gap: 2px;
               padding: 0 5px;
-              color: $Gray1;
               background: rgba(159, 159, 159, 0.1);
               border-radius: 34px;
-
+              
               &.up {
                 background: rgba(255, 63, 37, 0.04);
-
+                
                 p {
                   color: $Red1;
                 }
               }
-
+              
               &.dn {
                 background: rgba(37, 124, 255, 0.04);
-
+                
                 p {
                   color: $Primary1;
                 }
               }
-
+              
               p {
                 font-size: 14px;
+                color: $Gray1;
               }
             }
           }

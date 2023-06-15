@@ -6,8 +6,10 @@ import "moment/locale/ko";
 import PageNav from ".src/components/common/pageNav";
 import ScrollTopBtn from ".src/components/common/scrollTopBtn";
 import useLastest from ".src/hooks/posts/useLastest";
+import { useRouter } from "next/router";
 
 export default function Lastest() {
+  const router = useRouter();
   const customHook = useLastest();
 
   function getDiffStyle(diff: number) {
@@ -21,7 +23,7 @@ export default function Lastest() {
         <section className={styles.postSec}>
           <ul className={styles.postList}>
             {customHook.dataList.map((v, i) => (
-              <li key={i}>
+              <li key={i} onClick={() => router.push(`/post/${i}`)}>
                 <div className={styles.leftArea}>
                   <div className={styles.infoCont}>
                     <div className={styles.titleBar}>

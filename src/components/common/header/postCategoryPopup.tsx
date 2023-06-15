@@ -1,4 +1,4 @@
-import usePostCategoryQuery from ".src/hooks/post/useCategoryQuery";
+import usePostCategoryQuery from ".src/hooks/common/useCategoryQuery";
 import styles from "./postCategoryPopup.module.scss";
 
 export default function CategoryPopup() {

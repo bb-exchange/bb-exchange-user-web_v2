@@ -1,10 +1,11 @@
-import { D_latestPostList } from ".src/data/posts/D_latest";
+import { D_listedPostList } from ".src/data/posts/D_listed";
 import { useState } from "react";
 
-export default function useLastest() {
-  const [dataList, setDataList] = useState(D_latestPostList);
+export default function useListed() {
+  const [dataList, setDataList] = useState(D_listedPostList);
 
   function onClickFavBtn(e: React.MouseEvent, i: number) {
+    e.stopPropagation();
     e.stopPropagation();
 
     let _dataList = dataList;

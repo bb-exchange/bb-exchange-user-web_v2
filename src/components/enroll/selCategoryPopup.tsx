@@ -1,5 +1,5 @@
 import styles from "./selCategoryPopup.module.scss";
-import usePostCategoryQuery from ".src/hooks/post/useCategoryQuery";
+import usePostCategoryQuery from ".src/hooks/common/useCategoryQuery";
 
 interface Iprops {
   off: Function;
