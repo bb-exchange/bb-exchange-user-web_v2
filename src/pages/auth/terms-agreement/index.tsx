@@ -2,9 +2,9 @@ import styles from "./index.module.scss";
 import IconArrow from "../../../../public/assets/icons/ArrowRight.svg";
 import IconCaution from "../../../../public/assets/icons/Caution.svg";
 import { useEffect, useState } from "react";
-import ErrorMsgPopup from ".src/components/common/errorMsgPopup";
+import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
 import PopupBg from ".src/components/common/popupBg";
-import TextPopup from ".src/components/common/textPopup";
+import TextPopup from ".src/components/common/popup/textPopup";
 import {
   AGREEMENT_OF_MARKETING_ACCEPTANCE,
   AGREEMENT_OF_PAYMENT,

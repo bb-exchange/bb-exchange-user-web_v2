@@ -12,7 +12,7 @@ const Layout = ({ pageProps, children }: Iprops) => {
   return (
     <>
       {pageProps.navBar && <Navbar />}
-      {pageProps.commonLayout && <CommonHeader />}
+      {pageProps.commonLayout && <CommonHeader commonSort={pageProps.commonSort} />}
 
       <div>{children}</div>
 

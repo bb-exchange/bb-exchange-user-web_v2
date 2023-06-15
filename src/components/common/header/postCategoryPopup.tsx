@@ -15,7 +15,7 @@ export default function CategoryPopup() {
         </div>
 
         <ul className={styles.categoryList}>
-          {((categoryQuery.data as Icategories[]) || []).map((v, i) => (
+          {((categoryQuery.data as IpostCategories[]) || []).map((v, i) => (
             <li key={i}>
               <p>{v.description}</p>
             </li>

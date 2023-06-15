@@ -10,11 +10,11 @@ import CellPhoneBlue from ".assets/icons/CellPhoneBlue.svg";
 import PcBlue from ".assets/icons/PcBlue.svg";
 import PopupBg from ".src/components/common/popupBg";
 import SelCategoryPopup from ".src/components/enroll/selCategoryPopup";
-import ErrorMsgPopup from ".src/components/common/errorMsgPopup";
-import SelImgPopup from ".src/components/common/selImgPopup";
+import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
+import SelImgPopup from ".src/components/common/popup/selImgPopup";
 import RecentTagPopup from ".src/components/enroll/recentTagPopup";
 import DraftsPopup from ".src/components/enroll/draftsPopup";
-import ConfirmPopup from ".src/components/common/confirmPopup";
+import ConfirmPopup from ".src/components/common/popup/confirmPopup";
 
 export default function EnrollScreen() {
   const quillRef = React.useRef<any>(false);
@@ -55,7 +55,7 @@ export default function EnrollScreen() {
                 {useEnrollHook.selCategoryPopup && (
                   <>
                     <SelCategoryPopup
-                      setValue={(v: Icategories) =>
+                      setValue={(v: IpostCategories) =>
                         useEnrollHook.setValue("category", v)
                       }
                       off={() => useEnrollHook.setSelCategoryPopup(false)}

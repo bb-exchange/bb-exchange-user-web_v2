@@ -11,7 +11,11 @@ import { D_commonHeaderCategoryList } from ".src/data/common/header";
 import useCommonHeader from ".src/hooks/common/useCommonHeader";
 import PostCategoryPopup from "./postCategoryPopup";
 
-export default function CommonHeader() {
+interface Iprops {
+  commonSort?: "인기" | "최신" | "상장";
+}
+
+export default function CommonHeader({ commonSort }: Iprops) {
   const customHook = useCommonHeader();
 
   return (
@@ -70,12 +74,10 @@ export default function CommonHeader() {
               {D_commonHeaderCategoryList.map((v, i) => (
                 <li
                   key={i}
-                  className={
-                    v === customHook.router.query.sort ? styles.on : ""
-                  }
-                  onClick={() => customHook.router.push(`?sort=${v}`)}
+                  className={v.label === commonSort ? styles.on : ""}
+                  onClick={() => customHook.router.push(`/${v.url}`)}
                 >
-                  <p>{v}</p>
+                  <p>{v.label}</p>
                 </li>
               ))}
             </ul>

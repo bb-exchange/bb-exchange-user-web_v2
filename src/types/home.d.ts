@@ -1,3 +1,8 @@
+interface IhomeCategory {
+  url: string;
+  label: string;
+}
+
 interface IpostList {
   rankDiff?: number;
   title: string;
@@ -10,5 +15,7 @@ interface IpostList {
   percentOfChange?: number;
   amountOfChange?: number;
   point?: number;
+  likeCount?: number;
   isLike?: boolean;
+  isList?:boolean;
 }

@@ -8,7 +8,7 @@ import IconBlueCheck from "../../../../public/assets/icons/BlueCheck.svg";
 import { MouseEvent, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import PopupBg from ".src/components/common/popupBg";
-import ConfirmPopup from ".src/components/common/confirmPopup";
+import ConfirmPopup from ".src/components/common/popup/confirmPopup";
 import LocalStorage from ".src/util/localStorage";
 import { AxiosResponse } from "axios";
 interface Inputs {

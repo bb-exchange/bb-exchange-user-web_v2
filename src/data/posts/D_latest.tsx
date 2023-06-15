@@ -1,6 +1,6 @@
 const hour = 3600000;
 
-export const D_homePostList: IpostList[] = [
+export const D_latestPostList: IpostList[] = [
   {
     rankDiff: 3,
     title:
@@ -13,6 +13,7 @@ export const D_homePostList: IpostList[] = [
     percentOfChange: 50.4,
     amountOfChange: 63,
     point: 999999,
+    likeCount: 92,
   },
   {
     rankDiff: 3,
@@ -27,6 +28,7 @@ export const D_homePostList: IpostList[] = [
     percentOfChange: 50.4,
     amountOfChange: 63,
     point: 999999,
+    likeCount: 92,
   },
   {
     rankDiff: 3,
@@ -40,6 +42,7 @@ export const D_homePostList: IpostList[] = [
     percentOfChange: 50.4,
     amountOfChange: 63,
     point: 999999,
+    likeCount: 92,
   },
   {
     rankDiff: -3,
@@ -54,6 +57,7 @@ export const D_homePostList: IpostList[] = [
     percentOfChange: -50.4,
     amountOfChange: -63,
     point: 999999,
+    likeCount: 92,
   },
   {
     title:
@@ -65,20 +69,7 @@ export const D_homePostList: IpostList[] = [
     creatorNickname: "치은짱짱맨",
     createdAt: new Date(new Date().getTime() - 24 * hour),
     point: 999999,
-  },
-  {
-    rankDiff: 3,
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
-    replyCount: 12,
-    thumbnailUrl: "https://picsum.photos/200",
-    categoryImg: "https://picsum.photos/40",
-    category: "주식/투자",
-    creatorNickname: "치은짱짱맨",
-    createdAt: new Date(new Date().getTime() - 24 * hour),
-    percentOfChange: -50.4,
-    amountOfChange: -63,
-    point: 999999,
+    likeCount: 92,
   },
   {
     rankDiff: 3,
@@ -93,6 +84,7 @@ export const D_homePostList: IpostList[] = [
     percentOfChange: -50.4,
     amountOfChange: -63,
     point: 999999,
+    likeCount: 92,
   },
   {
     rankDiff: 3,
@@ -107,6 +99,7 @@ export const D_homePostList: IpostList[] = [
     percentOfChange: -50.4,
     amountOfChange: -63,
     point: 999999,
+    likeCount: 92,
   },
   {
     rankDiff: 3,
@@ -121,6 +114,7 @@ export const D_homePostList: IpostList[] = [
     percentOfChange: -50.4,
     amountOfChange: -63,
     point: 999999,
+    likeCount: 92,
   },
   {
     rankDiff: 3,
@@ -135,6 +129,7 @@ export const D_homePostList: IpostList[] = [
     percentOfChange: -50.4,
     amountOfChange: -63,
     point: 999999,
+    likeCount: 92,
   },
   {
     rankDiff: 3,
@@ -149,6 +144,7 @@ export const D_homePostList: IpostList[] = [
     percentOfChange: -50.4,
     amountOfChange: -63,
     point: 999999,
+    likeCount: 92,
   },
   {
     rankDiff: 3,
@@ -163,6 +159,7 @@ export const D_homePostList: IpostList[] = [
     percentOfChange: -50.4,
     amountOfChange: -63,
     point: 999999,
+    likeCount: 92,
   },
   {
     rankDiff: 3,
@@ -177,6 +174,7 @@ export const D_homePostList: IpostList[] = [
     percentOfChange: -50.4,
     amountOfChange: -63,
     point: 999999,
+    likeCount: 92,
   },
   {
     rankDiff: 3,
@@ -191,6 +189,7 @@ export const D_homePostList: IpostList[] = [
     percentOfChange: -50.4,
     amountOfChange: -63,
     point: 999999,
+    likeCount: 92,
   },
   {
     rankDiff: 3,
@@ -205,6 +204,7 @@ export const D_homePostList: IpostList[] = [
     percentOfChange: -50.4,
     amountOfChange: -63,
     point: 999999,
+    likeCount: 92,
   },
   {
     rankDiff: 3,
@@ -219,6 +219,7 @@ export const D_homePostList: IpostList[] = [
     percentOfChange: -50.4,
     amountOfChange: -63,
     point: 999999,
+    likeCount: 92,
   },
   {
     rankDiff: 3,
@@ -233,6 +234,7 @@ export const D_homePostList: IpostList[] = [
     percentOfChange: -50.4,
     amountOfChange: -63,
     point: 999999,
+    likeCount: 92,
   },
   {
     rankDiff: 3,
@@ -247,6 +249,24 @@ export const D_homePostList: IpostList[] = [
     percentOfChange: -50.4,
     amountOfChange: -63,
     point: 999999,
+    likeCount: 92,
+    isList: true,
+  },
+  {
+    rankDiff: 3,
+    title:
+      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    replyCount: 12,
+    thumbnailUrl: "https://picsum.photos/200",
+    categoryImg: "https://picsum.photos/40",
+    category: "주식/투자",
+    creatorNickname: "치은짱짱맨",
+    createdAt: new Date(new Date().getTime() - 24 * hour),
+    percentOfChange: 50.4,
+    amountOfChange: 63,
+    point: 999999,
+    likeCount: 92,
+    isList: true,
   },
   {
     rankDiff: 3,
@@ -261,6 +281,7 @@ export const D_homePostList: IpostList[] = [
     percentOfChange: -50.4,
     amountOfChange: -63,
     point: 999999,
+    likeCount: 92,
   },
   {
     rankDiff: 3,
@@ -275,5 +296,6 @@ export const D_homePostList: IpostList[] = [
     percentOfChange: -50.4,
     amountOfChange: -63,
     point: 999999,
+    likeCount: 92,
   },
 ];

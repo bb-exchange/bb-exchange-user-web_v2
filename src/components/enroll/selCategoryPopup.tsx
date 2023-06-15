@@ -9,7 +9,7 @@ interface Iprops {
 export default function SelCategoryPopup({ off, setValue }: Iprops) {
   const categoryQuery = usePostCategoryQuery();
 
-  function handleClickCategory(v: Icategories) {
+  function handleClickCategory(v: IpostCategories) {
     setValue(v);
     off();
   }
@@ -17,7 +17,7 @@ export default function SelCategoryPopup({ off, setValue }: Iprops) {
   return (
     <section className={styles.selCategoryPopup}>
       <ul className={styles.dataList}>
-        {((categoryQuery.data as Icategories[]) || []).map((v, i) => (
+        {((categoryQuery.data as IpostCategories[]) || []).map((v, i) => (
           <li key={i} onClick={() => handleClickCategory(v)}>
             {v.description}
           </li>

@@ -6,7 +6,7 @@ import { basicInstance } from ".src/api/instance";
 import OutlinedBtn from ".src/components/Buttons/OutlinedBtn";
 import IconCheck from "../../../../public/assets/icons/AuthCheck.svg";
 import PopupBg from ".src/components/common/popupBg";
-import ErrorMsgPopup from ".src/components/common/errorMsgPopup";
+import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
 import { useCookies } from "react-cookie";
 import { useRouter } from "next/router";
 import LocalStorage from ".src/util/localStorage";

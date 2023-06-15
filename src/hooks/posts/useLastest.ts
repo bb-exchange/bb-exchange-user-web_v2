@@ -1,8 +1,8 @@
-import { D_homePostList } from ".src/data/home/D_posts";
+import { D_latestPostList } from ".src/data/posts/D_latest";
 import { useState } from "react";
 
-export default function useHome() {
-  const [dataList, setDataList] = useState(D_homePostList);
+export default function useLastest() {
+  const [dataList, setDataList] = useState(D_latestPostList);
 
   function onClickFavBtn(e: React.MouseEvent, i: number) {
     e.preventDefault();

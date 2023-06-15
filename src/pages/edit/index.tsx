@@ -8,11 +8,11 @@ import CellPhoneBlue from ".assets/icons/CellPhoneBlue.svg";
 import PcBlue from ".assets/icons/PcBlue.svg";
 import PopupBg from ".src/components/common/popupBg";
 import SelCategoryPopup from ".src/components/enroll/selCategoryPopup";
-import ErrorMsgPopup from ".src/components/common/errorMsgPopup";
-import SelImgPopup from ".src/components/common/selImgPopup";
+import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
+import SelImgPopup from ".src/components/common/popup/selImgPopup";
 import RecentTagPopup from ".src/components/enroll/recentTagPopup";
 import DraftsPopup from ".src/components/enroll/draftsPopup";
-import ConfirmPopup from ".src/components/common/confirmPopup";
+import ConfirmPopup from ".src/components/common/popup/confirmPopup";
 import EditHeader from ".src/components/edit/editHeader";
 import useEdit from ".src/hooks/edit/useEdit";
 import { useRouter } from "next/router";
@@ -60,7 +60,7 @@ export default function EditScreen() {
                 {useEditHook.selCategoryPopup && (
                   <>
                     <SelCategoryPopup
-                      setValue={(v: Icategories) =>
+                      setValue={(v: IpostCategories) =>
                         useEditHook.setValue("category", v)
                       }
                       off={() => useEditHook.setSelCategoryPopup(false)}
