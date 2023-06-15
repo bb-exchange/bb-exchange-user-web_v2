@@ -201,6 +201,31 @@
             }
           }
 
+          .notListedCont {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+
+            .likeCountBox {
+              padding: 4px 8px;
+              color: $PrimaryBG1;
+              background: rgba(255, 63, 37, 0.04);
+              border-radius: 34px;
+
+              p {
+                font-size: 14px;
+                color: $Red1;
+              }
+            }
+
+            .notListed {
+              font-size: 20px;
+              font-weight: 700;
+              line-height: 26px;
+            }
+          }
+
           .favBtn {
             display: flex;
             align-items: center;

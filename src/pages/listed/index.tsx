@@ -1,14 +1,14 @@
-import styles from "./lastest.module.scss";
+import styles from "./listed.module.scss";
 import HeartRedO from ".assets/icons/HeartRedO.svg";
 import HeartGrey from ".assets/icons/HeartGrey.svg";
 import moment from "moment";
 import "moment/locale/ko";
 import PageNav from ".src/components/common/pageNav";
 import ScrollTopBtn from ".src/components/common/scrollTopBtn";
-import useLastest from ".src/hooks/posts/useLastest";
+import usePopular from ".src/hooks/posts/usePopular";
 
-export default function Lastest() {
-  const customHook = useLastest();
+export default function Listed() {
+  const customHook = usePopular();
 
   function getDiffStyle(diff: number) {
     if (diff > 0) return styles.up;
@@ -17,7 +17,7 @@ export default function Lastest() {
 
   return (
     <>
-      <main className={styles.lastest}>
+      <main className={styles.listed}>
         <section className={styles.postSec}>
           <ul className={styles.postList}>
             {customHook.dataList.map((v, i) => (
@@ -102,5 +102,5 @@ export default function Lastest() {
 }
 
 export function getStaticProps() {
-  return { props: { commonLayout: true, commonSort: "최신" } };
+  return { props: { commonLayout: true, commonSort: "상장" } };
 }

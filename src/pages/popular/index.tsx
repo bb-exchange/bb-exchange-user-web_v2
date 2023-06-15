@@ -74,23 +74,35 @@ export default function Popular() {
                 </div>
 
                 <article className={styles.rightArea}>
-                  <div
-                    className={`${styles.priceCont} ${getDiffStyle(
-                      v.percentOfChange || 0
-                    )}`}
-                  >
-                    <div className={styles.diffBox}>
-                      <p>
-                        {`${(v.percentOfChange || 0) > 0 ? "+" : ""}${
-                          v.percentOfChange || 0
-                        }% (${v.amountOfChange || 0})`}
-                      </p>
-                    </div>
+                  {v.point ? (
+                    <div
+                      className={`${styles.priceCont} ${getDiffStyle(
+                        v.percentOfChange || 0
+                      )}`}
+                    >
+                      <div className={styles.diffBox}>
+                        <p>
+                          {`${(v.percentOfChange || 0) > 0 ? "+" : ""}${
+                            v.percentOfChange || 0
+                          }% (${v.amountOfChange || 0})`}
+                        </p>
+                      </div>
 
-                    <h1
-                      className={styles.price}
-                    >{`${new Intl.NumberFormat().format(v.point || 0)} P`}</h1>
-                  </div>
+                      <h1
+                        className={styles.price}
+                      >{`${new Intl.NumberFormat().format(
+                        v.point || 0
+                      )} P`}</h1>
+                    </div>
+                  ) : (
+                    <div className={styles.notListedCont}>
+                      <div className={styles.likeCountBox}>
+                        <p>{`좋아요 ${v.likeCount || 0}개`}</p>
+                      </div>
+
+                      <p className={styles.notListed}>비상장</p>
+                    </div>
+                  )}
 
                   <button
                     className={styles.favBtn}
