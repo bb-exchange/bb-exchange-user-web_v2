@@ -1,5 +1,5 @@
 import styles from "./textPopup.module.scss";
-import IconX from "../../../public/assets/icons/X.svg";
+import IconX from ".assets/icons/X.svg";
 interface Iprops {
   content: {
     title: string;
