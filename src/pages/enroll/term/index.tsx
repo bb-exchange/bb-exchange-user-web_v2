@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import styles from "./termScreen.module.scss";
 import { D_termList } from ".src/data/enroll/D_term";
-import CommonHeader from ".src/components/common/commonHeader";
+import CommonHeader from ".src/components/common/header/commonHeader";
 import CommonFooter from ".src/components/common/commonFooter";
 
 export default function TermScreen() {

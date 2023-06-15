@@ -1,4 +1,4 @@
-import CommonHeader from ".src/components/common/commonHeader";
+import CommonHeader from ".src/components/common/header/commonHeader";
 import styles from "./postScreen.module.scss";
 import CommonFooter from ".src/components/common/commonFooter";
 import { useRouter } from "next/router";

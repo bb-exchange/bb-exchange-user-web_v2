@@ -1,10 +1,10 @@
 import { fetchCategory } from ".src/api/articles/category";
 import { useQuery } from "@tanstack/react-query";
 
-export default function useCategoryQuery() {
+export default function usePostCategoryQuery() {
   const { data } = useQuery(["articleCategory"], fetchCategory, {
     retry: false,
   });
 
-  return { data: data?.data.data as Icategories[] };
+  return { data: data as unknown };
 }

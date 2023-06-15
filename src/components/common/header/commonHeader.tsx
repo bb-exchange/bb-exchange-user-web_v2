@@ -8,14 +8,11 @@ import TriangleDn from ".assets/icons/TriangleDn.svg";
 import ChevronRt from ".assets/icons/ChevronRt.svg";
 import DefaultProfImg from ".assets/example/DefaultProfImg.png";
 import { D_commonHeaderCategoryList } from ".src/data/common/header";
-import { useSelector } from "react-redux";
-import { AppStore } from ".src/app/store";
-import { useRouter } from "next/router";
+import useCommonHeader from ".src/hooks/common/useCommonHeader";
+import PostCategoryPopup from "./postCategoryPopup";
 
 export default function CommonHeader() {
-  const router = useRouter();
-
-  const isSignedIn = useSelector((state: AppStore) => state.user.isSignedIn);
+  const customHook = useCommonHeader();
 
   return (
     <header className={styles.commonHeader}>
@@ -25,13 +22,17 @@ export default function CommonHeader() {
             <LogoBlue />
           </div>
 
-          <div className={`${styles.rightCont} ${isSignedIn ? "login" : ""} `}>
+          <div
+            className={`${styles.rightCont} ${
+              customHook.isSignedIn ? "login" : ""
+            } `}
+          >
             <button className={styles.writeBtn} onClick={() => {}}>
               <WriteWhite />
               <p>작성하기</p>
             </button>
 
-            {isSignedIn ? (
+            {customHook.isSignedIn ? (
               <>
                 <Shop />
 
@@ -42,7 +43,7 @@ export default function CommonHeader() {
             ) : (
               <button
                 className={styles.authBtn}
-                onClick={() => router.push("/auth/signin")}
+                onClick={() => customHook.router.push("/auth/signin")}
               >
                 <p>로그인/회원가입</p>
               </button>
@@ -52,21 +53,27 @@ export default function CommonHeader() {
 
         <article className={styles.bottomArea}>
           <div className={styles.leftCont}>
-            <button className={styles.categoryBtn} onClick={() => {}}>
-              <Hamburger />
+            <span className={styles.selBtnBox}>
+              <button className={styles.categoryBtn}>
+                <Hamburger />
 
-              <div className={styles.valueBox}>
-                <p>전체 카테고리</p>
-                <TriangleDn />
-              </div>
-            </button>
+                <div className={styles.valueBox}>
+                  <p>전체 카테고리</p>
+                  <TriangleDn />
+                </div>
+              </button>
+
+              <PostCategoryPopup />
+            </span>
 
             <ul className={styles.categoryList}>
               {D_commonHeaderCategoryList.map((v, i) => (
                 <li
                   key={i}
-                  className={v === router.query.sort ? styles.on : ""}
-                  onClick={() => router.push(`?sort=${v}`)}
+                  className={
+                    v === customHook.router.query.sort ? styles.on : ""
+                  }
+                  onClick={() => customHook.router.push(`?sort=${v}`)}
                 >
                   <p>{v}</p>
                 </li>
@@ -77,7 +84,7 @@ export default function CommonHeader() {
           <div className={styles.rightCont}>
             <div className={styles.banner}>
               <p className={styles.cont}>
-                {isSignedIn ? (
+                {customHook.isSignedIn ? (
                   <>
                     <strong className={styles.nickname}>치은짱짱맨</strong>님,
                   </>

@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import Navbar from "./Navbar";
-import CommonHeader from "../common/commonHeader";
+import CommonHeader from ".src/components/common/header/commonHeader";
 import CommonFooter from "../common/commonFooter";
 
 interface Iprops {

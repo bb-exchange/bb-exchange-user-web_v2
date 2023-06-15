@@ -85,21 +85,70 @@
         gap: 60px;
         height: 100%;
 
-        .categoryBtn {
-          display: flex;
-          align-items: center;
-          gap: 8px;
+        .selBtnBox {
+          position: relative;
 
-          .valueBox {
+          &:hover {
+            .categoryBtn {
+              background: $Primary4;
+
+              & > svg {
+                rect {
+                  fill: $Primary1;
+                }
+              }
+
+              .valueBox {
+                p {
+                  color: $Primary1;
+                }
+
+                svg {
+                  transform: rotate(180deg);
+
+                  path {
+                    fill: $Primary1;
+                  }
+                }
+              }
+            }
+
+            section {
+              display: block;
+            }
+          }
+
+          .categoryBtn {
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 8px;
+            height: 52px;
+            padding: 0 12px;
+            border-radius: 20px;
 
-            p {
-              font-size: 16px;
-              font-weight: 700;
-              color: $PrimaryBG1;
+            &,
+            * {
+              transition: all 0.4s;
             }
+
+            .valueBox {
+              display: flex;
+              align-items: center;
+              gap: 4px;
+
+              p {
+                font-size: 16px;
+                font-weight: 700;
+                color: $PrimaryBG1;
+              }
+
+              svg {
+              }
+            }
+          }
+
+          section {
+            display: none;
           }
         }
 

@@ -1,5 +1,5 @@
 import styles from "./selCategoryPopup.module.scss";
-import useCategoryQuery from ".src/hooks/articles/useCategoryQuery";
+import usePostCategoryQuery from ".src/hooks/post/useCategoryQuery";
 
 interface Iprops {
   off: Function;
@@ -7,7 +7,7 @@ interface Iprops {
 }
 
 export default function SelCategoryPopup({ off, setValue }: Iprops) {
-  const categoryQuery = useCategoryQuery();
+  const categoryQuery = usePostCategoryQuery();
 
   function handleClickCategory(v: Icategories) {
     setValue(v);
@@ -17,7 +17,7 @@ export default function SelCategoryPopup({ off, setValue }: Iprops) {
   return (
     <section className={styles.selCategoryPopup}>
       <ul className={styles.dataList}>
-        {(categoryQuery.data || []).map((v, i) => (
+        {((categoryQuery.data as Icategories[]) || []).map((v, i) => (
           <li key={i} onClick={() => handleClickCategory(v)}>
             {v.description}
           </li>
