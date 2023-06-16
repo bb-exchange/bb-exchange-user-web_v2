@@ -2,7 +2,7 @@ import CommonHeader from ".src/components/common/header/commonHeader";
 import styles from "./postScreen.module.scss";
 import CommonFooter from ".src/components/common/commonFooter";
 import DefaultProfImg from ".assets/example/DefaultProfImg.png";
-import CircleStarYellow from ".assets/icons/CircleStarYellow.svg";
+import Gold from ".assets/icons/tier/Gold.svg";
 import NewSky from ".assets/icons/NewSky.svg";
 import ChevronRt from ".assets/icons/ChevronRt.svg";
 import Dot3 from ".assets/icons/Dot3.svg";
@@ -15,6 +15,7 @@ import Message from ".assets/icons/Message.svg";
 import usePost from ".src/hooks/post/usePost";
 import moment from "moment";
 import "moment/locale/ko";
+import Reply from ".src/components/post/reply";
 
 export default function Post() {
   const useCustomHook = usePost();
@@ -64,7 +65,7 @@ export default function Post() {
               <div className={styles.utilBar}>
                 <div className={styles.leftCont}>
                   <div className={`${styles.creatorBox} ${styles.contBox}`}>
-                    <CircleStarYellow />
+                    <Gold />
 
                     <p>치은짱짱맨</p>
                   </div>
@@ -179,8 +180,12 @@ export default function Post() {
 
               <ul className={styles.replyList}>
                 {useCustomHook.replyList.map((v, i) => (
-                  <li key={i}>
-                    
+                  <li>
+                    <Reply key={i} data={v} />
+
+                    {v.nestedReply?.map((detV, detI) => (
+                      <Reply key={detI} data={detV} nested />
+                    ))}
                   </li>
                 ))}
               </ul>
@@ -196,7 +201,7 @@ export default function Post() {
 
             <div className={styles.nicknameBar}>
               <h1 className={styles.nickname}>치은짱짱맨</h1>
-              <CircleStarYellow />
+              <Gold />
             </div>
 
             <p className={styles.profMsg}>

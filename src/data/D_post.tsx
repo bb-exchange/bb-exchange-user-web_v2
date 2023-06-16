@@ -47,12 +47,13 @@ export const D_replyList: Ireply[] = [
     nickname: "wooAng",
     tier: "gold",
     text: "감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다! 감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다!",
-    like: 9999,
+    likeCount: 9999,
+    createdAt:new Date(),
   },
   {
     nickname: "wooAng",
     text: "감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다! 감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다!",
-    like: 9999,
+    likeCount: 9999,
     isLiked: true,
 
     nestedReply: [
@@ -60,7 +61,8 @@ export const D_replyList: Ireply[] = [
         nickname: "wooAng",
         tier: "silver",
         text: "@wooAng 감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다! 감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다!",
-        like: 9999,
+        likeCount: 9999,
+        createdAt:new Date(),
       },
       { isDeleted: true },
     ],
@@ -68,7 +70,8 @@ export const D_replyList: Ireply[] = [
   {
     nickname: "wooAng",
     text: "감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다! 감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다!",
-    like: 9999,
+    likeCount: 9999,
+    createdAt:new Date(),
   },
   { isDeleted: true },
 ];

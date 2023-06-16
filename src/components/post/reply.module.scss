@@ -1,0 +1,81 @@
+@import "/src/styles/variable";
+
+.replyBox {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 0;
+  border-bottom: 1px solid $Gray2;
+
+  &.nested{
+padding: 16px;
+background: $Primary4;
+  }
+
+  .deleted {
+    color: $Black2;
+  }
+
+  .replyTopBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .leftBox {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+
+      .nickname {
+        font-size: 14px;
+        font-weight: 700;
+      }
+    }
+
+    .rightBox {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .time {
+        font-size: 14px;
+        color: $Gray1;
+      }
+
+      .moreBtn {
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+
+  .contBox {
+    .reply {
+      color: $Black2;
+    }
+  }
+
+  .replyBottomBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    color: $Gray1;
+
+    .leftBox {
+      display: flex;
+      align-items: center;
+
+      .likeBox {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        svg {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+  }
+}

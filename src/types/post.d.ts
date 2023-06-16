@@ -7,8 +7,9 @@ interface Ireply {
   nickname?: string;
   tier?: "gold" | "silver";
   text?: string;
-  like?: number;
+  likeCount?: number;
   isLiked?: boolean;
   isDeleted?: boolean;
   nestedReply?: Ireply[];
+  createdAt?: Date;
 }
