@@ -6,7 +6,7 @@ interface IpostCategories {
 interface Ireply {
   nickname?: string;
   tier?: "gold" | "silver";
-  text?: string;
+  text?: JSX.Element;
   likeCount?: number;
   isLiked?: boolean;
   isDeleted?: boolean;

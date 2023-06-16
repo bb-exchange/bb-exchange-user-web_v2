@@ -46,13 +46,23 @@ export const D_replyList: Ireply[] = [
   {
     nickname: "wooAng",
     tier: "gold",
-    text: "감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다! 감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다!",
+    text: (
+      <p>
+        감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다!
+        감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다!
+      </p>
+    ),
     likeCount: 9999,
-    createdAt:new Date(),
+    createdAt: new Date(),
   },
   {
     nickname: "wooAng",
-    text: "감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다! 감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다!",
+    text: (
+      <span>
+        감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다!
+        감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다!
+      </span>
+    ),
     likeCount: 9999,
     isLiked: true,
 
@@ -60,18 +70,30 @@ export const D_replyList: Ireply[] = [
       {
         nickname: "wooAng",
         tier: "silver",
-        text: "@wooAng 감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다! 감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다!",
+        text: (
+          <span>
+            <strong>@wooAng</strong>
+            감사합니다! 이 질문이 나와서 면접에서 자신감 있게
+            대답했어요!감사합니다! 감사합니다! 이 질문이 나와서 면접에서 자신감
+            있게 대답했어요!감사합니다!
+          </span>
+        ),
         likeCount: 9999,
-        createdAt:new Date(),
+        createdAt: new Date(),
       },
       { isDeleted: true },
     ],
   },
   {
     nickname: "wooAng",
-    text: "감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다! 감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다!",
+    text: (
+      <span>
+        감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다!
+        감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다!
+      </span>
+    ),
     likeCount: 9999,
-    createdAt:new Date(),
+    createdAt: new Date(),
   },
   { isDeleted: true },
 ];

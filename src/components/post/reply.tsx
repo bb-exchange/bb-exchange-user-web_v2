@@ -12,12 +12,6 @@ interface Iprops {
 }
 
 export default function Reply({ data, nested }: Iprops) {
-  function matchText(text?: string): JSX.Element {
-    var regex = /\s@[^\s]*|^@[^\s]*/gi;
-
-    return <p>{text}</p>;
-  }
-
   return (
     <div className={`${styles.replyBox} ${nested ? styles.nested : ""}`}>
       {data.isDeleted ? (
@@ -42,12 +36,7 @@ export default function Reply({ data, nested }: Iprops) {
             </div>
           </div>
 
-          <div className={styles.contBox}>
-            <p className={styles.reply}>
-              {/* {data.text} */}
-              {matchText(data.text)}
-            </p>
-          </div>
+          <p className={styles.contBox}>{data.text}</p>
 
           <div className={styles.replyBottomBar}>
             <div className={styles.leftBox}>

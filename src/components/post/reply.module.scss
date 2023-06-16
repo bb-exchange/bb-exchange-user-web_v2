@@ -7,9 +7,9 @@
   padding: 16px 0;
   border-bottom: 1px solid $Gray2;
 
-  &.nested{
-padding: 16px;
-background: $Primary4;
+  &.nested {
+    padding: 16px;
+    background: $Primary4;
   }
 
   .deleted {
@@ -50,8 +50,10 @@ background: $Primary4;
   }
 
   .contBox {
-    .reply {
-      color: $Black2;
+    color: $Black2;
+
+    strong {
+      color: $Primary1;
     }
   }
 
