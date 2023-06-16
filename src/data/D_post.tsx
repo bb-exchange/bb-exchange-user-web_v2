@@ -41,3 +41,34 @@ export const D_otherPostList: IpostList[] = [
     point: 999999,
   },
 ];
+
+export const D_replyList: Ireply[] = [
+  {
+    nickname: "wooAng",
+    tier: "gold",
+    text: "감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다! 감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다!",
+    like: 9999,
+  },
+  {
+    nickname: "wooAng",
+    text: "감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다! 감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다!",
+    like: 9999,
+    isLiked: true,
+
+    nestedReply: [
+      {
+        nickname: "wooAng",
+        tier: "silver",
+        text: "@wooAng 감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다! 감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다!",
+        like: 9999,
+      },
+      { isDeleted: true },
+    ],
+  },
+  {
+    nickname: "wooAng",
+    text: "감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다! 감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다!",
+    like: 9999,
+  },
+  { isDeleted: true },
+];
