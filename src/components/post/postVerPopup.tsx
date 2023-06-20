@@ -21,32 +21,40 @@ export default function PostVerPopup({ off }: Iprops) {
         </button>
       </article>
 
-      <ul className={styles.verList}>
-        {customHook.verList.map((v, i) => (
-          <li
-            key={i}
-            className={`${v.now ? styles.now : ""} ${
-              v.read ? styles.read : ""
-            }`}
-          >
-            <div className={styles.topBar}>
-              <div className={styles.verBox}>
-                {v.badge === "best" && <Best />}
+      <article className={styles.contArea}>
+        <ul className={styles.verList} onScroll={customHook.onScroll}>
+          {customHook.verList.map((v, i) => (
+            <li
+              key={i}
+              className={`${v.now ? styles.now : ""} ${
+                v.read ? styles.read : ""
+              }`}
+            >
+              <div className={styles.topBar}>
+                <div className={styles.verBox}>
+                  {v.badge === "best" && <Best />}
 
-                <p className={styles.ver}>{`Ver.${v.num
-                  .toString()
-                  .padStart(2, "0")}`}</p>
+                  <p className={styles.ver}>{`Ver.${v.num
+                    .toString()
+                    .padStart(2, "0")}`}</p>
+                </div>
+
+                <p className={styles.createdAt}>
+                  {moment(v.createdAt).format("YYYY.MM.DD")}
+                </p>
               </div>
 
-              <p className={styles.createdAt}>
-                {moment(v.createdAt).format("YYYY.MM.DD")}
-              </p>
-            </div>
+              <p className={styles.title}>{v.title}</p>
+            </li>
+          ))}
+        </ul>
 
-            <p className={styles.title}>{v.title}</p>
-          </li>
-        ))}
-      </ul>
+        <div
+          ref={customHook.scrollBarRef}
+          className={styles.scrollBar}
+          style={{ top: customHook.scrollTop }}
+        />
+      </article>
     </section>
   );
 }
