@@ -96,9 +96,13 @@
             align-items: center;
             gap: 12px;
 
-            button {
-              display: flex;
-              align-items: center;
+            .btnBox {
+              position: relative;
+
+              button {
+                display: flex;
+                align-items: center;
+              }
             }
           }
         }
@@ -281,8 +285,6 @@
           }
         }
       }
-
-      
     }
   }
 

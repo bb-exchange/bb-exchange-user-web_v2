@@ -19,6 +19,7 @@ import Reply from ".src/components/post/reply";
 import PopupBg from ".src/components/common/popupBg";
 import PostVerPopup from ".src/components/post/postVerPopup";
 import PostImgPopup from ".src/components/post/postImgPopup";
+import PostMorePopup from ".src/components/post/postMorePopup";
 
 export default function Post() {
   const useCustomHook = usePost();
@@ -87,9 +88,23 @@ export default function Post() {
                     URL 복사
                   </button>
 
-                  <button className={styles.moreBtn} onClick={() => {}}>
-                    <Dot3 />
-                  </button>
+                  <div className={styles.btnBox}>
+                    <button
+                      className={styles.moreBtn}
+                      onClick={() => useCustomHook.setMorePopup(true)}
+                    >
+                      <Dot3 />
+                    </button>
+
+                    {useCustomHook.morePopup && (
+                      <>
+                        <PostMorePopup useCustomHook={useCustomHook} />
+                        <PopupBg
+                          off={() => useCustomHook.setMorePopup(false)}
+                        />
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

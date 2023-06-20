@@ -15,6 +15,8 @@ export default function usePost() {
   const [replyList, setReplyList] = useState<Ireply[]>(D_replyList);
   const [postVerPopup, setPostVerPopup] = useState<boolean>(false);
   const [imgPopup, setImgPopup] = useState<string>("");
+  const [morePopup, setMorePopup] = useState<boolean>(false);
+  const [reportPostPopup, setReportPostPopup] = useState<boolean>(false);
 
   const { data: postData } = useQuery(["post", router.query.id], fetchPost, {
     retry: false,
@@ -23,6 +25,11 @@ export default function usePost() {
   function onClickLikeBtn(int: -1 | 0 | 1) {
     if (int === like) setLike(0);
     else setLike(int);
+  }
+
+  function onClickReportPostBtn() {
+    setMorePopup(false);
+    setReportPostPopup(true);
   }
 
   return {
@@ -38,5 +45,9 @@ export default function usePost() {
     otherPostList,
     imgPopup,
     setImgPopup,
+    morePopup,
+    setMorePopup,
+    reportPostPopup,
+    onClickReportPostBtn,
   };
 }
