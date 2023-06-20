@@ -14,6 +14,7 @@ export default function usePost() {
   const [reply, setReply] = useState<string>("");
   const [replyList, setReplyList] = useState<Ireply[]>(D_replyList);
   const [postVerPopup, setPostVerPopup] = useState<boolean>(false);
+  const [imgPopup, setImgPopup] = useState<string>("");
 
   const { data: postData } = useQuery(["post", router.query.id], fetchPost, {
     retry: false,
@@ -35,5 +36,7 @@ export default function usePost() {
     setPostVerPopup,
     onClickLikeBtn,
     otherPostList,
+    imgPopup,
+    setImgPopup,
   };
 }

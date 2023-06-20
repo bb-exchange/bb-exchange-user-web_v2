@@ -18,6 +18,7 @@ import "moment/locale/ko";
 import Reply from ".src/components/post/reply";
 import PopupBg from ".src/components/common/popupBg";
 import PostVerPopup from ".src/components/post/postVerPopup";
+import PostImgPopup from ".src/components/post/postImgPopup";
 
 export default function Post() {
   const useCustomHook = usePost();
@@ -95,7 +96,11 @@ export default function Post() {
           </article>
 
           <article className={styles.contArea}>
-            <img src={"https://picsum.photos/792"} alt="" />
+            <img
+              src={"https://picsum.photos/792"}
+              alt=""
+              onClick={(e: any) => useCustomHook.setImgPopup(e.target.src)}
+            />
 
             <p>
               {`자전거로 출퇴근을 시작하면 가장 큰 문제는 피로도라 할 수 있습니다. 초반에 몸에 무리가 가지 않도록 하는 것이 중요합니다. 그래서 저는 처음에는 격일 출퇴근을 하였습니다. 일주일에 한번, 하루는 자전거를 타고 출근한 후 퇴근할 때 자전거를 놔두고 대중교통을 이용하였습니다.
@@ -315,6 +320,13 @@ export default function Post() {
         <>
           <PostVerPopup off={() => useCustomHook.setPostVerPopup(false)} />
           <PopupBg bg off={() => useCustomHook.setPostVerPopup(false)} />
+        </>
+      )}
+
+      {useCustomHook.imgPopup && (
+        <>
+          <PostImgPopup imgUrl={useCustomHook.imgPopup} />
+          <PopupBg bg off={() => useCustomHook.setImgPopup("")} />
         </>
       )}
     </>
