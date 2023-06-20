@@ -185,8 +185,8 @@ export default function Post() {
 
               <ul className={styles.replyList}>
                 {useCustomHook.replyList.map((v, i) => (
-                  <li>
-                    <Reply key={i} data={v} />
+                  <li key={i}>
+                    <Reply data={v} />
 
                     {v.nestedReply?.map((detV, detI) => (
                       <Reply key={detI} data={detV} nested />
