@@ -13,3 +13,12 @@ interface Ireply {
   nestedReply?: Ireply[];
   createdAt?: Date;
 }
+
+interface IpostVersions {
+  badge?: "best" | "new";
+  now?: boolean;
+  read?: boolean;
+  num: number;
+  createdAt: Date;
+  title: string;
+}

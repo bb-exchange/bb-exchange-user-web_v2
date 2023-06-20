@@ -1,5 +1,5 @@
 import { fetchPost } from ".src/api/post/post";
-import { D_otherPostList, D_replyList } from ".src/data/D_post";
+import { D_otherPostList, D_replyList } from ".src/data/post/D_post";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
@@ -13,6 +13,7 @@ export default function usePost() {
   const [like, setLike] = useState<1 | 0 | -1>(0);
   const [reply, setReply] = useState<string>("");
   const [replyList, setReplyList] = useState<Ireply[]>(D_replyList);
+  const [postVerPopup, setPostVerPopup] = useState<boolean>(false);
 
   const { data: postData } = useQuery(["post", router.query.id], fetchPost, {
     retry: false,
@@ -30,6 +31,8 @@ export default function usePost() {
     reply,
     setReply,
     replyList,
+    postVerPopup,
+    setPostVerPopup,
     onClickLikeBtn,
     otherPostList,
   };

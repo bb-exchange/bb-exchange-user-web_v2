@@ -16,6 +16,8 @@ import usePost from ".src/hooks/post/usePost";
 import moment from "moment";
 import "moment/locale/ko";
 import Reply from ".src/components/post/reply";
+import PopupBg from ".src/components/common/popupBg";
+import PostVerPopup from ".src/components/post/postVerPopup";
 
 export default function Post() {
   const useCustomHook = usePost();
@@ -49,7 +51,10 @@ export default function Post() {
               </div>
 
               <div className={styles.rightCont}>
-                <button className={styles.otherVerBtn} onClick={() => {}}>
+                <button
+                  className={styles.otherVerBtn}
+                  onClick={() => useCustomHook.setPostVerPopup(true)}
+                >
                   <p>다른버전 보러가기</p>
 
                   <ChevronRt />
@@ -305,6 +310,13 @@ export default function Post() {
       </main>
 
       <CommonFooter />
+
+      {useCustomHook.postVerPopup && (
+        <>
+          <PostVerPopup off={() => useCustomHook.setPostVerPopup(false)} />
+          <PopupBg bg off={() => useCustomHook.setPostVerPopup(false)} />
+        </>
+      )}
     </>
   );
 }
