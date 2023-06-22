@@ -22,3 +22,8 @@ interface IpostVersions {
   createdAt: Date;
   title: string;
 }
+
+interface IpostReport {
+  category: string;
+  detail: string;
+}

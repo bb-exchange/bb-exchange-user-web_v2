@@ -49,5 +49,6 @@ export default function usePost() {
     setMorePopup,
     reportPostPopup,
     onClickReportPostBtn,
+    setReportPostPopup,
   };
 }
