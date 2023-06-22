@@ -70,6 +70,46 @@
           align-items: center;
           gap: 24px;
         }
+
+        .imgWrap {
+          display: flex;
+          align-items: center;
+          gap: 2px;
+          position: relative;
+          svg,
+          img {
+            cursor: pointer;
+          }
+
+          .shopImgWrap {
+            padding: 6px 10px 0;
+          }
+
+          .alertImgWrap {
+            padding: 6px 10px 0;
+            position: relative;
+            > section {
+              display: none;
+            }
+            &:hover {
+              > section {
+                display: block;
+              }
+            }
+          }
+          .profImgWrap {
+            padding: 5px 10px 0;
+
+            section {
+              display: none;
+            }
+            &:hover {
+              section {
+                display: block;
+              }
+            }
+          }
+        }
       }
     }
 

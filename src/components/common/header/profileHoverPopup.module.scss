@@ -1,0 +1,45 @@
+@import "../../../styles/colors.scss";
+.hoverArea {
+  padding: 19px 0 0;
+  top: 34px;
+  right: -16px;
+  position: absolute;
+  z-index: 10;
+  .profileHoverPopup {
+    width: 200px;
+    background-color: $White1;
+    border-radius: 20px;
+    box-shadow: 0px 1px 8px 0px #0000001a;
+    li {
+      &:last-of-type {
+        padding: 16px 24px;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+      }
+      &:first-of-type {
+        padding: 16px 24px;
+      }
+
+      &:not(:first-of-type):not(:last-of-type) {
+        cursor: pointer;
+        padding: 12px 24px;
+      }
+      &:not(:first-of-type) {
+        color: #555555;
+      }
+
+      &:not(:first-of-type):hover {
+        font-weight: 700;
+        color: $Primary1;
+        background-color: #f8faff;
+      }
+    }
+  }
+
+  .bold {
+    font-weight: 700;
+  }
+  .blue {
+    color: $Primary1;
+  }
+}

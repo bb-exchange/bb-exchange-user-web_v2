@@ -52,12 +52,11 @@
         width: 16px;
         height: 16px;
         background: url("/assets/icons/Unchecked.svg") no-repeat;
-
         margin-right: 8px;
       }
 
       .check:checked + label::before {
-        background: url("/assets/icons/Checked.svg") no-repeat;
+        background: url("/assets/icons/CheckCircleSmall.svg") no-repeat;
       }
     }
     .iconWrap {

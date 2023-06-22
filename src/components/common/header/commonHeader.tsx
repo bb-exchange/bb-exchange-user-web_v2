@@ -11,6 +11,10 @@ import { D_commonHeaderCategoryList } from ".src/data/common/header";
 import useCommonHeader from ".src/hooks/common/useCommonHeader";
 import PostCategoryPopup from "./postCategoryPopup";
 
+import Image from "next/image";
+import ProfileHoverPopup from "./profileHoverPopup";
+import AlertHoverPopup from "./alertHoverPopup";
+import AlertCount from "./alertCount";
 interface Iprops {
   commonSort?: "인기" | "최신" | "상장";
 }
@@ -37,13 +41,28 @@ export default function CommonHeader({ commonSort }: Iprops) {
             </button>
 
             {customHook.isSignedIn ? (
-              <>
-                <Shop />
+              <div className={styles.imgWrap}>
+                <div className={styles.shopImgWrap}>
+                  <Shop />
+                </div>
 
-                <Bell />
+                <div className={styles.alertImgWrap}>
+                  <Bell />
+                  <AlertCount />
+                  <AlertHoverPopup />
+                </div>
 
-                <img src={DefaultProfImg.src} alt="" />
-              </>
+                <div className={styles.profImgWrap}>
+                  <Image
+                    className={styles.profile}
+                    src={DefaultProfImg.src}
+                    alt="profile icon"
+                    width={29}
+                    height={29}
+                  />
+                  <ProfileHoverPopup />
+                </div>
+              </div>
             ) : (
               <button
                 className={styles.authBtn}

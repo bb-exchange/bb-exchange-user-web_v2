@@ -1,0 +1,38 @@
+.setting {
+  padding: 200px 0 100px;
+  background-color: #fbfbfd;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+  .contentBox {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+  .titleWrap {
+    display: flex;
+    max-width: 1194px;
+    width: 100%;
+    justify-content: start;
+    h2 {
+      font-weight: 700;
+      font-size: 32px;
+    }
+  }
+
+  .gridBoxWrap {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    div {
+      width: 587px;
+      background-color: #fff;
+      height: 215px;
+      border-radius: 12px;
+      padding: 40px;
+    }
+  }
+}
