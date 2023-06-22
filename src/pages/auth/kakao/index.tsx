@@ -35,7 +35,6 @@ const KakaoAuth = () => {
           });
           //reponse에 status가 PHONE_VERIFIED이면(비회원) => 서비스 이용동의 페이지 => 닉네임 설정 페이지
           //accessToken이 있으면(회원) => 메인페이지로 랜딩
-          console.log(response.data);
           if (response.data.status === "PHONE_VERIFIED") {
             setCookie("authKey", response.data.data.data.key, {
               path: "/",
