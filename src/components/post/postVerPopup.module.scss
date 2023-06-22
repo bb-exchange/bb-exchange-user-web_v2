@@ -82,13 +82,7 @@
     }
 
     .scrollBar {
-      width: 8px;
-      height: 142px;
-      background: $Gray2;
-      border-radius: 46px;
-      right: 28px;
-      top: 10%;
-      position: absolute;
+      @include scrollBar;
     }
   }
 }

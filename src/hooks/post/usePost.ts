@@ -17,6 +17,7 @@ export default function usePost() {
   const [imgPopup, setImgPopup] = useState<string>("");
   const [morePopup, setMorePopup] = useState<boolean>(false);
   const [reportPostPopup, setReportPostPopup] = useState<boolean>(false);
+  const [reportUserPopup, setReportUserPopup] = useState<boolean>(false);
 
   const { data: postData } = useQuery(["post", router.query.id], fetchPost, {
     retry: false,
@@ -30,6 +31,11 @@ export default function usePost() {
   function onClickReportPostBtn() {
     setMorePopup(false);
     setReportPostPopup(true);
+  }
+
+  function onClickReportUserBtn() {
+    setMorePopup(false);
+    setReportUserPopup(true);
   }
 
   return {
@@ -50,5 +56,8 @@ export default function usePost() {
     reportPostPopup,
     onClickReportPostBtn,
     setReportPostPopup,
+    reportUserPopup,
+    setReportUserPopup,
+    onClickReportUserBtn,
   };
 }

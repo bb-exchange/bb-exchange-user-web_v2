@@ -1,4 +1,4 @@
-export const D_reportCaategoryList: string[] = [
+export const D_postReportCaategoryList: string[] = [
   "토픽에 맞지 않는 글",
   "회사 혹은 단체의 기밀을 포함한 글",
   "지적재산권 침해",
@@ -18,3 +18,4 @@ export const D_reportCaategoryList: string[] = [
   "광고, 홍보성 글",
   "기타(하단 내용 작성",
 ];
+

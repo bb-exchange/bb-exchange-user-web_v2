@@ -27,3 +27,8 @@ interface IpostReport {
   category: string;
   detail: string;
 }
+
+interface IuserReport {
+  category: string;
+  detail: string;
+}

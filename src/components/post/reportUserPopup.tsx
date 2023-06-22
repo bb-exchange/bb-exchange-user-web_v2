@@ -1,16 +1,16 @@
-import UsePostReport from ".src/hooks/post/usePostReport";
-import styles from "./reportPostPopup.module.scss";
+import styles from "./reportUserPopup.module.scss";
 import X from ".assets/icons/X.svg";
 import CheckCircle from ".assets/icons/CheckCircle.svg";
 import CheckCircleBlueO from ".assets/icons/CheckCircleBlueO.svg";
 import UseScrollBar from ".src/hooks/common/useScrollBar";
+import UseUserReport from ".src/hooks/post/useUserReport";
 
 interface Iprops {
   off: Function;
 }
 
-export default function ReportPostPopup({ off }: Iprops) {
-  const useCustomHook = UsePostReport();
+export default function ReportUserPopup({ off }: Iprops) {
+  const useCustomHook = UseUserReport();
   const useScrollBar = UseScrollBar();
 
   function onSubmit() {
@@ -19,9 +19,9 @@ export default function ReportPostPopup({ off }: Iprops) {
   }
 
   return (
-    <section className={styles.reportPostPopup}>
+    <section className={styles.reportUserPopup}>
       <article className={styles.titleBar}>
-        <h1 className={styles.title}>글 신고하기</h1>
+        <h1 className={styles.title}>사용자 신고하기</h1>
 
         <button className={styles.exitBtn} onClick={() => off()}>
           <X />

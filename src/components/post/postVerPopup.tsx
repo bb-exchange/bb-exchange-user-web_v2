@@ -3,6 +3,7 @@ import styles from "./postVerPopup.module.scss";
 import X from ".assets/icons/X.svg";
 import Best from ".assets/icons/badge/Best.svg";
 import moment from "moment";
+import UseScrollBar from ".src/hooks/common/useScrollBar";
 
 interface Iprops {
   off: Function;
@@ -10,6 +11,7 @@ interface Iprops {
 
 export default function PostVerPopup({ off }: Iprops) {
   const customHook = UsePostVerPopup();
+  const useScrollBar = UseScrollBar();
 
   return (
     <section className={styles.postVerPopup}>
@@ -22,7 +24,7 @@ export default function PostVerPopup({ off }: Iprops) {
       </article>
 
       <article className={styles.contArea}>
-        <ul className={styles.verList} onScroll={customHook.onScroll}>
+        <ul className={styles.verList} onScroll={useScrollBar.onScroll}>
           {customHook.verList.map((v, i) => (
             <li
               key={i}
@@ -50,9 +52,9 @@ export default function PostVerPopup({ off }: Iprops) {
         </ul>
 
         <div
-          ref={customHook.scrollBarRef}
+          ref={useScrollBar.scrollBarRef}
           className={styles.scrollBar}
-          style={{ top: customHook.scrollTop }}
+          style={{ top: useScrollBar.scrollTop }}
         />
       </article>
     </section>

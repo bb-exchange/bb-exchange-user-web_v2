@@ -10,7 +10,7 @@ export default function PostMorePopup({ useCustomHook }: Iprops) {
       <button onClick={useCustomHook.onClickReportPostBtn}>
         <p>글 신고하기</p>
       </button>
-      <button onClick={() => {}}>
+      <button onClick={useCustomHook.onClickReportUserBtn}>
         <p>사용자 신고하기</p>
       </button>
       <button onClick={() => {}}>

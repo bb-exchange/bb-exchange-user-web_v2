@@ -21,6 +21,7 @@ import PostVerPopup from ".src/components/post/postVerPopup";
 import PostImgPopup from ".src/components/post/postImgPopup";
 import PostMorePopup from ".src/components/post/postMorePopup";
 import ReportPostPopup from ".src/components/post/reportPostPopup";
+import ReportUserPopup from ".src/components/post/reportUserPopup";
 
 export default function Post() {
   const useCustomHook = usePost();
@@ -352,6 +353,15 @@ export default function Post() {
             off={() => useCustomHook.setReportPostPopup(false)}
           />
           <PopupBg bg off={() => useCustomHook.setReportPostPopup(false)} />
+        </>
+      )}
+
+      {useCustomHook.reportUserPopup && (
+        <>
+          <ReportUserPopup
+            off={() => useCustomHook.setReportUserPopup(false)}
+          />
+          <PopupBg bg off={() => useCustomHook.setReportUserPopup(false)} />
         </>
       )}
     </>
