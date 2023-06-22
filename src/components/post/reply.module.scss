@@ -42,9 +42,13 @@
         color: $Gray1;
       }
 
-      .moreBtn {
-        display: flex;
-        align-items: center;
+      .btnBox {
+        position: relative;
+
+        .moreBtn {
+          display: flex;
+          align-items: center;
+        }
       }
     }
   }
