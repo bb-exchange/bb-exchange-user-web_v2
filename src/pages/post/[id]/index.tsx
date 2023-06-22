@@ -374,7 +374,7 @@ export default function Post() {
           <ConfirmPopup
             title="이 사용자의 글을 숨기시겠어요?"
             content="이미 구매한 글을 제외하고 wooAng님의 게시글을 더는 보이지 않아요."
-            confirmFunc={() => useCustomHook.setHideUserPostPopup(false)}
+            confirmFunc={useCustomHook.onSuccessHideUserPost}
             cancelFunc={() => useCustomHook.setHideUserPostPopup(false)}
           />
           <PopupBg bg off={() => useCustomHook.setHideUserPostPopup(false)} />
@@ -388,6 +388,24 @@ export default function Post() {
             confirmFunc={() => useCustomHook.setCompReportPopup(false)}
           />
           <PopupBg bg off={() => useCustomHook.setCompReportPopup(false)} />
+        </>
+      )}
+
+      {useCustomHook.compHideUserPostPopup && (
+        <>
+          <ErrorMsgPopup
+            msg={
+              <>
+                사용자 글의 숨김처리를
+                <br /> 완료하였습니다.
+              </>
+            }
+            confirmFunc={() => useCustomHook.setCompHideUserPostPopup(false)}
+          />
+          <PopupBg
+            bg
+            off={() => useCustomHook.setCompHideUserPostPopup(false)}
+          />
         </>
       )}
     </>

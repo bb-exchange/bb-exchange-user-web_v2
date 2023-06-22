@@ -101,7 +101,7 @@ export default function Reply({ data, nested }: Iprops) {
           <ConfirmPopup
             title="이 사용자의 글을 숨기시겠어요?"
             content="이미 구매한 글을 제외하고 wooAng님의 게시글을 더는 보이지 않아요."
-            confirmFunc={() => useReply.setHideUserPostPopup(false)}
+            confirmFunc={useReply.onSuccessHideUserPost}
             cancelFunc={() => useReply.setHideUserPostPopup(false)}
           />
           <PopupBg bg off={() => useReply.setHideUserPostPopup(false)} />
@@ -115,6 +115,21 @@ export default function Reply({ data, nested }: Iprops) {
             confirmFunc={() => useReply.setCompReportPopup(false)}
           />
           <PopupBg bg off={() => useReply.setCompReportPopup(false)} />
+        </>
+      )}
+
+      {useReply.compHideUserPostPopup && (
+        <>
+          <ErrorMsgPopup
+            msg={
+              <>
+                사용자 글의 숨김처리를
+                <br /> 완료하였습니다.
+              </>
+            }
+            confirmFunc={() => useReply.setCompHideUserPostPopup(false)}
+          />
+          <PopupBg bg off={() => useReply.setCompHideUserPostPopup(false)} />
         </>
       )}
     </>
