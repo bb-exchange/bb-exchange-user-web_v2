@@ -82,5 +82,6 @@ export default function usePost() {
     setHideUserPostPopup,
     onClickHideUserPostBtn,
     compReportPopup,
+    setCompReportPopup,
   };
 }

@@ -385,9 +385,9 @@ export default function Post() {
         <>
           <ErrorMsgPopup
             msg="신고가 접수되었습니다."
-            confirmFunc={() => useCustomHook.setHideUserPostPopup(false)}
+            confirmFunc={() => useCustomHook.setCompReportPopup(false)}
           />
-          <PopupBg bg off={() => useCustomHook.setHideUserPostPopup(false)} />
+          <PopupBg bg off={() => useCustomHook.setCompReportPopup(false)} />
         </>
       )}
     </>
