@@ -7,15 +7,16 @@ import UseUserReport from ".src/hooks/post/useUserReport";
 
 interface Iprops {
   off: Function;
+  confirmFunc: Function;
 }
 
-export default function ReportUserPopup({ off }: Iprops) {
+export default function ReportUserPopup({ off, confirmFunc }: Iprops) {
   const useCustomHook = UseUserReport();
   const useScrollBar = UseScrollBar();
 
   function onSubmit() {
     useCustomHook.onSubmit();
-    off();
+    confirmFunc();
   }
 
   return (

@@ -18,6 +18,8 @@ export default function usePost() {
   const [morePopup, setMorePopup] = useState<boolean>(false);
   const [reportPostPopup, setReportPostPopup] = useState<boolean>(false);
   const [reportUserPopup, setReportUserPopup] = useState<boolean>(false);
+  const [hideUserPostPopup, setHideUserPostPopup] = useState<boolean>(false);
+  const [compReportPopup, setCompReportPopup] = useState<boolean>(false);
 
   const { data: postData } = useQuery(["post", router.query.id], fetchPost, {
     retry: false,
@@ -33,9 +35,24 @@ export default function usePost() {
     setReportPostPopup(true);
   }
 
+  function onSuccessReportPost() {
+    setReportPostPopup(false);
+    setCompReportPopup(true);
+  }
+
   function onClickReportUserBtn() {
     setMorePopup(false);
     setReportUserPopup(true);
+  }
+
+  function onSuccessReportUser() {
+    setReportUserPopup(false);
+    setCompReportPopup(true);
+  }
+
+  function onClickHideUserPostBtn() {
+    setMorePopup(false);
+    setHideUserPostPopup(true);
   }
 
   return {
@@ -55,9 +72,15 @@ export default function usePost() {
     setMorePopup,
     reportPostPopup,
     onClickReportPostBtn,
+    onSuccessReportPost,
     setReportPostPopup,
     reportUserPopup,
     setReportUserPopup,
     onClickReportUserBtn,
+    onSuccessReportUser,
+    hideUserPostPopup,
+    setHideUserPostPopup,
+    onClickHideUserPostBtn,
+    compReportPopup,
   };
 }

@@ -22,6 +22,8 @@ import PostImgPopup from ".src/components/post/postImgPopup";
 import PostMorePopup from ".src/components/post/postMorePopup";
 import ReportPostPopup from ".src/components/post/reportPostPopup";
 import ReportUserPopup from ".src/components/post/reportUserPopup";
+import ConfirmPopup from ".src/components/common/popup/confirmPopup";
+import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
 
 export default function Post() {
   const useCustomHook = usePost();
@@ -351,6 +353,7 @@ export default function Post() {
         <>
           <ReportPostPopup
             off={() => useCustomHook.setReportPostPopup(false)}
+            confirmFunc={useCustomHook.onSuccessReportPost}
           />
           <PopupBg bg off={() => useCustomHook.setReportPostPopup(false)} />
         </>
@@ -360,8 +363,31 @@ export default function Post() {
         <>
           <ReportUserPopup
             off={() => useCustomHook.setReportUserPopup(false)}
+            confirmFunc={useCustomHook.onSuccessReportUser}
           />
           <PopupBg bg off={() => useCustomHook.setReportUserPopup(false)} />
+        </>
+      )}
+
+      {useCustomHook.hideUserPostPopup && (
+        <>
+          <ConfirmPopup
+            title="이 사용자의 글을 숨기시겠어요?"
+            content="이미 구매한 글을 제외하고 wooAng님의 게시글을 더는 보이지 않아요."
+            confirmFunc={() => useCustomHook.setHideUserPostPopup(false)}
+            cancelFunc={() => useCustomHook.setHideUserPostPopup(false)}
+          />
+          <PopupBg bg off={() => useCustomHook.setHideUserPostPopup(false)} />
+        </>
+      )}
+
+      {useCustomHook.compReportPopup && (
+        <>
+          <ErrorMsgPopup
+            msg="신고가 접수되었습니다."
+            confirmFunc={() => useCustomHook.setHideUserPostPopup(false)}
+          />
+          <PopupBg bg off={() => useCustomHook.setHideUserPostPopup(false)} />
         </>
       )}
     </>

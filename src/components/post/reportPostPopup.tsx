@@ -7,6 +7,7 @@ import UseScrollBar from ".src/hooks/common/useScrollBar";
 
 interface Iprops {
   off: Function;
+  confirmFunc: Function;
 }
 
 export default function ReportPostPopup({ off }: Iprops) {
