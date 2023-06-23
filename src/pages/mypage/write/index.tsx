@@ -8,6 +8,7 @@ import BtnSqrChkOn from ".assets/icons/BtnSqrChkOn.svg";
 import Swap from ".assets/icons/Swap.svg";
 import PageNav from ".src/components/common/pageNav";
 import WritePost from ".src/components/mypage/write/writePost";
+import ScrollTopBtn from ".src/components/common/scrollTopBtn";
 
 export default function MypageWrite() {
   const useMypageWrite = UseMyPageWrite();
@@ -69,6 +70,8 @@ export default function MypageWrite() {
           <PageNav />
         </section>
       </main>
+
+      <ScrollTopBtn />
 
       <CommonFooter />
     </>

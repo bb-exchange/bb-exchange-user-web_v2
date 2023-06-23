@@ -40,6 +40,19 @@ interface mypageReadPosts {
   percentOfChange?: number;
   amountOfChange?: number;
   price?: number;
-  state?: postState;
   like?: boolean;
+}
+
+interface mypageLikePosts {
+  title: string;
+  replyCount?: number;
+  category: string;
+  creatorNickname: string;
+  createdAt: Date;
+  thumbnailUrl?: string;
+  likeCount?: number;
+  percentOfChange?: number;
+  amountOfChange?: number;
+  price?: number;
+  sel?: boolean;
 }

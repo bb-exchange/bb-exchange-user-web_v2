@@ -6,6 +6,7 @@ import Swap from ".assets/icons/Swap.svg";
 import PageNav from ".src/components/common/pageNav";
 import UseMyPageRead from ".src/hooks/mypage/useMypageRead";
 import ReadPost from ".src/components/mypage/read/readPost";
+import ScrollTopBtn from ".src/components/common/scrollTopBtn";
 
 export default function MypageWrite() {
   const useMypageRead = UseMyPageRead();
@@ -67,13 +68,20 @@ export default function MypageWrite() {
 
           <ul className={styles.postList}>
             {useMypageRead.postList.map((v, i) => (
-              <ReadPost data={v} index={i} useMypageRead={useMypageRead} key={i} />
+              <ReadPost
+                data={v}
+                index={i}
+                useMypageRead={useMypageRead}
+                key={i}
+              />
             ))}
           </ul>
 
           <PageNav />
         </section>
       </main>
+
+      <ScrollTopBtn />
 
       <CommonFooter />
     </>

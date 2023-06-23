@@ -1,29 +1,11 @@
 import { hourToSec } from ".src/util/dateTIme";
 
-export const D_filterCategoryList: string[] = ["전체", "유료", "무료"];
-
-export const D_mypageReadPostList: mypageReadPosts[] = [
+export const D_mypageLikePostList: mypageReadPosts[] = [
   {
     title:
       "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     fee: true,
-    category: "주식/투자",
-    creatorNickname: "치은짱짱맨",
-    createdAt: new Date(new Date().getTime() - 13 * hourToSec),
-    thumbnailUrl: "https://picsum.photos/78",
-    likeCount: 92,
-    paid: 240,
-    saved: 18000,
-    percentOfChange: 50.4,
-    amountOfChange: 63,
-    price: 302,
-    like: true,
-  },
-  {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
-    replyCount: 12,
     category: "주식/투자",
     creatorNickname: "치은짱짱맨",
     createdAt: new Date(new Date().getTime() - 13 * hourToSec),
@@ -54,7 +36,6 @@ export const D_mypageReadPostList: mypageReadPosts[] = [
     title:
       "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
-    fee: true,
     category: "주식/투자",
     creatorNickname: "치은짱짱맨",
     createdAt: new Date(new Date().getTime() - 13 * hourToSec),
@@ -62,10 +43,9 @@ export const D_mypageReadPostList: mypageReadPosts[] = [
     likeCount: 92,
     paid: 240,
     saved: 18000,
-    percentOfChange: 50.4,
-    amountOfChange: 63,
+    percentOfChange: -50.4,
+    amountOfChange: -63,
     price: 302,
-    like: true,
   },
   {
     title:
@@ -93,6 +73,24 @@ export const D_mypageReadPostList: mypageReadPosts[] = [
     likeCount: 92,
     paid: 240,
     saved: 18000,
+    percentOfChange: -50.4,
+    amountOfChange: -63,
+    price: 302,
+  },
+  {
+    title:
+      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    replyCount: 12,
+    category: "주식/투자",
+    creatorNickname: "치은짱짱맨",
+    createdAt: new Date(new Date().getTime() - 13 * hourToSec),
+    thumbnailUrl: "https://picsum.photos/78",
+    likeCount: 92,
+    paid: 240,
+    saved: 18000,
+    percentOfChange: -50.4,
+    amountOfChange: -63,
+    price: 302,
   },
   {
     title:
