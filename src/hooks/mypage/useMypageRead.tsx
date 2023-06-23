@@ -3,7 +3,6 @@ import {
   D_filterCategoryList,
   D_mypageReadPostList,
 } from ".src/data/mypage/D_mypageRead";
-import { D_mypageWritePostList } from ".src/data/mypage/D_mypageWrite";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -23,6 +22,13 @@ export default function UseMyPageRead() {
     router.push(`/mypage/${url}`);
   }
 
+  function onClickLikeBtn(i: number) {
+    let _postList = postList;
+
+    _postList[i].like = !!!_postList[i].like;
+    setPostList([..._postList]);
+  }
+
   return {
     categoryList,
     category,
@@ -31,5 +37,6 @@ export default function UseMyPageRead() {
     setFilterCategory,
     onClickCategoryBtn,
     postList,
+    onClickLikeBtn,
   };
 }

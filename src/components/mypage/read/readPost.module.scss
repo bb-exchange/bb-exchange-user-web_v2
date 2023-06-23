@@ -7,26 +7,6 @@
   padding: 12px 0;
   cursor: pointer;
 
-  &:hover {
-    .leftCont {
-      .infoCont {
-        .thumbBox {
-          .titleBar {
-            border-bottom: 1px solid $Primary1;
-
-            .title {
-              color: $Primary1;
-
-              &.read {
-                color: $Primary1;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
   .leftCont {
     flex: 1;
     display: flex;
@@ -76,6 +56,29 @@
           font-size: 14px;
           color: $Gray1;
 
+          .feeBox {
+            padding: 4px 8px;
+            margin: 0 8px 0 0;
+            border: 1px solid $Gray2;
+            border-radius: 8px;
+
+            &.on {
+              border: none;
+              background: $Primary4;
+
+              p {
+                color: $Primary1;
+              }
+            }
+
+            p {
+              font-size: 13px;
+              font-weight: 600;
+              line-height: 20px;
+              color: $Gray1;
+            }
+          }
+
           .category {
             color: $Black2;
           }
@@ -85,7 +88,7 @@
       .amountList {
         display: flex;
         align-items: center;
-        gap: 28px;
+        gap: 8px;
         width: 524px;
         height: 34px;
         border-radius: 5px;
@@ -95,6 +98,10 @@
           display: flex;
           font-size: 14px;
           color: $Black2;
+
+          .bold {
+            font-weight: 700;
+          }
         }
       }
     }

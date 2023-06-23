@@ -1,15 +1,16 @@
-import UseWritePost from ".src/hooks/mypage/useWritePost";
 import styles from "./readPost.module.scss";
 import moment from "moment";
 import "moment/locale/ko";
+import HeartGrey from ".assets/icons/HeartGrey.svg";
+import HeartRedO from ".assets/icons/HeartRedO.svg";
 
 interface Iprops {
-  data: mypageWritePosts;
+  data: mypageReadPosts;
+  index: number;
+  useMypageRead: any;
 }
 
-export default function ReadPost({ data }: Iprops) {
-  const useWritePost = UseWritePost();
-
+export default function ReadPost({ data, index, useMypageRead }: Iprops) {
   function getDiffStyle(diff: number) {
     if (diff > 0) return styles.up;
     else if (diff < 0) return styles.dn;
@@ -21,9 +22,7 @@ export default function ReadPost({ data }: Iprops) {
         <div className={styles.infoCont}>
           <div className={styles.thumbBox}>
             <div className={styles.titleBar}>
-              <p className={`${styles.title} ${data.read ? styles.read : ""}`}>
-                {data.title}
-              </p>
+              <p className={styles.title}>{data.title}</p>
 
               <p className={styles.replyCount}>{`[${
                 (data.replyCount || 0) > 99 ? `+99` : data.replyCount || 0
@@ -31,6 +30,15 @@ export default function ReadPost({ data }: Iprops) {
             </div>
 
             <div className={styles.infoBar}>
+              {data.fee ? (
+                <span className={`${styles.feeBox} ${styles.on}`}>
+                  <p>유료</p>
+                </span>
+              ) : (
+                <span className={styles.feeBox}>
+                  <p>무료</p>
+                </span>
+              )}
               <p className={styles.category}>{data.category}</p>・
               <p className={styles.createdAt}>
                 {moment(data.createdAt).fromNow()}
@@ -40,16 +48,15 @@ export default function ReadPost({ data }: Iprops) {
 
           <ul className={styles.amountList}>
             <li>
-              <p className={styles.key}>좋아요</p>&nbsp;
-              <p className={styles.value}>
-                {(data.likeCount || 0) > 999999 ? "999,999+" : data.likeCount}
+              <p className={styles.key}>내가 구매한 가격</p>&nbsp;
+              <p className={`${styles.value} ${styles.bold}`}>
+                {data.paid || 0}P
               </p>
             </li>
 
             <li>
-              <p className={styles.key}>총수익</p>&nbsp;
               <p className={styles.value}>
-                {`${Intl.NumberFormat().format(data.revenue || 0)}원`}
+                {`(${Intl.NumberFormat().format(data.saved || 0)}P 절약)`}
               </p>
             </li>
           </ul>
@@ -89,7 +96,12 @@ export default function ReadPost({ data }: Iprops) {
           </div>
         )}
 
-        {useWritePost.getStateComp({ styles, state: data.state })}
+        <button
+          className={styles.likeBtn}
+          onClick={() => useMypageRead.onClickLikeBtn(index)}
+        >
+          {data.like ? <HeartRedO /> : <HeartGrey />}
+        </button>
       </div>
     </li>
   );

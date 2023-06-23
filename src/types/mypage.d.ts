@@ -34,6 +34,7 @@ interface mypageReadPosts {
   creatorNickname: string;
   createdAt: Date;
   thumbnailUrl?: string;
+  likeCount?: number;
   paid?: number;
   saved?: number;
   percentOfChange?: number;

@@ -4,7 +4,6 @@ import CommonFooter from ".src/components/common/commonFooter";
 import ProfSec from ".src/components/mypage/profSec";
 import Swap from ".assets/icons/Swap.svg";
 import PageNav from ".src/components/common/pageNav";
-import WritePost from ".src/components/mypage/write/writePost";
 import UseMyPageRead from ".src/hooks/mypage/useMypageRead";
 import ReadPost from ".src/components/mypage/read/readPost";
 
@@ -68,7 +67,7 @@ export default function MypageWrite() {
 
           <ul className={styles.postList}>
             {useMypageRead.postList.map((v, i) => (
-              <ReadPost data={v} key={i} />
+              <ReadPost data={v} index={i} useMypageRead={useMypageRead} key={i} />
             ))}
           </ul>
 
