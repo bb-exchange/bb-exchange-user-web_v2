@@ -3,6 +3,7 @@ import styles from "./draftsPopup.module.scss";
 import X from ".assets/icons/X.svg";
 import CircleBangBlue from ".assets/bg/enroll/CircleBangBlue.svg";
 import { formatDate } from ".src/util/dateTIme";
+import moment from "moment";
 
 interface Iprops {
   useEnrollHook: any;
@@ -27,7 +28,9 @@ export default function DraftsPopup({ useEnrollHook, off }: Iprops) {
         <ul className={styles.draftsList}>
           {D_draftsList.map((v, i) => (
             <li key={i} onClick={() => useEnrollHook.setLoadDraftPopup(true)}>
-              <p className={styles.createdAt}>{formatDate(v.createdAt)}</p>
+              <p className={styles.createdAt}>
+                {moment(v.createdAt).format("YYYY.MM.DD")}
+              </p>
 
               <div className={styles.contBox}>
                 <p className={styles.title}>{v.title}</p>

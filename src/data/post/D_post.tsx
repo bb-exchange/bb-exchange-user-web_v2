@@ -1,4 +1,4 @@
-const hour = 3600000;
+import { hourToSec } from ".src/util/dateTIme";
 
 export const D_otherPostList: IpostList[] = [
   {
@@ -9,7 +9,7 @@ export const D_otherPostList: IpostList[] = [
     categoryImg: "https://picsum.photos/40",
     category: "카테고리명",
     creatorNickname: "치은짱짱맨",
-    createdAt: new Date(new Date().getTime() - 5 * hour),
+    createdAt: new Date(new Date().getTime() - 5 * hourToSec),
     percentOfChange: 50.4,
     amountOfChange: 63,
     point: 302,
@@ -22,7 +22,7 @@ export const D_otherPostList: IpostList[] = [
     categoryImg: "https://picsum.photos/40",
     category: "카테고리명",
     creatorNickname: "치은짱짱맨",
-    createdAt: new Date(new Date().getTime() - 5 * hour),
+    createdAt: new Date(new Date().getTime() - 5 * hourToSec),
     percentOfChange: -0.4,
     amountOfChange: 63,
     point: 999999,
@@ -35,7 +35,7 @@ export const D_otherPostList: IpostList[] = [
     categoryImg: "https://picsum.photos/40",
     category: "카테고리명",
     creatorNickname: "치은짱짱맨",
-    createdAt: new Date(new Date().getTime() - 5 * hour),
+    createdAt: new Date(new Date().getTime() - 5 * hourToSec),
     percentOfChange: 50.4,
     amountOfChange: 63,
     point: 999999,
