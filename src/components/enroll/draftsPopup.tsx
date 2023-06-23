@@ -2,7 +2,6 @@ import { D_draftsList } from ".src/data/enroll/D_enroll";
 import styles from "./draftsPopup.module.scss";
 import X from ".assets/icons/X.svg";
 import CircleBangBlue from ".assets/bg/enroll/CircleBangBlue.svg";
-import { formatDate } from ".src/util/dateTIme";
 import moment from "moment";
 
 interface Iprops {
