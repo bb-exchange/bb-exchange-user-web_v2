@@ -1,6 +1,6 @@
 @import "/src/styles/variable";
 
-.mypageWrite {
+.mypageRead {
   max-width: 1200px;
   padding: 168px 0 48px;
   margin: 0 auto;
@@ -8,7 +8,7 @@
   .postSec {
     display: flex;
     flex-direction: column;
-    gap: 28px;
+    gap: 16px;
     margin: 40px 0 0;
 
     .toolBar {
@@ -45,6 +45,7 @@
           }
         }
       }
+
       .rightCont {
         display: flex;
         align-items: center;
@@ -54,6 +55,40 @@
           display: flex;
           align-items: center;
           gap: 8px;
+        }
+      }
+    }
+
+    .filterArea {
+      .categoryList {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        li {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 28px;
+          padding: 0 12px;
+          border-radius: 12px;
+          border: 1px solid $Gray3;
+          background: $White1;
+          cursor: pointer;
+
+          &.on {
+            background: $Primary1;
+
+            p {
+              font-weight: 700px;
+              color: $White1;
+            }
+          }
+
+          p {
+            font-size: 12px;
+            color: $Black2;
+          }
         }
       }
     }

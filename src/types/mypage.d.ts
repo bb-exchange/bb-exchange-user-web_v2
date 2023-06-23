@@ -25,3 +25,20 @@ interface IwriteGetStateComp {
   styles: { readonly [key: string]: string };
   state?: postState;
 }
+
+interface mypageReadPosts {
+  title: string;
+  replyCount?: number;
+  fee?: boolean;
+  category: string;
+  creatorNickname: string;
+  createdAt: Date;
+  thumbnailUrl?: string;
+  paid?: number;
+  saved?: number;
+  percentOfChange?: number;
+  amountOfChange?: number;
+  price?: number;
+  state?: postState;
+  like?: boolean;
+}

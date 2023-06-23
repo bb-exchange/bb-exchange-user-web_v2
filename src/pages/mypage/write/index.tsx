@@ -1,5 +1,5 @@
 import CommonHeader from ".src/components/common/header/commonHeader";
-import styles from "./mypage.module.scss";
+import styles from "./write.module.scss";
 import CommonFooter from ".src/components/common/commonFooter";
 import ProfSec from ".src/components/mypage/profSec";
 import UseMyPageWrite from ".src/hooks/mypage/useMypageWrite";
@@ -9,7 +9,7 @@ import Swap from ".assets/icons/Swap.svg";
 import PageNav from ".src/components/common/pageNav";
 import WritePost from ".src/components/mypage/write/writePost";
 
-export default function Mypage() {
+export default function MypageWrite() {
   const useMypageWrite = UseMyPageWrite();
 
   return (
