@@ -1,0 +1,165 @@
+@import "/src/styles/variable";
+
+.editProf {
+  padding: 188px 0 80px;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 868px;
+    margin: 0 auto;
+
+    .profImgBtn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 120px;
+      height: 120px;
+      overflow: hidden;
+      border: 1px solid $Gray3;
+      border-radius: 50%;
+
+      .profImg {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .statusBar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 12px 0 0;
+      font-size: 12px;
+      line-height: 18px;
+
+      .validBox {
+        display: flex;
+        align-items: center;
+
+        &.err {
+          p {
+            color: $Red1;
+          }
+        }
+
+        p {
+          color: $Primary1;
+        }
+      }
+
+      .length {
+        color: $Gray1;
+
+        .current {
+          color: $Black2;
+        }
+      }
+    }
+
+    .nicknameCont {
+      width: 100%;
+      margin: 46px 0 0;
+
+      .inputBar {
+        display: flex;
+        align-items: center;
+        height: 60px;
+        padding: 0 32px;
+        color: $Black2;
+        border: 1px solid $Gray2;
+        border-radius: 13px;
+
+        .key {
+          width: 120px;
+          font-weight: 700;
+        }
+
+        input {
+          flex: 1;
+        }
+      }
+
+      .tipBox {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 18px 32px;
+        margin: 16px 0 0;
+        border-radius: 13px;
+        color: $Primary1;
+        background: $Primary4;
+
+        .key {
+          width: 120px;
+          font-weight: 700;
+        }
+
+        .tipList {
+          list-style: inside;
+        }
+      }
+    }
+
+    .msgCont {
+      width: 100%;
+
+      .inputBox {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        height: 180px;
+        padding: 18px 32px;
+        margin: 64px 0 0;
+        color: $Black2;
+        border-radius: 13px;
+        border: 1px solid $Gray2;
+
+        .key {
+          width: 120px;
+          font-weight: 700;
+        }
+
+        textarea {
+          flex: 1;
+          resize: none;
+          height: 100%;
+        }
+      }
+    }
+  }
+}
+
+.submitFooter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  border-top: 1px solid $Gray3;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  z-index: 30;
+
+  .innerSec {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    max-width: 1200px;
+
+    .submitBtn {
+      width: 140px;
+      height: 40px;
+      background: $Primary1;
+      border-radius: 8px;
+
+      p {
+        font-weight: 700;
+        color: $White1;
+      }
+    }
+  }
+}
