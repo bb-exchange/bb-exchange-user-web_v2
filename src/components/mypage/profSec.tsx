@@ -1,8 +1,11 @@
 import styles from "./profSec.module.scss";
 import Gold from ".assets/icons/tier/Gold.svg";
 import ChevronRtBlue from ".assets/icons/ChevronRtBlue.svg";
+import { useRouter } from "next/router";
 
 export default function ProfSec() {
+  const router = useRouter();
+
   return (
     <section className={styles.profSec}>
       <article className={styles.leftArea}>
@@ -39,7 +42,10 @@ export default function ProfSec() {
 
               <p className={styles.value}>{Intl.NumberFormat().format(0)}</p>
 
-              <button className={styles.detailBtn} onClick={() => {}}>
+              <button
+                className={styles.detailBtn}
+                onClick={() => router.push("/mypage/asset")}
+              >
                 <ChevronRtBlue />
               </button>
             </li>
@@ -48,7 +54,10 @@ export default function ProfSec() {
       </article>
 
       <article className={styles.rightArea}>
-        <button className={styles.profBtn} onClick={() => {}}>
+        <button
+          className={styles.profBtn}
+          onClick={() => router.push("/mypage/edit_prof")}
+        >
           <p>프로필 수정</p>
         </button>
       </article>

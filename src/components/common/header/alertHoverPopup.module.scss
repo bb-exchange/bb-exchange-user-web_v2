@@ -16,7 +16,7 @@
       &.title {
         font-weight: 700;
         font-size: 18px;
-        border-bottom: 1px solid #f3f3f3;
+        border-bottom: 1px solid $Gray2;
       }
       &.allRead {
         font-size: 16px;
@@ -34,7 +34,7 @@
       height: 760px;
 
       .sectionLine {
-        border-bottom: 1px solid #f3f3f3;
+        border-bottom: 1px solid $Gray2;
         > span {
           padding: 8px 24px;
           display: block;
