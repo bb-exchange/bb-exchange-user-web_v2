@@ -243,6 +243,12 @@
               color: $Primary1;
             }
           }
+
+          svg {
+            path {
+              fill: $Gray1;
+            }
+          }
         }
       }
     }
