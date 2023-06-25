@@ -15,11 +15,13 @@ import Image from "next/image";
 import ProfileHoverPopup from "./profileHoverPopup";
 import AlertHoverPopup from "./alertHoverPopup";
 import AlertCount from "./alertCount";
+import { useRouter } from "next/router";
 interface Iprops {
   commonSort?: "인기" | "최신" | "상장";
 }
 
 export default function CommonHeader({ commonSort }: Iprops) {
+  const router = useRouter();
   const customHook = useCommonHeader();
 
   return (
@@ -27,7 +29,9 @@ export default function CommonHeader({ commonSort }: Iprops) {
       <section className={styles.innerSec}>
         <article className={styles.topArea}>
           <div className={styles.leftCont}>
-            <LogoBlue />
+            <button className={styles.logoBtn} onClick={() => router.push("/")}>
+              <LogoBlue />
+            </button>
           </div>
 
           <div
@@ -66,7 +70,7 @@ export default function CommonHeader({ commonSort }: Iprops) {
             ) : (
               <button
                 className={styles.authBtn}
-                onClick={() => customHook.router.push("/auth/signin")}
+                onClick={() => router.push("/auth/signin")}
               >
                 <p>로그인/회원가입</p>
               </button>
@@ -94,7 +98,7 @@ export default function CommonHeader({ commonSort }: Iprops) {
                 <li
                   key={i}
                   className={v.label === commonSort ? styles.on : ""}
-                  onClick={() => customHook.router.push(`/${v.url}`)}
+                  onClick={() => router.push(`/${v.url}`)}
                 >
                   <p>{v.label}</p>
                 </li>
