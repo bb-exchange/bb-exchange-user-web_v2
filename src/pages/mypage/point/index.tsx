@@ -6,8 +6,11 @@ import MypageNavAside from ".src/components/mypage/mypageNavAside";
 import PageNav from ".src/components/common/pageNav";
 import ScrollTopBtn from ".src/components/common/scrollTopBtn";
 import moment from "moment";
+import { useRouter } from "next/router";
 
 export default function Point() {
+  const router = useRouter();
+
   const useMyPoint = UseMyPoint();
 
   function getDiffStyle(diff: number) {
@@ -33,7 +36,10 @@ export default function Point() {
             </div>
 
             <div className={styles.rightBox}>
-              <button className={styles.chargeBtn} onClick={() => {}}>
+              <button
+                className={styles.chargeBtn}
+                onClick={() => router.push("/charge")}
+              >
                 충전하기
               </button>
             </div>

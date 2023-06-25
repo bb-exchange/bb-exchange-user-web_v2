@@ -4,6 +4,7 @@ import { useState } from "react";
 
 export default function UseMyPoint() {
   const categoryList: string[] = D_mypagePointCategoryList;
+
   const [category, setCategory] = useState<string>(
     D_mypagePointCategoryList[0]
   );
