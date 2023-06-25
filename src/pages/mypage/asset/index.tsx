@@ -8,9 +8,13 @@ import ScrollTopBtn from ".src/components/common/scrollTopBtn";
 import TermIncome from ".src/components/mypage/asset/termIncome";
 import ContentIncome from ".src/components/mypage/asset/contentIncome";
 import MyWithdraw from ".src/components/mypage/asset/myWithdraw";
+import UseWithdrawPopup from ".src/hooks/mypage/asset/useWithdrawPopup";
+import PopupBg from ".src/components/common/popupBg";
+import WithdrawPopup from ".src/components/mypage/asset/withdrawPopup";
 
 export default function Asset() {
   const useMypageAsset = UseMypageAsset();
+  const useWithdrawPopup = UseWithdrawPopup();
 
   return (
     <>
@@ -46,7 +50,10 @@ export default function Asset() {
                     포인트로 전환
                   </button>
 
-                  <button className={styles.withdrawBtn} onClick={() => {}}>
+                  <button
+                    className={styles.withdrawBtn}
+                    onClick={() => useWithdrawPopup.setWithdrawPopup(true)}
+                  >
                     출금신청
                   </button>
                 </div>
@@ -82,6 +89,13 @@ export default function Asset() {
       <ScrollTopBtn />
 
       <CommonFooter />
+
+      {useWithdrawPopup.withdrawPopup && (
+        <>
+          <WithdrawPopup useWithdrawPopup={useWithdrawPopup} />
+          <PopupBg bg off={() => useWithdrawPopup.setWithdrawPopup(false)} />
+        </>
+      )}
     </>
   );
 }

@@ -16,3 +16,11 @@ interface myWithdraws {
   status: "출금 진행중" | "출금 완료";
   amount: number;
 }
+
+interface IorderWithdraw {
+  name: string;
+  registNumber: number;
+  bank: string;
+  accountNumber: number;
+  amount: number;
+}
