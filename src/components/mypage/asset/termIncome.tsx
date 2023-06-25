@@ -1,5 +1,5 @@
 import styles from "./termIncome.module.scss";
-import CustomDatePicker from ".src/components/common/customDatePickers";
+import CustomDatePicker from ".src/components/common/customDatePicker";
 import moment from "moment";
 import UseMyTermIncome from ".src/hooks/mypage/asset/useMytermIncome";
 

@@ -1,4 +1,4 @@
-import { D_mypageCategoryList } from ".src/data/mypage/D_mypage";
+import { D_mypagePostCategoryList } from ".src/data/mypage/D_mypage";
 import {
   D_filterCategoryList,
   D_mypageReadPostList,
@@ -9,7 +9,7 @@ import { useState } from "react";
 export default function UseMyPageRead() {
   const router = useRouter();
 
-  const categoryList: mypageCategory[] = D_mypageCategoryList;
+  const categoryList: mypageCategory[] = D_mypagePostCategoryList;
   const category: mypageCategory = categoryList[1];
   const filterCategoryList: string[] = D_filterCategoryList;
   const [filterCategroy, setFilterCategory] = useState<string>(

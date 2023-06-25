@@ -1,4 +1,4 @@
-import { D_mypageCategoryList } from ".src/data/mypage/D_mypage";
+import { D_mypagePostCategoryList } from ".src/data/mypage/D_mypage";
 import { D_mypageLikePostList } from ".src/data/mypage/D_mypageLike";
 import { D_filterCategoryList } from ".src/data/mypage/D_mypageRead";
 import { useRouter } from "next/router";
@@ -7,7 +7,7 @@ import { useState } from "react";
 export default function UseMyPageLike() {
   const router = useRouter();
 
-  const categoryList: mypageCategory[] = D_mypageCategoryList;
+  const categoryList: mypageCategory[] = D_mypagePostCategoryList;
   const category: mypageCategory = categoryList[2];
   const filterCategoryList: string[] = D_filterCategoryList;
   const [filterCategroy, setFilterCategory] = useState<string>(

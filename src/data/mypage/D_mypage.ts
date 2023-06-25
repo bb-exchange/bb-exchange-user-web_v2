@@ -1,4 +1,4 @@
-export const D_mypageCategoryList: mypageCategory[] = [
+export const D_mypagePostCategoryList: mypageCategory[] = [
   { url: "write", label: "작성한 글", count: 21 },
   { url: "read", label: "읽은 글", count: 21 },
   { url: "like", label: "찜한 글", count: 21 },
@@ -35,3 +35,5 @@ export const D_mypageNavList: mypageNavs[] = [
     url: "/mypage/asset",
   },
 ];
+
+export const D_mypagePointCategoryList: string[] = ["전체", "구매", "충전"];
