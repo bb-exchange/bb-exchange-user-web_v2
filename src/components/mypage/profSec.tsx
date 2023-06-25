@@ -30,7 +30,10 @@ export default function ProfSec() {
 
               <p className={styles.value}>{Intl.NumberFormat().format(0)}</p>
 
-              <button className={styles.detailBtn} onClick={() => {}}>
+              <button
+                className={styles.detailBtn}
+                onClick={() => router.push("/mypage/point")}
+              >
                 <ChevronRtBlue />
               </button>
             </li>

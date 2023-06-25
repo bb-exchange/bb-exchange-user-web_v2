@@ -16,6 +16,7 @@ import ProfileHoverPopup from "./profileHoverPopup";
 import AlertHoverPopup from "./alertHoverPopup";
 import AlertCount from "./alertCount";
 import { useRouter } from "next/router";
+
 interface Iprops {
   commonSort?: "인기" | "최신" | "상장";
 }
@@ -39,41 +40,56 @@ export default function CommonHeader({ commonSort }: Iprops) {
               customHook.isSignedIn ? "login" : ""
             } `}
           >
-            <button className={styles.writeBtn} onClick={() => {}}>
-              <WriteWhite />
-              <p>작성하기</p>
-            </button>
-
             {customHook.isSignedIn ? (
-              <div className={styles.imgWrap}>
-                <div className={styles.shopImgWrap}>
-                  <Shop />
-                </div>
+              <>
+                <button
+                  className={styles.writeBtn}
+                  onClick={() => router.push("/enroll")}
+                >
+                  <WriteWhite />
+                  <p>작성하기</p>
+                </button>
 
-                <div className={styles.alertImgWrap}>
-                  <Bell />
-                  <AlertCount />
-                  <AlertHoverPopup />
-                </div>
+                <div className={styles.imgWrap}>
+                  <div className={styles.shopImgWrap}>
+                    <Shop />
+                  </div>
 
-                <div className={styles.profImgWrap}>
-                  <Image
-                    className={styles.profile}
-                    src={DefaultProfImg.src}
-                    alt="profile icon"
-                    width={29}
-                    height={29}
-                  />
-                  <ProfileHoverPopup />
+                  <div className={styles.alertImgWrap}>
+                    <Bell />
+                    <AlertCount />
+                    <AlertHoverPopup />
+                  </div>
+
+                  <div className={styles.profImgWrap}>
+                    <Image
+                      className={styles.profile}
+                      src={DefaultProfImg.src}
+                      alt="profile icon"
+                      width={29}
+                      height={29}
+                    />
+                    <ProfileHoverPopup />
+                  </div>
                 </div>
-              </div>
+              </>
             ) : (
-              <button
-                className={styles.authBtn}
-                onClick={() => router.push("/auth/signin")}
-              >
-                <p>로그인/회원가입</p>
-              </button>
+              <>
+                <button
+                  className={styles.writeBtn}
+                  onClick={() => router.push("/auth/signin")}
+                >
+                  <WriteWhite />
+                  <p>작성하기</p>
+                </button>
+
+                <button
+                  className={styles.authBtn}
+                  onClick={() => router.push("/auth/signin")}
+                >
+                  <p>로그인/회원가입</p>
+                </button>
+              </>
             )}
           </div>
         </article>
