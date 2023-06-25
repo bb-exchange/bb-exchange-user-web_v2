@@ -12,7 +12,10 @@ export default function WithdrawPopup({ useWithdrawPopup }: Iprops) {
       <article className={styles.topBar}>
         <span className={styles.blank} />
         <h1 className={styles.popupTitle}>출금하기</h1>
-        <button className={styles.exitBtn} onClick={() => {}}>
+        <button
+          className={styles.exitBtn}
+          onClick={() => useWithdrawPopup.setWithdrawPopup(false)}
+        >
           <X />
         </button>
       </article>

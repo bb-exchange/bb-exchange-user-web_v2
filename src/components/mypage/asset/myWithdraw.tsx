@@ -1,5 +1,5 @@
 import styles from "./myWithdraw.module.scss";
-import CustomDatePicker from ".src/components/common/CustomDatePicker";
+import CustomDatePicker from ".src/components/common/customDatePickers";
 import moment from "moment";
 import PageNav from ".src/components/common/pageNav";
 import UseMyWithdraw from ".src/hooks/mypage/asset/useMyWithdraw";

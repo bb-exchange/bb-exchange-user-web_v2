@@ -5,6 +5,7 @@ export default function UseWithdrawPopup() {
   const amountInputRef = useRef<HTMLInputElement>(null);
 
   const [withdrawPopup, setWithdrawPopup] = useState<boolean>(false);
+  const [compPopup, setCompPopup] = useState<boolean>(false);
 
   const {
     register,
@@ -14,18 +15,16 @@ export default function UseWithdrawPopup() {
     setFocus,
     reset,
     handleSubmit,
-  } = useForm<IorderWithdraw>({
-    defaultValues: {
-      amount: 0,
-    },
-  });
+  } = useForm<IorderWithdraw>();
 
   useEffect(() => {
+    reset();
     setValue("name", "장치은");
     setValue("registNumber", 9510032123456);
     setValue("bank", "국민은행");
     setValue("accountNumber", 44444444444);
     register("amount", { min: { value: 1, message: "" } });
+    setValue("amount", 0);
   }, []);
 
   function getRegistNumStr() {
@@ -41,14 +40,16 @@ export default function UseWithdrawPopup() {
   }
 
   function onSubmit() {
-    reset();
     setWithdrawPopup(false);
+    setCompPopup(true);
   }
 
   return {
     amountInputRef,
     withdrawPopup,
     setWithdrawPopup,
+    compPopup,
+    setCompPopup,
     register,
     watch,
     setFocus,

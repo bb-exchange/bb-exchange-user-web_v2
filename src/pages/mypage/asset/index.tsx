@@ -11,6 +11,7 @@ import MyWithdraw from ".src/components/mypage/asset/myWithdraw";
 import UseWithdrawPopup from ".src/hooks/mypage/asset/useWithdrawPopup";
 import PopupBg from ".src/components/common/popupBg";
 import WithdrawPopup from ".src/components/mypage/asset/withdrawPopup";
+import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
 
 export default function Asset() {
   const useMypageAsset = UseMypageAsset();
@@ -94,6 +95,28 @@ export default function Asset() {
         <>
           <WithdrawPopup useWithdrawPopup={useWithdrawPopup} />
           <PopupBg bg off={() => useWithdrawPopup.setWithdrawPopup(false)} />
+        </>
+      )}
+
+      {useWithdrawPopup.compPopup && (
+        <>
+          <ErrorMsgPopup
+            msg={`${Intl.NumberFormat().format(
+              useWithdrawPopup.watch("amount")
+            )}원 출금 예정`}
+            subMsg={
+              <>
+                출금 신청이 완료되었습니다.
+                <br />
+                출금 신청된 금액은 다음주 수요일에
+                <br />
+                계좌로 입급됩니다.
+              </>
+            }
+            confirmFunc={() => useWithdrawPopup.setCompPopup(false)}
+          />
+
+          <PopupBg bg off={() => useWithdrawPopup.setCompPopup(false)} />
         </>
       )}
     </>
