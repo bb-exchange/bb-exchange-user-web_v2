@@ -1,0 +1,106 @@
+@import "/src/styles/variable";
+
+.myWithdraw {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  .topBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .filterCont {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+
+      .key {
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 22px;
+      }
+
+      .pickerBox {
+        display: flex;
+        align-items: center;
+        height: 44px;
+        border: 1px solid $Gray3;
+        border-radius: 8px;
+
+        input {
+          padding: 0 10px;
+        }
+      }
+
+      .slash {
+        font-size: 14px;
+        color: $Gray3;
+      }
+
+      .submitBtn {
+        display: flex;
+        align-items: center;
+        height: 44px;
+        padding: 0 16px;
+        border: 1px solid $Gray3;
+        border-radius: 8px;
+      }
+    }
+
+    .excelBtn {
+      display: flex;
+      align-items: center;
+      height: 44px;
+      padding: 0 16px;
+      border: 1px solid $Gray3;
+      border-radius: 8px;
+    }
+  }
+
+  .countBar {
+    display: flex;
+    justify-content: flex-end;
+
+    .count {
+      color: $Black2;
+    }
+  }
+
+  .dataList {
+    min-height: 200px;
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 26px 0;
+      border-bottom: 1px solid #ededed;
+
+      .leftBox {
+        .creatdAt {
+          font-weight: 700;
+        }
+      }
+
+      .rightBox {
+        display: flex;
+        align-items: center;
+        gap: 26px;
+
+        .status {
+          color: $Gray1;
+
+          &.on {
+            color: $Primary1;
+          }
+        }
+
+        .amount {
+          font-size: 18px;
+          font-weight: 700;
+        }
+      }
+    }
+  }
+}

@@ -2,12 +2,12 @@ import styles from "./asset.module.scss";
 import CommonFooter from ".src/components/common/commonFooter";
 import CommonHeader from ".src/components/common/header/commonHeader";
 import MypageNavAside from ".src/components/mypage/mypageNavAside";
-import UseMypageAsset from ".src/hooks/mypage/useMypageAsset";
+import UseMypageAsset from ".src/hooks/mypage/asset/useMypageAsset";
 import ChevronRt from ".assets/icons/ChevronRt.svg";
 import ScrollTopBtn from ".src/components/common/scrollTopBtn";
-import CustomDatePicker from ".src/components/common/CustomDatePicker";
-import moment from "moment";
-import PageNav from ".src/components/common/pageNav";
+import TermIncome from ".src/components/mypage/asset/termIncome";
+import ContentIncome from ".src/components/mypage/asset/contentIncome";
+import MyWithdraw from ".src/components/mypage/asset/myWithdraw";
 
 export default function Asset() {
   const useMypageAsset = UseMypageAsset();
@@ -73,54 +73,9 @@ export default function Asset() {
             ))}
           </ul>
 
-          <article className={styles.contArea}>
-            <div className={styles.topBar}>
-              <div className={styles.filterCont}>
-                <p className={styles.key}>조회 기간</p>
-
-                <div className={styles.pickerBox}>
-                  <CustomDatePicker
-                    date={useMypageAsset.startDate || new Date()}
-                    setDate={useMypageAsset.setStartDate}
-                  />
-                </div>
-
-                <p className={styles.slash}>~</p>
-
-                <div className={styles.pickerBox}>
-                  <CustomDatePicker
-                    date={useMypageAsset.endDate || new Date()}
-                    setDate={useMypageAsset.setEndDate}
-                  />
-                </div>
-
-                <button className={styles.submitBtn} onClick={() => {}}>
-                  조회
-                </button>
-              </div>
-
-              <button className={styles.excelBtn} onClick={() => {}}>
-                엑셀 다운로드
-              </button>
-            </div>
-
-            <ul className={styles.dataList}>
-              {useMypageAsset.revenuList.map((v, i) => (
-                <li key={i}>
-                  <div className={styles.termBox}>
-                    {moment(v.startDate).format("YYYY.MM.DD")}~
-                    {moment(v.endDate).format("YYYY.MM.DD")}
-                  </div>
-                  <p className={styles.amount}>
-                    {Intl.NumberFormat().format(v.amount)} 원
-                  </p>
-                </li>
-              ))}
-            </ul>
-
-            <PageNav inlinePage />
-            {/* <PageNav /> */}
-          </article>
+          {useMypageAsset.category === "기간별 수익금" && <TermIncome />}
+          {useMypageAsset.category === "콘텐츠별 수익금" && <ContentIncome />}
+          {useMypageAsset.category === "출금내역" && <MyWithdraw />}
         </section>
       </main>
 
