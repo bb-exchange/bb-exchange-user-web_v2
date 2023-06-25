@@ -12,7 +12,7 @@ export default function UseWithdrawPopup() {
     setValue,
     formState,
     setFocus,
-    resetField,
+    reset,
     handleSubmit,
   } = useForm<IorderWithdraw>({
     defaultValues: {
@@ -41,7 +41,7 @@ export default function UseWithdrawPopup() {
   }
 
   function onSubmit() {
-    resetField();
+    reset();
     setWithdrawPopup(false);
   }
 
