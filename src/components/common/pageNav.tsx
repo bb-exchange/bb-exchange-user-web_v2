@@ -3,8 +3,12 @@ import ArwLt from ".assets/icons/ArwLt.svg";
 import ArwRt from ".assets/icons/ArwRt.svg";
 import usePageNav from ".src/hooks/common/usePageNav";
 
-export default function PageNav() {
-  const customHook = usePageNav();
+interface Iprops {
+  inlinePage?: boolean;
+}
+
+export default function PageNav({ inlinePage }: Iprops) {
+  const customHook = usePageNav({ inlinePage });
 
   return (
     <nav className={styles.pageNavArea}>

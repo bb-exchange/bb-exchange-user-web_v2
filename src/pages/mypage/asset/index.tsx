@@ -118,7 +118,8 @@ export default function Asset() {
               ))}
             </ul>
 
-            <PageNav />
+            <PageNav inlinePage />
+            {/* <PageNav /> */}
           </article>
         </section>
       </main>
