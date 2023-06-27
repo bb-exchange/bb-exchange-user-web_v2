@@ -4,15 +4,12 @@ import LocalStorage from ".src/util/localStorage";
 import { useEffect, useState } from "react";
 import ContainedBtn from ".src/components/Buttons/ContainedBtn";
 import { useRouter } from "next/router";
+import { AppStore } from ".src/app/store";
+import { useSelector } from "react-redux";
 
 const SignUpCompletion = () => {
-  const [nickname, setNickname] = useState<any>("");
   const router = useRouter();
-
-  useEffect(() => {
-    if (LocalStorage.getItem("nickname"))
-      setNickname(LocalStorage.getItem("nickname"));
-  }, []);
+  const nickname = useSelector((state: AppStore) => state.user.nickname);
 
   return (
     <div id={styles.signUpCompletion} className={styles.container}>

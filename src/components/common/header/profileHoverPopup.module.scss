@@ -21,11 +21,11 @@
       }
 
       &:not(:first-of-type):not(:last-of-type) {
-        cursor: pointer;
         padding: 12px 24px;
       }
       &:not(:first-of-type) {
         color: #555555;
+        cursor: pointer;
       }
 
       &:not(:first-of-type):hover {

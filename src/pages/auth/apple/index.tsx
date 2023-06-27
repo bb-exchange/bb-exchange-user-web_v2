@@ -1,11 +1,14 @@
 import { basicInstance } from ".src/api/instance";
+import { signIn } from ".src/features/userSlice";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
+import { useDispatch } from "react-redux";
 
 const AppleAuth = () => {
   const { query, push } = useRouter();
+  const dispatch = useDispatch();
   const [cookie, setCookie] = useCookies([
     "authKey",
     "accessToken",
@@ -35,18 +38,30 @@ const AppleAuth = () => {
           });
 
           if (response.data.status === "OAUTH_VERIFIED") {
-            setCookie("authKey", response.data.key, {
+            setCookie("authKey", response.data.data.data.key, {
               path: "/",
             });
             push("/auth/terms-agreement");
-          } else if (response.data.accessToken && response.data.refreshToken) {
-            setCookie("accessToken", response.data.accessToken, {
+          } else if (
+            response.data.data.data.accessToken &&
+            response.data.data.data.refreshToken
+          ) {
+            setCookie("accessToken", response.data.data.data.accessToken, {
               path: "/",
             });
-            setCookie("refreshToken", response.data.refreshToken, {
+            setCookie("refreshToken", response.data.data.data.refreshToken, {
               path: "/",
             });
-            // dispatch(signIn()); //전역 로그인 처리
+            //닉네임 가져오기
+            const { data } = await axios.get(
+              `https://api.stage-bibubex.com/v1/users/me`,
+              {
+                headers: {
+                  Authorization: `Bearer ${response.data.data.data.accessToken}`,
+                },
+              }
+            );
+            dispatch(signIn(data?.data.nickname)); //전역 로그인 처리
             push("/");
           }
         }

@@ -2,9 +2,11 @@ import styles from "./profSec.module.scss";
 import Gold from ".assets/icons/tier/Gold.svg";
 import ChevronRtBlue from ".assets/icons/ChevronRtBlue.svg";
 import { useRouter } from "next/router";
+import useGetMyProfile from ".src/hooks/common/useGetProfile";
 
 export default function ProfSec() {
   const router = useRouter();
+  const myProfile = useGetMyProfile();
 
   return (
     <section className={styles.profSec}>
@@ -13,16 +15,11 @@ export default function ProfSec() {
 
         <div className={styles.infoCont}>
           <div className={styles.nicknameBar}>
-            <h1 className={styles.nickname}>치은짱짱맨</h1>
-
+            <h1 className={styles.nickname}>{myProfile?.nickname}</h1>
             <Gold />
           </div>
 
-          <p className={styles.profMsg}>
-            재테크, 투자, 자동차 전문가입니다. 12년간 7개의 은행, 증권사,
-            투자은행을 다닌 경험이 있으며, 시드 2000천으로 현재 자산 58억 달성한
-            모든 비법을 공유합니다. 다들 따라오세요!!! 가보자구욧~!~!
-          </p>
+          <p className={styles.profMsg}>{myProfile?.description}</p>
 
           <ul className={styles.accountList}>
             <li>

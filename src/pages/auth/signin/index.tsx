@@ -8,8 +8,27 @@ import {
   GOOGLE_AUTH_URL,
   KAKAO_AUTH_URL,
 } from ".src/data/signin/D_authUrl";
+import { useEffect } from "react";
+import { useCookies } from "react-cookie";
+import { useDispatch } from "react-redux";
+import { signOut } from ".src/features/userSlice";
 
 const SignIn = () => {
+  const dispatch = useDispatch();
+  const [, , removeCookie] = useCookies([
+    "accessToken",
+    "refreshToken",
+    "authKey",
+  ]);
+
+  useEffect(() => {
+    //로그인 화면 진입 시 쿠키에 저장된 토큰 전부 삭제 및 로그아웃 처리
+    removeCookie("accessToken", { path: "/" });
+    removeCookie("refreshToken", { path: "/" });
+    removeCookie("authKey", { path: "/" });
+    dispatch(signOut());
+  }, []);
+
   const googleSignIn = () => {
     window.location.assign(GOOGLE_AUTH_URL);
   };

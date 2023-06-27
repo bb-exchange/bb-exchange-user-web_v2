@@ -15,8 +15,9 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    signIn(state) {
+    signIn(state, action) {
       state.isSignedIn = true;
+      state.nickname = action.payload;
     },
     signOut(state) {
       state.isSignedIn = false;
