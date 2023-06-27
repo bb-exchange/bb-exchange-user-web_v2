@@ -3,6 +3,8 @@ import Gold from ".assets/icons/tier/Gold.svg";
 import ChevronRtBlue from ".assets/icons/ChevronRtBlue.svg";
 import { useRouter } from "next/router";
 import UseMypageNavAside from ".src/hooks/mypage/useMypageNavAside";
+import { useEffect } from "react";
+import { basicInstance } from ".src/api/instance";
 
 export default function MypageNavAside() {
   const router = useRouter();

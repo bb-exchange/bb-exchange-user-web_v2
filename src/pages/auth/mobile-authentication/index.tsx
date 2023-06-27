@@ -43,25 +43,22 @@ const MobileAuth = () => {
   //휴대폰 인증번호 발송 api
   const sendSecretCode = async (data: Inputs) => {
     try {
-      const res: mobileAuthTypes = await basicInstance.post(
-        "/v1/auth/phones/send-secret",
-        {
-          key: cookies.authKey,
-          phoneNumber: data.phoneNumber,
-        }
-      );
-      console.log(res);
+      const res: any = await basicInstance.post("/v1/auth/phones/send-secret", {
+        key: cookies.authKey,
+        phoneNumber: data.phoneNumber,
+      });
+      console.log(res.data.data);
 
-      if (res.status === "SECRET_SENT") {
+      if (res.data.data.status === "SECRET_SENT") {
         //인증번호 문자 전송 완료
-        setLeftCount(res.leftCount);
+        setLeftCount(res.dat.data.leftCount);
         setShowResendBtn(true);
         setMinutes(3);
         setSeconds(0);
         setValue("secret", ""); //인증번호 입력창 초기화
-      } else if (res.oauthTypes) {
+      } else if (res.data.data.oauthTypes) {
         //이미 가입된 정보가 있는 경우
-        LocalStorage.setItem("oauthType", res.oauthTypes[0]);
+        LocalStorage.setItem("oauthType", res.data.data.oauthTypes[0]);
         push("/auth/duplicate-social-account");
       }
     } catch (error: any) {
@@ -79,20 +76,17 @@ const MobileAuth = () => {
   //휴대폰 인증 api
   const verifyPhones = async (data: Inputs) => {
     try {
-      const res: mobileAuthTypes = await basicInstance.post(
-        "/v1/auth/phones/verify",
-        {
-          key: cookies.authKey,
-          secret: data.secret,
-        }
-      );
+      const res: any = await basicInstance.post("/v1/auth/phones/verify", {
+        key: cookies.authKey,
+        secret: data.secret,
+      });
 
-      if (res.key && res.expireTime) {
+      if (res.data.data.key && res.data.data.expireTime) {
         //인증 성공
         push("/auth/register");
-      } else if (res.oauthTypes) {
+      } else if (res.data.data.oauthTypes) {
         //소셜 계정 중복
-        LocalStorage.setItem("oauthType", res.oauthTypes[0]);
+        LocalStorage.setItem("oauthType", res.data.data.oauthTypes[0]);
         push("/auth/duplicate-social-account");
       }
     } catch (error: any) {

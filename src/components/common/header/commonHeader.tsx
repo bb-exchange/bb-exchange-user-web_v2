@@ -16,6 +16,9 @@ import ProfileHoverPopup from "./profileHoverPopup";
 import AlertHoverPopup from "./alertHoverPopup";
 import AlertCount from "./alertCount";
 import { useRouter } from "next/router";
+import { useQueryClient } from "@tanstack/react-query";
+import { useSelector } from "react-redux";
+import { AppStore } from ".src/app/store";
 
 interface Iprops {
   commonSort?: "인기" | "최신" | "상장";
@@ -24,6 +27,7 @@ interface Iprops {
 export default function CommonHeader({ commonSort }: Iprops) {
   const router = useRouter();
   const customHook = useCommonHeader();
+  const nickname = useSelector((state: AppStore) => state.user.nickname);
 
   return (
     <header className={styles.commonHeader}>
@@ -127,7 +131,8 @@ export default function CommonHeader({ commonSort }: Iprops) {
               <p className={styles.cont}>
                 {customHook.isSignedIn ? (
                   <>
-                    <strong className={styles.nickname}>치은짱짱맨</strong>님,
+                    <strong className={styles.nickname}>{nickname}</strong>
+                    님,
                   </>
                 ) : (
                   <></>

@@ -6,5 +6,5 @@ export default function usePostCategoryQuery() {
     retry: false,
   });
 
-  return { data: data as unknown };
+  return data?.data;
 }

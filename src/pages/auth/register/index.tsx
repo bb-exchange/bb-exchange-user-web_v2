@@ -11,12 +11,15 @@ import PopupBg from ".src/components/common/popupBg";
 import ConfirmPopup from ".src/components/common/popup/confirmPopup";
 import LocalStorage from ".src/util/localStorage";
 import { AxiosResponse } from "axios";
+import { useDispatch } from "react-redux";
+import { signIn } from ".src/features/userSlice";
 interface Inputs {
   nickname: string;
 }
 
 const Register = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [cookies, setCookies] = useCookies([
     "authKey",
     "accessToken",
@@ -56,11 +59,11 @@ const Register = () => {
       nickname: data.nickname,
     });
 
-    if (res.data.accessToken) {
+    if (res.data.data.accessToken) {
       //가입성공
-      setCookies("accessToken", res.data.accessToken);
-      setCookies("refreshToken", res.data.refreshToken);
-      LocalStorage.setItem("nickname", data.nickname);
+      setCookies("accessToken", res.data.data.accessToken);
+      setCookies("refreshToken", res.data.data.refreshToken);
+      dispatch(signIn(data.nickname));
       router.push("/auth/signup-completion");
     }
   };
