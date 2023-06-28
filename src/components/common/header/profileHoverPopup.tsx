@@ -6,12 +6,12 @@ import { useCookies } from "react-cookie";
 import { AppStore } from ".src/app/store";
 import { useEffect } from "react";
 import { basicInstance } from ".src/api/instance";
+import { useSignOut } from ".src/hooks/common/useSignOut";
 
 const ProfileHoverPopup = () => {
   const router = useRouter();
-  const dispatch = useDispatch();
   const nickname = useSelector((state: AppStore) => state.user.nickname);
-  const [, , removeCookie] = useCookies(["accessToken", "refreshToken"]);
+  const [logOut] = useSignOut();
 
   return (
     <section className={styles.hoverArea}>
@@ -23,16 +23,7 @@ const ProfileHoverPopup = () => {
         <li onClick={() => router.push("/mypage")}>마이페이지</li>
         <li onClick={() => router.push("/setting")}>설정</li>
         <li>공지사항 / 고객센터</li>
-        <li
-          onClick={() => {
-            dispatch(signOut());
-            removeCookie("accessToken", { path: "/" });
-            removeCookie("refreshToken", { path: "/" });
-            router.push("/auth/signin");
-          }}
-        >
-          로그아웃
-        </li>
+        <li onClick={logOut}>로그아웃</li>
       </ul>
     </section>
   );
