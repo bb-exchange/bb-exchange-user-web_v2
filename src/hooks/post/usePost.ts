@@ -25,6 +25,9 @@ export default function usePost() {
 
   const { data: postData } = useQuery(["post", router.query.id], fetchPost, {
     retry: false,
+    onSuccess: (res) => {
+      console.log(res);
+    },
   });
 
   function onClickLikeBtn(int: -1 | 0 | 1) {

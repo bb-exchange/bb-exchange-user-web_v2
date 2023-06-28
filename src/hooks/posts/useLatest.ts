@@ -1,8 +1,24 @@
+import { fetchArticles } from ".src/api/articles/articles";
 import { D_latestPostList } from ".src/data/posts/D_latest";
+import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
-export default function useLastest() {
+export default function useLatest() {
+  const router = useRouter();
+
   const [dataList, setDataList] = useState(D_latestPostList);
+
+  const { data: postData } = useQuery(
+    ["latest", router.query.page || 1],
+    fetchArticles,
+    {
+      retry: false,
+      onSuccess: (res) => {
+        console.log(res);
+      },
+    }
+  );
 
   function onClickFavBtn(e: React.MouseEvent, i: number) {
     e.stopPropagation();

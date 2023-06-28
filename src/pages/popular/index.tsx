@@ -6,14 +6,14 @@ import HeartRedO from ".assets/icons/HeartRedO.svg";
 import HeartGrey from ".assets/icons/HeartGrey.svg";
 import moment from "moment";
 import "moment/locale/ko";
-import usePopular from ".src/hooks/posts/usePopular";
+import UsePopular from ".src/hooks/posts/usePopular";
 import PageNav from ".src/components/common/pageNav";
 import ScrollTopBtn from ".src/components/common/scrollTopBtn";
 import { useRouter } from "next/router";
 
 export default function Popular() {
   const router = useRouter();
-  const customHook = usePopular();
+  const usePopular = UsePopular();
 
   function getDiffStyle(diff: number) {
     if (diff > 0) return styles.up;
@@ -31,7 +31,7 @@ export default function Popular() {
       <main className={styles.popular}>
         <section className={styles.postSec}>
           <ul className={styles.postList}>
-            {customHook.dataList.map((v, i) => (
+            {usePopular.dataList.map((v, i) => (
               <li key={i} onClick={() => router.push(`/post/${i}`)}>
                 <div className={styles.leftArea}>
                   <div className={styles.rankCont}>
@@ -108,7 +108,7 @@ export default function Popular() {
 
                   <button
                     className={styles.favBtn}
-                    onClick={(e) => customHook.onClickFavBtn(e, i)}
+                    onClick={(e) => usePopular.onClickFavBtn(e, i)}
                   >
                     {v.isLike === true ? <HeartRedO /> : <HeartGrey />}
                   </button>

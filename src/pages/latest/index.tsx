@@ -1,16 +1,16 @@
-import styles from "./lastest.module.scss";
+import styles from "./latest.module.scss";
 import HeartRedO from ".assets/icons/HeartRedO.svg";
 import HeartGrey from ".assets/icons/HeartGrey.svg";
 import moment from "moment";
 import "moment/locale/ko";
 import PageNav from ".src/components/common/pageNav";
 import ScrollTopBtn from ".src/components/common/scrollTopBtn";
-import useLastest from ".src/hooks/posts/useLastest";
+import useLatest from ".src/hooks/posts/useLatest";
 import { useRouter } from "next/router";
 
 export default function Lastest() {
   const router = useRouter();
-  const customHook = useLastest();
+  const customHook = useLatest();
 
   function getDiffStyle(diff: number) {
     if (diff > 0) return styles.up;

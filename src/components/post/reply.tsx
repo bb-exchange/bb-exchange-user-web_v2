@@ -58,7 +58,7 @@ export default function Reply({ data, nested }: Iprops) {
               </div>
             </div>
 
-            <p className={styles.contBox}>{data.text}</p>
+            <span className={styles.contBox}>{data.text}</span>
 
             <div className={styles.replyBottomBar}>
               <div className={styles.leftBox}>
