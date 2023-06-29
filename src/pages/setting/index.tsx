@@ -4,6 +4,7 @@ import { useState } from "react";
 import ConfirmPopup from ".src/components/common/popup/confirmPopup";
 import PopupBg from ".src/components/common/popupBg";
 import { useSignOut } from ".src/hooks/common/useSignOut";
+import { useRouter } from "next/router";
 
 export default function Setting() {
   const [alertChecked, setAlertChecked] = useState(true);
@@ -13,6 +14,7 @@ export default function Setting() {
   const [logOutPopup, setLogOutPopup] = useState(false);
   const [logOut] = useSignOut();
   const [withdrawPopup, setWithdrawPopup] = useState(false);
+  const router = useRouter();
 
   return (
     <div className={styles.setting}>
@@ -53,8 +55,8 @@ export default function Setting() {
           <div className={styles.box}>
             <h3>고객센터</h3>
             <ul>
-              <li>공지사항</li>
-              <li>FAQ</li>
+              <li onClick={() => router.push("/board/notice")}>공지사항</li>
+              <li onClick={() => router.push("/board/faq")}>FAQ</li>
               <li>1:1 문의/내역</li>
             </ul>
           </div>
