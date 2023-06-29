@@ -1,20 +1,20 @@
 import { useRouter } from "next/router";
-import styles from "../boardDetail.module.scss";
-import { D_NOTICE_LIST } from ".src/data/board/D_noticeList";
+import styles from "../../boardDetail.module.scss";
+import { D_FAQ_LIST } from ".src/data/board/D_faqList";
 
-const NoticeDetail = () => {
+const FaqDetail = () => {
   const { query } = useRouter();
 
   return (
     <div id={styles.boardDetail}>
-      <h2>공지사항</h2>
+      <h2>FQA</h2>
       <ul className={styles.content}>
         <li>
           <p className={styles.title}>
-            {D_NOTICE_LIST?.[Number(query?.noticeId)]?.title}
+            {D_FAQ_LIST?.[Number(query?.faqId)]?.title}
           </p>
           <span className={styles.regDate}>
-            {D_NOTICE_LIST?.[Number(query?.noticeId)]?.regDate}
+            {D_FAQ_LIST?.[Number(query?.faqId)]?.regDate}
           </span>
         </li>
         <li>
@@ -43,11 +43,11 @@ const NoticeDetail = () => {
   );
 };
 
-export default NoticeDetail;
+export default FaqDetail;
 
 export const getStaticPaths = async () => {
   return {
-    paths: [{ params: { noticeId: "" } }],
+    paths: [{ params: { faqId: "" } }],
     fallback: true,
   };
 };
