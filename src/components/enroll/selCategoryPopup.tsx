@@ -17,7 +17,7 @@ export default function SelCategoryPopup({ off, setValue }: Iprops) {
   return (
     <section className={styles.selCategoryPopup}>
       <ul className={styles.dataList}>
-        {((categoryQuery.data as IpostCategories[]) || []).map((v, i) => (
+        {((categoryQuery?.data as IpostCategories[]) || []).map((v, i) => (
           <li key={i} onClick={() => handleClickCategory(v)}>
             {v.description}
           </li>

@@ -7,7 +7,7 @@ export const fetchArticles = async ({ queryKey }: { queryKey: any[] }) => {
 
   return await basicInstance.get(`/v1/articles`, {
     params: {
-      category: "INVESTMENT",
+      category: "RELATIONSHIP",
       sortBy: sortBy.toUpperCase(),
       page,
     },
