@@ -12,6 +12,7 @@ export const quillFormats = [
   "header",
   "size",
   "bold",
+  "align",
   "italic",
   "underline",
   "strike",
