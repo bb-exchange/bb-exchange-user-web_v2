@@ -24,6 +24,7 @@ import ReportPostPopup from ".src/components/post/reportPostPopup";
 import ReportUserPopup from ".src/components/post/reportUserPopup";
 import ConfirmPopup from ".src/components/common/popup/confirmPopup";
 import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
+import useGetMyProfile from ".src/hooks/common/useGetProfile";
 
 export default function Post() {
   const useCustomHook = usePost();

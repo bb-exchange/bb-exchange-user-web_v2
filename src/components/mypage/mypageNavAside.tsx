@@ -5,10 +5,12 @@ import { useRouter } from "next/router";
 import UseMypageNavAside from ".src/hooks/mypage/useMypageNavAside";
 import { useEffect } from "react";
 import { basicInstance } from ".src/api/instance";
+import useGetMyProfile from ".src/hooks/common/useGetProfile";
 
 export default function MypageNavAside() {
   const router = useRouter();
   const useMypageNavAside = UseMypageNavAside();
+  const profile = useGetMyProfile();
 
   return (
     <aside className={styles.mypageNavAside}>
@@ -17,21 +19,19 @@ export default function MypageNavAside() {
           <div className={styles.profImgBox}></div>
 
           <div className={styles.nicknameBar}>
-            <p>치은짱짱맨</p>
+            <p>{profile?.nickname}</p>
             <Gold />
           </div>
 
-          <p className={styles.msg}>
-            재테크, 투자, 자동차 전문가입니다. 12년간 7개의 은행, 증권사,
-            투자은행을 다닌 경험이 있으며, 시드 2000천으로 현재 자산 58억 달성한
-            모든 비법을 공유합니다. 다들 따라오세요!!! 가보자구욧~!~!
-          </p>
+          <p className={styles.msg}>{profile?.description}</p>
 
           <ul className={styles.accountList}>
             <li>
               <p className={styles.key}>보유 포인트</p>
 
-              <p className={styles.value}>{Intl.NumberFormat().format(0)}</p>
+              <p className={styles.value}>
+                {Intl.NumberFormat().format(profile?.balance)}
+              </p>
 
               <button
                 className={styles.detailBtn}
