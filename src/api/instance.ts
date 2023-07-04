@@ -1,18 +1,25 @@
-import axios from "axios";
+import axios, { HeadersDefaults } from "axios";
 import jwtDecode, { JwtPayload } from "jwt-decode";
 import { Cookies, useCookies } from "react-cookie";
 
 const baseURL = "https://api.stage-bibubex.com";
 const cookie = new Cookies();
+let refreshing_token: any = null;
 
 export const basicInstance = axios.create({
   baseURL,
   withCredentials: true,
 });
 
+basicInstance.defaults.headers.common["Content-Type"] = "application/json";
+
 basicInstance.interceptors.request.use(
   function (config) {
-    config.headers.Authorization = `Bearer ${cookie.get("accessToken")}`;
+    const token = cookie.get("accessToken");
+    if (token) {
+      config.headers.Authorization = `Bearer ${cookie.get("accessToken")}`;
+    }
+
     return config;
   },
   function (error) {
@@ -24,13 +31,49 @@ basicInstance.interceptors.response.use(
   function (response) {
     return response;
   },
-  function (error) {
+  function async(error) {
+    const originalConfig = error.config;
+    if (error.config.headers.Authorization !== undefined) {
+      // Access Token was expired
+      if (error.response.status === 401 && !originalConfig._retry) {
+        originalConfig._retry = true;
+        const isRefreshTokenValid = validateTimeRefreshToken();
+
+        if (isRefreshTokenValid) {
+          try {
+            // refreshing_token = refreshing_token
+            // ? refreshing_token
+            // : newRefreshToken();
+            const res: any = newRefreshToken();
+            if (res) {
+              console.log(res);
+              const newAccessToken = res.data.data.accessToken;
+              cookie.set("accessToken", res.data.data.accessToken, {
+                secure: true,
+                path: "/",
+              });
+              cookie.set("refreshToken", res.data.data.refreshToken, {
+                secure: true,
+                path: "/",
+              });
+              error.config.headers.Authorization = "Bearer " + newAccessToken;
+
+              return basicInstance(error.config);
+            }
+          } catch (err: any) {
+            cookie.remove("accessToken");
+            cookie.remove("refreshToken");
+          }
+        }
+      }
+    }
+
     return Promise.reject(error);
   }
 );
 
 //Return new token
-const refreshToken = async () => {
+const newRefreshToken = async () => {
   const res: any = await axios.post(baseURL + `/v1/auth/reissue`, {
     refreshToken: cookie.get("refreshToken"),
   });

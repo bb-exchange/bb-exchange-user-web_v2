@@ -40,6 +40,7 @@ const KakaoAuth = () => {
             idToken: data.id_token,
             accessToken: data.access_token,
           });
+          console.log(response);
           //reponse에 status가 PHONE_VERIFIED이면(비회원) => 서비스 이용동의 페이지 => 닉네임 설정 페이지
           //accessToken이 있으면(회원) => 메인페이지로 랜딩
           if (response.data.data.data.status === "PHONE_VERIFIED") {

@@ -25,7 +25,9 @@ export default function ProfSec() {
             <li>
               <p className={styles.key}>보유 포인트</p>
 
-              <p className={styles.value}>{Intl.NumberFormat().format(0)}</p>
+              <p className={styles.value}>
+                {Intl.NumberFormat().format(myProfile?.balance)}
+              </p>
 
               <button
                 className={styles.detailBtn}
@@ -38,9 +40,11 @@ export default function ProfSec() {
             <hr />
 
             <li>
-              <p className={styles.key}>예상 전산금</p>
+              <p className={styles.key}>예상 정산금</p>
 
-              <p className={styles.value}>{Intl.NumberFormat().format(0)}</p>
+              <p className={styles.value}>
+                {Intl.NumberFormat().format(myProfile?.withdrawableBalance)}
+              </p>
 
               <button
                 className={styles.detailBtn}
