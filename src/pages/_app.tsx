@@ -3,7 +3,7 @@ import ".src/styles/globals.scss";
 import type { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { CookiesProvider } from "react-cookie";
+import { CookiesProvider, useCookies } from "react-cookie";
 import { wrapper } from ".src/app/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
