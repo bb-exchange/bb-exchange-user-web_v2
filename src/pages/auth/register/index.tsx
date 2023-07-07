@@ -5,12 +5,10 @@ import { basicInstance } from ".src/api/instance";
 import { useCookies } from "react-cookie";
 import IconRedCaution from "../../../../public/assets/icons/RedCaution.svg";
 import IconBlueCheck from "../../../../public/assets/icons/BlueCheck.svg";
-import { MouseEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import PopupBg from ".src/components/common/popupBg";
 import ConfirmPopup from ".src/components/common/popup/confirmPopup";
-import LocalStorage from ".src/util/localStorage";
-import { AxiosResponse } from "axios";
 import { useDispatch } from "react-redux";
 import { signIn } from ".src/features/userSlice";
 interface Inputs {

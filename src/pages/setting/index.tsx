@@ -57,7 +57,9 @@ export default function Setting() {
             <ul>
               <li onClick={() => router.push("/board/notice")}>공지사항</li>
               <li onClick={() => router.push("/board/faq")}>FAQ</li>
-              <li>1:1 문의/내역</li>
+              <li onClick={() => router.push("/board/inquiry/post")}>
+                1:1 문의/내역
+              </li>
             </ul>
           </div>
           <div className={styles.box}>
@@ -145,9 +147,12 @@ export default function Setting() {
             title="계정을 탈퇴하시겠습니까?"
             content={
               <>
-                <span>계정 탈퇴 시 수익금에 대해서는</span>
+                <span>1. 모든 게시글이 비공개로 전환됩니다.</span>
                 <br />
-                <span>환불받을 수 없으니 신중하게 선택해주세요</span>
+                <span>
+                  2.상장글의 경우 비공개 전환 후 마지막 <br />
+                  정산이 이루어진 뒤 최종 탈퇴 처리됩니다.
+                </span>
               </>
             }
             cancelFunc={() => setWithdrawPopup(false)}
