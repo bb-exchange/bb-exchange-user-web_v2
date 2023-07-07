@@ -1,0 +1,59 @@
+@import "/src/styles/variable";
+@import "/src/styles/colors.scss";
+.postInquiry {
+  input {
+    width: 100%;
+    padding: 24px 0;
+    border-bottom: 1px solid #d9d9d9;
+    font-size: 24px;
+    font-weight: 700;
+    &::placeholder {
+      font-size: 24px;
+      color: #9f9f9f;
+      font-weight: 700;
+    }
+  }
+  .numOfChar {
+    color: #9f9f9f;
+    font-size: 13px;
+  }
+  h3 {
+    padding-top: 40px;
+  }
+  textarea {
+    margin-top: 24px;
+    padding: 20px;
+    width: 100%;
+    height: 480px;
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+    resize: none;
+  }
+  .btnWrap {
+    display: flex;
+    justify-content: center;
+    button {
+      width: 400px;
+      font-size: 16px;
+    }
+    margin-top: 60px;
+  }
+  .errorMessage {
+    color: $Red1;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+    svg {
+      margin-bottom: 3px;
+      margin-right: 1px;
+    }
+  }
+}
+.boldText {
+  color: $Black3;
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 4px;
+  display: block;
+}
