@@ -5,8 +5,9 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useDispatch } from "react-redux";
+import Image from "next/image";
 import LocalStorage from ".src/util/localStorage";
-
+import styles from "../loadingLayout.module.scss";
 //(비회원인 경우)
 //카카오 인증 성공 -> 서비스 이용동의 -> 바로 닉네임 설정 페이지로 이동 (휴대폰 인증 단계 X) (중도 이탈 시 맨 처음부터 시작)
 //구글, 애플 인증 성공 -> -> 서비스 이용동의-> 휴대폰 인증 페이지로 이동 -> 닉네임 설정 페이지로 이동 (중도 이탈 시 맨 처음부터 시작)
@@ -82,7 +83,16 @@ const GoogleAuth = () => {
     }
   }, [query?.code]);
 
-  return <div></div>;
+  return (
+    <div className={styles.loadingLayout}>
+      <Image
+        src={"/assets/icons/loading/threeDots.gif"}
+        alt={"loading dots"}
+        width={150}
+        height={200}
+      />
+    </div>
+  );
 };
 
 export default GoogleAuth;

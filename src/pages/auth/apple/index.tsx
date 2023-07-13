@@ -5,6 +5,8 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useDispatch } from "react-redux";
+import Image from "next/image";
+import styles from "../loadingLayout.module.scss";
 
 const AppleAuth = () => {
   const { query, push } = useRouter();
@@ -65,7 +67,16 @@ const AppleAuth = () => {
       })();
     }
   }, [query?.code]);
-  return <div></div>;
+  return (
+    <div className={styles.loadingLayout}>
+      <Image
+        src={"/assets/icons/loading/threeDots.gif"}
+        alt={"loading dots"}
+        width={150}
+        height={200}
+      />
+    </div>
+  );
 };
 
 export default AppleAuth;
