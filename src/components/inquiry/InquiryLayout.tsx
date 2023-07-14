@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import styles from "./InquiryLayout.module.scss";
 
 const InquiryLayout = (props: any) => {
-  const { pathname, push } = useRouter();
+  const { pathname, push, replace } = useRouter();
 
   return (
     <div id={styles.InquiryLayout}>
@@ -11,13 +11,13 @@ const InquiryLayout = (props: any) => {
         <div className={styles.tabLink}>
           <span
             className={pathname.includes("/post") ? `${styles.active}` : ""}
-            onClick={() => push("/board/inquiry/post")}
+            onClick={() => replace("/board/inquiry/post")}
           >
             1:1문의하기
           </span>
           <span
             className={pathname.includes("/post") ? "" : `${styles.active}`}
-            onClick={() => push("/board/inquiry")}
+            onClick={() => replace("/board/inquiry")}
           >
             1:1문의내역
           </span>

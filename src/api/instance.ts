@@ -41,10 +41,11 @@ basicInstance.interceptors.response.use(
 
         if (isRefreshTokenValid) {
           try {
-            // refreshing_token = refreshing_token
-            // ? refreshing_token
-            // : newRefreshToken();
-            const res: any = newRefreshToken();
+            refreshing_token = refreshing_token
+              ? refreshing_token
+              : newRefreshToken();
+            refreshing_token = null;
+            const res: any = refreshing_token;
             if (res) {
               console.log(res);
               const newAccessToken = res.data.data.accessToken;
