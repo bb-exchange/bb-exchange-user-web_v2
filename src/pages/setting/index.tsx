@@ -65,8 +65,12 @@ export default function Setting() {
           <div className={styles.box}>
             <h3>사용자관리</h3>
             <ul>
-              <li>차단 사용자 관리</li>
-              <li>숨긴 사용자 관리</li>
+              <li onClick={() => router.push("/user/blocked")}>
+                차단 사용자 관리
+              </li>
+              <li onClick={() => router.push("/user/hidden")}>
+                숨긴 사용자 관리
+              </li>
             </ul>
           </div>
           <div className={styles.box}>
