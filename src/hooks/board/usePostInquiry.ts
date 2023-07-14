@@ -31,13 +31,13 @@ export default function usePostInquiry() {
 
   //뒤로가기 막기 팝업창 추가
   const preventGoBack = () => {
-    history.pushState(null, "", location.href);
+    history.pushState(null, "", null);
     setOpenBlockPopup(true);
   };
 
   useEffect(() => {
     (() => {
-      history.pushState(null, "", location.href);
+      history.pushState(null, "", null);
       window.addEventListener("popstate", preventGoBack);
     })();
 
