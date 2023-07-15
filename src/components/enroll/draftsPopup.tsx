@@ -3,6 +3,7 @@ import styles from "./draftsPopup.module.scss";
 import X from ".assets/icons/X.svg";
 import CircleBangBlue from ".assets/bg/enroll/CircleBangBlue.svg";
 import moment from "moment";
+import { useRouter } from "next/router";
 
 interface Iprops {
   useEnrollHook: any;
@@ -10,6 +11,8 @@ interface Iprops {
 }
 
 export default function DraftsPopup({ useEnrollHook, off }: Iprops) {
+  const router = useRouter();
+
   return (
     <section className={styles.draftsPopup}>
       <article className={styles.topBar}>
@@ -23,7 +26,7 @@ export default function DraftsPopup({ useEnrollHook, off }: Iprops) {
       </article>
 
       {/* {D_draftsList.length > 0 ? ( */}
-      {0 ? (
+      {router.query.draftsList === "true" ? (
         <ul className={styles.draftsList}>
           {D_draftsList.map((v, i) => (
             <li key={i} onClick={() => useEnrollHook.setLoadDraftPopup(true)}>

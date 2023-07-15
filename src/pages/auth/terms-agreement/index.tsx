@@ -15,9 +15,14 @@ import { useRouter } from "next/router";
 
 const TermsAgreement = () => {
   const router = useRouter();
-  const [openCautionPopUp, setOpenCautionPopUp] = useState(false);
+
+  const [openCautionPopUp, setOpenCautionPopUp] = useState(
+    router.query.openCautionPopUp === "true" || false
+  );
   const [openTerm, setOpenTerm] = useState<string>("");
-  const [openTextPopUp, setOpenTextPopUp] = useState(false);
+  const [openTextPopUp, setOpenTextPopUp] = useState(
+    router.query.openTextPopUp === "true" || false
+  );
   const [checkedInputs, setCheckedInputs] = useState<string[]>([]);
   const handleAllcheck = (checked: boolean, id: string) => {
     if (checked) {

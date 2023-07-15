@@ -1,9 +1,16 @@
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function usePostInquiry() {
-  const [openCompletePopup, setOpenCompletePopup] = useState<boolean>(false);
-  const [openBlockPopup, setOpenBlockPopup] = useState<boolean>(false);
+  const router = useRouter();
+
+  const [openCompletePopup, setOpenCompletePopup] = useState<boolean>(
+    router.query.openCompletePopup === "true" || false
+  );
+  const [openBlockPopup, setOpenBlockPopup] = useState<boolean>(
+    router.query.openBlockPopup === "true" || false
+  );
   const {
     register,
     watch,

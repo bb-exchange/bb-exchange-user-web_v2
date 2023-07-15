@@ -7,14 +7,24 @@ import { useSignOut } from ".src/hooks/common/useSignOut";
 import { useRouter } from "next/router";
 
 export default function Setting() {
+  const router = useRouter();
+
+  const [logOut] = useSignOut();
+
   const [alertChecked, setAlertChecked] = useState(true);
   const [marketingChecked, setMarketingChecked] = useState(true);
-  const [alertPopup, setAlertPopup] = useState(false);
-  const [marketingPopup, setMarketingPopup] = useState(false);
-  const [logOutPopup, setLogOutPopup] = useState(false);
-  const [logOut] = useSignOut();
-  const [withdrawPopup, setWithdrawPopup] = useState(false);
-  const router = useRouter();
+  const [alertPopup, setAlertPopup] = useState(
+    router.query.alertPopup === "true" || false
+  );
+  const [marketingPopup, setMarketingPopup] = useState(
+    router.query.marketingPopup === "true" || false
+  );
+  const [logOutPopup, setLogOutPopup] = useState(
+    router.query.logOutPopup === "true" || false
+  );
+  const [withdrawPopup, setWithdrawPopup] = useState(
+    router.query.withdrawPopup === "true" || false
+  );
 
   return (
     <div className={styles.setting}>

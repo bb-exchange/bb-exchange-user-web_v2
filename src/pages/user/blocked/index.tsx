@@ -10,8 +10,11 @@ import { useRouter } from "next/router";
 import { deleteBlockUser } from ".src/api/users/users";
 
 const BlockedUsers = () => {
-  const [openPopup, setOpenPopup] = useState(false);
   const router = useRouter();
+
+  const [openPopup, setOpenPopup] = useState(
+    router.query.openPopup === "true" || false
+  );
 
   return (
     <div id={styles.blockedUsers}>

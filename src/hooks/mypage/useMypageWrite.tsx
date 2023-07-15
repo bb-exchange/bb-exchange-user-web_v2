@@ -8,6 +8,7 @@ export default function UseMyPageWrite() {
 
   const categoryList: mypageCategory[] = D_mypagePostCategoryList;
   const category: mypageCategory = categoryList[0];
+  
   const [filterOnSale, setFilterOnSale] = useState<boolean>(false);
   const [postList, setPostList] = useState<mypageWritePosts[]>(
     D_mypageWritePostList

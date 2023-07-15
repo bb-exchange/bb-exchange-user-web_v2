@@ -24,7 +24,9 @@ const Register = () => {
     "refreshToken",
   ]);
   const [availableNickname, setAvailableNickname] = useState<string>("");
-  const [openConfirmPopup, setOpenConfirmPopup] = useState(false);
+  const [openConfirmPopup, setOpenConfirmPopup] = useState(
+    router.query.openConfirmPopup === "true" || false
+  );
 
   const {
     register,

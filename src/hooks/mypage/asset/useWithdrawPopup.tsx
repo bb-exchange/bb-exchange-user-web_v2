@@ -1,11 +1,18 @@
+import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function UseWithdrawPopup() {
-  const amountInputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
-  const [withdrawPopup, setWithdrawPopup] = useState<boolean>(false);
-  const [compPopup, setCompPopup] = useState<boolean>(false);
+  const amountInputRef = useRef<HTMLInputElement>(null);
+  
+  const [withdrawPopup, setWithdrawPopup] = useState<boolean>(
+    router.query.withdrawPopup === "true" || false
+  );
+  const [compPopup, setCompPopup] = useState<boolean>(
+    router.query.compPopup === "true" || false
+  );
 
   const {
     register,
@@ -15,31 +22,34 @@ export default function UseWithdrawPopup() {
     setFocus,
     reset,
     handleSubmit,
-  } = useForm<IorderWithdraw>();
+  } = useForm<IorderWithdraw>({
+    defaultValues: {
+      name: "장치은",
+      registNumber: 9510032123456,
+      bank: "국민은행",
+      accountNumber: 44444444444,
+      amount: 0,
+    },
+  });
 
   useEffect(() => {
-    reset();
-    setValue("name", "장치은");
-    setValue("registNumber", 9510032123456);
-    setValue("bank", "국민은행");
-    setValue("accountNumber", 44444444444);
     register("amount", { min: { value: 1, message: "" } });
-    setValue("amount", 0);
   }, []);
 
   function getRegistNumStr() {
-    const _registNum = watch("registNumber");
-    return `${_registNum.toString().slice(0, 6)}-${
-      _registNum.toString()[6]
+    const _registNum: number = watch("registNumber");
+    return `${_registNum?.toString().slice(0, 6)}-${
+      _registNum?.toString()[6]
     }******`;
   }
 
   function getAccountNumber() {
-    const _registNum = watch("accountNumber");
-    return `${_registNum.toString().slice(0, 3)}********`;
+    const _accountNum = watch("accountNumber");
+    return `${_accountNum?.toString().slice(0, 3)}********`;
   }
 
   function onSubmit() {
+    reset();
     setWithdrawPopup(false);
     setCompPopup(true);
   }

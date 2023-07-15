@@ -16,14 +16,20 @@ interface Inputs {
   secret: string;
 }
 const MobileAuth = () => {
+  const { query } = useRouter();
+
   const cookies = useCookies(["authKey"])[0];
   const { push } = useRouter();
   const [showResendBtn, setShowResendBtn] = useState<boolean>(false);
   const [minutes, setMinutes] = useState<number>(3);
   const [seconds, setSeconds] = useState<number>(0);
-  const [openExceedPopup, setOpenExceedPopup] = useState<boolean>(false); //일일인증횟수초과
+  const [openExceedPopup, setOpenExceedPopup] = useState<boolean>(
+    query?.openExceedPopup === "true" || false
+  ); //일일인증횟수초과
   const [leftCount, setLeftCount] = useState<number>();
-  const [openErrSecretPopup, setOpenErrSecretPopup] = useState<boolean>(false); //인증번호 에러
+  const [openErrSecretPopup, setOpenErrSecretPopup] = useState<boolean>(
+    query?.openErrSecretPopup === "true" || false
+  ); //인증번호 에러
   const [openExpiredKeyPopup, setOpenExpiredKeyPopup] =
     useState<boolean>(false); //인증키 만료
 

@@ -12,6 +12,7 @@ export default function UseMyPageRead() {
   const categoryList: mypageCategory[] = D_mypagePostCategoryList;
   const category: mypageCategory = categoryList[1];
   const filterCategoryList: string[] = D_filterCategoryList;
+  
   const [filterCategroy, setFilterCategory] = useState<string>(
     D_filterCategoryList[0]
   );
