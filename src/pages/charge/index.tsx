@@ -3,9 +3,11 @@ import CommonFooter from ".src/components/common/commonFooter";
 import CommonHeader from ".src/components/common/header/commonHeader";
 import UseCharge from ".src/hooks/charge/useCharge";
 import PcircleBlue from ".assets/icons/PcircleBlue.svg";
+import usePayment from ".src/hooks/payment/usePayment";
 
 export default function Charge() {
   const useCharge = UseCharge();
+  const { requestPayment } = usePayment();
 
   return (
     <>
@@ -34,7 +36,7 @@ export default function Charge() {
               </div>
 
               <div className={styles.rightBox}>
-                <button className={styles.chargeBtn} onClick={() => {}}>
+                <button className={styles.chargeBtn} onClick={requestPayment}>
                   <p>{Intl.NumberFormat().format(v)}원</p>
                 </button>
               </div>

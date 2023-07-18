@@ -29,11 +29,13 @@
   .iconX {
     cursor: pointer;
   }
-  .msg {
+  .content {
     font-size: 16px;
-    text-align: center;
+
+    // text-align: center;
     color: $Black1;
     overflow-y: scroll;
+    white-space: pre-wrap;
     span {
       display: block;
     }
