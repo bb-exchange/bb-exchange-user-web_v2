@@ -65,6 +65,10 @@ jobs:
           
           echo "NEXT_PUBLIC_APPLE_CLIENT_ID=$NEXT_PUBLIC_APPLE_CLIENT_ID" >> .env.production
           echo "NEXT_PUBLIC_APPLE_REDIRECT_URI=$NEXT_PUBLIC_APPLE_REDIRECT_URI" >> .env.production
+          
+          echo "NEXT_PUBLIC_IMPORT_CODE=$NEXT_PUBLIC_IMPORT_CODE" >> .env.production
+          echo "NEXT_PUBLIC_IMPORT_REST_API_KEY=$NEXT_PUBLIC_IMPORT_REST_API_KEY" >> .env.production
+          echo "NEXT_PUBLIC_IMPORT_REST_API_SECRET=$NEXT_PUBLIC_IMPORT_REST_API_SECRET" >> .env.production
         env:
           NEXT_PUBLIC_GOOGLE_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_GOOGLE_CLIENT_ID }}
           NEXT_PUBLIC_GOOGLE_CLIENT_SECRET: ${{ secrets.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET }}
@@ -76,6 +80,10 @@ jobs:
           
           NEXT_PUBLIC_APPLE_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_APPLE_CLIENT_ID }}
           NEXT_PUBLIC_APPLE_REDIRECT_URI: ${{ secrets.NEXT_PUBLIC_APPLE_REDIRECT_URI }}
+          
+          NEXT_PUBLIC_IMPORT_CODE: ${{ secrets.NEXT_PUBLIC_IMPORT_CODE }}
+          NEXT_PUBLIC_IMPORT_REST_API_KEY: ${{ secrets.NEXT_PUBLIC_IMPORT_REST_API_KEY }}
+          NEXT_PUBLIC_IMPORT_REST_API_SECRET: ${{ secrets.NEXT_PUBLIC_IMPORT_REST_API_SECRET }}
           
       - name: Run build
         run: npm run build
