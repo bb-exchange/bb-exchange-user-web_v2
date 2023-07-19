@@ -50,7 +50,13 @@ export default function Popular() {
 
                   <div className={styles.infoCont}>
                     <div className={styles.titleBar}>
-                      <h1 className={styles.title}>{v.title}</h1>
+                      <h1
+                        className={`${styles.title} ${
+                          v.read ? styles.read : ""
+                        }`}
+                      >
+                        {v.title}
+                      </h1>
                       <p className={styles.replyCount}>{`[${
                         (v.replyCount || 0) > 99 ? `+99` : v.replyCount || 0
                       }]`}</p>

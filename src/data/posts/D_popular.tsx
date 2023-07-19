@@ -27,6 +27,7 @@ export const D_popularPostList: IpostList[] = [
     percentOfChange: 50.4,
     amountOfChange: 63,
     point: 999999,
+    read: true,
   },
   {
     rankDiff: 3,

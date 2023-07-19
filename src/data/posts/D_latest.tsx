@@ -29,6 +29,7 @@ export const D_latestPostList: IpostList[] = [
     amountOfChange: 63,
     point: 999999,
     likeCount: 92,
+    read: true,
   },
   {
     rankDiff: 3,

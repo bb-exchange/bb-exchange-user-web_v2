@@ -6,6 +6,7 @@ interface IhomeCategory {
 interface IpostList {
   rankDiff?: number;
   title: string;
+  read?: boolean;
   replyCount?: number;
   thumbnailUrl?: string;
   category: string;
@@ -17,5 +18,5 @@ interface IpostList {
   point?: number;
   likeCount?: number;
   isLike?: boolean;
-  isList?:boolean;
+  isList?: boolean;
 }
