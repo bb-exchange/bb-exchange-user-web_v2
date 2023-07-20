@@ -22,7 +22,6 @@ export default function UsePopular() {
 
   function onClickFavBtn(e: React.MouseEvent, i: number) {
     e.stopPropagation();
-    e.stopPropagation();
 
     let _dataList = dataList;
 

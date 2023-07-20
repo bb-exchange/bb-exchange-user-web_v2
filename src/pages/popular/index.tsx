@@ -30,7 +30,7 @@ export default function Popular() {
     <>
       <main className={styles.popular}>
         <section className={styles.postSec}>
-          <ul className={styles.postList}>
+          <ul className={styles.postList} data-cy="postList">
             {usePopular.dataList.map((v, i) => (
               <li key={i} onClick={() => router.push(`/post/${i}`)}>
                 <div className={styles.leftArea}>
@@ -114,6 +114,7 @@ export default function Popular() {
 
                   <button
                     className={styles.favBtn}
+                    data-js="favBtn"
                     onClick={(e) => usePopular.onClickFavBtn(e, i)}
                   >
                     {v.isLike === true ? <HeartRedO /> : <HeartGrey />}
