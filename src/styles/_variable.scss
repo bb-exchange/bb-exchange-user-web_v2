@@ -25,6 +25,11 @@
   border-radius: 20px;
 }
 
+.notion-app {
+  min-height: 100% !important;
+
+  // overflow-y: scroll !important;
+}
 @mixin scrollBar {
   width: 8px;
   height: 142px;
