@@ -9,9 +9,10 @@ import {
   AGREEMENT_OF_MARKETING_ACCEPTANCE,
   AGREEMENT_OF_PAYMENT,
   POLICY_OF_PERSONAL_INFO,
-  TERMS_OF_SERVICE,
+  TERMS_OF_SERVICE_V1,
 } from ".src/data/terms-agreement/D_terms";
 import { useRouter } from "next/router";
+import termsOfService from ".src/components/terms/service";
 
 const TermsAgreement = () => {
   const router = useRouter();
@@ -71,26 +72,14 @@ const TermsAgreement = () => {
 
   const handleTextPopup = () => {
     if (openTerm === "termsOfService") {
-      return {
-        title: "서비스 이용약관",
-        text: TERMS_OF_SERVICE,
-      };
+      return "service";
     } else if (openTerm === "policyOfPersonalInfo") {
-      return {
-        title: "개인정보 처리방침",
-        text: POLICY_OF_PERSONAL_INFO,
-      };
+      return "privacyPolivy";
     } else if (openTerm === "agreementOfPayment") {
-      return {
-        title: "구매조건 확인 및 결제 진행 동의",
-        text: AGREEMENT_OF_PAYMENT,
-      };
+      return "payment";
     } else if (openTerm === "agreementOfMarketing") {
     }
-    return {
-      title: "마케팅 정보 수신 동의",
-      text: AGREEMENT_OF_MARKETING_ACCEPTANCE,
-    };
+    return "marketing";
   };
 
   const linkTo = () => {
@@ -261,7 +250,7 @@ const TermsAgreement = () => {
       {openTextPopUp && (
         <>
           <TextPopup
-            content={handleTextPopup()}
+            type={handleTextPopup()}
             confirmFunc={() => setOpenTextPopUp(false)}
           />
           <PopupBg bg off={() => setOpenTextPopUp(false)} />
