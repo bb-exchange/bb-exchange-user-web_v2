@@ -1,4 +1,4 @@
-import { hourToSec } from ".src/util/dateTIme";
+import { hourToSec } from ".src/util/dateTime";
 
 export const D_popularPostList: IpostList[] = [
   {
