@@ -1,4 +1,4 @@
-import { expect, jest, g } from "@jest/globals";
+import { expect, jest } from "@jest/globals";
 import { fireEvent, render, renderHook } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import * as nextRouter from "next/router";
@@ -7,11 +7,11 @@ import {
   QueryClientProvider,
   useQuery,
 } from "@tanstack/react-query";
-import UsePopular from ".src/hooks/posts/usePopular";
+import UseLatest from "./useLatest";
 import { waitFor } from "@testing-library/react";
 import { fetchArticles } from ".src/api/articles/articles";
 
-describe("Popular", () => {
+describe("useLatest", () => {
   (nextRouter as any).useRouter = jest.fn();
   (nextRouter as any).useRouter.mockImplementation(() => ({
     query: { page: 0 },
@@ -20,9 +20,9 @@ describe("Popular", () => {
   const queryClient = new QueryClient();
 
   it("글 리스트 api 글이 존재", async () => {
-    function useCustomHook() {
+    function getLateArticles() {
       return useQuery({
-        queryKey: ["popular", 0],
+        queryKey: ["latest", 0],
         queryFn: fetchArticles,
       });
     }
@@ -31,7 +31,7 @@ describe("Popular", () => {
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     );
 
-    const { result } = renderHook(() => useCustomHook(), {
+    const { result } = renderHook(getLateArticles, {
       wrapper,
     });
 
@@ -40,16 +40,16 @@ describe("Popular", () => {
   });
 
   it("글 좋아요 버튼 작동", () => {
-    let results = {} as ReturnType<typeof UsePopular>;
+    let results = {} as ReturnType<typeof UseLatest>;
 
     const Wrapper = () => {
-      results = UsePopular();
+      results = UseLatest();
       return null;
     };
 
-    const TestBtn = () => {
-      return <button onClick={(e) => results.onClickFavBtn(e, 0)}></button>;
-    };
+    const TestBtn = () => (
+      <button onClick={(e) => results.onClickFavBtn(e, 0)}></button>
+    );
 
     const { container } = render(
       <QueryClientProvider client={queryClient}>

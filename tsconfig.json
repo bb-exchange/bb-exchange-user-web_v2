@@ -19,6 +19,6 @@
       ".assets/*": ["./public/assets/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "./@types/*.d.ts", "__mocks__/fileMock.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "./@types/*.d.ts", "__test__/__mocks__/fileMock.js"],
   "exclude": ["node_modules"]
 }

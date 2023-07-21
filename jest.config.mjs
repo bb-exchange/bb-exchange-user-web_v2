@@ -13,7 +13,7 @@ const config = {
 
   testEnvironment: "jest-environment-jsdom",
   moduleNameMapper: {
-    "^.+\\.(svg)$": "<rootDir>/__mocks__/fileMock.js",
+    "^.+\\.(svg)$": "<rootDir>/__test__/__mocks__/fileMock.js",
   },
 };
 
