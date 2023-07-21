@@ -20,7 +20,7 @@ describe("usePopular", () => {
   const queryClient = new QueryClient();
 
   it("글 리스트 api 글이 존재", async () => {
-    function getPopularArticles() {
+    function usePopularArticles() {
       return useQuery({
         queryKey: ["popular", 0],
         queryFn: fetchArticles,
@@ -31,7 +31,7 @@ describe("usePopular", () => {
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     );
 
-    const { result } = renderHook(getPopularArticles, {
+    const { result } = renderHook(usePopularArticles, {
       wrapper,
     });
 

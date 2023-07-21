@@ -20,7 +20,7 @@ describe("useListed", () => {
   const queryClient = new QueryClient();
 
   it("글 리스트 api 글이 존재", async () => {
-    function getLateArticles() {
+    function useLateArticles() {
       return useQuery({
         queryKey: ["listed", 0],
         queryFn: fetchArticles,
@@ -31,7 +31,7 @@ describe("useListed", () => {
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     );
 
-    const { result } = renderHook(getLateArticles, {
+    const { result } = renderHook(useLateArticles, {
       wrapper,
     });
 
