@@ -40,24 +40,29 @@ const KakaoAuth = () => {
         if (data) {
           const response = await basicInstance.post("/v1/auth/oidc/login", {
             idToken: data.id_token,
-            accessToken: data.access_token,
+            oauthType: "KAKAO",
+            // accessToken: data.access_token,
           });
           console.log(response);
           //reponse에 status가 PHONE_VERIFIED이면(비회원) => 서비스 이용동의 페이지 => 닉네임 설정 페이지
           //accessToken이 있으면(회원) => 메인페이지로 랜딩
-          if (response.data.data.data.status === "PHONE_VERIFIED") {
-            setCookie("authKey", response.data.data.data.key, {
-              path: "/",
-            });
-            push("/auth/terms-agreement?from=kakao");
-          } else if (response.data.data.data.oauthTypes) {
-            //이미 가입된 정보가 있는 경우(response에 oauthType 내려옴)
-            LocalStorage.setItem(
-              "oauthType",
-              response.data.data.data.oauthTypes[0]
-            );
-            push("/auth/duplicate-social-account");
-          } else if (
+          // if (response.data.data.data.status === "PHONE_VERIFIED") {
+          //   setCookie("authKey", response.data.data.data.key, {
+          //     path: "/",
+          //   });
+          //   push("/auth/terms-agreement?from=kakao");
+          // } else
+
+          // if (response.data.data.data.oauthTypes) {
+          //   //이미 가입된 정보가 있는 경우(response에 oauthType 내려옴)
+          //   LocalStorage.setItem(
+          //     "oauthType",
+          //     response.data.data.data.oauthTypes[0]
+          //   );
+          //   push("/auth/duplicate-social-account");
+          // } else
+
+          if (
             response.data.data.data.accessToken &&
             response.data.data.data.refreshToken
           ) {

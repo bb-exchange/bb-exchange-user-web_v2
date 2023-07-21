@@ -7,6 +7,7 @@ import { CookiesProvider, useCookies } from "react-cookie";
 import { wrapper } from ".src/app/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
+import "react-notion-x/src/styles.css";
 
 export default function App({ Component, ...rest }: AppProps) {
   const queryClient = new QueryClient();

@@ -50,12 +50,12 @@ const HiddenUsers = () => {
             content={
               <>
                 <span className={styles.boldText}>
-                  사용자 차단을 해제하시겠습니까?
+                  이 사용자의 게시물을 다시 보시겠어요?
                 </span>
                 <span>
-                  차단 해제 시 해당 사용자의 비법글을 보고
+                  게시글 목록에서 이 사용자의 게시글을
                   <br />
-                  구매할 수 있습니다.
+                  다시 볼 수 있어요.
                 </span>
               </>
             }

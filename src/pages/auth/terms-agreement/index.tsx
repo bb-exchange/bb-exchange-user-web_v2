@@ -12,7 +12,7 @@ import {
   TERMS_OF_SERVICE_V1,
 } from ".src/data/terms-agreement/D_terms";
 import { useRouter } from "next/router";
-import termsOfService from ".src/components/terms/service";
+import ConfirmPopup from ".src/components/common/popup/confirmPopup";
 
 const TermsAgreement = () => {
   const router = useRouter();
@@ -27,14 +27,7 @@ const TermsAgreement = () => {
   const [checkedInputs, setCheckedInputs] = useState<string[]>([]);
   const handleAllcheck = (checked: boolean, id: string) => {
     if (checked) {
-      setCheckedInputs([
-        "check_1",
-        "check_2",
-        "check_3",
-        "check_4",
-        "check_5",
-        id,
-      ]);
+      setCheckedInputs(["check_1", "check_2", "check_3", "check_4", id]);
     } else {
       setCheckedInputs([]);
     }
@@ -47,14 +40,13 @@ const TermsAgreement = () => {
           "check_2",
           "check_3",
           "check_4",
-          "check_5",
           "check_all",
         ]);
       } else {
         setCheckedInputs([...checkedInputs, id]);
       }
     } else {
-      if (checkedInputs.length === 6) {
+      if (checkedInputs.length === 5) {
         setCheckedInputs(
           checkedInputs.filter((el) => el !== id && el !== "check_all")
         );
@@ -65,9 +57,10 @@ const TermsAgreement = () => {
   };
 
   const btnActive =
-    (checkedInputs.length === 4 &&
+    (checkedInputs.length === 3 &&
       !checkedInputs.includes("check_all") &&
-      !checkedInputs.includes("check_5")) ||
+      !checkedInputs.includes("check_4")) ||
+    checkedInputs.length === 4 ||
     checkedInputs.includes("check_all");
 
   const handleTextPopup = () => {
@@ -94,11 +87,26 @@ const TermsAgreement = () => {
     }
   };
 
+  const [openConsentPopup, setOpenConsentPopup] = useState(false);
+  const [openRefusePopup, setOpenRefusePopup] = useState(false);
+
+  //마케팅 정보수신 동의 팝업
+  const handlePopup = (e: any) => {
+    let checked = e.target.checked;
+    if (checked) {
+      console.log("checked");
+      setOpenConsentPopup(true);
+    } else {
+      console.log("unchecked");
+      setOpenRefusePopup(true);
+    }
+  };
+
   return (
     <div id={styles.termsAgreement} className={styles.container}>
       <div className={styles.contentBox}>
         <p className={styles.title}>서비스 이용동의</p>
-        <ul>
+        <ul className={styles.wrapList}>
           <li className={styles.allAgreement}>
             <section>
               <input
@@ -186,35 +194,11 @@ const TermsAgreement = () => {
                 type="checkbox"
                 onChange={(e) => {
                   handleCheckbox(e.target.checked, "check_4");
+                  handlePopup(e);
                 }}
                 checked={checkedInputs.includes("check_4") ? true : false}
               />
-              <label htmlFor="check_4">
-                (필수) 구매조건 확인 및 결제 진행 동의
-              </label>
-            </section>
-            <section
-              className={styles.iconWrap}
-              onClick={() => {
-                setOpenTextPopUp(true);
-                setOpenTerm("agreementOfPayment");
-              }}
-            >
-              <IconArrow />
-            </section>
-          </li>
-          <li>
-            <section>
-              <input
-                id={"check_5"}
-                className={styles.check}
-                type="checkbox"
-                onChange={(e) => {
-                  handleCheckbox(e.target.checked, "check_5");
-                }}
-                checked={checkedInputs.includes("check_5") ? true : false}
-              />
-              <label htmlFor="check_5">(선택) 마케팅 정보 수신 동의</label>
+              <label htmlFor="check_4">(선택) 마케팅 정보 수신 동의</label>
             </section>
             <section
               className={styles.iconWrap}
@@ -256,12 +240,69 @@ const TermsAgreement = () => {
           <PopupBg bg off={() => setOpenTextPopUp(false)} />
         </>
       )}
+      {openConsentPopup && (
+        <>
+          <ConfirmPopup
+            title="마케팅 정보 수신에 동의하시겠습니까?"
+            content={
+              <>
+                <span>푸시 알림 및 문자 메세지를 통해</span>
+                <br />
+                <span>
+                  회원님께 쿠폰, 할인 헤택 등 마케팅 정보를
+                  <br />
+                  전송하려고 합니다.
+                </span>
+              </>
+            }
+            cancelFunc={() => {
+              setOpenConsentPopup(false);
+              setCheckedInputs(
+                checkedInputs.filter((ele) => ele !== "check_4")
+              );
+            }}
+            confirmFunc={() => {
+              setOpenConsentPopup(false);
+            }}
+          />
+          <PopupBg
+            bg
+            off={() => {
+              setOpenConsentPopup(false);
+              setCheckedInputs(
+                checkedInputs.filter((ele) => ele !== "check_4")
+              );
+            }}
+          />
+        </>
+      )}
+      {openRefusePopup && (
+        <>
+          <ErrorMsgPopup
+            msg={"마케팅 정보 수신이 거부되었습니다."}
+            subMsg={
+              <>
+                광고성 정보 수신 동의는 설정 {`>`} 알림에서
+                <br />
+                변경 가능합니다
+              </>
+            }
+            confirmFunc={() => setOpenRefusePopup(false)}
+          />
+          <PopupBg bg off={() => setOpenRefusePopup(false)} />
+        </>
+      )}
     </div>
   );
 };
 
 export default TermsAgreement;
 
-export function getStaticProps() {
-  return { props: { navBar: true } };
-}
+export const getStaticProps = () => {
+  return {
+    props: {
+      navBar: true,
+    },
+    revalidate: 10,
+  };
+};
