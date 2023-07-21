@@ -48,8 +48,11 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 18.15.0
-
+          
       - name: Install modules
+        run: npm i
+
+      - name: Clean Install modules
         run: npm ci
      
       - name: Generate Environment Variables File for Production
