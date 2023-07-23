@@ -8,8 +8,12 @@ export default function usePost() {
   const router = useRouter();
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
+  const [unLimted, setUnLimited] = useState<boolean>(
+    router.query.unLimited === "true" || false
+  );
   const [otherPostList, setOtherPostList] =
     useState<IpostList[]>(D_otherPostList);
+  const [isLike, setIsLike] = useState<boolean>(false);
   const [like, setLike] = useState<1 | 0 | -1>(0);
   const [reply, setReply] = useState<string>("");
   const [replyList, setReplyList] = useState<Ireply[]>(D_replyList);
@@ -65,9 +69,15 @@ export default function usePost() {
     setCompHideUserPostPopup(true);
   }
 
+  function onClickFavBtn() {
+    setIsLike(!isLike);
+  }
+
   return {
     inputRef,
     postData,
+    unLimted,
+    isLike,
     like,
     reply,
     setReply,
@@ -96,5 +106,6 @@ export default function usePost() {
     compHideUserPostPopup,
     setCompHideUserPostPopup,
     onSuccessHideUserPost,
+    onClickFavBtn,
   };
 }

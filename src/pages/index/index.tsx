@@ -415,6 +415,19 @@ export default function Index() {
       <li
         onClick={() =>
           push({
+            pathname: "/post/0",
+            query: {
+              unLimited: true,
+            },
+          })
+        }
+      >
+        글 상세페이지 (구매된 글)
+      </li>
+
+      <li
+        onClick={() =>
+          push({
             pathname: "/setting",
           })
         }

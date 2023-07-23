@@ -11,6 +11,7 @@ import ThumbUpRed from ".assets/icons/ThumbUpRed.svg";
 import ThumbUpGrey from ".assets/icons/ThumbUpGrey.svg";
 import ThumbDnGrey from ".assets/icons/ThumbDnGrey.svg";
 import ThumbDnBlue from ".assets/icons/ThumbDnBlue.svg";
+import NoticeCircleGrey from ".assets/icons/NoticeCircleGrey.svg";
 import Message from ".assets/icons/Message.svg";
 import usePost from ".src/hooks/post/usePost";
 import moment from "moment";
@@ -24,7 +25,8 @@ import ReportPostPopup from ".src/components/post/reportPostPopup";
 import ReportUserPopup from ".src/components/post/reportUserPopup";
 import ConfirmPopup from ".src/components/common/popup/confirmPopup";
 import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
-import useGetMyProfile from ".src/hooks/common/useGetProfile";
+import HeartRedO from ".assets/icons/HeartRedO.svg";
+import HeartGrey from ".assets/icons/HeartGrey.svg";
 
 export default function Post() {
   const useCustomHook = usePost();
@@ -44,28 +46,34 @@ export default function Post() {
             <div className={styles.verArea}>
               <div className={styles.leftCont}>
                 <h2 className={styles.category}>커리어</h2>
-                <hr />
+                {useCustomHook.unLimted && (
+                  <>
+                    <hr />
 
-                <div className={styles.verCont}>
-                  <div className={styles.verBox}>
-                    <NewSky />
+                    <div className={styles.verCont}>
+                      <div className={styles.verBox}>
+                        <NewSky />
 
-                    <p>Ver.9</p>
-                  </div>
+                        <p>Ver.9</p>
+                      </div>
 
-                  <p className={styles.time}>23.04.05</p>
-                </div>
+                      <p className={styles.time}>23.04.05</p>
+                    </div>
+                  </>
+                )}
               </div>
 
               <div className={styles.rightCont}>
-                <button
-                  className={styles.otherVerBtn}
-                  onClick={() => useCustomHook.setPostVerPopup(true)}
-                >
-                  <p>다른버전 보러가기</p>
+                {useCustomHook.unLimted && (
+                  <button
+                    className={styles.otherVerBtn}
+                    onClick={() => useCustomHook.setPostVerPopup(true)}
+                  >
+                    <p>다른버전 보러가기</p>
 
-                  <ChevronRt />
-                </button>
+                    <ChevronRt />
+                  </button>
+                )}
               </div>
             </div>
 
@@ -81,256 +89,375 @@ export default function Post() {
 
                     <p>치은짱짱맨</p>
                   </div>
-                  <div className={`${styles.creatorBox} ${styles.contBox}`}>
-                    <Eye />
 
-                    <p>{new Intl.NumberFormat().format(1000000)}</p>
-                  </div>
+                  {useCustomHook.unLimted ? (
+                    <div className={`${styles.creatorBox} ${styles.contBox}`}>
+                      <Eye />
+
+                      <p>{new Intl.NumberFormat().format(1000000)}</p>
+                    </div>
+                  ) : (
+                    <div className={`${styles.creatorBox} ${styles.contBox}`}>
+                      <p>
+                        작성일{" "}
+                        {moment(new Date(2023, 11, 22)).format("YYYY.MM.DD")}
+                      </p>
+                    </div>
+                  )}
                 </div>
 
                 <div className={styles.rightCont}>
-                  <button className={styles.urlCopyBtn} onClick={() => {}}>
-                    URL 복사
-                  </button>
+                  {useCustomHook.unLimted && (
+                    <>
+                      <button className={styles.urlCopyBtn} onClick={() => {}}>
+                        URL 복사
+                      </button>
 
-                  <div className={styles.btnBox}>
-                    <button
-                      className={styles.moreBtn}
-                      onClick={() => useCustomHook.setMorePopup(true)}
-                    >
-                      <Dot3 />
-                    </button>
+                      <div className={styles.btnBox}>
+                        <button
+                          className={styles.moreBtn}
+                          onClick={() => useCustomHook.setMorePopup(true)}
+                        >
+                          <Dot3 />
+                        </button>
 
-                    {useCustomHook.morePopup && (
-                      <>
-                        <PostMorePopup useCustomHook={useCustomHook} />
-                        <PopupBg
-                          off={() => useCustomHook.setMorePopup(false)}
-                        />
-                      </>
-                    )}
-                  </div>
+                        {useCustomHook.morePopup && (
+                          <>
+                            <PostMorePopup useCustomHook={useCustomHook} />
+                            <PopupBg
+                              off={() => useCustomHook.setMorePopup(false)}
+                            />
+                          </>
+                        )}
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
           </article>
 
-          <article className={styles.contArea}>
-            <img
-              src={"https://picsum.photos/792"}
-              alt=""
-              onClick={(e: any) => useCustomHook.setImgPopup(e.target.src)}
-            />
-
-            <p>
-              {`자전거로 출퇴근을 시작하면 가장 큰 문제는 피로도라 할 수 있습니다. 초반에 몸에 무리가 가지 않도록 하는 것이 중요합니다. 그래서 저는 처음에는 격일 출퇴근을 하였습니다. 일주일에 한번, 하루는 자전거를 타고 출근한 후 퇴근할 때 자전거를 놔두고 대중교통을 이용하였습니다.
- `}
-            </p>
-
-            <img src={"https://picsum.photos/792"} alt="" />
-
-            <p>{`자전거로 출퇴근을 시작하면 가장 큰 문제는 피로도라 할 수 있습니다. 초반에 몸에 무리가 가지 않도록 하는 것이 중요합니다. 그래서 저는 처음에는 격일 출퇴근을 하였습니다.
-일주일에 한번, 하루는 자전거를 타고 출근한 후 퇴근할 때 자전거를 놔두고 대중교통을 이용하였습니다.`}</p>
-          </article>
-
-          <article className={styles.likeArea}>
-            <div
-              className={`${useCustomHook.like === 1 ? styles.up : ""} ${
-                useCustomHook.like === -1 ? styles.dn : ""
-              } ${styles.innerCont}`}
-            >
-              <button
-                className={styles.likeBtn}
-                onClick={() => useCustomHook.onClickLikeBtn(1)}
-              >
-                {useCustomHook.like === 1 ? <ThumbUpRed /> : <ThumbUpGrey />}
-                <p>+1P</p>
-              </button>
-
-              <div className={styles.currentBox}>
-                <p>현재가</p>
-                <h2 className={styles.price}>{`${new Intl.NumberFormat().format(
-                  9999999
-                )}P`}</h2>
-                <p className={styles.percent}>+2.1%</p>
-              </div>
-
-              <button
-                className={styles.likeBtn}
-                onClick={() => useCustomHook.onClickLikeBtn(-1)}
-              >
-                {useCustomHook.like === -1 ? <ThumbDnBlue /> : <ThumbDnGrey />}
-                <p>-1P</p>
-              </button>
-            </div>
-          </article>
-
-          <article className={styles.replyArea}>
-            <ul className={styles.tagList}>
-              {new Array(6).fill("").map((v, i) => (
-                <li key={i}>{`#태그 ${i}`}</li>
-              ))}
-            </ul>
-
-            <div className={styles.inputCont}>
-              <div className={styles.countBar}>
-                <Message />
-
-                <p className={styles.key}>댓글</p>
-                <p className={styles.value}>
-                  {new Intl.NumberFormat().format(9999)}
-                </p>
-              </div>
-
-              <div className={styles.inputBox}>
-                <textarea
-                  ref={useCustomHook.inputRef}
-                  value={useCustomHook.reply}
-                  onChange={(e) => useCustomHook.setReply(e.target.value)}
-                  placeholder="댓글을 입력해주세요"
+          {useCustomHook.unLimted ? (
+            <>
+              <article className={styles.contArea}>
+                <img
+                  src={"https://picsum.photos/792"}
+                  alt=""
+                  onClick={(e: any) => useCustomHook.setImgPopup(e.target.src)}
                 />
 
-                <button
-                  className={styles.inputBtn}
-                  onClick={() => {
-                    useCustomHook.inputRef.current?.focus();
-                    console.log(useCustomHook.reply);
-                  }}
+                <p>
+                  {`자전거로 출퇴근을 시작하면 가장 큰 문제는 피로도라 할 수 있습니다. 초반에 몸에 무리가 가지 않도록 하는 것이 중요합니다. 그래서 저는 처음에는 격일 출퇴근을 하였습니다. 일주일에 한번, 하루는 자전거를 타고 출근한 후 퇴근할 때 자전거를 놔두고 대중교통을 이용하였습니다.
+ `}
+                </p>
+
+                <img src={"https://picsum.photos/792"} alt="" />
+
+                <p>{`자전거로 출퇴근을 시작하면 가장 큰 문제는 피로도라 할 수 있습니다. 초반에 몸에 무리가 가지 않도록 하는 것이 중요합니다. 그래서 저는 처음에는 격일 출퇴근을 하였습니다.
+일주일에 한번, 하루는 자전거를 타고 출근한 후 퇴근할 때 자전거를 놔두고 대중교통을 이용하였습니다.`}</p>
+              </article>
+
+              <article className={styles.likeArea}>
+                <div
+                  className={`${useCustomHook.like === 1 ? styles.up : ""} ${
+                    useCustomHook.like === -1 ? styles.dn : ""
+                  } ${styles.innerCont}`}
                 >
-                  {useCustomHook.reply}
-                </button>
+                  <button
+                    className={styles.likeBtn}
+                    onClick={() => useCustomHook.onClickLikeBtn(1)}
+                  >
+                    {useCustomHook.like === 1 ? (
+                      <ThumbUpRed />
+                    ) : (
+                      <ThumbUpGrey />
+                    )}
+                    <p>+1P</p>
+                  </button>
 
-                <button
-                  className={styles.enrollBtn}
-                  onClick={() => useCustomHook.setReply("")}
-                >
-                  입력
-                </button>
-              </div>
+                  <div className={styles.currentBox}>
+                    <p>현재가</p>
+                    <h2
+                      className={styles.price}
+                    >{`${new Intl.NumberFormat().format(9999999)}P`}</h2>
+                    <p className={styles.percent}>+2.1%</p>
+                  </div>
 
-              <ul className={styles.replyList}>
-                {useCustomHook.replyList.map((v, i) => (
-                  <li key={i}>
-                    <Reply data={v} />
+                  <button
+                    className={styles.likeBtn}
+                    onClick={() => useCustomHook.onClickLikeBtn(-1)}
+                  >
+                    {useCustomHook.like === -1 ? (
+                      <ThumbDnBlue />
+                    ) : (
+                      <ThumbDnGrey />
+                    )}
+                    <p>-1P</p>
+                  </button>
+                </div>
+              </article>
 
-                    {v.nestedReply?.map((detV, detI) => (
-                      <Reply key={detI} data={detV} nested />
+              <article className={styles.replyArea}>
+                <ul className={styles.tagList}>
+                  {new Array(6).fill("").map((v, i) => (
+                    <li key={i}>{`#태그 ${i}`}</li>
+                  ))}
+                </ul>
+
+                <div className={styles.inputCont}>
+                  <div className={styles.countBar}>
+                    <Message />
+
+                    <p className={styles.key}>댓글</p>
+                    <p className={styles.value}>
+                      {new Intl.NumberFormat().format(9999)}
+                    </p>
+                  </div>
+
+                  <div className={styles.inputBox}>
+                    <textarea
+                      ref={useCustomHook.inputRef}
+                      value={useCustomHook.reply}
+                      onChange={(e) => useCustomHook.setReply(e.target.value)}
+                      placeholder="댓글을 입력해주세요"
+                    />
+
+                    <button
+                      className={styles.inputBtn}
+                      onClick={() => {
+                        useCustomHook.inputRef.current?.focus();
+                        console.log(useCustomHook.reply);
+                      }}
+                    >
+                      {useCustomHook.reply}
+                    </button>
+
+                    <button
+                      className={styles.enrollBtn}
+                      onClick={() => useCustomHook.setReply("")}
+                    >
+                      입력
+                    </button>
+                  </div>
+
+                  <ul className={styles.replyList}>
+                    {useCustomHook.replyList.map((v, i) => (
+                      <li key={i}>
+                        <Reply data={v} />
+
+                        {v.nestedReply?.map((detV, detI) => (
+                          <Reply key={detI} data={detV} nested />
+                        ))}
+                      </li>
                     ))}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </article>
+                  </ul>
+                </div>
+              </article>
+            </>
+          ) : (
+            <>
+              <article
+                className={`${styles.contArea} ${
+                  useCustomHook.unLimted ? "" : styles.limited
+                }`}
+              >
+                <div className={styles.overlayBox}>
+                  <button
+                    className={styles.favBtn}
+                    onClick={useCustomHook.onClickFavBtn}
+                  >
+                    {useCustomHook.isLike === true ? (
+                      <HeartRedO />
+                    ) : (
+                      <HeartGrey />
+                    )}
+
+                    <p>찜하기</p>
+                  </button>
+
+                  <p className={styles.plzBuy}>전체글을 보려면 구매해주세요.</p>
+                </div>
+
+                <p>
+                  {`최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요`}
+                </p>
+              </article>
+
+              <article className={styles.replyArea}>
+                <div className={styles.inputCont}>
+                  <div className={styles.countBar}>
+                    <Message />
+
+                    <p className={styles.key}>댓글</p>
+                    <p className={styles.value}>
+                      {new Intl.NumberFormat().format(9999)}
+                    </p>
+                  </div>
+
+                  <ul className={styles.replyList}>
+                    {useCustomHook.replyList.slice(0, 3).map((v, i) => (
+                      <li key={i}>
+                        <Reply data={v} />
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </article>
+            </>
+          )}
         </section>
 
         <aside>
-          <article className={styles.creatorArea}>
-            <div className={styles.profImgBox}>
-              <img src={DefaultProfImg.src} alt="" />
-            </div>
+          {useCustomHook.unLimted ? (
+            <>
+              <article className={styles.creatorArea}>
+                <div className={styles.profImgBox}>
+                  <img src={DefaultProfImg.src} alt="" />
+                </div>
 
-            <div className={styles.nicknameBar}>
-              <h1 className={styles.nickname}>치은짱짱맨</h1>
-              <Gold />
-            </div>
+                <div className={styles.nicknameBar}>
+                  <h1 className={styles.nickname}>치은짱짱맨</h1>
+                  <Gold />
+                </div>
 
-            <p className={styles.profMsg}>
-              {`재테크, 투자, 자동차 전문가입니다.
+                <p className={styles.profMsg}>
+                  {`재테크, 투자, 자동차 전문가입니다.
 12년간 7개의 은행, 증권사, 투자은행을 다닌 경험이 있으며, 시드 2000천으로 현재 자산 58억 달성한 모든 비법을 공유합니다. 다들 따라오세요!!! 가보자구욧~!~!`}
-            </p>
-          </article>
+                </p>
+              </article>
 
-          <article className={`${styles.otherPostArea} ${styles.postListArea}`}>
-            <p className={styles.areaTitle}>치은짱짱맨님의 다른 글</p>
+              <article
+                className={`${styles.otherPostArea} ${styles.postListArea}`}
+              >
+                <p className={styles.areaTitle}>치은짱짱맨님의 다른 글</p>
 
-            <ul className={styles.postList}>
-              {useCustomHook.otherPostList.map((v, i) => (
-                <li key={i}>
-                  <div className={styles.topBar}>
-                    <p>
-                      <strong className={styles.category}>{v.category}</strong>
-                      ・{v.creatorNickname}・{moment(v.createdAt).fromNow()}
+                <ul className={styles.postList}>
+                  {useCustomHook.otherPostList.map((v, i) => (
+                    <li key={i}>
+                      <div className={styles.topBar}>
+                        <p>
+                          <strong className={styles.category}>
+                            {v.category}
+                          </strong>
+                          ・{v.creatorNickname}・{moment(v.createdAt).fromNow()}
+                        </p>
+                      </div>
+
+                      <div className={styles.contBar}>
+                        <div className={styles.leftCont}>
+                          <p className={styles.title}>{v.title}</p>
+
+                          <div className={styles.thumbnailBox}>
+                            <img src={v.thumbnailUrl} alt="" />
+                          </div>
+                        </div>
+
+                        <div
+                          className={`${styles.rightCont} ${getDiffStyle(
+                            v.percentOfChange || 0
+                          )}`}
+                        >
+                          <p className={styles.diff}>
+                            {`${(v.percentOfChange || 0) > 0 ? "+" : ""}${
+                              v.percentOfChange || 0
+                            }% (${v.amountOfChange || 0})`}
+                          </p>
+
+                          <p
+                            className={styles.price}
+                          >{`${new Intl.NumberFormat().format(
+                            v.point || 0
+                          )} 원`}</p>
+                        </div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+
+              <article
+                className={`${styles.categoryPopularPostList} ${styles.postListArea}`}
+              >
+                <p className={styles.areaTitle}>커리어 카테고리의 인기글</p>
+
+                <ul className={styles.postList}>
+                  {useCustomHook.otherPostList.map((v, i) => (
+                    <li key={i}>
+                      <div className={styles.topBar}>
+                        <p>
+                          <strong className={styles.category}>
+                            {v.category}
+                          </strong>
+                          ・{v.creatorNickname}・{moment(v.createdAt).fromNow()}
+                        </p>
+                      </div>
+
+                      <div className={styles.contBar}>
+                        <div className={styles.leftCont}>
+                          <p className={styles.title}>{v.title}</p>
+
+                          <div className={styles.thumbnailBox}>
+                            <img src={v.thumbnailUrl} alt="" />
+                          </div>
+                        </div>
+
+                        <div
+                          className={`${styles.rightCont} ${getDiffStyle(
+                            v.percentOfChange || 0
+                          )}`}
+                        >
+                          <p className={styles.diff}>
+                            {`${(v.percentOfChange || 0) > 0 ? "+" : ""}${
+                              v.percentOfChange || 0
+                            }% (${v.amountOfChange || 0})`}
+                          </p>
+
+                          <p
+                            className={styles.price}
+                          >{`${new Intl.NumberFormat().format(
+                            v.point || 0
+                          )} 원`}</p>
+                        </div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            </>
+          ) : (
+            <article className={styles.buyArea}>
+              <div className={styles.viewCont}>
+                <strong className={styles.icon}>👀</strong>
+                <br />
+                278,435명이 이 글을 봤어요!
+              </div>
+
+              <div className={styles.contCont}>
+                <div className={styles.priceCont}>
+                  <div className={`${styles.diffBox} ${getDiffStyle(1 || 0)}`}>
+                    <p>+50.4% (63)</p>
+                  </div>
+
+                  <div className={`${styles.priceBox} ${getDiffStyle(1 || 0)}`}>
+                    <p className={styles.key}>현재가</p>
+                    <p className={styles.value}>
+                      {Intl.NumberFormat().format(12000)} P
                     </p>
                   </div>
 
-                  <div className={styles.contBar}>
-                    <div className={styles.leftCont}>
-                      <p className={styles.title}>{v.title}</p>
+                  <div className={styles.noticeBox}>
+                    <NoticeCircleGrey />
 
-                      <div className={styles.thumbnailBox}>
-                        <img src={v.thumbnailUrl} alt="" />
-                      </div>
-                    </div>
-
-                    <div
-                      className={`${styles.rightCont} ${getDiffStyle(
-                        v.percentOfChange || 0
-                      )}`}
-                    >
-                      <p className={styles.diff}>
-                        {`${(v.percentOfChange || 0) > 0 ? "+" : ""}${
-                          v.percentOfChange || 0
-                        }% (${v.amountOfChange || 0})`}
-                      </p>
-
-                      <p
-                        className={styles.price}
-                      >{`${new Intl.NumberFormat().format(
-                        v.point || 0
-                      )} 원`}</p>
-                    </div>
+                    <p>실시간으로 가격이 변동될 수 있습니다</p>
                   </div>
-                </li>
-              ))}
-            </ul>
-          </article>
+                </div>
 
-          <article
-            className={`${styles.categoryPopularPostList} ${styles.postListArea}`}
-          >
-            <p className={styles.areaTitle}>커리어 카테고리의 인기글</p>
-
-            <ul className={styles.postList}>
-              {useCustomHook.otherPostList.map((v, i) => (
-                <li key={i}>
-                  <div className={styles.topBar}>
-                    <p>
-                      <strong className={styles.category}>{v.category}</strong>
-                      ・{v.creatorNickname}・{moment(v.createdAt).fromNow()}
-                    </p>
-                  </div>
-
-                  <div className={styles.contBar}>
-                    <div className={styles.leftCont}>
-                      <p className={styles.title}>{v.title}</p>
-
-                      <div className={styles.thumbnailBox}>
-                        <img src={v.thumbnailUrl} alt="" />
-                      </div>
-                    </div>
-
-                    <div
-                      className={`${styles.rightCont} ${getDiffStyle(
-                        v.percentOfChange || 0
-                      )}`}
-                    >
-                      <p className={styles.diff}>
-                        {`${(v.percentOfChange || 0) > 0 ? "+" : ""}${
-                          v.percentOfChange || 0
-                        }% (${v.amountOfChange || 0})`}
-                      </p>
-
-                      <p
-                        className={styles.price}
-                      >{`${new Intl.NumberFormat().format(
-                        v.point || 0
-                      )} 원`}</p>
-                    </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </article>
+                <button className={styles.buyBtn} onClick={() => {}}>
+                  구매하기
+                </button>
+              </div>
+            </article>
+          )}
         </aside>
       </main>
 
