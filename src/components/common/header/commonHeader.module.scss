@@ -138,20 +138,20 @@
 
               & > svg {
                 rect {
-                  fill: $Primary1;
+                  fill: $Primary2;
                 }
               }
 
               .valueBox {
                 p {
-                  color: $Primary1;
+                  color: $Primary2;
                 }
 
                 svg {
                   transform: rotate(180deg);
 
                   path {
-                    fill: $Primary1;
+                    fill: $Primary2;
                   }
                 }
               }
@@ -237,7 +237,7 @@
             align-items: center;
             height: 36px;
             padding: 0 12px;
-            background: $Primary2;
+            background: $Primary5;
             border-radius: 12px;
 
             p {
