@@ -34,33 +34,36 @@ describe("useListed", () => {
   });
 
   it("글 좋아요 버튼 작동", () => {
-    let results = {} as ReturnType<typeof UseListed>;
+    let useListed = {} as ReturnType<typeof UseListed>;
 
-    const Wrapper = () => {
-      results = UseListed();
+    const CustomHookWrapper = () => {
+      useListed = UseListed();
       return null;
     };
 
     const TestBtn = () => (
-      <button onClick={(e) => results.onClickFavBtn(e, 0)}></button>
+      <button
+        data-testid={"testBtn"}
+        onClick={(e) => useListed.onClickFavBtn(e, 0)}
+      />
     );
 
     const { container } = render(
       mockReactQuery({
         children: (
           <>
-            <Wrapper />
+            <CustomHookWrapper />
             <TestBtn />
           </>
         ),
       })
     );
 
-    const testBtn = container.getElementsByTagName("button")[0];
+    const testBtn = container.querySelector('[data-testid="testBtn"]');
 
-    const favBfrClick = results.dataList[0].isLike;
-    fireEvent.click(testBtn);
-    const favAftClick = results.dataList[0].isLike;
+    const favBfrClick = useListed.dataList[0].isLike;
+    fireEvent.click(testBtn!);
+    const favAftClick = useListed.dataList[0].isLike;
 
     expect(!favBfrClick === favAftClick).toBe(true);
   });

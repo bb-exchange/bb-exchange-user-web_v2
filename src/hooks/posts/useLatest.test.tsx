@@ -34,33 +34,36 @@ describe("useLatest", () => {
   });
 
   it("글 좋아요 버튼 작동", () => {
-    let results = {} as ReturnType<typeof UseLatest>;
+    let useLatest = {} as ReturnType<typeof UseLatest>;
 
-    const Wrapper = () => {
-      results = UseLatest();
+    const CustomHookWrapper = () => {
+      useLatest = UseLatest();
       return null;
     };
 
     const TestBtn = () => (
-      <button onClick={(e) => results.onClickFavBtn(e, 0)}></button>
+      <button
+        data-testid={"testBtn"}
+        onClick={(e) => useLatest.onClickFavBtn(e, 0)}
+      />
     );
 
     const { container } = render(
       mockReactQuery({
         children: (
           <>
-            <Wrapper />
+            <CustomHookWrapper />
             <TestBtn />
           </>
         ),
       })
     );
 
-    const testBtn = container.getElementsByTagName("button")[0];
+    const testBtn = container.querySelector('[data-testid="testBtn"]');
 
-    const favBfrClick = results.dataList[0].isLike;
-    fireEvent.click(testBtn);
-    const favAftClick = results.dataList[0].isLike;
+    const favBfrClick = useLatest.dataList[0].isLike;
+    fireEvent.click(testBtn!);
+    const favAftClick = useLatest.dataList[0].isLike;
 
     expect(!favBfrClick === favAftClick).toBe(true);
   });
