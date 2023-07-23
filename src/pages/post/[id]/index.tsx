@@ -257,6 +257,9 @@ export default function Post() {
                   <button
                     className={styles.favBtn}
                     onClick={UsePost.onClickFavBtn}
+                    data-testid={
+                      UsePost.isLike === true ? "thumbRed" : "thumbGrey"
+                    }
                   >
                     {UsePost.isLike === true ? <HeartRedO /> : <HeartGrey />}
 
