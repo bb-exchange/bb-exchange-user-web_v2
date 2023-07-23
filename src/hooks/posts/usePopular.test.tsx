@@ -10,14 +10,17 @@ import {
 import UsePopular from "./usePopular";
 import { waitFor } from "@testing-library/react";
 import { fetchArticles } from ".src/api/articles/articles";
+import mockNextRouter from "../../../__test__/__mocks__/nextRouter";
+import mockReactQuery from "../../../__test__/__mocks__/reactQuery";
 
 describe("usePopular", () => {
-  (nextRouter as any).useRouter = jest.fn();
-  (nextRouter as any).useRouter.mockImplementation(() => ({
-    query: { page: 0 },
-  }));
+  mockNextRouter({
+    opt: {
+      query: { page: 0 },
+    },
+  });
 
-  const queryClient = new QueryClient();
+  const wrapper = mockReactQuery;
 
   it("글 리스트 api 글이 존재", async () => {
     function usePopularArticles() {
@@ -27,9 +30,7 @@ describe("usePopular", () => {
       });
     }
 
-    const wrapper = ({ children }: any) => (
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    );
+    const wrapper = mockReactQuery;
 
     const { result } = renderHook(usePopularArticles, {
       wrapper,
@@ -52,10 +53,14 @@ describe("usePopular", () => {
     };
 
     const { container } = render(
-      <QueryClientProvider client={queryClient}>
-        <Wrapper />
-        <TestBtn />
-      </QueryClientProvider>
+      mockReactQuery({
+        children: (
+          <>
+            <Wrapper />
+            <TestBtn />
+          </>
+        ),
+      })
     );
 
     const testBtn = container.getElementsByTagName("button")[0];

@@ -9,7 +9,11 @@ import mockNextRouter from "../../../__test__/__mocks__/nextRouter";
 import mockReactQuery from "../../../__test__/__mocks__/reactQuery";
 
 describe("useLatest", () => {
-  mockNextRouter();
+  mockNextRouter({
+    opt: {
+      query: { page: 0 },
+    },
+  });
 
   it("글 리스트 api 글이 존재", async () => {
     function useLateArticles() {

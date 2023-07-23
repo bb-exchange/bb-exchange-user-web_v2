@@ -1,23 +1,19 @@
 import { expect, jest } from "@jest/globals";
 import { fireEvent, render, renderHook } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import * as nextRouter from "next/router";
-import {
-  QueryClient,
-  QueryClientProvider,
-  useQuery,
-} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import UseListed from "./useListed";
 import { waitFor } from "@testing-library/react";
 import { fetchArticles } from ".src/api/articles/articles";
+import mockNextRouter from "../../../__test__/__mocks__/nextRouter";
+import mockReactQuery from "../../../__test__/__mocks__/reactQuery";
 
 describe("useListed", () => {
-  (nextRouter as any).useRouter = jest.fn();
-  (nextRouter as any).useRouter.mockImplementation(() => ({
-    query: { page: 0 },
-  }));
-
-  const queryClient = new QueryClient();
+  mockNextRouter({
+    opt: {
+      query: { page: 0 },
+    },
+  });
 
   it("글 리스트 api 글이 존재", async () => {
     function useLateArticles() {
@@ -27,9 +23,7 @@ describe("useListed", () => {
       });
     }
 
-    const wrapper = ({ children }: any) => (
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    );
+    const wrapper = mockReactQuery;
 
     const { result } = renderHook(useLateArticles, {
       wrapper,
@@ -52,10 +46,14 @@ describe("useListed", () => {
     );
 
     const { container } = render(
-      <QueryClientProvider client={queryClient}>
-        <Wrapper />
-        <TestBtn />
-      </QueryClientProvider>
+      mockReactQuery({
+        children: (
+          <>
+            <Wrapper />
+            <TestBtn />
+          </>
+        ),
+      })
     );
 
     const testBtn = container.getElementsByTagName("button")[0];

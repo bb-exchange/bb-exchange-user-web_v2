@@ -1,8 +1,10 @@
 import * as nextRouter from "next/router";
 
-export default function mockNextRouter() {
+interface Iprops {
+  opt: { [key: string]: any };
+}
+
+export default function mockNextRouter({ opt }: Iprops) {
   (nextRouter as any).useRouter = jest.fn();
-  (nextRouter as any).useRouter.mockImplementation(() => ({
-    query: { page: 0 },
-  }));
+  (nextRouter as any).useRouter.mockImplementation(() => opt);
 }
