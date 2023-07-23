@@ -30,6 +30,7 @@ describe("useLatest", () => {
     });
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    console.log(result.current.data!.data.data.contents.length);
     expect(result.current.data!.data.data.contents.length).toBeGreaterThan(0);
   });
 

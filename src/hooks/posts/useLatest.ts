@@ -10,7 +10,7 @@ export default function useLatest() {
   const [dataList, setDataList] = useState(D_latestPostList);
 
   const { data: postData } = useQuery(
-    ["latest", router.query.page || 1],
+    ["latest", router.query.page || 0],
     fetchArticles,
     {
       retry: false,

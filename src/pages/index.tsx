@@ -1,9 +1,12 @@
+import Lastest from "./latest";
 import Popular from "./popular";
 
 export default function Home() {
-  return <Popular />;
+  return <Lastest />;
+  // return <Popular />;
 }
 
 export function getStaticProps() {
-  return { props: { commonLayout: true, commonSort: "인기" } };
+  return { props: { commonLayout: true, commonSort: "최신" } };
+  // return { props: { commonLayout: true, commonSort: "인기" } };
 }
