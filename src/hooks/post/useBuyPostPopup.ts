@@ -14,6 +14,8 @@ export default function UseBuyPostPopup({ usePost }: Iprops) {
 
   function onClickConfirmBtn() {
     usePost.setBuyPopup(false);
+    usePost.setCompPayPopup(true);
+    usePost.setUnLimited(true);
   }
 
   return { agreeTerm, onClickAgreeTermBtn, onClickConfirmBtn };

@@ -27,6 +27,7 @@ export default function usePost() {
   const [compHideUserPostPopup, setCompHideUserPostPopup] =
     useState<boolean>(false);
   const [buyPopup, setBuyPopup] = useState<boolean>(false);
+  const [compPayPopup, setCompPayPopup] = useState<boolean>(false);
 
   const { data: postData } = useQuery(["post", router.query.id], fetchPost, {
     retry: false,
@@ -78,6 +79,7 @@ export default function usePost() {
     inputRef,
     postData,
     unLimted,
+    setUnLimited,
     isLike,
     like,
     reply,
@@ -110,5 +112,7 @@ export default function usePost() {
     onClickFavBtn,
     buyPopup,
     setBuyPopup,
+    compPayPopup,
+    setCompPayPopup,
   };
 }

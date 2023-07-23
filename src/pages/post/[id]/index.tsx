@@ -28,6 +28,7 @@ import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
 import HeartRedO from ".assets/icons/HeartRedO.svg";
 import HeartGrey from ".assets/icons/HeartGrey.svg";
 import BuyPostPopup from ".src/components/post/buyPostPopup";
+import CompPayPopup from ".src/components/post/compPayPopup";
 
 export default function Post() {
   const UsePost = usePost();
@@ -125,9 +126,7 @@ export default function Post() {
                         {UsePost.morePopup && (
                           <>
                             <PostMorePopup useCustomHook={UsePost} />
-                            <PopupBg
-                              off={() => UsePost.setMorePopup(false)}
-                            />
+                            <PopupBg off={() => UsePost.setMorePopup(false)} />
                           </>
                         )}
                       </div>
@@ -168,11 +167,7 @@ export default function Post() {
                     className={styles.likeBtn}
                     onClick={() => UsePost.onClickLikeBtn(1)}
                   >
-                    {UsePost.like === 1 ? (
-                      <ThumbUpRed />
-                    ) : (
-                      <ThumbUpGrey />
-                    )}
+                    {UsePost.like === 1 ? <ThumbUpRed /> : <ThumbUpGrey />}
                     <p>+1P</p>
                   </button>
 
@@ -188,11 +183,7 @@ export default function Post() {
                     className={styles.likeBtn}
                     onClick={() => UsePost.onClickLikeBtn(-1)}
                   >
-                    {UsePost.like === -1 ? (
-                      <ThumbDnBlue />
-                    ) : (
-                      <ThumbDnGrey />
-                    )}
+                    {UsePost.like === -1 ? <ThumbDnBlue /> : <ThumbDnGrey />}
                     <p>-1P</p>
                   </button>
                 </div>
@@ -267,11 +258,7 @@ export default function Post() {
                     className={styles.favBtn}
                     onClick={UsePost.onClickFavBtn}
                   >
-                    {UsePost.isLike === true ? (
-                      <HeartRedO />
-                    ) : (
-                      <HeartGrey />
-                    )}
+                    {UsePost.isLike === true ? <HeartRedO /> : <HeartGrey />}
 
                     <p>찜하기</p>
                   </button>
@@ -534,20 +521,21 @@ export default function Post() {
             }
             confirmFunc={() => UsePost.setCompHideUserPostPopup(false)}
           />
-          <PopupBg
-            bg
-            off={() => UsePost.setCompHideUserPostPopup(false)}
-          />
+          <PopupBg bg off={() => UsePost.setCompHideUserPostPopup(false)} />
         </>
       )}
 
       {UsePost.buyPopup && (
         <>
           <BuyPostPopup usePost={UsePost} />
-          <PopupBg
-            bg
-            off={() => UsePost.setBuyPopup(false)}
-          />
+          <PopupBg bg off={() => UsePost.setBuyPopup(false)} />
+        </>
+      )}
+
+      {UsePost.compPayPopup && (
+        <>
+          <CompPayPopup off={() => UsePost.setCompPayPopup(false)} />
+          <PopupBg bg off={() => UsePost.setCompPayPopup(false)} />
         </>
       )}
     </>
