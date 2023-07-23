@@ -1,9 +1,10 @@
 import styles from "./withdrawPopup.module.scss";
 import X from ".assets/icons/X.svg";
 import ChevronDn from ".assets/icons/ChevronDn.svg";
+import UseWithdrawPopup from ".src/hooks/mypage/asset/useWithdrawPopup";
 
 interface Iprops {
-  useWithdrawPopup: { [key: string]: any };
+  useWithdrawPopup: ReturnType<typeof UseWithdrawPopup>;
 }
 
 export default function WithdrawPopup({ useWithdrawPopup }: Iprops) {

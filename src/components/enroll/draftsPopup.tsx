@@ -4,9 +4,10 @@ import X from ".assets/icons/X.svg";
 import CircleBangBlue from ".assets/bg/enroll/CircleBangBlue.svg";
 import moment from "moment";
 import { useRouter } from "next/router";
+import useEnroll from ".src/hooks/enroll/useEnroll";
 
 interface Iprops {
-  useEnrollHook: any;
+  useEnrollHook: ReturnType<typeof useEnroll>;
   off: Function;
 }
 

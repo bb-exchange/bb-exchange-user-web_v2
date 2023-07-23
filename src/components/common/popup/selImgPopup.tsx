@@ -1,7 +1,8 @@
+import useEnroll from ".src/hooks/enroll/useEnroll";
 import styles from "./selImgPopup.module.scss";
 
 interface Iprops {
-  useEnrollHook: any;
+  useEnrollHook: ReturnType<typeof useEnroll>;
 }
 
 export default function SelImgPopup({ useEnrollHook }: Iprops) {

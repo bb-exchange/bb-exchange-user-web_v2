@@ -3,9 +3,10 @@ import styles from "./editHeader.module.scss";
 import LogoBlue from ".assets/logos/LogoBlue.svg";
 import Undo from ".assets/icons/Undo.svg";
 import Redo from ".assets/icons/Redo.svg";
+import useEnroll from ".src/hooks/enroll/useEnroll";
 
 interface Iprops {
-  useEnrollHook: any;
+  useEnrollHook: ReturnType<typeof useEnroll>;
 }
 
 export default function EditHeader({ useEnrollHook }: Iprops) {

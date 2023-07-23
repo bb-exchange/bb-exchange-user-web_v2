@@ -1,8 +1,9 @@
 import { D_recentTagList } from ".src/data/enroll/D_enroll";
 import styles from "./recentTagPopup.module.scss";
+import useEnroll from ".src/hooks/enroll/useEnroll";
 
 interface Iprops {
-  useEnrollHook: any;
+  useEnrollHook: ReturnType<typeof useEnroll>;
 }
 
 export default function RecentTagPopup({ useEnrollHook }: Iprops) {

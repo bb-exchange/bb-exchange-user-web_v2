@@ -3,11 +3,12 @@ import moment from "moment";
 import "moment/locale/ko";
 import HeartGrey from ".assets/icons/HeartGrey.svg";
 import HeartRedO from ".assets/icons/HeartRedO.svg";
+import UseMyPageRead from ".src/hooks/mypage/useMypageRead";
 
 interface Iprops {
   data: mypageReadPosts;
   index: number;
-  useMypageRead: any;
+  useMypageRead: ReturnType<typeof UseMyPageRead>;
 }
 
 export default function ReadPost({ data, index, useMypageRead }: Iprops) {

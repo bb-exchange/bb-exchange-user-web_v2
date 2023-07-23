@@ -125,7 +125,7 @@ export default function Post() {
 
                         {UsePost.morePopup && (
                           <>
-                            <PostMorePopup useCustomHook={UsePost} />
+                            <PostMorePopup UsePost={UsePost} />
                             <PopupBg off={() => UsePost.setMorePopup(false)} />
                           </>
                         )}

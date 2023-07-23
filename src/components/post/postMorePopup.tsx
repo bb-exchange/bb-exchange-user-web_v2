@@ -1,19 +1,20 @@
+import usePost from ".src/hooks/post/usePost";
 import styles from "./postMorePopup.module.scss";
 
 interface Iprops {
-  useCustomHook: { [key: string]: any };
+  UsePost: ReturnType<typeof usePost>;
 }
 
-export default function PostMorePopup({ useCustomHook }: Iprops) {
+export default function PostMorePopup({ UsePost }: Iprops) {
   return (
     <section className={styles.postMorePopup}>
-      <button onClick={useCustomHook.onClickReportPostBtn}>
+      <button onClick={UsePost.onClickReportPostBtn}>
         <p>글 신고하기</p>
       </button>
-      <button onClick={useCustomHook.onClickReportUserBtn}>
+      <button onClick={UsePost.onClickReportUserBtn}>
         <p>사용자 신고하기</p>
       </button>
-      <button onClick={useCustomHook.onClickHideUserPostBtn}>
+      <button onClick={UsePost.onClickHideUserPostBtn}>
         <p>이 사용자의 글 보지 않기</p>
       </button>
     </section>

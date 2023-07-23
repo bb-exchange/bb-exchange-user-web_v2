@@ -4,11 +4,12 @@ import "moment/locale/ko";
 import HeartRedO from ".assets/icons/HeartRedO.svg";
 import BtnSqrChk from ".assets/icons/BtnSqrChk.svg";
 import BtnSqrChkOn from ".assets/icons/BtnSqrChkOn.svg";
+import UseMyPageLike from ".src/hooks/mypage/useMypageLike";
 
 interface Iprops {
   data: mypageLikePosts;
   index: number;
-  useMypageLike: any;
+  useMypageLike: ReturnType<typeof UseMyPageLike>;
 }
 
 export default function LikePost({ data, index, useMypageLike }: Iprops) {
@@ -82,10 +83,7 @@ export default function LikePost({ data, index, useMypageLike }: Iprops) {
             {data.sel ? <BtnSqrChkOn /> : <BtnSqrChk />}
           </button>
         ) : (
-          <button
-            className={styles.likeBtn}
-            onClick={() => useMypageLike.onClickLikeBtn(index)}
-          >
+          <button className={styles.likeBtn} onClick={() => {}}>
             <HeartRedO />
           </button>
         )}
