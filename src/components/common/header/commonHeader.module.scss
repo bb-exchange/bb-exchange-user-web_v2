@@ -18,7 +18,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      height: 64px;
+      padding: 18px 0 12px;
 
       .leftCont {
         flex: 1;
@@ -122,15 +122,14 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      height: 64px;
 
       .leftCont {
         display: flex;
         align-items: center;
         gap: 60px;
-        height: 100%;
 
         .selBtnBox {
+          padding: 0 0 3px;
           position: relative;
 
           &:hover {
@@ -201,7 +200,7 @@
           display: flex;
           align-items: center;
           gap: 20px;
-          height: 100%;
+          height: 55px;
 
           li {
             display: flex;
@@ -230,28 +229,32 @@
       }
 
       .rightCont {
-        .banner {
-          display: flex;
-          align-items: center;
-          height: 36px;
-          padding: 0 12px;
-          background: $Primary5;
-          border-radius: 12px;
+        .bannerBox {
+          padding: 4px 0 15px;
 
-          p {
-            font-size: 13px;
-            line-height: 20px;
-            color: $Black2;
+          .banner {
+            display: flex;
+            align-items: center;
+            height: 36px;
+            padding: 0 12px;
+            background: $Primary2;
+            border-radius: 12px;
 
-            strong {
-              font-weight: 700;
-              color: $Primary1;
+            p {
+              font-size: 13px;
+              line-height: 20px;
+              color: $Black2;
+
+              strong {
+                font-weight: 700;
+                color: $Primary1;
+              }
             }
-          }
 
-          svg {
-            path {
-              fill: $Gray1;
+            svg {
+              path {
+                fill: $Gray1;
+              }
             }
           }
         }

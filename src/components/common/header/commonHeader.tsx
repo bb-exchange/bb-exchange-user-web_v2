@@ -10,13 +10,11 @@ import DefaultProfImg from ".assets/example/DefaultProfImg.png";
 import { D_commonHeaderCategoryList } from ".src/data/common/header";
 import useCommonHeader from ".src/hooks/common/useCommonHeader";
 import PostCategoryPopup from "./postCategoryPopup";
-
 import Image from "next/image";
 import ProfileHoverPopup from "./profileHoverPopup";
 import AlertHoverPopup from "./alertHoverPopup";
 import AlertCount from "./alertCount";
 import { useRouter } from "next/router";
-import { useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { AppStore } from ".src/app/store";
 
@@ -127,19 +125,21 @@ export default function CommonHeader({ commonSort }: Iprops) {
           </div>
 
           <div className={styles.rightCont}>
-            <div className={styles.banner}>
-              <p className={styles.cont}>
-                {customHook.isSignedIn ? (
-                  <>
-                    <strong className={styles.nickname}>{nickname}</strong>
-                    님,
-                  </>
-                ) : (
-                  <></>
-                )}
-                나만의 비법, 지식, 경험을 공유하고 수익을 창출해 보세요!
-              </p>
-              <ChevronRt />
+            <div className={styles.bannerBox}>
+              <div className={styles.banner}>
+                <p className={styles.cont}>
+                  {customHook.isSignedIn ? (
+                    <>
+                      <strong className={styles.nickname}>{nickname}</strong>
+                      님,
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  나만의 비법, 지식, 경험을 공유하고 수익을 창출해 보세요!
+                </p>
+                <ChevronRt />
+              </div>
             </div>
           </div>
         </article>
