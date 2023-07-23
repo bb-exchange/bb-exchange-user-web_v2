@@ -417,6 +417,32 @@ export default function Index() {
           push({
             pathname: "/post/0",
             query: {
+              buyPopup: true,
+            },
+          })
+        }
+      >
+        글 상세페이지 (구매하기 팝업)
+      </li>
+
+      <li
+        onClick={() =>
+          push({
+            pathname: "/post/0",
+            query: {
+              compPayPopup: true,
+            },
+          })
+        }
+      >
+        글 상세페이지 (결제 완료 팝업)
+      </li>
+
+      <li
+        onClick={() =>
+          push({
+            pathname: "/post/0",
+            query: {
               unLimited: true,
             },
           })
