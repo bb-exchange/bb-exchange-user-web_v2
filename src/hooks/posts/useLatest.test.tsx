@@ -7,7 +7,6 @@ import { waitFor } from "@testing-library/react";
 import { fetchArticles } from ".src/api/articles/articles";
 import mockNextRouter from "../../../__test__/__mocks__/nextRouter";
 import mockReactQuery from "../../../__test__/__mocks__/reactQuery";
-import { RenderCustomHook } from "../../../__test__/__mocks__/customHook";
 
 describe("useLatest", () => {
   mockNextRouter();
@@ -33,11 +32,10 @@ describe("useLatest", () => {
   it("글 좋아요 버튼 작동", () => {
     let results = {} as ReturnType<typeof UseLatest>;
 
-    function getCustomHook(customHook: any) {
-      results = customHook;
-    }
-
-    const Wrapper = () => RenderCustomHook(getCustomHook);
+    const Wrapper = () => {
+      results = UseLatest();
+      return null;
+    };
 
     const TestBtn = () => (
       <button onClick={(e) => results.onClickFavBtn(e, 0)}></button>
@@ -55,7 +53,7 @@ describe("useLatest", () => {
     );
 
     const testBtn = container.getElementsByTagName("button")[0];
-    console.log(results);
+
     const favBfrClick = results.dataList[0].isLike;
     fireEvent.click(testBtn);
     const favAftClick = results.dataList[0].isLike;
