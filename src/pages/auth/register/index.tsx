@@ -19,7 +19,9 @@ const Register = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [cookies, setCookies] = useCookies([
-    "authKey",
+    "oauthId",
+    "oauthType",
+    "phoneNumber",
     "accessToken",
     "refreshToken",
   ]);
@@ -55,7 +57,9 @@ const Register = () => {
   //회원가입
   const reqRegister = async (data: Inputs) => {
     const res = await basicInstance.post(`/v1/auth/register`, {
-      key: cookies.authKey,
+      oauthType: cookies.oauthType,
+      oauthId: cookies.oauthId,
+      phoneNumber: cookies.phoneNumber,
       nickname: data.nickname,
     });
 

@@ -34,8 +34,9 @@ const AppleAuth = () => {
 
         const response = await basicInstance.post("/v1/auth/oidc/login", {
           idToken: query.id_token,
-          // accessToken: res.data.access_token,
+          oauthType: "APPLE",
         });
+        console.log(response);
 
         if (response.data.data.data.status === "OAUTH_VERIFIED") {
           setCookie("authKey", response.data.data.data.key, {
@@ -73,7 +74,7 @@ const AppleAuth = () => {
         src={"/assets/icons/loading/threeDots.gif"}
         alt={"loading dots"}
         width={150}
-        height={200}
+        height={150}
       />
     </div>
   );

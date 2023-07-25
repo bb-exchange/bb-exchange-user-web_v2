@@ -30,9 +30,6 @@
     }
     .allAgreement {
       font-weight: 700;
-
-      // display: flex;
-      // justify-content: unset;
     }
     section {
       .check {
@@ -65,7 +62,7 @@
     }
   }
   ul + button {
-    width: 383px;
+    width: 100%;
     padding: 14px 16px;
     background: #d9d9d9;
     border-radius: 8px;

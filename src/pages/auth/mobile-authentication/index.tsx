@@ -18,7 +18,7 @@ interface Inputs {
 const MobileAuth = () => {
   const { query } = useRouter();
 
-  const cookies = useCookies(["authKey"])[0];
+  const cookies = useCookies(["oauthType", "oauthId"])[0];
   const { push } = useRouter();
   const [showResendBtn, setShowResendBtn] = useState<boolean>(false);
   const [minutes, setMinutes] = useState<number>(3);
@@ -46,25 +46,28 @@ const MobileAuth = () => {
   //남은 인증 회수 더미데이터
   let leftTimes = 1;
 
-  //휴대폰 인증번호 발송 api
+  //send sms api
   const sendSecretCode = async (data: Inputs) => {
     try {
-      const res: any = await basicInstance.post("/v1/auth/phones/send-secret", {
-        key: cookies.authKey,
+      const {
+        data: { data: secretData },
+      }: any = await basicInstance.post("/v1/auth/phones/send-secret", {
+        oauthType: cookies.oauthType,
+        oauthId: cookies.oauthId,
         phoneNumber: data.phoneNumber,
       });
-      console.log(res.data.data);
+      console.log(secretData);
 
-      if (res.data.data.status === "SECRET_SENT") {
+      if (secretData.status === "SECRET_SENT") {
         //인증번호 문자 전송 완료
-        setLeftCount(res.dat.data.leftCount);
+        setLeftCount(secretData.leftCount);
         setShowResendBtn(true);
         setMinutes(3);
         setSeconds(0);
         setValue("secret", ""); //인증번호 입력창 초기화
-      } else if (res.data.data.oauthTypes) {
+      } else if (secretData.oauthTypes) {
         //이미 가입된 정보가 있는 경우
-        LocalStorage.setItem("oauthType", res.data.data.oauthTypes[0]);
+        LocalStorage.setItem("oauthType", secretData.oauthTypes[0]);
         push("/auth/duplicate-social-account");
       }
     } catch (error: any) {
@@ -83,7 +86,9 @@ const MobileAuth = () => {
   const verifyPhones = async (data: Inputs) => {
     try {
       const res: any = await basicInstance.post("/v1/auth/phones/verify", {
-        key: cookies.authKey,
+        oauthType: cookies.oauthType,
+        oauthId: cookies.oauthId,
+        phoneNumber: data.phoneNumber,
         secret: data.secret,
       });
 

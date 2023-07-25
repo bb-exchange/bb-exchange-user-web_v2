@@ -13,10 +13,12 @@ import {
 } from ".src/data/terms-agreement/D_terms";
 import { useRouter } from "next/router";
 import ConfirmPopup from ".src/components/common/popup/confirmPopup";
+import { ITerms, postTermsAgreement } from ".src/api/auth/terms";
+import { useCookies } from "react-cookie";
 
 const TermsAgreement = () => {
   const router = useRouter();
-
+  const [checkedInputs, setCheckedInputs] = useState<string[]>([]);
   const [openCautionPopUp, setOpenCautionPopUp] = useState(
     router.query.openCautionPopUp === "true" || false
   );
@@ -24,7 +26,19 @@ const TermsAgreement = () => {
   const [openTextPopUp, setOpenTextPopUp] = useState(
     router.query.openTextPopUp === "true" || false
   );
-  const [checkedInputs, setCheckedInputs] = useState<string[]>([]);
+  const [openConsentPopup, setOpenConsentPopup] = useState(false);
+  const [openRefusePopup, setOpenRefusePopup] = useState(false);
+
+  const [cookie] = useCookies(["oauthId", "oauthType"]);
+
+  const btnActive =
+    (checkedInputs.length === 3 &&
+      !checkedInputs.includes("check_all") &&
+      !checkedInputs.includes("check_4")) ||
+    checkedInputs.length === 4 ||
+    checkedInputs.includes("check_all");
+
+  //FC
   const handleAllcheck = (checked: boolean, id: string) => {
     if (checked) {
       setCheckedInputs(["check_1", "check_2", "check_3", "check_4", id]);
@@ -32,6 +46,7 @@ const TermsAgreement = () => {
       setCheckedInputs([]);
     }
   };
+
   const handleCheckbox = (checked: boolean, id: string) => {
     if (checked) {
       if (checkedInputs.length === 4) {
@@ -56,13 +71,6 @@ const TermsAgreement = () => {
     }
   };
 
-  const btnActive =
-    (checkedInputs.length === 3 &&
-      !checkedInputs.includes("check_all") &&
-      !checkedInputs.includes("check_4")) ||
-    checkedInputs.length === 4 ||
-    checkedInputs.includes("check_all");
-
   const handleTextPopup = () => {
     if (openTerm === "termsOfService") {
       return "service";
@@ -75,29 +83,34 @@ const TermsAgreement = () => {
     return "marketing";
   };
 
-  const linkTo = () => {
+  const handleClickBtn = () => {
     if (btnActive) {
-      if (router.query.from === "kakao") {
-        router.push("/auth/register");
-      } else {
-        router.push("/auth/mobile-authentication");
-      }
-    } else {
-      return undefined;
+      const data: ITerms = {
+        oauthType: cookie?.oauthType,
+        oauthId: cookie?.oauthId,
+        agreeToMarketingInfo: checkedInputs?.includes("check_4"),
+      };
+      //request API
+      postTermsAgreement(data).then(({ data: { data } }) => {
+        if (data.status === "AGREE_TO_SERVICE_TERM") {
+          if (router.query.status === "phoneVerified") {
+            router.push("/auth/register");
+          } else {
+            router.push("/auth/mobile-authentication");
+          }
+        } else {
+          return undefined;
+        }
+      });
     }
   };
-
-  const [openConsentPopup, setOpenConsentPopup] = useState(false);
-  const [openRefusePopup, setOpenRefusePopup] = useState(false);
 
   //마케팅 정보수신 동의 팝업
   const handlePopup = (e: any) => {
     let checked = e.target.checked;
     if (checked) {
-      console.log("checked");
       setOpenConsentPopup(true);
     } else {
-      console.log("unchecked");
       setOpenRefusePopup(true);
     }
   };
@@ -212,7 +225,10 @@ const TermsAgreement = () => {
           </li>
         </ul>
 
-        <button className={btnActive ? styles.active : ""} onClick={linkTo}>
+        <button
+          className={btnActive ? styles.active : ""}
+          onClick={handleClickBtn}
+        >
           다음
         </button>
       </div>

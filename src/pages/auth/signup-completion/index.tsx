@@ -1,7 +1,5 @@
 import styles from "./index.module.scss";
 import ImageFirework from "../../../../public/assets/images/firework.svg";
-import LocalStorage from ".src/util/localStorage";
-import { useEffect, useState } from "react";
 import ContainedBtn from ".src/components/Buttons/ContainedBtn";
 import { useRouter } from "next/router";
 import { AppStore } from ".src/app/store";

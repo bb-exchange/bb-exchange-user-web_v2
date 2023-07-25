@@ -19,7 +19,8 @@ const GoogleAuth = () => {
   const { query, push } = useRouter();
   const dispatch = useDispatch();
   const [cookie, setCookie] = useCookies([
-    "authKey",
+    "oauthId",
+    "oauthType",
     "accessToken",
     "refreshToken",
   ]);
@@ -27,7 +28,7 @@ const GoogleAuth = () => {
   useEffect(() => {
     if (query?.code) {
       (async () => {
-        const res = await axios.post(
+        const { data: googleTokenData } = await axios.post(
           `https://www.googleapis.com/oauth2/v4/token`,
           {
             code: query?.code,
@@ -38,32 +39,54 @@ const GoogleAuth = () => {
           },
           { headers: { "content-type": "application/x-www-form-urlencoded" } }
         );
-        if (res) {
-          const response = await basicInstance.post("/v1/auth/oidc/login", {
-            idToken: res.data.id_token,
-            accessToken: res.data.access_token,
-          });
-
-          if (response.data.data.data.status === "OAUTH_VERIFIED") {
-            setCookie("authKey", response.data.data.data.key, {
-              path: "/",
-            });
-            push("/auth/terms-agreement");
-          } else if (response.data.data.data.oauthTypes) {
-            LocalStorage.setItem(
-              "oauthType",
-              response.data.data.data.oauthTypes[0]
+        if (googleTokenData) {
+          const { data: authLoginData } = await basicInstance.post(
+            "/v1/auth/oidc/login",
+            {
+              idToken: googleTokenData.id_token,
+              oauthType: "GOOGLE",
+            }
+          );
+          if (authLoginData.message === "user not registered") {
+            //verify user account
+            const { data: registerVerifyData } = await basicInstance.post(
+              "/v1/auth/register/verify ",
+              {
+                oauthType: "GOOGLE",
+                idToken: googleTokenData.id_token,
+                kakaoAccessToken: null,
+              }
             );
-            push("/auth/duplicate-social-account");
+            console.log(registerVerifyData.data);
+
+            if (registerVerifyData.data.status === "OAUTH_VERIFIED") {
+              setCookie("oauthId", registerVerifyData.data.oauthId, {
+                path: "/",
+              });
+              setCookie("oauthType", registerVerifyData.data.oauthType, {
+                path: "/",
+              });
+              push({
+                pathname: "/auth/terms-agreement",
+              });
+            }
+            //중복계정 존재
+            else if (registerVerifyData.data.oauthTypes) {
+              LocalStorage.setItem(
+                "oauthType",
+                registerVerifyData.data.oauthTypes[0]
+              );
+              push("/auth/duplicate-social-account");
+            }
           } else if (
-            response.data.data.data.accessToken &&
-            response.data.data.data.refreshToken
+            authLoginData.data.data.accessToken &&
+            authLoginData.data.data.refreshToken
           ) {
             //정상 로그인 처리
-            setCookie("accessToken", response.data.data.data.accessToken, {
+            setCookie("accessToken", authLoginData.data.data.accessToken, {
               path: "/",
             });
-            setCookie("refreshToken", response.data.data.data.refreshToken, {
+            setCookie("refreshToken", authLoginData.data.data.refreshToken, {
               path: "/",
             });
             //닉네임 가져오기
@@ -71,7 +94,7 @@ const GoogleAuth = () => {
               `https://api.stage-bibubex.com/v1/users/me`,
               {
                 headers: {
-                  Authorization: `Bearer ${response.data.data.data.accessToken}`,
+                  Authorization: `Bearer ${authLoginData.data.data.accessToken}`,
                 },
               }
             );
@@ -89,7 +112,7 @@ const GoogleAuth = () => {
         src={"/assets/icons/loading/threeDots.gif"}
         alt={"loading dots"}
         width={150}
-        height={200}
+        height={150}
       />
     </div>
   );
