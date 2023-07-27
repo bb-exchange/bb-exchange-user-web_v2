@@ -537,7 +537,10 @@ export default function Post() {
 
       {UsePost.compPayPopup && (
         <>
-          <CompPayPopup off={() => UsePost.setCompPayPopup(false)} />
+          <CompPayPopup
+            usePost={UsePost}
+            off={() => UsePost.setCompPayPopup(false)}
+          />
           <PopupBg bg off={() => UsePost.setCompPayPopup(false)} />
         </>
       )}
