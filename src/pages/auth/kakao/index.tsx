@@ -12,7 +12,8 @@ import styles from "../loadingLayout.module.scss";
 const KakaoAuth = () => {
   const { query, push } = useRouter();
   const [cookie, setCookie] = useCookies([
-    "authKey",
+    "oauthId",
+    "oauthType",
     "accessToken",
     "refreshToken",
   ]);
@@ -41,10 +42,34 @@ const KakaoAuth = () => {
           const response = await basicInstance.post("/v1/auth/oidc/login", {
             idToken: data.id_token,
             oauthType: "KAKAO",
-            // accessToken: data.access_token,
           });
-          console.log(response);
-          //reponse에 status가 PHONE_VERIFIED이면(비회원) => 서비스 이용동의 페이지 => 닉네임 설정 페이지
+          //not registerd
+          if (response.data.message === "user not registered") {
+            //check kakao user account
+            const {
+              data: { data: registerVerifyData },
+            } = await basicInstance.post("/v1/auth/register/verify ", {
+              oauthType: "KAKAO",
+              idToken: data.id_token,
+              kakaoAccessToken: data.access_token,
+            });
+            console.log(registerVerifyData);
+            if (registerVerifyData.status === "PHONE_VERIFIED") {
+              setCookie("oauthId", registerVerifyData.oauthId, {
+                path: "/",
+              });
+              setCookie("oauthType", registerVerifyData.oauthType, {
+                path: "/",
+              });
+              push({
+                pathname: `/auth/terms-agreement`,
+                query: { status: "phoneVerified" },
+              });
+            }
+            //reponse에 status가 PHONE_VERIFIED이면(비회원) => 서비스 이용동의 페이지 => 닉네임 설정 페이지
+            // push("/auth/terms-agreement?from=kakao");
+          }
+
           //accessToken이 있으면(회원) => 메인페이지로 랜딩
           // if (response.data.data.data.status === "PHONE_VERIFIED") {
           //   setCookie("authKey", response.data.data.data.key, {
@@ -61,8 +86,7 @@ const KakaoAuth = () => {
           //   );
           //   push("/auth/duplicate-social-account");
           // } else
-
-          if (
+          else if (
             response.data.data.data.accessToken &&
             response.data.data.data.refreshToken
           ) {
@@ -96,7 +120,7 @@ const KakaoAuth = () => {
         src={"/assets/icons/loading/threeDots.gif"}
         alt={"loading dots"}
         width={150}
-        height={200}
+        height={150}
       />
     </div>
   );
