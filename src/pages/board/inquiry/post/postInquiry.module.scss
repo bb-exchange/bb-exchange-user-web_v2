@@ -5,6 +5,7 @@
     width: 100%;
     padding: 24px 0;
     border-bottom: 1px solid #d9d9d9;
+    margin-bottom: 12px;
     font-size: 24px;
     font-weight: 700;
     &::placeholder {
@@ -19,6 +20,7 @@
   }
   h3 {
     padding-top: 40px;
+    font-size: 18px;
   }
   textarea {
     margin-top: 24px;
@@ -28,6 +30,9 @@
     border: 1px solid #d9d9d9;
     border-radius: 8px;
     resize: none;
+    vertical-align: bottom;
+    font-size: 18px;
+    font-family: pretendard;
   }
   .btnWrap {
     display: flex;
@@ -35,6 +40,7 @@
     button {
       width: 400px;
       font-size: 16px;
+      height: 52px;
     }
     margin-top: 60px;
   }
