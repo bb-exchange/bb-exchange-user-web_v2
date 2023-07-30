@@ -38,20 +38,15 @@ const Inquiry = () => {
                   { title, regDate, boardId, reply, read }: inquiryList,
                   idx: number
                 ) => (
-                  <li key={idx}>
+                  <li
+                    key={idx}
+                    className={read && reply ? `${styles.isRead}` : ""}
+                  >
                     <div
                       onClick={() => router.push(`/board/inquiry/${boardId}`)}
                     >
-                      <p className={read && reply ? `${styles.grayText}` : ""}>
-                        <span
-                          className={
-                            read && reply
-                              ? `${styles.grayText}`
-                              : `${styles.blueText}`
-                          }
-                        >
-                          Q.{" "}
-                        </span>
+                      <p>
+                        <span className={styles.q}>Q.</span>
                         {title}
                       </p>
                       <section>
