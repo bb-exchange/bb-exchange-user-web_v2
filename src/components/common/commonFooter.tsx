@@ -1,6 +1,7 @@
 import styles from "./commonFooter.module.scss";
 import Apple from ".assets/icons/Apple.svg";
 import Google from ".assets/icons/Google.svg";
+import router from "next/router";
 
 export default function CommonFooter() {
   return (
@@ -39,10 +40,24 @@ export default function CommonFooter() {
           </ul>
 
           <ul className={styles.categoryList}>
-            <li>
+            <li
+              onClick={() =>
+                router.push({
+                  pathname: "/auth/terms-agreement/[type]",
+                  query: { type: "service" },
+                })
+              }
+            >
               <p>이용약관</p>
             </li>
-            <li>
+            <li
+              onClick={() =>
+                router.push({
+                  pathname: "/auth/terms-agreement/[type]",
+                  query: { type: "privacy" },
+                })
+              }
+            >
               <p>개인정보처리방침</p>
             </li>
             <li>

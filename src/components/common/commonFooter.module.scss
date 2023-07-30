@@ -44,6 +44,9 @@
         display: flex;
         gap: 32px;
         margin: 32px 0 0;
+        li {
+          cursor: pointer;
+        }
       }
     }
 
