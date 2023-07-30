@@ -33,7 +33,6 @@ export const getStaticPaths = async () => {
     paths: [
       { params: { type: "service" } },
       { params: { type: "privacy" } },
-      { params: { type: "payment" } },
       { params: { type: "marketing" } },
     ],
     fallback: false,
@@ -42,8 +41,10 @@ export const getStaticPaths = async () => {
 export async function getStaticProps({ params }: any) {
   const pageType =
     params.type === "service"
-      ? "95a4466cb3f542399f44ff06fcc2a982"
-      : "513dc5fbbd6a4a2da464e76cda23d5a7";
+      ? "29746a6bb8514619a3eca3a80f393f54"
+      : params.type === "privacy"
+      ? "e7d34cb12cc8485e90066b6e9f2bb979"
+      : "";
   const recordMap = await notion.getPage(pageType);
   return { props: { recordMap }, revalidate: 10 };
 }

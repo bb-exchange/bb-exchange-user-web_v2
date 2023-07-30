@@ -168,10 +168,12 @@ const TermsAgreement = () => {
             </section>
             <section
               className={styles.iconWrap}
-              onClick={() => {
-                setOpenTextPopUp(true);
-                setOpenTerm("termsOfService");
-              }}
+              onClick={() =>
+                router.push({
+                  pathname: "/auth/terms-agreement/[type]",
+                  query: { type: "service" },
+                })
+              }
             >
               <IconArrow />
             </section>
@@ -191,10 +193,12 @@ const TermsAgreement = () => {
             </section>
             <section
               className={styles.iconWrap}
-              onClick={() => {
-                setOpenTextPopUp(true);
-                setOpenTerm("policyOfPersonalInfo");
-              }}
+              onClick={() =>
+                router.push({
+                  pathname: "/auth/terms-agreement/[type]",
+                  query: { type: "privacy" },
+                })
+              }
             >
               <IconArrow />
             </section>
@@ -215,10 +219,12 @@ const TermsAgreement = () => {
             </section>
             <section
               className={styles.iconWrap}
-              onClick={() => {
-                setOpenTextPopUp(true);
-                setOpenTerm("agreementOfMarketing");
-              }}
+              onClick={() =>
+                router.push({
+                  pathname: "/auth/terms-agreement/[type]",
+                  query: { type: "marketing" },
+                })
+              }
             >
               <IconArrow />
             </section>
