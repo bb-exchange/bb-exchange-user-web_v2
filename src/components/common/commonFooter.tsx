@@ -58,21 +58,21 @@ export default function CommonFooter() {
                 })
               }
             >
-              <p>개인정보처리방침</p>
+              <strong>개인정보처리방침</strong>
             </li>
             <li>
               <p>
-                <strong>비법거래소 고객센터</strong>
+                <p>비법거래소 고객센터</p>
               </p>
             </li>
             <li>
               <p>
-                <strong>카카오톡 1:1 문의</strong>
+                <p>카카오톡 1:1 문의</p>
               </p>
             </li>
             <li>
               <p>
-                <strong>제휴제안</strong>
+                <p>제휴제안</p>
               </p>
             </li>
           </ul>
