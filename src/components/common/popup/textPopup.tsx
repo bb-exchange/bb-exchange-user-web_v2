@@ -1,7 +1,7 @@
 import styles from "./textPopup.module.scss";
 import IconX from ".assets/icons/X.svg";
 import { POLICY_OF_PERSONAL_INFO } from ".src/data/terms-agreement/D_terms";
-import { ExtendedRecordMap } from "notion-types";
+
 interface Iprops {
   type: string;
   confirmFunc: Function;
