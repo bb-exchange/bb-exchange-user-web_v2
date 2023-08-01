@@ -8,10 +8,26 @@ import { wrapper } from ".src/app/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
 import "react-notion-x/src/styles.css";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export default function App({ Component, ...rest }: AppProps) {
   const queryClient = new QueryClient();
   const { store, props } = wrapper.useWrappedStore(rest);
+  const router = useRouter();
+
+  //tracking the current and previous page
+  useEffect(() => storePathValues, [router.asPath]);
+
+  function storePathValues() {
+    const storage = globalThis?.sessionStorage;
+    if (!storage) return;
+
+    const prevPath = storage.getItem("currentPath") as string;
+    storage.setItem("prevPath", prevPath);
+
+    storage.setItem("currentPath", globalThis.location.pathname);
+  }
 
   return (
     <Provider store={store}>

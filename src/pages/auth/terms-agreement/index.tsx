@@ -5,12 +5,6 @@ import { useEffect, useState } from "react";
 import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
 import PopupBg from ".src/components/common/popupBg";
 import TextPopup from ".src/components/common/popup/textPopup";
-import {
-  AGREEMENT_OF_MARKETING_ACCEPTANCE,
-  AGREEMENT_OF_PAYMENT,
-  POLICY_OF_PERSONAL_INFO,
-  TERMS_OF_SERVICE_V1,
-} from ".src/data/terms-agreement/D_terms";
 import { useRouter } from "next/router";
 import ConfirmPopup from ".src/components/common/popup/confirmPopup";
 import { ITerms, postTermsAgreement } from ".src/api/auth/terms";
@@ -71,18 +65,6 @@ const TermsAgreement = () => {
     }
   };
 
-  const handleTextPopup = () => {
-    if (openTerm === "termsOfService") {
-      return "service";
-    } else if (openTerm === "policyOfPersonalInfo") {
-      return "privacyPolivy";
-    } else if (openTerm === "agreementOfPayment") {
-      return "payment";
-    } else if (openTerm === "agreementOfMarketing") {
-    }
-    return "marketing";
-  };
-
   const handleClickBtn = () => {
     if (btnActive) {
       const data: ITerms = {
@@ -114,6 +96,22 @@ const TermsAgreement = () => {
       setOpenRefusePopup(true);
     }
   };
+  const storage = globalThis?.sessionStorage;
+  useEffect(() => {
+    const prevPath = storage.getItem("prevPath") as string;
+    const termsCheckList = JSON.parse(
+      storage.getItem("termsCheckList") as string
+    );
+    if (
+      (prevPath === "/auth/terms-agreement/service" ||
+        prevPath === "/auth/terms-agreement/privacy") &&
+      termsCheckList
+    ) {
+      setCheckedInputs(termsCheckList);
+    } else {
+      setCheckedInputs([]);
+    }
+  }, []);
 
   return (
     <div id={styles.termsAgreement} className={styles.container}>
@@ -168,12 +166,16 @@ const TermsAgreement = () => {
             </section>
             <section
               className={styles.iconWrap}
-              onClick={() =>
+              onClick={() => {
                 router.push({
                   pathname: "/auth/terms-agreement/[type]",
                   query: { type: "service" },
-                })
-              }
+                });
+                storage.setItem(
+                  "termsCheckList",
+                  JSON.stringify(checkedInputs)
+                );
+              }}
             >
               <IconArrow />
             </section>
@@ -193,12 +195,16 @@ const TermsAgreement = () => {
             </section>
             <section
               className={styles.iconWrap}
-              onClick={() =>
+              onClick={() => {
                 router.push({
                   pathname: "/auth/terms-agreement/[type]",
                   query: { type: "privacy" },
-                })
-              }
+                });
+                storage.setItem(
+                  "termsCheckList",
+                  JSON.stringify(checkedInputs)
+                );
+              }}
             >
               <IconArrow />
             </section>
@@ -217,17 +223,9 @@ const TermsAgreement = () => {
               />
               <label htmlFor="check_4">(선택) 마케팅 정보 수신 동의</label>
             </section>
-            <section
-              className={styles.iconWrap}
-              onClick={() =>
-                router.push({
-                  pathname: "/auth/terms-agreement/[type]",
-                  query: { type: "marketing" },
-                })
-              }
-            >
+            {/* <section className={styles.iconWrap}>
               <IconArrow />
-            </section>
+            </section> */}
           </li>
         </ul>
 
@@ -253,15 +251,7 @@ const TermsAgreement = () => {
           <PopupBg bg off={() => setOpenCautionPopUp(false)} />
         </>
       )}
-      {openTextPopUp && (
-        <>
-          <TextPopup
-            type={handleTextPopup()}
-            confirmFunc={() => setOpenTextPopUp(false)}
-          />
-          <PopupBg bg off={() => setOpenTextPopUp(false)} />
-        </>
-      )}
+
       {openConsentPopup && (
         <>
           <ConfirmPopup

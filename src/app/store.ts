@@ -1,4 +1,5 @@
 import userReducer from ".src/features/userSlice";
+
 import {
   Action,
   PayloadAction,
@@ -29,7 +30,7 @@ export const makeStore = () => {
   } else {
     const persistConfig = {
       key: "nextjs",
-      whitelist: ["user"],
+      whitelist: ["user", "nav"],
       storage,
     };
 
