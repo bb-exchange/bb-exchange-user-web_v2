@@ -4,98 +4,131 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 792px;
-  padding: 208px 0 40px;
+  padding: 208px 0 100px;
   margin: 0 auto;
 
-  .pageTitle {
-    font-size: 32px;
-    line-height: 40px;
-    font-weight: 700;
-  }
-
-  .topBar {
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
-    margin: 30px 0 0;
-
-    .pointBox {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      padding: 0 16px 0 0;
-
-      .key {
-        color: $Gray1;
-      }
-
-      .value {
-        font-size: 18px;
-        font-weight: 700;
-        line-height: 28px;
-      }
-    }
-  }
-
-  .chargeList {
+  .chargeSec {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    width: 100%;
-    margin: 28px 0 0;
+    align-items: center;
+    width: 792px;
 
-    li {
-      display: flex;
-      align-items: center;
-      padding: 16px;
-      font-size: 18px;
+    .pageTitle {
+      font-size: 32px;
+      line-height: 40px;
       font-weight: 700;
-      border-radius: 16px;
-      border: 1px solid $Gray2;
+    }
 
-      &:hover {
-        border-color: transparent;
-        background: $Primary4;
+    .topBar {
+      display: flex;
+      justify-content: flex-end;
+      width: 100%;
+      margin: 30px 0 0;
+
+      .pointBox {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 0 16px 0 0;
+
+        .key {
+          color: $Gray1;
+        }
+
+        .value {
+          font-size: 18px;
+          font-weight: 700;
+          line-height: 28px;
+        }
+      }
+    }
+
+    .chargeList {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 100%;
+      margin: 28px 0 0;
+
+      li {
+        display: flex;
+        align-items: center;
+        padding: 16px;
+        font-size: 18px;
+        font-weight: 700;
+        border-radius: 16px;
+        border: 1px solid $Gray2;
+
+        &:hover {
+          border-color: transparent;
+          background: $Primary4;
+
+          .leftBox {
+            .amount {
+              color: $Primary1;
+            }
+          }
+
+          .rightBox {
+            .chargeBtn {
+              background: $Primary2;
+            }
+          }
+        }
 
         .leftBox {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          gap: 4px;
+
           .amount {
-            color: $Primary1;
+            color: $Black2;
           }
         }
 
         .rightBox {
           .chargeBtn {
-            background: $Primary2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 110px;
+            height: 44px;
+            background: $Primary1;
+            border-radius: 8px;
+
+            p {
+              color: $White1;
+            }
           }
         }
       }
+    }
+  }
 
-      .leftBox {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        gap: 4px;
+  .noticeSec {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 656px;
+    padding: 60px 0 0;
 
-        .amount {
-          color: $Black2;
-        }
-      }
+    .noticeTitle {
+      font-weight: 700;
+      color: $Black2;
+    }
 
-      .rightBox {
-        .chargeBtn {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: 110px;
-          height: 44px;
-          background: $Primary1;
-          border-radius: 8px;
+    .noticeList {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 0 0 0 18px;
 
-          p {
-            color: $White1;
-          }
-        }
+      li {
+        list-style: outside;
+        font-size: 18px;
+        line-height: 28px;
+        color: $Gray1;
       }
     }
   }
