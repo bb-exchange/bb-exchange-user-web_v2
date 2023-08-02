@@ -91,7 +91,7 @@
 
       .quillBox {
         padding: 44px 0 40px;
-        border-bottom: 1px solid $Gray3;
+        border-bottom: 1px solid $Gray2;
 
         .quill {
           & > div {
@@ -116,7 +116,20 @@
               }
 
               img {
+                border-radius: 12px;
                 cursor: pointer;
+
+                &[thumb] {
+                  position: relative;
+
+                  &::after {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    content:url(http://placekitten.com/g/250/250);
+
+                  }
+                }
               }
             }
           }
@@ -185,7 +198,7 @@
       width: 60px;
       height: 60px;
       background: $White1;
-      border: 1px solid $Primary1;
+      border: 2px solid $Primary1;
       border-radius: 50%;
     }
   }

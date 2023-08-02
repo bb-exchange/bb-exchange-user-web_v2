@@ -157,6 +157,8 @@ export default function useEnroll(quillRef: any) {
   const handleOnClickSetThumbnailBtn = () => {
     if (!selectImg) return;
 
+    console.log(selectImg.setAttribute("thumb", 'true'));
+    
     setValue("thumbNail", selectImg.src);
     setSelectImg(undefined);
   };

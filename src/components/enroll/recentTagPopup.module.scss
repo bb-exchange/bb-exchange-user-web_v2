@@ -25,10 +25,10 @@
       cursor: pointer;
 
       &:hover {
-        font-weight: 700;
         background: $Primary4;
-
+        
         .tag {
+          font-weight: 700;
           color: $Primary2;
         }
       }
