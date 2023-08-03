@@ -21,18 +21,6 @@ const AppleAuth = () => {
   useEffect(() => {
     if (query?.code) {
       (async () => {
-        // const res = await axios.post(
-        //   `https://appleid.apple.com/auth/token`,
-        //   {
-        //     code: query?.code,
-        //     grant_type: "authorization_code",
-        //     client_id: process.env.NEXT_PUBLIC_APPLE_CLIENT_ID,
-        //     client_secret: process.env.NEXT_PUBLIC_APPLE_CLIENT_SECRET,
-        //     redirect_uri: process.env.NEXT_PUBLIC_APPLE_REDIRECT_URI,
-        //   },
-        //   { headers: { "content-type": "application/x-www-form-urlencoded" } }
-        // );
-
         const response = await basicInstance.post("/v1/auth/oidc/login", {
           idToken: query.id_token,
           oauthType: "APPLE",
@@ -40,7 +28,6 @@ const AppleAuth = () => {
 
         //not registerd
         if (response.data.message === "user not registered") {
-          //check kakao user account
           const {
             data: { data: registerVerifyData },
           } = await basicInstance.post("/v1/auth/register/verify ", {
@@ -57,7 +44,6 @@ const AppleAuth = () => {
             });
             push({
               pathname: `/auth/terms-agreement`,
-              query: { status: "phoneVerified" },
             });
           }
         } else if (
