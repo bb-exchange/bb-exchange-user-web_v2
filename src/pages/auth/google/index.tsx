@@ -57,7 +57,6 @@ const GoogleAuth = () => {
                 kakaoAccessToken: null,
               }
             );
-            console.log(registerVerifyData.data);
 
             if (registerVerifyData.data.status === "OAUTH_VERIFIED") {
               setCookie("oauthId", registerVerifyData.data.oauthId, {
