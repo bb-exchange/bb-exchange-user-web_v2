@@ -43,6 +43,7 @@ const KakaoAuth = () => {
             idToken: data.id_token,
             oauthType: "KAKAO",
           });
+
           //not registerd
           if (response.data.message === "user not registered") {
             //check kakao user account
@@ -54,7 +55,9 @@ const KakaoAuth = () => {
               kakaoAccessToken: data.access_token,
             });
             console.log(registerVerifyData);
+
             if (registerVerifyData.status === "PHONE_VERIFIED") {
+              //휴대폰 인증까지 완료
               setCookie("oauthId", registerVerifyData.oauthId, {
                 path: "/",
               });
@@ -66,35 +69,15 @@ const KakaoAuth = () => {
                 query: { status: "phoneVerified" },
               });
             }
-            //reponse에 status가 PHONE_VERIFIED이면(비회원) => 서비스 이용동의 페이지 => 닉네임 설정 페이지
-            // push("/auth/terms-agreement?from=kakao");
-          }
-
-          //accessToken이 있으면(회원) => 메인페이지로 랜딩
-          // if (response.data.data.data.status === "PHONE_VERIFIED") {
-          //   setCookie("authKey", response.data.data.data.key, {
-          //     path: "/",
-          //   });
-          //   push("/auth/terms-agreement?from=kakao");
-          // } else
-
-          // if (response.data.data.data.oauthTypes) {
-          //   //이미 가입된 정보가 있는 경우(response에 oauthType 내려옴)
-          //   LocalStorage.setItem(
-          //     "oauthType",
-          //     response.data.data.data.oauthTypes[0]
-          //   );
-          //   push("/auth/duplicate-social-account");
-          // } else
-          else if (
-            response.data.data.data.accessToken &&
-            response.data.data.data.refreshToken
+          } else if (
+            response.data.data.accessToken &&
+            response.data.data.refreshToken
           ) {
             //정상 로그인 처리
-            setCookie("accessToken", response.data.data.data.accessToken, {
+            setCookie("accessToken", response.data.data.accessToken, {
               path: "/",
             });
-            setCookie("refreshToken", response.data.data.data.refreshToken, {
+            setCookie("refreshToken", response.data.data.refreshToken, {
               path: "/",
             });
             //닉네임 가져오기
@@ -102,7 +85,7 @@ const KakaoAuth = () => {
               `https://api.stage-bibubex.com/v1/users/me`,
               {
                 headers: {
-                  Authorization: `Bearer ${response.data.data.data.accessToken}`,
+                  Authorization: `Bearer ${response.data.data.accessToken}`,
                 },
               }
             );

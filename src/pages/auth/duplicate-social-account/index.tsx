@@ -3,17 +3,11 @@ import OutlinedBtn from ".src/components/Buttons/OutlinedBtn";
 import LogoKakao from "../../../../public/assets/images/kakao_logo.svg";
 import LogoGoogle from "../../../../public/assets/images/google_logo.svg";
 import LogoApple from "../../../../public/assets/images/apple_logo_v2.svg";
-import { useEffect, useState } from "react";
-import LocalStorage from ".src/util/localStorage";
 import { GOOGLE_AUTH_URL, KAKAO_AUTH_URL } from ".src/data/signin/D_authUrl";
+import { useCookies } from "react-cookie";
 
 const DuplicateSocialAccount = () => {
-  const [oauthType, setOauthType] = useState<any>("");
-
-  useEffect(() => {
-    if (LocalStorage.getItem("oauthType"))
-      setOauthType(LocalStorage.getItem("oauthType"));
-  }, []);
+  const [cookie, setCookie] = useCookies(["oauthId", "oauthType"]);
 
   return (
     <div id={styles.duplicateSocialAccount} className={styles.container}>
@@ -24,7 +18,7 @@ const DuplicateSocialAccount = () => {
           <br /> 아래 계정으로 로그인해주세요.
         </p>
 
-        {oauthType === "KAKAO" ? (
+        {cookie.oauthType === "KAKAO" ? (
           <section className={styles.signInBox}>
             <div className={styles.logoWrap}>
               <LogoKakao />
@@ -36,7 +30,7 @@ const DuplicateSocialAccount = () => {
               onClick={() => window.location.assign(KAKAO_AUTH_URL)}
             />
           </section>
-        ) : oauthType === "GOOGLE" ? (
+        ) : cookie.oauthType === "GOOGLE" ? (
           <section className={styles.signInBox}>
             <div className={styles.logoWrap}>
               <LogoGoogle />
@@ -48,7 +42,7 @@ const DuplicateSocialAccount = () => {
               onClick={() => window.location.assign(GOOGLE_AUTH_URL)}
             />
           </section>
-        ) : oauthType === "APPLE" ? (
+        ) : cookie.oauthType === "APPLE" ? (
           <section className={styles.signInBox}>
             <div className={styles.logoWrap}>
               <LogoApple />

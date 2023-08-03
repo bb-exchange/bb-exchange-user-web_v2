@@ -44,11 +44,11 @@ const Register = () => {
 
   //닉네임 중복체크
   const duplicateCheck = async (data: Inputs) => {
-    const { isExists }: { isExists: boolean } = await basicInstance.get(
+    const res = await basicInstance.get(
       `/v1/users/is-exists?nickname=${data.nickname}`
     );
-    console.log(isExists);
-    if (isExists === true) {
+
+    if (res.data.data.isExists === true) {
       setError("nickname", { message: "이미 사용중인 닉네임입니다" });
     } else {
       setAvailableNickname(data.nickname);

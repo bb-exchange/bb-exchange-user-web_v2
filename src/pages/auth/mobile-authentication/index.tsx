@@ -18,7 +18,7 @@ interface Inputs {
 const MobileAuth = () => {
   const { query } = useRouter();
 
-  const cookies = useCookies(["oauthType", "oauthId"])[0];
+  const [cookie, setCookie] = useCookies(["oauthId", "oauthType"]);
   const { push } = useRouter();
   const [showResendBtn, setShowResendBtn] = useState<boolean>(false);
   const [minutes, setMinutes] = useState<number>(3);
@@ -52,11 +52,10 @@ const MobileAuth = () => {
       const {
         data: { data: secretData },
       }: any = await basicInstance.post("/v1/auth/phones/send-secret", {
-        oauthType: cookies.oauthType,
-        oauthId: cookies.oauthId,
+        oauthType: cookie.oauthType,
+        oauthId: cookie.oauthId,
         phoneNumber: data.phoneNumber,
       });
-      console.log(secretData);
 
       if (secretData.status === "SECRET_SENT") {
         //인증번호 문자 전송 완료
@@ -86,18 +85,22 @@ const MobileAuth = () => {
   const verifyPhones = async (data: Inputs) => {
     try {
       const res: any = await basicInstance.post("/v1/auth/phones/verify", {
-        oauthType: cookies.oauthType,
-        oauthId: cookies.oauthId,
+        oauthType: cookie.oauthType,
+        oauthId: cookie.oauthId,
         phoneNumber: data.phoneNumber,
         secret: data.secret,
       });
-
-      if (res.data.data.key && res.data.data.expireTime) {
-        //인증 성공
+      //인증 성공
+      if (res.data.data.status === "PHONE_VERIFIED") {
         push("/auth/register");
-      } else if (res.data.data.oauthTypes) {
+      } else if (res.data.data.status === "ALREADY_REGISTERED") {
         //소셜 계정 중복
-        LocalStorage.setItem("oauthType", res.data.data.oauthTypes[0]);
+        setCookie("oauthId", res.data.data.oauthId, {
+          path: "/",
+        });
+        setCookie("oauthType", res.data.data.oauthType, {
+          path: "/",
+        });
         push("/auth/duplicate-social-account");
       }
     } catch (error: any) {

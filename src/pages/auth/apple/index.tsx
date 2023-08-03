@@ -12,7 +12,8 @@ const AppleAuth = () => {
   const { query, push } = useRouter();
   const dispatch = useDispatch();
   const [cookie, setCookie] = useCookies([
-    "authKey",
+    "oauthId",
+    "oauthType",
     "accessToken",
     "refreshToken",
   ]);
@@ -36,21 +37,37 @@ const AppleAuth = () => {
           idToken: query.id_token,
           oauthType: "APPLE",
         });
-        console.log(response);
 
-        if (response.data.data.data.status === "OAUTH_VERIFIED") {
-          setCookie("authKey", response.data.data.data.key, {
-            path: "/",
+        //not registerd
+        if (response.data.message === "user not registered") {
+          //check kakao user account
+          const {
+            data: { data: registerVerifyData },
+          } = await basicInstance.post("/v1/auth/register/verify ", {
+            oauthType: "APPLE",
+            idToken: query.id_token,
           });
-          push("/auth/terms-agreement");
+
+          if (registerVerifyData.status === "PHONE_VERIFIED") {
+            setCookie("oauthId", registerVerifyData.oauthId, {
+              path: "/",
+            });
+            setCookie("oauthType", registerVerifyData.oauthType, {
+              path: "/",
+            });
+            push({
+              pathname: `/auth/terms-agreement`,
+              query: { status: "phoneVerified" },
+            });
+          }
         } else if (
-          response.data.data.data.accessToken &&
-          response.data.data.data.refreshToken
+          response.data.data.ccessToken &&
+          response.data.data.refreshToken
         ) {
-          setCookie("accessToken", response.data.data.data.accessToken, {
+          setCookie("accessToken", response.data.data.accessToken, {
             path: "/",
           });
-          setCookie("refreshToken", response.data.data.data.refreshToken, {
+          setCookie("refreshToken", response.data.data.refreshToken, {
             path: "/",
           });
           //닉네임 가져오기
