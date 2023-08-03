@@ -78,14 +78,14 @@ const GoogleAuth = () => {
               push("/auth/duplicate-social-account");
             }
           } else if (
-            authLoginData.data.data.accessToken &&
-            authLoginData.data.data.refreshToken
+            authLoginData.data.accessToken &&
+            authLoginData.data.refreshToken
           ) {
             //정상 로그인 처리
-            setCookie("accessToken", authLoginData.data.data.accessToken, {
+            setCookie("accessToken", authLoginData.data.accessToken, {
               path: "/",
             });
-            setCookie("refreshToken", authLoginData.data.data.refreshToken, {
+            setCookie("refreshToken", authLoginData.data.refreshToken, {
               path: "/",
             });
             //닉네임 가져오기
@@ -93,7 +93,7 @@ const GoogleAuth = () => {
               `https://api.stage-bibubex.com/v1/users/me`,
               {
                 headers: {
-                  Authorization: `Bearer ${authLoginData.data.data.accessToken}`,
+                  Authorization: `Bearer ${authLoginData.data.accessToken}`,
                 },
               }
             );
