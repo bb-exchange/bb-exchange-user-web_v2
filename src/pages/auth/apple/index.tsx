@@ -48,7 +48,7 @@ const AppleAuth = () => {
             idToken: query.id_token,
           });
 
-          if (registerVerifyData.status === "PHONE_VERIFIED") {
+          if (registerVerifyData.status === "OAUTH_VERIFIED") {
             setCookie("oauthId", registerVerifyData.oauthId, {
               path: "/",
             });
