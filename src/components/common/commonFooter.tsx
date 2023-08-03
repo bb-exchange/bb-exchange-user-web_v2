@@ -50,6 +50,7 @@ export default function CommonFooter() {
             >
               <p>이용약관</p>
             </li>
+
             <li
               onClick={() =>
                 router.push({
@@ -60,20 +61,17 @@ export default function CommonFooter() {
             >
               <strong>개인정보처리방침</strong>
             </li>
+
             <li>
-              <p>
-                <p>비법거래소 고객센터</p>
-              </p>
+              <p>비법거래소 고객센터</p>
             </li>
+
             <li>
-              <p>
-                <p>카카오톡 1:1 문의</p>
-              </p>
+              <p>카카오톡 1:1 문의</p>
             </li>
+
             <li>
-              <p>
-                <p>제휴제안</p>
-              </p>
+              <p>제휴제안</p>
             </li>
           </ul>
         </article>

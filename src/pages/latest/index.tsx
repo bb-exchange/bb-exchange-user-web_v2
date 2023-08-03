@@ -7,6 +7,7 @@ import PageNav from ".src/components/common/pageNav";
 import ScrollTopBtn from ".src/components/common/scrollTopBtn";
 import useLatest from ".src/hooks/posts/useLatest";
 import { useRouter } from "next/router";
+import UseScrollTopBtn from ".src/hooks/common/useScrollTopBtn";
 
 export default function Lastest() {
   const router = useRouter();
@@ -47,7 +48,10 @@ export default function Lastest() {
 
                         <p>{v.category}</p>
                       </div>
-                      ・{v.creatorNickname}・{moment(v.createdAt).fromNow()}
+
+                      <p className={styles.creator}>
+                        ・{v.creatorNickname}・{moment(v.createdAt).fromNow()}
+                      </p>
                     </div>
                   </div>
 
@@ -90,7 +94,9 @@ export default function Lastest() {
                   )}
 
                   <button
-                    className={styles.favBtn}
+                    className={`${v.isLike ? "" : styles.none} ${
+                      styles.favBtn
+                    }`}
                     onClick={(e) => customHook.onClickFavBtn(e, i)}
                   >
                     {v.isLike === true ? <HeartRedO /> : <HeartGrey />}

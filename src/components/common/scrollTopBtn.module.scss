@@ -1,7 +1,7 @@
 @import "/src/styles/variable";
 
 .scrollTopBtn {
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   width: 50px;
@@ -13,4 +13,8 @@
   bottom: 305px;
   position: fixed;
   z-index: 30;
+
+  &.scrollEnd {
+    display: flex;
+  }
 }

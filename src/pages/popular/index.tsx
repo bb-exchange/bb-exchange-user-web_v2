@@ -70,7 +70,10 @@ export default function Popular() {
 
                         <p>{v.category}</p>
                       </div>
-                      ・{v.creatorNickname}・{moment(v.createdAt).fromNow()}
+
+                      <p className={styles.creator}>
+                        ・{v.creatorNickname}・{moment(v.createdAt).fromNow()}
+                      </p>
                     </div>
                   </div>
 
