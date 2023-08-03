@@ -61,7 +61,7 @@ const AppleAuth = () => {
             });
           }
         } else if (
-          response.data.data.ccessToken &&
+          response.data.data.accessToken &&
           response.data.data.refreshToken
         ) {
           setCookie("accessToken", response.data.data.accessToken, {
