@@ -61,7 +61,7 @@ const AppleAuth = () => {
             `https://api.stage-bibubex.com/v1/users/me`,
             {
               headers: {
-                Authorization: `Bearer ${response.data.data.data.accessToken}`,
+                Authorization: `Bearer ${response.data.data.accessToken}`,
               },
             }
           );
