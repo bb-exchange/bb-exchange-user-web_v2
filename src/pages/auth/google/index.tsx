@@ -69,14 +69,6 @@ const GoogleAuth = () => {
                 pathname: "/auth/terms-agreement",
               });
             }
-            //중복계정 존재
-            else if (registerVerifyData.data.oauthTypes) {
-              LocalStorage.setItem(
-                "oauthType",
-                registerVerifyData.data.oauthTypes[0]
-              );
-              push("/auth/duplicate-social-account");
-            }
           } else if (
             authLoginData.data.accessToken &&
             authLoginData.data.refreshToken

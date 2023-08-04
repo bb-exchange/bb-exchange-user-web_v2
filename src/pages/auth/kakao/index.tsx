@@ -43,7 +43,7 @@ const KakaoAuth = () => {
             idToken: data.id_token,
             oauthType: "KAKAO",
           });
-
+          console.log(response);
           //not registerd
           if (response.data.message === "user not registered") {
             //check kakao user account
@@ -54,7 +54,6 @@ const KakaoAuth = () => {
               idToken: data.id_token,
               kakaoAccessToken: data.access_token,
             });
-            console.log(registerVerifyData);
 
             if (registerVerifyData.status === "PHONE_VERIFIED") {
               //휴대폰 인증까지 완료
@@ -77,29 +76,29 @@ const KakaoAuth = () => {
                 path: "/",
               });
               push("/auth/duplicate-social-account");
-            } else if (
-              response.data.data.accessToken &&
-              response.data.data.refreshToken
-            ) {
-              //정상 로그인 처리
-              setCookie("accessToken", response.data.data.accessToken, {
-                path: "/",
-              });
-              setCookie("refreshToken", response.data.data.refreshToken, {
-                path: "/",
-              });
-              //닉네임 가져오기
-              const { data } = await axios.get(
-                `https://api.stage-bibubex.com/v1/users/me`,
-                {
-                  headers: {
-                    Authorization: `Bearer ${response.data.data.accessToken}`,
-                  },
-                }
-              );
-              dispatch(signIn(data?.data.nickname)); //전역 로그인 처리
-              push("/");
             }
+          } else if (
+            response.data.data.accessToken &&
+            response.data.data.refreshToken
+          ) {
+            //정상 로그인 처리
+            setCookie("accessToken", response.data.data.accessToken, {
+              path: "/",
+            });
+            setCookie("refreshToken", response.data.data.refreshToken, {
+              path: "/",
+            });
+            //닉네임 가져오기
+            const { data } = await axios.get(
+              `https://api.stage-bibubex.com/v1/users/me`,
+              {
+                headers: {
+                  Authorization: `Bearer ${response.data.data.accessToken}`,
+                },
+              }
+            );
+            dispatch(signIn(data?.data.nickname)); //전역 로그인 처리
+            push("/");
           }
         }
       })();
