@@ -3,7 +3,11 @@ import OutlinedBtn from ".src/components/Buttons/OutlinedBtn";
 import LogoKakao from "../../../../public/assets/images/kakao_logo.svg";
 import LogoGoogle from "../../../../public/assets/images/google_logo.svg";
 import LogoApple from "../../../../public/assets/images/apple_logo_v2.svg";
-import { GOOGLE_AUTH_URL, KAKAO_AUTH_URL } from ".src/data/signin/D_authUrl";
+import {
+  APPLE_AUTH_URL,
+  GOOGLE_AUTH_URL,
+  KAKAO_AUTH_URL,
+} from ".src/data/signin/D_authUrl";
 import { useCookies } from "react-cookie";
 
 const DuplicateSocialAccount = () => {
@@ -48,7 +52,11 @@ const DuplicateSocialAccount = () => {
               <LogoApple />
               <span>애플</span>
             </div>
-            <OutlinedBtn text={"로그인"} type="gray" />
+            <OutlinedBtn
+              text={"로그인"}
+              type="gray"
+              onClick={() => window.location.assign(APPLE_AUTH_URL)}
+            />
           </section>
         ) : null}
       </div>
