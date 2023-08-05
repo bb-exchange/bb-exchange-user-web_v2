@@ -36,6 +36,10 @@
     padding: 24px 0;
     border-top: 1px solid $Gray3;
 
+    &.notEnough {
+      border-bottom: 1px solid $Gray3;
+    }
+
     .priceList {
       display: flex;
       flex-direction: column;
@@ -77,6 +81,23 @@
         align-items: center;
         gap: 8px;
         height: 48px;
+      }
+    }
+
+    .notEnoughBar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
+      height: 48px;
+
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      p {
+        color: $Red1;
       }
     }
 

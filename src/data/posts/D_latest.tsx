@@ -10,9 +10,6 @@ export const D_latestPostList: IpostList[] = [
     category: "주식/투자",
     creatorNickname: "치은짱짱맨",
     createdAt: new Date(new Date().getTime() - 13 * hourToSec),
-    percentOfChange: 50.4,
-    amountOfChange: 63,
-    point: 999999,
     likeCount: 92,
   },
   {
@@ -25,9 +22,7 @@ export const D_latestPostList: IpostList[] = [
     category: "주식/투자",
     creatorNickname: "치은짱짱맨",
     createdAt: new Date(new Date().getTime() - 24 * hourToSec),
-    percentOfChange: 50.4,
-    amountOfChange: 63,
-    point: 999999,
+
     likeCount: 92,
     read: true,
   },
@@ -40,9 +35,7 @@ export const D_latestPostList: IpostList[] = [
     category: "주식/투자",
     creatorNickname: "치은짱짱맨",
     createdAt: new Date(new Date().getTime() - 24 * hourToSec),
-    percentOfChange: 50.4,
-    amountOfChange: 63,
-    point: 999999,
+
     likeCount: 92,
   },
   {
@@ -57,7 +50,6 @@ export const D_latestPostList: IpostList[] = [
     createdAt: new Date(new Date().getTime() - 24 * hourToSec),
     percentOfChange: -50.4,
     amountOfChange: -63,
-    point: 999999,
     likeCount: 92,
   },
   {
@@ -69,22 +61,6 @@ export const D_latestPostList: IpostList[] = [
     category: "주식/투자",
     creatorNickname: "치은짱짱맨",
     createdAt: new Date(new Date().getTime() - 24 * hourToSec),
-    point: 999999,
-    likeCount: 92,
-  },
-  {
-    rankDiff: 3,
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
-    replyCount: 12,
-    thumbnailUrl: "https://picsum.photos/200",
-    categoryImg: "https://picsum.photos/40",
-    category: "주식/투자",
-    creatorNickname: "치은짱짱맨",
-    createdAt: new Date(new Date().getTime() - 24 * hourToSec),
-    percentOfChange: -50.4,
-    amountOfChange: -63,
-    point: 999999,
     likeCount: 92,
   },
   {
@@ -99,7 +75,6 @@ export const D_latestPostList: IpostList[] = [
     createdAt: new Date(new Date().getTime() - 24 * hourToSec),
     percentOfChange: -50.4,
     amountOfChange: -63,
-    point: 999999,
     likeCount: 92,
   },
   {
@@ -114,7 +89,6 @@ export const D_latestPostList: IpostList[] = [
     createdAt: new Date(new Date().getTime() - 24 * hourToSec),
     percentOfChange: -50.4,
     amountOfChange: -63,
-    point: 999999,
     likeCount: 92,
   },
   {
@@ -129,7 +103,6 @@ export const D_latestPostList: IpostList[] = [
     createdAt: new Date(new Date().getTime() - 24 * hourToSec),
     percentOfChange: -50.4,
     amountOfChange: -63,
-    point: 999999,
     likeCount: 92,
   },
   {
@@ -144,7 +117,6 @@ export const D_latestPostList: IpostList[] = [
     createdAt: new Date(new Date().getTime() - 24 * hourToSec),
     percentOfChange: -50.4,
     amountOfChange: -63,
-    point: 999999,
     likeCount: 92,
   },
   {
@@ -159,7 +131,6 @@ export const D_latestPostList: IpostList[] = [
     createdAt: new Date(new Date().getTime() - 24 * hourToSec),
     percentOfChange: -50.4,
     amountOfChange: -63,
-    point: 999999,
     likeCount: 92,
   },
   {
@@ -174,7 +145,6 @@ export const D_latestPostList: IpostList[] = [
     createdAt: new Date(new Date().getTime() - 24 * hourToSec),
     percentOfChange: -50.4,
     amountOfChange: -63,
-    point: 999999,
     likeCount: 92,
   },
   {
@@ -189,7 +159,6 @@ export const D_latestPostList: IpostList[] = [
     createdAt: new Date(new Date().getTime() - 24 * hourToSec),
     percentOfChange: -50.4,
     amountOfChange: -63,
-    point: 999999,
     likeCount: 92,
   },
   {
@@ -204,7 +173,6 @@ export const D_latestPostList: IpostList[] = [
     createdAt: new Date(new Date().getTime() - 24 * hourToSec),
     percentOfChange: -50.4,
     amountOfChange: -63,
-    point: 999999,
     likeCount: 92,
   },
   {
@@ -219,7 +187,6 @@ export const D_latestPostList: IpostList[] = [
     createdAt: new Date(new Date().getTime() - 24 * hourToSec),
     percentOfChange: -50.4,
     amountOfChange: -63,
-    point: 999999,
     likeCount: 92,
   },
   {
@@ -234,7 +201,6 @@ export const D_latestPostList: IpostList[] = [
     createdAt: new Date(new Date().getTime() - 24 * hourToSec),
     percentOfChange: -50.4,
     amountOfChange: -63,
-    point: 999999,
     likeCount: 92,
   },
   {
@@ -249,7 +215,20 @@ export const D_latestPostList: IpostList[] = [
     createdAt: new Date(new Date().getTime() - 24 * hourToSec),
     percentOfChange: -50.4,
     amountOfChange: -63,
-    point: 999999,
+    likeCount: 92,
+  },
+  {
+    rankDiff: 3,
+    title:
+      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    replyCount: 12,
+    thumbnailUrl: "https://picsum.photos/200",
+    categoryImg: "https://picsum.photos/40",
+    category: "주식/투자",
+    creatorNickname: "치은짱짱맨",
+    createdAt: new Date(new Date().getTime() - 24 * hourToSec),
+    percentOfChange: -50.4,
+    amountOfChange: -63,
     likeCount: 92,
     isList: true,
   },
@@ -263,9 +242,7 @@ export const D_latestPostList: IpostList[] = [
     category: "주식/투자",
     creatorNickname: "치은짱짱맨",
     createdAt: new Date(new Date().getTime() - 24 * hourToSec),
-    percentOfChange: 50.4,
-    amountOfChange: 63,
-    point: 999999,
+
     likeCount: 92,
     isList: true,
   },
@@ -281,7 +258,6 @@ export const D_latestPostList: IpostList[] = [
     createdAt: new Date(new Date().getTime() - 24 * hourToSec),
     percentOfChange: -50.4,
     amountOfChange: -63,
-    point: 999999,
     likeCount: 92,
   },
   {
@@ -296,7 +272,6 @@ export const D_latestPostList: IpostList[] = [
     createdAt: new Date(new Date().getTime() - 24 * hourToSec),
     percentOfChange: -50.4,
     amountOfChange: -63,
-    point: 999999,
     likeCount: 92,
   },
 ];

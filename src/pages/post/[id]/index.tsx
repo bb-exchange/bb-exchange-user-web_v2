@@ -81,7 +81,7 @@ export default function Post() {
 
             <div className={styles.titleArea}>
               <h1 className={styles.title}>
-                취준생 모여라! 답변 못하면 탈락하는 면접 질문 30선{" "}
+                취준생 모여라! 답변 못하면 탈락하는 면접 질문 30선
               </h1>
 
               <div className={styles.utilBar}>
@@ -255,7 +255,9 @@ export default function Post() {
               >
                 <div className={styles.overlayBox}>
                   <button
-                    className={styles.favBtn}
+                    className={`${styles.favBtn} ${
+                      UsePost.isLike === true ? styles.on : ""
+                    }`}
                     onClick={UsePost.onClickFavBtn}
                     data-testid={
                       UsePost.isLike === true ? "thumbRed" : "thumbGrey"
@@ -279,10 +281,7 @@ export default function Post() {
                   <div className={styles.countBar}>
                     <Message />
 
-                    <p className={styles.key}>댓글</p>
-                    <p className={styles.value}>
-                      {new Intl.NumberFormat().format(9999)}
-                    </p>
+                    <p className={styles.key}>대표댓글</p>
                   </div>
 
                   <ul className={styles.replyList}>

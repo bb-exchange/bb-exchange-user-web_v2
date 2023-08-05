@@ -7,7 +7,6 @@ import PageNav from ".src/components/common/pageNav";
 import ScrollTopBtn from ".src/components/common/scrollTopBtn";
 import useLatest from ".src/hooks/posts/useLatest";
 import { useRouter } from "next/router";
-import UseScrollTopBtn from ".src/hooks/common/useScrollTopBtn";
 
 export default function Lastest() {
   const router = useRouter();

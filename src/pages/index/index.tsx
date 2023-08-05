@@ -418,11 +418,25 @@ export default function Index() {
             pathname: "/post/0",
             query: {
               buyPopup: true,
+              point: 12000,
             },
           })
         }
       >
         글 상세페이지 (구매하기 팝업)
+      </li>
+
+      <li
+        onClick={() =>
+          push({
+            pathname: "/post/0",
+            query: {
+              buyPopup: true,
+            },
+          })
+        }
+      >
+        글 상세페이지 (구매하기 팝업, 포인트 0)
       </li>
 
       <li
