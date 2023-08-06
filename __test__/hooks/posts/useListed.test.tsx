@@ -1,38 +1,31 @@
 import { expect, jest } from "@jest/globals";
 import { fireEvent, render, renderHook } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import * as nextRouter from "next/router";
-import {
-  QueryClient,
-  QueryClientProvider,
-  useQuery,
-} from "@tanstack/react-query";
-import UsePopular from "./usePopular";
+import { useQuery } from "@tanstack/react-query";
+import UseListed from ".src/hooks/posts/useListed";
 import { waitFor } from "@testing-library/react";
 import { fetchArticles } from ".src/api/articles/articles";
 import mockNextRouter from "../../../__test__/__mocks__/nextRouter";
 import mockReactQuery from "../../../__test__/__mocks__/reactQuery";
 
-describe("usePopular", () => {
+describe("useListed", () => {
   mockNextRouter({
     opt: {
       query: { page: 0 },
     },
   });
 
-  const wrapper = mockReactQuery;
-
   it("글 리스트 api 글이 존재", async () => {
-    function usePopularArticles() {
+    function useLateArticles() {
       return useQuery({
-        queryKey: ["popular", 0],
+        queryKey: ["listed", 0],
         queryFn: fetchArticles,
       });
     }
 
     const wrapper = mockReactQuery;
 
-    const { result } = renderHook(usePopularArticles, {
+    const { result } = renderHook(useLateArticles, {
       wrapper,
     });
 
@@ -41,17 +34,17 @@ describe("usePopular", () => {
   });
 
   it("글 좋아요 버튼 작동", () => {
-    let usePopular = {} as ReturnType<typeof UsePopular>;
+    let useListed = {} as ReturnType<typeof UseListed>;
 
     const CustomHookWrapper = () => {
-      usePopular = UsePopular();
+      useListed = UseListed();
       return null;
     };
 
     const TestBtn = () => (
       <button
         data-testid={"testBtn"}
-        onClick={(e) => usePopular.onClickFavBtn(e, 0)}
+        onClick={(e) => useListed.onClickFavBtn(e, 0)}
       />
     );
 
@@ -68,9 +61,9 @@ describe("usePopular", () => {
 
     const testBtn = container.querySelector('[data-testid="testBtn"]');
 
-    const favBfrClick = usePopular.dataList[0].isLike;
+    const favBfrClick = useListed.dataList[0].isLike;
     fireEvent.click(testBtn!);
-    const favAftClick = usePopular.dataList[0].isLike;
+    const favAftClick = useListed.dataList[0].isLike;
 
     expect(!favBfrClick === favAftClick).toBe(true);
   });

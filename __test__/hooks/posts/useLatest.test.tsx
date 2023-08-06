@@ -2,11 +2,11 @@ import { expect } from "@jest/globals";
 import { fireEvent, render, renderHook } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { useQuery } from "@tanstack/react-query";
-import UseLatest from "./useLatest";
 import { waitFor } from "@testing-library/react";
 import { fetchArticles } from ".src/api/articles/articles";
 import mockNextRouter from "../../../__test__/__mocks__/nextRouter";
 import mockReactQuery from "../../../__test__/__mocks__/reactQuery";
+import UseLatest from ".src/hooks/posts/useLatest";
 
 describe("useLatest", () => {
   mockNextRouter({

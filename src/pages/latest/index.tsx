@@ -5,12 +5,12 @@ import moment from "moment";
 import "moment/locale/ko";
 import PageNav from ".src/components/common/pageNav";
 import ScrollTopBtn from ".src/components/common/scrollTopBtn";
-import useLatest from ".src/hooks/posts/useLatest";
+import UseLatest from ".src/hooks/posts/useLatest";
 import { useRouter } from "next/router";
 
 export default function Lastest() {
   const router = useRouter();
-  const customHook = useLatest();
+  const customHook = UseLatest();
 
   function getDiffStyle(diff: number) {
     if (diff > 0) return styles.up;

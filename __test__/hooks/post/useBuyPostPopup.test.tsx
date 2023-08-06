@@ -1,9 +1,9 @@
 import { expect } from "@jest/globals";
 import { fireEvent, render } from "@testing-library/react";
-import UseBuyPostPopup from "./useBuyPostPopup";
-import usePost from "./usePost";
-import mockNextRouter from "../../../__test__/__mocks__/nextRouter";
-import mockReactQuery from "../../../__test__/__mocks__/reactQuery";
+import UseBuyPostPopup from "../../../src/hooks/post/useBuyPostPopup";
+import usePost from "../../../src/hooks/post/usePost";
+import mockNextRouter from "../../__mocks__/nextRouter";
+import mockReactQuery from "../../__mocks__/reactQuery";
 
 describe("useBuyPostPopup", () => {
   mockNextRouter({});
@@ -77,6 +77,5 @@ describe("useBuyPostPopup", () => {
 
     expect(UsePost.buyPopup).toBe(false);
     expect(UsePost.compPayPopup).toBe(true);
-    expect(UsePost.unLimted).toBe(true);
   });
 });

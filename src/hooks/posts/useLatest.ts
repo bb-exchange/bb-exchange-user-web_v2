@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-export default function useLatest() {
+export default function UseLatest() {
   const router = useRouter();
 
   const [dataList, setDataList] = useState(D_latestPostList);

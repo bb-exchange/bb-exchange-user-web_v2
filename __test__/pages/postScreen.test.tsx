@@ -1,9 +1,9 @@
 import { describe, expect } from "@jest/globals";
 import { fireEvent, render } from "@testing-library/react";
-import mockNextRouter from "./__mocks__/nextRouter";
-import mockReactQuery from "./__mocks__/reactQuery";
-import Post from "../src/pages/post/[id]";
-import mockReactRedux from "./__mocks__/reactRedux";
+import mockNextRouter from "../__mocks__/nextRouter";
+import mockReactQuery from "../__mocks__/reactQuery";
+import Post from "../../src/pages/post/[id]";
+import mockReactRedux from "../__mocks__/reactRedux";
 
 describe("postScreen", () => {
   mockNextRouter({});
