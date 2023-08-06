@@ -53,7 +53,10 @@ export default function CommonHeader({ commonSort }: Iprops) {
                 </button>
 
                 <div className={styles.imgWrap}>
-                  <div className={styles.shopImgWrap}>
+                  <div
+                    className={styles.shopImgWrap}
+                    onClick={() => router.push("/charge")}
+                  >
                     <Shop />
                   </div>
 

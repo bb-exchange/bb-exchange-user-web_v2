@@ -5,6 +5,7 @@ import ConfirmPopup from ".src/components/common/popup/confirmPopup";
 import PopupBg from ".src/components/common/popupBg";
 import { useSignOut } from ".src/hooks/common/useSignOut";
 import { useRouter } from "next/router";
+import { withdrawal } from ".src/api/users/users";
 
 export default function Setting() {
   const router = useRouter();

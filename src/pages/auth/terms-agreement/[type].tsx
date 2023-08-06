@@ -42,5 +42,5 @@ export async function getStaticProps({ params }: any) {
       ? "29746a6bb8514619a3eca3a80f393f54"
       : "e7d34cb12cc8485e90066b6e9f2bb979";
   const recordMap = await notion.getPage(pageType);
-  return { props: { recordMap }, revalidate: 10 };
+  return { props: { recordMap, navBar: true }, revalidate: 10 };
 }
