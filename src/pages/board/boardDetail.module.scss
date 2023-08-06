@@ -20,9 +20,15 @@
   }
   .content {
     li {
-      padding: 24px 0;
       border-top: 1px solid $Gray3;
     }
+    li:first-of-type {
+      padding: 24px 0px;
+    }
+    li:last-of-type {
+      padding: 40px 0 24px;
+    }
+
     .title {
       color: $Black3;
       font-size: 24px;
@@ -34,8 +40,9 @@
       font-size: 14px;
     }
     .description {
-      color: $Gray1;
+      color: $Black2;
       font-size: 18px;
+      line-height: 28px;
     }
   }
 }

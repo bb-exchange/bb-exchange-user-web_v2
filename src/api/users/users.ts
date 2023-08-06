@@ -11,3 +11,7 @@ export const getProfile = async (userId: number) => {
 export const deleteBlockUser = async (userId: number) => {
   return await basicInstance.delete(`/v1/users/${userId}/block`);
 };
+
+export const withdrawal = async () => {
+  return await basicInstance.delete("v1/users", { data: { reason: "기타" } });
+};
