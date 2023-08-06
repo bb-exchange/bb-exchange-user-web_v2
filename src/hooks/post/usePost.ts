@@ -6,7 +6,6 @@ import { useRef, useState } from "react";
 
 export default function usePost() {
   const router = useRouter();
-  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const [unLimted, setUnLimited] = useState<boolean>(
     router.query.unLimited === "true" || false
@@ -80,7 +79,6 @@ export default function usePost() {
   }
 
   return {
-    inputRef,
     postData,
     unLimted,
     setUnLimited,

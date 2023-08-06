@@ -208,21 +208,10 @@ export default function Post() {
 
                   <div className={styles.inputBox}>
                     <textarea
-                      ref={UsePost.inputRef}
                       value={UsePost.reply}
                       onChange={(e) => UsePost.setReply(e.target.value)}
                       placeholder="댓글을 입력해주세요"
                     />
-
-                    <button
-                      className={styles.inputBtn}
-                      onClick={() => {
-                        UsePost.inputRef.current?.focus();
-                        console.log(UsePost.reply);
-                      }}
-                    >
-                      {UsePost.reply}
-                    </button>
 
                     <button
                       className={styles.enrollBtn}

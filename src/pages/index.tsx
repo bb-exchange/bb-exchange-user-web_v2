@@ -1,5 +1,5 @@
 import Lastest from "./latest";
-import Popular from "./popular";
+import Popular from "./mypage/popular";
 
 export default function Home() {
   return <Lastest />;

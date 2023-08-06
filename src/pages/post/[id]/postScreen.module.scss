@@ -150,10 +150,10 @@
             border: 1px solid $Gray1;
             border-radius: 30px;
 
-            &.on{
+            &.on {
               border-color: $Red1;
 
-              p{
+              p {
                 color: $Black2;
               }
             }
@@ -203,6 +203,7 @@
         &.up {
           .likeBtn {
             &:nth-of-type(1) {
+              box-shadow: 0px 0px 10px 0px #ff3f2533;
               border-color: $Red1;
 
               p {
@@ -226,6 +227,7 @@
           .likeBtn {
             &:nth-of-type(2) {
               border-color: $Primary1;
+              box-shadow: 0px 0px 10px 0px #0000001a;
 
               p {
                 color: $Primary1;
@@ -252,21 +254,22 @@
           gap: 2px;
           width: 90px;
           height: 90px;
-          background: $White1;
-          border: 2px solid $Gray2;
+          background: $White2;
+          border: 3px solid $Gray3;
           border-radius: 50%;
 
           p {
             font-size: 12px;
             font-weight: 700;
             line-height: 20px;
+            color: $Gray3;
           }
         }
 
         .currentBox {
           font-size: 13px;
           line-height: 20px;
-          color: $Black2;
+          color: $Black1;
           text-align: center;
 
           .price {
@@ -317,19 +320,11 @@
           position: relative;
 
           textarea {
-            width: 0;
-            height: 0;
-            position: absolute;
-          }
-
-          .inputBtn {
             flex: 1;
-            overflow-y: scroll;
-            padding: 0 16px;
-            min-height: 54px;
-            max-height: 176px;
-            text-align: start;
-            white-space: pre-wrap;
+            height: 54px;
+            resize: none;
+            padding: 16px;
+
             &::placeholder {
               color: $Gray3;
             }
@@ -339,6 +334,10 @@
             margin: 0 20px 0 0;
             color: $Primary1;
           }
+        }
+
+        .replyList{
+          margin: 20px 0 0;
         }
       }
     }
@@ -394,6 +393,7 @@
       .areaTitle {
         font-size: 16px;
         line-height: 24px;
+        font-weight: 700;
       }
 
       .postList {
