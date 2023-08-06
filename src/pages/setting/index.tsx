@@ -171,8 +171,12 @@ export default function Setting() {
               </>
             }
             cancelFunc={() => setWithdrawPopup(false)}
-            confirmFunc={() => {
+            confirmFunc={async () => {
               setWithdrawPopup(false);
+              const res = await withdrawal();
+              if (res.status === 204) {
+                logOut();
+              }
             }}
           />
           <PopupBg bg off={() => setWithdrawPopup(false)} />
