@@ -43,8 +43,7 @@ export default function CommonFooter() {
             <li
               onClick={() =>
                 router.push({
-                  pathname: "/auth/terms-agreement/[type]",
-                  query: { type: "service" },
+                  pathname: "/terms/service",
                 })
               }
             >
@@ -54,8 +53,7 @@ export default function CommonFooter() {
             <li
               onClick={() =>
                 router.push({
-                  pathname: "/auth/terms-agreement/[type]",
-                  query: { type: "privacy" },
+                  pathname: "/terms/privacy",
                 })
               }
             >

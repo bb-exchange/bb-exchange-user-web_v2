@@ -26,7 +26,13 @@
     height: 52px;
   }
 }
+.notion-page-icon-hero {
+  left: 1% !important;
+}
 
+.notion-page-icon-span {
+  margin: unset !important;
+}
 @mixin scrollBar {
   width: 8px;
   height: 142px;
