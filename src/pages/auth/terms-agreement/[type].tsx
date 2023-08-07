@@ -4,7 +4,6 @@ import { ExtendedRecordMap } from "notion-types";
 import styles from "./[type].module.scss";
 import IconX from ".assets/icons/X.svg";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 
 const TermsPopup = ({ recordMap }: { recordMap: ExtendedRecordMap }) => {
   const router = useRouter();
