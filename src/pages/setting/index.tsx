@@ -9,9 +9,7 @@ import { withdrawal } from ".src/api/users/users";
 
 export default function Setting() {
   const router = useRouter();
-
   const [logOut] = useSignOut();
-
   const [alertChecked, setAlertChecked] = useState(true);
   const [marketingChecked, setMarketingChecked] = useState(true);
   const [alertPopup, setAlertPopup] = useState(
@@ -87,8 +85,24 @@ export default function Setting() {
           <div className={styles.box}>
             <h3>약관 및 정책</h3>
             <ul>
-              <li>서비스 이용약관</li>
-              <li>개인정보 처리방침</li>
+              <li
+                onClick={() =>
+                  router.push({
+                    pathname: "/terms/service",
+                  })
+                }
+              >
+                서비스 이용약관
+              </li>
+              <li
+                onClick={() =>
+                  router.push({
+                    pathname: "/terms/privacy",
+                  })
+                }
+              >
+                개인정보 처리방침
+              </li>
             </ul>
           </div>
           <div className={styles.box}>

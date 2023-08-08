@@ -1,5 +1,5 @@
 interface IeditProf {
-  profImg: string;
+  profImg?: string;
   nickname: string;
-  msg: string;
+  description: string;
 }
