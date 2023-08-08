@@ -4,9 +4,20 @@ import CommonHeader from ".src/components/common/header/commonHeader";
 import PlusGrey from ".assets/icons/PlusGrey.svg";
 import CautionRed from ".assets/icons/CautionRed.svg";
 import CheckCircleBlue from ".assets/icons/CheckCircleBlue.svg";
+import Image from "next/image";
+import useGetMyProfile from ".src/hooks/common/useGetProfile";
+import { useEffect } from "react";
 
 export default function EditProf() {
   const useEditProf = UseEditProf();
+  const myProfile = useGetMyProfile();
+
+  useEffect(() => {
+    if (myProfile) {
+      useEditProf.setValue("nickname", myProfile.nickname);
+      useEditProf.setValue("description", myProfile.description);
+    }
+  }, [myProfile]);
 
   return (
     <>
@@ -15,7 +26,7 @@ export default function EditProf() {
       <main className={styles.editProf}>
         <form
           id="Form"
-          onSubmit={useEditProf.handleSubmit(useEditProf.onSubmit)}
+          // onSubmit={useEditProf.handleSubmit(useEditProf.onSubmit)}
         >
           <button
             type="button"
@@ -23,9 +34,9 @@ export default function EditProf() {
             onClick={() => useEditProf.profImgInputRef.current?.click()}
           >
             {useEditProf.watch("profImg") ? (
-              <img
+              <Image
                 className={styles.profImg}
-                src={useEditProf.watch("profImg")}
+                src={useEditProf.watch("profImg") ?? ""}
                 alt=""
               />
             ) : (
@@ -53,17 +64,19 @@ export default function EditProf() {
                   useEditProf.errors.nickname ? styles.err : ""
                 }`}
               >
-                {useEditProf.errors.nickname ? (
+                {useEditProf.errors.nickname && (
                   <>
                     <CautionRed />
                     <p>{useEditProf.errors.nickname.message}</p>
                   </>
-                ) : (
+                )}
+
+                {/*                 
                   <>
                     <CheckCircleBlue />
                     <p>가능한 닉네임 입니다.</p>
                   </>
-                )}
+                 */}
               </div>
 
               <p className={styles.length}>
@@ -88,19 +101,19 @@ export default function EditProf() {
             <div className={styles.inputBox}>
               <p className={styles.key}>내 소개</p>
 
-              <textarea {...useEditProf.register("msg")} />
+              <textarea {...useEditProf.register("description")} />
             </div>
 
             <div className={styles.statusBar}>
               <div
                 className={`${styles.validBox} ${
-                  useEditProf.errors.msg ? styles.err : ""
+                  useEditProf.errors.description ? styles.err : ""
                 }`}
               >
-                {useEditProf.errors.msg ? (
+                {useEditProf.errors.description ? (
                   <>
                     <CautionRed />
-                    <p>{useEditProf.errors.msg.message}</p>
+                    <p>{useEditProf.errors.description.message}</p>
                   </>
                 ) : (
                   <></>
@@ -109,7 +122,7 @@ export default function EditProf() {
 
               <p className={styles.length}>
                 <span className={styles.current}>
-                  {useEditProf.watch("msg")?.length || 0}자
+                  {useEditProf.watch("description")?.length || 0}자
                 </span>{" "}
                 / 최대 {useEditProf.msgMaxLen}자
               </p>
@@ -120,7 +133,10 @@ export default function EditProf() {
 
       <footer className={styles.submitFooter}>
         <section className={styles.innerSec}>
-          <button className={styles.submitBtn} form="Form" type="submit">
+          <button
+            className={styles.submitBtn}
+            onClick={useEditProf.handleSubmit(useEditProf.onSubmit)}
+          >
             <p>프로필 수정</p>
           </button>
         </section>

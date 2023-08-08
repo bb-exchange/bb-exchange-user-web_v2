@@ -1,3 +1,5 @@
+import { editMyProfile } from ".src/api/users/users";
+import useGetMyProfile from ".src/hooks/common/useGetProfile";
 import { useRouter } from "next/router";
 import { ChangeEvent, ChangeEventHandler, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
@@ -19,7 +21,7 @@ export default function UseEditProf() {
     handleSubmit,
   } = useForm<IeditProf>({ mode: "onChange" });
 
-  console.log(errors);
+  // console.log(errors);
 
   useEffect(() => {
     register("profImg");
@@ -43,18 +45,25 @@ export default function UseEditProf() {
       },
     });
 
-    register("msg", {
+    register("description", {
       maxLength: {
         value: msgMaxLen,
         message: `최대 ${msgMaxLen}자 이하로 입력해주세요.`,
       },
     });
-
-    setValue("nickname", "치은짱짱맨");
   }, []);
 
-  function onSubmit() {
-    router.push("/mypage");
+  async function onSubmit(data: any) {
+    try {
+      const res = await editMyProfile({
+        nickname: data.nickname,
+        description: data.description,
+      });
+
+      if (res?.status === 204) {
+        router.push("/mypage");
+      }
+    } catch (error) {}
   }
 
   function onChangeProfImg(e: ChangeEvent<HTMLInputElement>) {
@@ -80,5 +89,6 @@ export default function UseEditProf() {
     handleSubmit,
     onSubmit,
     onChangeProfImg,
+    setValue,
   };
 }
