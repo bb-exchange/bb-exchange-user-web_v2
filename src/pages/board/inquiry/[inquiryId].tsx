@@ -3,9 +3,11 @@ import { useRouter } from "next/router";
 import styles from "./[inquiryId].module.scss";
 import { D_INQUIRY_LIST } from ".src/data/board/D_inquiryList";
 import { useEffect } from "react";
+import usePopstate from ".src/hooks/common/usePopstate";
 
 const InquiryDetail = () => {
-  const { query, push } = useRouter();
+  usePopstate("/board/inquiry");
+  const { query } = useRouter();
   const reply = D_INQUIRY_LIST?.[Number(query?.inquiryId)]?.reply;
   const read = D_INQUIRY_LIST?.[Number(query?.inquiryId)]?.read;
   const returnBtn = () => {
