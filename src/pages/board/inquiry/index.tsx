@@ -4,6 +4,11 @@ import { useRouter } from "next/router";
 import { D_INQUIRY_LIST } from ".src/data/board/D_inquiryList";
 import PageNav from ".src/components/common/pageNav";
 import ImageAttention from "../../../../public/assets/images/attention.svg";
+import usePostInquiry from ".src/hooks/board/usePostInquiry";
+import ConfirmPopup from ".src/components/common/popup/confirmPopup";
+import PopupBg from ".src/components/common/popupBg";
+import { useEffect } from "react";
+import usePopstate from ".src/hooks/common/usePopstate";
 interface inquiryList {
   title: string;
   regDate: string;
@@ -14,6 +19,7 @@ interface inquiryList {
 const Inquiry = () => {
   const router = useRouter();
   //뒤로가기 시 설정페이지로 이동.
+  usePopstate("/setting");
   const D_EMPTY: any = [];
   const data = D_INQUIRY_LIST;
 
