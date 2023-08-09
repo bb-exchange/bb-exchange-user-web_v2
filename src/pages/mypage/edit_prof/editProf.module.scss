@@ -37,7 +37,7 @@
 
       .validBox {
         display: flex;
-        align-items: center;
+        // align-items: center;
 
         &.err {
           p {
@@ -159,6 +159,9 @@
       p {
         font-weight: 700;
         color: $White1;
+      }
+      &:disabled {
+        background-color: $Gray1;
       }
     }
   }

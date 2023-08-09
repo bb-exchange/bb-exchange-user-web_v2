@@ -1,7 +1,15 @@
+import { basicInstance } from ".src/api/instance";
+import { checkUserNickname } from ".src/api/mypage/nickname";
 import { editMyProfile } from ".src/api/users/users";
 import useGetMyProfile from ".src/hooks/common/useGetProfile";
 import { useRouter } from "next/router";
-import { ChangeEvent, ChangeEventHandler, useEffect, useRef } from "react";
+import {
+  ChangeEvent,
+  ChangeEventHandler,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useForm } from "react-hook-form";
 
 export default function UseEditProf() {
@@ -22,11 +30,27 @@ export default function UseEditProf() {
   } = useForm<IeditProf>({ mode: "onChange" });
 
   // console.log(errors);
+  //nickname
+  const [isExist, setIsExist] = useState<boolean>();
+
+  const handleOnChange = async (e: any) => {
+    if (
+      !(errors.nickname?.type === "space") &&
+      !(errors.nickname?.type === "enKrNum") &&
+      !(errors.nickname?.type === "maxLength") &&
+      String(e.target.value)?.length >= 3 &&
+      !(errors.nickname?.type === "required")
+    ) {
+      const res = await checkUserNickname(e.target.value);
+      setIsExist(res?.data.data.isExists);
+    }
+  };
 
   useEffect(() => {
     register("profImg");
 
     register("nickname", {
+      onChange: handleOnChange,
       required: `${nicknameMinLen}자 이상 ${nicknameMaxLen}자 이내로 작성해주세요.`,
       minLength: {
         value: nicknameMinLen,
@@ -51,7 +75,7 @@ export default function UseEditProf() {
         message: `최대 ${msgMaxLen}자 이하로 입력해주세요.`,
       },
     });
-  }, []);
+  }, [watch("nickname")]);
 
   async function onSubmit(data: any) {
     try {
@@ -90,5 +114,6 @@ export default function UseEditProf() {
     onSubmit,
     onChangeProfImg,
     setValue,
+    isExist,
   };
 }

@@ -1,8 +1,7 @@
 import { useRouter } from "next/router";
-
+import { useEffect } from "react";
 import styles from "./[inquiryId].module.scss";
 import { D_INQUIRY_LIST } from ".src/data/board/D_inquiryList";
-import { useEffect } from "react";
 import usePopstate from ".src/hooks/common/usePopstate";
 
 const InquiryDetail = () => {

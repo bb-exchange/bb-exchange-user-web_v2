@@ -2,7 +2,7 @@ import { ReactNode, useEffect } from "react";
 import Navbar from "./Navbar";
 import CommonHeader from ".src/components/common/header/commonHeader";
 import CommonFooter from "../common/commonFooter";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useCookies } from "react-cookie";
 import { signOut } from ".src/features/userSlice";
 import { useRouter } from "next/router";
