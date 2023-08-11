@@ -1,6 +1,5 @@
 import axios, { HeadersDefaults } from "axios";
 import jwtDecode, { JwtPayload } from "jwt-decode";
-
 import { getCookie, setCookie, deleteCookie } from "cookies-next";
 const baseURL = "https://api.stage-bibubex.com";
 
@@ -36,9 +35,8 @@ basicInstance.interceptors.response.use(
   },
   function (error) {
     const originalConfig = error.config;
-    if (error.config.headers.Authorization !== undefined) {
+    if (!error.config.headers.Authorization?.includes(undefined)) {
       // Access Token was expired
-      console.log(error.config);
       if (error.response.status === 401 && !originalConfig._retry) {
         originalConfig._retry = true;
         const isRefreshTokenValid = validateTimeRefreshToken();
@@ -81,6 +79,11 @@ basicInstance.interceptors.response.use(
         }
       }
       return Promise.reject(error);
+    } else {
+      //로그인해야 진입가능한 페이지에서 token 없는 경우 (잘못된 접근)
+      if (error.response.status === 401) {
+        location.href = "/";
+      }
     }
   }
 );

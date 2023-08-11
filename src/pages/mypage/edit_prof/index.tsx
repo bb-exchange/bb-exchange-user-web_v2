@@ -26,7 +26,7 @@ export default function EditProf() {
       <main className={styles.editProf}>
         <form
           id="Form"
-          // onSubmit={useEditProf.handleSubmit(useEditProf.onSubmit)}
+          onSubmit={useEditProf.handleSubmit(useEditProf.onSubmit)}
         >
           <button
             type="button"
@@ -54,30 +54,30 @@ export default function EditProf() {
           <div className={styles.nicknameCont}>
             <div className={styles.inputBar}>
               <p className={styles.key}>닉네임설정</p>
-
               <input {...useEditProf.register("nickname")} />
             </div>
 
             <div className={styles.statusBar}>
-              <div
-                className={`${styles.validBox} ${
-                  useEditProf.errors.nickname ? styles.err : ""
-                }`}
-              >
-                {useEditProf.errors.nickname && (
-                  <>
-                    <CautionRed />
-                    <p>{useEditProf.errors.nickname.message}</p>
-                  </>
-                )}
-
-                {/*                 
-                  <>
-                    <CheckCircleBlue />
-                    <p>가능한 닉네임 입니다.</p>
-                  </>
-                 */}
-              </div>
+              {useEditProf?.errors.nickname ? (
+                <div className={`${styles.validBox} ${styles.err}`}>
+                  <CautionRed />
+                  <p>{useEditProf.errors.nickname.message}</p>
+                </div>
+              ) : useEditProf?.isExist &&
+                myProfile?.nickname !== useEditProf.watch("nickname") ? (
+                <div className={`${styles.validBox}  ${styles.err}`}>
+                  <CautionRed />
+                  <p>이미 사용중인 닉네임입니다.</p>
+                </div>
+              ) : !useEditProf?.isExist &&
+                myProfile?.nickname !== useEditProf.watch("nickname") ? (
+                <div className={`${styles.validBox}`}>
+                  <CheckCircleBlue />
+                  <p>가능한 닉네임 입니다.</p>
+                </div>
+              ) : (
+                <></>
+              )}
 
               <p className={styles.length}>
                 <span className={styles.current}>
@@ -136,6 +136,18 @@ export default function EditProf() {
           <button
             className={styles.submitBtn}
             onClick={useEditProf.handleSubmit(useEditProf.onSubmit)}
+            disabled={
+              useEditProf.errors.nickname?.type === "space" ||
+              useEditProf.errors.nickname?.type === "enKrNum" ||
+              useEditProf.errors.nickname?.type === "minLength" ||
+              useEditProf.errors.nickname?.type === "maxLength" ||
+              useEditProf.errors.nickname ||
+              useEditProf.errors.description?.type === "maxLength" ||
+              (useEditProf?.isExist &&
+                myProfile?.nickname !== useEditProf.watch("nickname"))
+                ? true
+                : false
+            }
           >
             <p>프로필 수정</p>
           </button>
