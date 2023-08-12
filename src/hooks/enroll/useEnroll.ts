@@ -28,7 +28,7 @@ export default function useEnroll(quillRef: any) {
       content: watch("content"),
       articleTagList: watch("tagList"),
       // thumbnailImage: watch("thumbNail"),
-      thumbnailImage: 'https://picsum.photos/72ﬁ',
+      thumbnailImage: "https://picsum.photos/72ﬁ",
     });
   }
 
@@ -175,6 +175,11 @@ export default function useEnroll(quillRef: any) {
     if (!selectImg) return;
 
     console.log(selectImg.setAttribute("thumb", "true"));
+    const thumbBox = document.createElement("em");
+    thumbBox.className = "thumbBox";
+
+    selectImg.replaceWith(thumbBox);
+    thumbBox.appendChild(selectImg);
 
     setValue("thumbNail", selectImg.src);
     setSelectImg(undefined);

@@ -116,20 +116,9 @@
               }
 
               img {
+                min-width: 90px;
                 border-radius: 12px;
                 cursor: pointer;
-
-                &[thumb] {
-                  position: relative;
-
-                  &::after {
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    content:url(http://placekitten.com/g/250/250);
-
-                  }
-                }
               }
             }
           }
