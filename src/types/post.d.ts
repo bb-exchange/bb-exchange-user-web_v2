@@ -32,3 +32,11 @@ interface IuserReport {
   category: string;
   detail: string;
 }
+
+interface IpostArticle {
+  title: string;
+  category: string;
+  content: string;
+  articleTagList: string[];
+  thumbnailImage: string;
+}

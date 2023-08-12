@@ -20,10 +20,6 @@ export default function EnrollScreen() {
   const quillRef = React.useRef<any>(false);
   const useEnrollHook = useEnroll(quillRef);
 
-  function onSubmit() {}
-
-  
-
   return (
     <>
       <EnrollHeader useEnrollHook={useEnrollHook} />
@@ -34,7 +30,7 @@ export default function EnrollScreen() {
             useEnrollHook.mobileView ? styles.mobile : ""
           }`}
         >
-          <form id="enrollForm" onSubmit={useEnrollHook.handleSubmit(onSubmit)}>
+          <form id="enrollForm">
             <div className={styles.topBar}>
               <div className={styles.categoryBox}>
                 <button

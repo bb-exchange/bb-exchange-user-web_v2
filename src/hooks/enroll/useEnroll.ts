@@ -1,6 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { redoBtnHandler, undoBtnHandler } from ".src/util/textEditor";
 import { useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
+import { postArticle } from ".src/api/articles/articles";
 
 export default function useEnroll(quillRef: any) {
   const [selectImg, setSelectImg] = useState<HTMLImageElement>();
@@ -14,6 +16,20 @@ export default function useEnroll(quillRef: any) {
 
   const { register, watch, setValue, formState, resetField, handleSubmit } =
     useForm<IenrollProps>();
+
+  const enrollPostMutation = useMutation(postArticle, {
+    onSuccess: (res) => console.log(res),
+  });
+
+  function onClickEnrollBtn() {
+    enrollPostMutation.mutateAsync({
+      title: watch("title"),
+      category: watch("category").category,
+      content: watch("content"),
+      articleTagList: watch("tagList"),
+      thumbnailImage: watch("thumbNail"),
+    });
+  }
 
   const beforeUnloadHandler = (e: BeforeUnloadEvent) => {
     return ((e || window.event).returnValue = ""); // Gecko + Webkit, Safari, Chrome etc.
@@ -157,8 +173,8 @@ export default function useEnroll(quillRef: any) {
   const handleOnClickSetThumbnailBtn = () => {
     if (!selectImg) return;
 
-    console.log(selectImg.setAttribute("thumb", 'true'));
-    
+    console.log(selectImg.setAttribute("thumb", "true"));
+
     setValue("thumbNail", selectImg.src);
     setSelectImg(undefined);
   };
@@ -210,5 +226,7 @@ export default function useEnroll(quillRef: any) {
     setDelDraftPopup,
     loadDraftPopup,
     setLoadDraftPopup,
+    enrollPostMutation,
+    onClickEnrollBtn,
   };
 }

@@ -10,3 +10,9 @@ export const fetchArticles = async ({ queryKey }: { queryKey: any[] }) => {
     },
   });
 };
+
+export const postArticle = async (formData: IpostArticle) => {
+  basicInstance
+    .post(`/v1/articles`, formData)
+    .then((res) => console.log(res));
+};
