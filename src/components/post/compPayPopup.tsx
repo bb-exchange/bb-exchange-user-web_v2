@@ -1,10 +1,10 @@
-import usePost from ".src/hooks/post/usePost";
+import UsePost from ".src/hooks/post/usePost";
 import styles from "./compPayPopup.module.scss";
 import X from ".assets/icons/X.svg";
 import UseCompPayPopup from ".src/hooks/post/useCompPayPopup";
 
 interface Iprops {
-  usePost: ReturnType<typeof usePost>;
+  usePost: ReturnType<typeof UsePost>;
   off: () => void;
 }
 

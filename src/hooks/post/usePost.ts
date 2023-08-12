@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 
-export default function usePost() {
+export default function UsePost() {
   const router = useRouter();
 
   const [unLimted, setUnLimited] = useState<boolean>(

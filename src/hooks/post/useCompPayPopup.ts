@@ -1,7 +1,7 @@
-import usePost from "./usePost";
+import UsePost from "./usePost";
 
 interface Iprops {
-  usePost: ReturnType<typeof usePost>;
+  usePost: ReturnType<typeof UsePost>;
 }
 
 export default function UseCompPayPopup({ usePost }: Iprops) {

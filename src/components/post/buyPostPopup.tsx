@@ -1,4 +1,4 @@
-import usePost from ".src/hooks/post/usePost";
+import UsePost from ".src/hooks/post/usePost";
 import styles from "./buyPostPopup.module.scss";
 import X from ".assets/icons/X.svg";
 import UseBuyPostPopup from ".src/hooks/post/useBuyPostPopup";
@@ -7,7 +7,7 @@ import CheckCircleBlueO from ".assets/icons/CheckCircleBlueO.svg";
 import CautionRed from ".assets/icons/CautionRed.svg";
 
 interface Iprops {
-  usePost: ReturnType<typeof usePost>;
+  usePost: ReturnType<typeof UsePost>;
 }
 
 export default function BuyPostPopup({ usePost }: Iprops) {

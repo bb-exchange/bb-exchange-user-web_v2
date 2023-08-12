@@ -1,8 +1,8 @@
-import usePost from ".src/hooks/post/usePost";
+import UsePost from ".src/hooks/post/usePost";
 import styles from "./postMorePopup.module.scss";
 
 interface Iprops {
-  UsePost: ReturnType<typeof usePost>;
+  UsePost: ReturnType<typeof UsePost>;
 }
 
 export default function PostMorePopup({ UsePost }: Iprops) {

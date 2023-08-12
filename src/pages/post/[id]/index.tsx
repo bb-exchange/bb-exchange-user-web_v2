@@ -13,7 +13,7 @@ import ThumbDnGrey from ".assets/icons/ThumbDnGrey.svg";
 import ThumbDnBlue from ".assets/icons/ThumbDnBlue.svg";
 import NoticeCircleGrey from ".assets/icons/NoticeCircleGrey.svg";
 import Message from ".assets/icons/Message.svg";
-import usePost from ".src/hooks/post/usePost";
+import UsePost from ".src/hooks/post/usePost";
 import moment from "moment";
 import "moment/locale/ko";
 import Reply from ".src/components/post/reply";
@@ -31,7 +31,7 @@ import BuyPostPopup from ".src/components/post/buyPostPopup";
 import CompPayPopup from ".src/components/post/compPayPopup";
 
 export default function Post() {
-  const UsePost = usePost();
+  const usePostHook = UsePost();
 
   function getDiffStyle(diff: number) {
     if (diff > 0) return styles.up;
@@ -48,7 +48,7 @@ export default function Post() {
             <div className={styles.verArea}>
               <div className={styles.leftCont}>
                 <h2 className={styles.category}>커리어</h2>
-                {UsePost.unLimted && (
+                {usePostHook.unLimted && (
                   <>
                     <hr />
 
@@ -66,10 +66,10 @@ export default function Post() {
               </div>
 
               <div className={styles.rightCont}>
-                {UsePost.unLimted && (
+                {usePostHook.unLimted && (
                   <button
                     className={styles.otherVerBtn}
-                    onClick={() => UsePost.setPostVerPopup(true)}
+                    onClick={() => usePostHook.setPostVerPopup(true)}
                   >
                     <p>다른버전 보러가기</p>
 
@@ -92,7 +92,7 @@ export default function Post() {
                     <p>치은짱짱맨</p>
                   </div>
 
-                  {UsePost.unLimted ? (
+                  {usePostHook.unLimted ? (
                     <div className={`${styles.creatorBox} ${styles.contBox}`}>
                       <Eye />
 
@@ -109,7 +109,7 @@ export default function Post() {
                 </div>
 
                 <div className={styles.rightCont}>
-                  {UsePost.unLimted && (
+                  {usePostHook.unLimted && (
                     <>
                       <button className={styles.urlCopyBtn} onClick={() => {}}>
                         URL 복사
@@ -118,15 +118,17 @@ export default function Post() {
                       <div className={styles.btnBox}>
                         <button
                           className={styles.moreBtn}
-                          onClick={() => UsePost.setMorePopup(true)}
+                          onClick={() => usePostHook.setMorePopup(true)}
                         >
                           <Dot3 />
                         </button>
 
-                        {UsePost.morePopup && (
+                        {usePostHook.morePopup && (
                           <>
-                            <PostMorePopup UsePost={UsePost} />
-                            <PopupBg off={() => UsePost.setMorePopup(false)} />
+                            <PostMorePopup UsePost={usePostHook} />
+                            <PopupBg
+                              off={() => usePostHook.setMorePopup(false)}
+                            />
                           </>
                         )}
                       </div>
@@ -137,13 +139,13 @@ export default function Post() {
             </div>
           </article>
 
-          {UsePost.unLimted ? (
+          {usePostHook.unLimted ? (
             <>
               <article className={styles.contArea}>
                 <img
                   src={"https://picsum.photos/792"}
                   alt=""
-                  onClick={(e: any) => UsePost.setImgPopup(e.target.src)}
+                  onClick={(e: any) => usePostHook.setImgPopup(e.target.src)}
                 />
 
                 <p>
@@ -159,15 +161,15 @@ export default function Post() {
 
               <article className={styles.likeArea}>
                 <div
-                  className={`${UsePost.like === 1 ? styles.up : ""} ${
-                    UsePost.like === -1 ? styles.dn : ""
+                  className={`${usePostHook.like === 1 ? styles.up : ""} ${
+                    usePostHook.like === -1 ? styles.dn : ""
                   } ${styles.innerCont}`}
                 >
                   <button
                     className={styles.likeBtn}
-                    onClick={() => UsePost.onClickLikeBtn(1)}
+                    onClick={() => usePostHook.onClickLikeBtn(1)}
                   >
-                    {UsePost.like === 1 ? <ThumbUpRed /> : <ThumbUpGrey />}
+                    {usePostHook.like === 1 ? <ThumbUpRed /> : <ThumbUpGrey />}
                     <p>+1P</p>
                   </button>
 
@@ -181,9 +183,13 @@ export default function Post() {
 
                   <button
                     className={styles.likeBtn}
-                    onClick={() => UsePost.onClickLikeBtn(-1)}
+                    onClick={() => usePostHook.onClickLikeBtn(-1)}
                   >
-                    {UsePost.like === -1 ? <ThumbDnBlue /> : <ThumbDnGrey />}
+                    {usePostHook.like === -1 ? (
+                      <ThumbDnBlue />
+                    ) : (
+                      <ThumbDnGrey />
+                    )}
                     <p>-1P</p>
                   </button>
                 </div>
@@ -208,21 +214,21 @@ export default function Post() {
 
                   <div className={styles.inputBox}>
                     <textarea
-                      value={UsePost.reply}
-                      onChange={(e) => UsePost.setReply(e.target.value)}
+                      value={usePostHook.reply}
+                      onChange={(e) => usePostHook.setReply(e.target.value)}
                       placeholder="댓글을 입력해주세요"
                     />
 
                     <button
                       className={styles.enrollBtn}
-                      onClick={() => UsePost.setReply("")}
+                      onClick={() => usePostHook.setReply("")}
                     >
                       입력
                     </button>
                   </div>
 
                   <ul className={styles.replyList}>
-                    {UsePost.replyList.map((v, i) => (
+                    {usePostHook.replyList.map((v, i) => (
                       <li key={i}>
                         <Reply data={v} />
 
@@ -239,20 +245,24 @@ export default function Post() {
             <>
               <article
                 className={`${styles.contArea} ${
-                  UsePost.unLimted ? "" : styles.limited
+                  usePostHook.unLimted ? "" : styles.limited
                 }`}
               >
                 <div className={styles.overlayBox}>
                   <button
                     className={`${styles.favBtn} ${
-                      UsePost.isLike === true ? styles.on : ""
+                      usePostHook.isLike === true ? styles.on : ""
                     }`}
-                    onClick={UsePost.onClickFavBtn}
+                    onClick={usePostHook.onClickFavBtn}
                     data-testid={
-                      UsePost.isLike === true ? "thumbRed" : "thumbGrey"
+                      usePostHook.isLike === true ? "thumbRed" : "thumbGrey"
                     }
                   >
-                    {UsePost.isLike === true ? <HeartRedO /> : <HeartGrey />}
+                    {usePostHook.isLike === true ? (
+                      <HeartRedO />
+                    ) : (
+                      <HeartGrey />
+                    )}
 
                     <p>찜하기</p>
                   </button>
@@ -274,7 +284,7 @@ export default function Post() {
                   </div>
 
                   <ul className={styles.replyList}>
-                    {UsePost.replyList.slice(0, 3).map((v, i) => (
+                    {usePostHook.replyList.slice(0, 3).map((v, i) => (
                       <li key={i}>
                         <Reply data={v} />
                       </li>
@@ -287,7 +297,7 @@ export default function Post() {
         </section>
 
         <aside>
-          {UsePost.unLimted ? (
+          {usePostHook.unLimted ? (
             <>
               <article className={styles.creatorArea}>
                 <div className={styles.profImgBox}>
@@ -311,7 +321,7 @@ export default function Post() {
                 <p className={styles.areaTitle}>치은짱짱맨님의 다른 글</p>
 
                 <ul className={styles.postList}>
-                  {UsePost.otherPostList.map((v, i) => (
+                  {usePostHook.otherPostList.map((v, i) => (
                     <li key={i}>
                       <div className={styles.topBar}>
                         <p>
@@ -360,7 +370,7 @@ export default function Post() {
                 <p className={styles.areaTitle}>커리어 카테고리의 인기글</p>
 
                 <ul className={styles.postList}>
-                  {UsePost.otherPostList.map((v, i) => (
+                  {usePostHook.otherPostList.map((v, i) => (
                     <li key={i}>
                       <div className={styles.topBar}>
                         <p>
@@ -433,7 +443,7 @@ export default function Post() {
 
                 <button
                   className={styles.buyBtn}
-                  onClick={() => UsePost.setBuyPopup(true)}
+                  onClick={() => usePostHook.setBuyPopup(true)}
                 >
                   구매하기
                 </button>
@@ -445,63 +455,63 @@ export default function Post() {
 
       <CommonFooter />
 
-      {UsePost.postVerPopup && (
+      {usePostHook.postVerPopup && (
         <>
-          <PostVerPopup off={() => UsePost.setPostVerPopup(false)} />
-          <PopupBg bg off={() => UsePost.setPostVerPopup(false)} />
+          <PostVerPopup off={() => usePostHook.setPostVerPopup(false)} />
+          <PopupBg bg off={() => usePostHook.setPostVerPopup(false)} />
         </>
       )}
 
-      {UsePost.imgPopup && (
+      {usePostHook.imgPopup && (
         <>
-          <PostImgPopup imgUrl={UsePost.imgPopup} />
-          <PopupBg bg off={() => UsePost.setImgPopup("")} />
+          <PostImgPopup usePostHook={usePostHook} />
+          <PopupBg bg off={() => {}} />
         </>
       )}
 
-      {UsePost.reportPostPopup && (
+      {usePostHook.reportPostPopup && (
         <>
           <ReportPostPopup
-            off={() => UsePost.setReportPostPopup(false)}
-            confirmFunc={UsePost.onSuccessReportPost}
+            off={() => usePostHook.setReportPostPopup(false)}
+            confirmFunc={usePostHook.onSuccessReportPost}
           />
-          <PopupBg bg off={() => UsePost.setReportPostPopup(false)} />
+          <PopupBg bg off={() => usePostHook.setReportPostPopup(false)} />
         </>
       )}
 
-      {UsePost.reportUserPopup && (
+      {usePostHook.reportUserPopup && (
         <>
           <ReportUserPopup
-            off={() => UsePost.setReportUserPopup(false)}
-            confirmFunc={UsePost.onSuccessReportUser}
+            off={() => usePostHook.setReportUserPopup(false)}
+            confirmFunc={usePostHook.onSuccessReportUser}
           />
-          <PopupBg bg off={() => UsePost.setReportUserPopup(false)} />
+          <PopupBg bg off={() => usePostHook.setReportUserPopup(false)} />
         </>
       )}
 
-      {UsePost.hideUserPostPopup && (
+      {usePostHook.hideUserPostPopup && (
         <>
           <ConfirmPopup
             title="이 사용자의 글을 숨기시겠어요?"
             content="이미 구매한 글을 제외하고 wooAng님의 게시글을 더는 보이지 않아요."
-            confirmFunc={UsePost.onSuccessHideUserPost}
-            cancelFunc={() => UsePost.setHideUserPostPopup(false)}
+            confirmFunc={usePostHook.onSuccessHideUserPost}
+            cancelFunc={() => usePostHook.setHideUserPostPopup(false)}
           />
-          <PopupBg bg off={() => UsePost.setHideUserPostPopup(false)} />
+          <PopupBg bg off={() => usePostHook.setHideUserPostPopup(false)} />
         </>
       )}
 
-      {UsePost.compReportPopup && (
+      {usePostHook.compReportPopup && (
         <>
           <ErrorMsgPopup
             msg="신고가 접수되었습니다."
-            confirmFunc={() => UsePost.setCompReportPopup(false)}
+            confirmFunc={() => usePostHook.setCompReportPopup(false)}
           />
-          <PopupBg bg off={() => UsePost.setCompReportPopup(false)} />
+          <PopupBg bg off={() => usePostHook.setCompReportPopup(false)} />
         </>
       )}
 
-      {UsePost.compHideUserPostPopup && (
+      {usePostHook.compHideUserPostPopup && (
         <>
           <ErrorMsgPopup
             msg={
@@ -510,26 +520,26 @@ export default function Post() {
                 <br /> 완료하였습니다.
               </>
             }
-            confirmFunc={() => UsePost.setCompHideUserPostPopup(false)}
+            confirmFunc={() => usePostHook.setCompHideUserPostPopup(false)}
           />
-          <PopupBg bg off={() => UsePost.setCompHideUserPostPopup(false)} />
+          <PopupBg bg off={() => usePostHook.setCompHideUserPostPopup(false)} />
         </>
       )}
 
-      {UsePost.buyPopup && (
+      {usePostHook.buyPopup && (
         <>
-          <BuyPostPopup usePost={UsePost} />
-          <PopupBg bg off={() => UsePost.setBuyPopup(false)} />
+          <BuyPostPopup usePost={usePostHook} />
+          <PopupBg bg off={() => usePostHook.setBuyPopup(false)} />
         </>
       )}
 
-      {UsePost.compPayPopup && (
+      {usePostHook.compPayPopup && (
         <>
           <CompPayPopup
-            usePost={UsePost}
-            off={() => UsePost.setCompPayPopup(false)}
+            usePost={usePostHook}
+            off={() => usePostHook.setCompPayPopup(false)}
           />
-          <PopupBg bg off={() => UsePost.setCompPayPopup(false)} />
+          <PopupBg bg off={() => usePostHook.setCompPayPopup(false)} />
         </>
       )}
     </>

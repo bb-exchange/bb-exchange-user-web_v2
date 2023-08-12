@@ -1,9 +1,9 @@
 import { useState } from "react";
-import usePost from "./usePost";
+import UsePost from "./usePost";
 import { useRouter } from "next/router";
 
 interface Iprops {
-  usePost: ReturnType<typeof usePost>;
+  usePost: ReturnType<typeof UsePost>;
 }
 
 export default function UseBuyPostPopup({ usePost }: Iprops) {
