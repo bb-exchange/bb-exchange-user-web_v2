@@ -54,6 +54,7 @@
           line-height: 26px;
           font-weight: 700;
           overflow: hidden;
+          border-bottom: 1px solid transparent;
 
           .title {
             overflow: hidden;
@@ -87,6 +88,7 @@
         align-items: center;
         gap: 28px;
         width: 524px;
+        padding: 0 12px;
         height: 34px;
         border-radius: 5px;
         background: $Primary5;
@@ -195,6 +197,7 @@
       justify-content: center;
       align-items: center;
       width: 78px;
+      font-size: 18px;
       font-weight: 700;
       color: $Gray1;
 
@@ -212,6 +215,10 @@
         display: flex;
         align-items: center;
         cursor: pointer;
+
+        p {
+          font-size: 14px;
+        }
       }
     }
   }

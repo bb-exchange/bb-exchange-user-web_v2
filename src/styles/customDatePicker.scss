@@ -7,8 +7,10 @@
 .customPickerPopper {
   .react-datepicker {
     margin: 10px 0 0;
-    border: 1px solid $Primary1;
+    font-family: pretendard;
+    border: 1px solid $Gray3;
     border-radius: 8px;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.15);
 
     .react-datepicker__triangle {
       display: none;
