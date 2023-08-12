@@ -1,11 +1,11 @@
-import { useRouter } from "next/router";
 import styles from "./termScreen.module.scss";
 import { D_termList } from ".src/data/enroll/D_term";
 import CommonHeader from ".src/components/common/header/commonHeader";
 import CommonFooter from ".src/components/common/commonFooter";
+import UseTerm from ".src/hooks/enroll/useTerm";
 
 export default function TermScreen() {
-  const router = useRouter();
+  const useTerm = UseTerm();
 
   return (
     <>
@@ -48,13 +48,7 @@ export default function TermScreen() {
             </ul>
           </div>
 
-          <button
-            className={styles.agreeBtn}
-            onClick={() => {
-              window.open("/enroll", "_blank", "noopener,noreferrer");
-              router.push("/");
-            }}
-          >
+          <button className={styles.agreeBtn} onClick={useTerm.onClickAgreeBtn}>
             동의합니다
           </button>
         </article>

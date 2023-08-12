@@ -12,6 +12,8 @@ interface Iprops {
 export default function EnrollHeader({ useEnrollHook }: Iprops) {
   const router = useRouter();
 
+  console.log(useEnrollHook.formState.isValid);
+  console.log(useEnrollHook.errMsg);
   return (
     <header className={styles.enrollHeader}>
       <section className={styles.saveBar}>

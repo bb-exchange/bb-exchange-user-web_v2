@@ -19,3 +19,7 @@ export const deleteBlockUser = async (userId: number) => {
 export const withdrawal = async () => {
   return await basicInstance.delete("v1/users", { data: { reason: "기타" } });
 };
+
+export const postEthicalPledge = async () => {
+  return await basicInstance.patch("v1/users/ethical-pledge");
+};

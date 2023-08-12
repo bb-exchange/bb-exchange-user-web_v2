@@ -27,7 +27,8 @@ export default function useEnroll(quillRef: any) {
       category: watch("category").category,
       content: watch("content"),
       articleTagList: watch("tagList"),
-      thumbnailImage: watch("thumbNail"),
+      // thumbnailImage: watch("thumbNail"),
+      thumbnailImage: 'https://picsum.photos/72ﬁ',
     });
   }
 
