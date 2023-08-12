@@ -3,13 +3,13 @@ import styles from "./editHeader.module.scss";
 import LogoBlue from ".assets/logos/LogoBlue.svg";
 import Undo from ".assets/icons/Undo.svg";
 import Redo from ".assets/icons/Redo.svg";
-import useEnroll from ".src/hooks/enroll/useEnroll";
+import useEdit from ".src/hooks/edit/useEdit";
 
 interface Iprops {
-  useEnrollHook: ReturnType<typeof useEnroll>;
+  useEditHook: ReturnType<typeof useEdit>;
 }
 
-export default function EditHeader({ useEnrollHook }: Iprops) {
+export default function EditHeader({ useEditHook }: Iprops) {
   const router = useRouter();
 
   return (
@@ -28,7 +28,7 @@ export default function EditHeader({ useEnrollHook }: Iprops) {
             </button>
             <button
               className={styles.tempSaveBtn1}
-              onClick={() => useEnrollHook.setDraftsPopup(true)}
+              onClick={() => useEditHook.setDraftsPopup(true)}
             >
               임시저장
             </button>
@@ -38,9 +38,9 @@ export default function EditHeader({ useEnrollHook }: Iprops) {
             type="submit"
             form="enrollForm"
             className={`${styles.enrollBtn} ${
-              useEnrollHook.formState.isValid ? "" : styles.disabled
+              useEditHook.formState.isValid ? "" : styles.disabled
             }`}
-            onClick={() => useEnrollHook.setErrMsgBusy(false)}
+            onClick={() => useEditHook.setErrMsgBusy(false)}
           >
             수정하기
           </button>

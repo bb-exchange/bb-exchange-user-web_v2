@@ -16,12 +16,14 @@ import ConfirmPopup from ".src/components/common/popup/confirmPopup";
 import EditHeader from ".src/components/edit/editHeader";
 import useEdit from ".src/hooks/edit/useEdit";
 import { useRouter } from "next/router";
+import useEnroll from ".src/hooks/enroll/useEnroll";
 
 export default function EditScreen() {
   const router = useRouter();
 
   const quillRef = React.useRef<any>(false);
   const useEditHook = useEdit(quillRef);
+  const useEnrollHook = useEnroll(quillRef);
 
   function onSubmit() {
     useEditHook.handleSubmitFunc();
@@ -29,7 +31,7 @@ export default function EditScreen() {
 
   return (
     <>
-      <EditHeader useEnrollHook={useEditHook} />
+      <EditHeader useEditHook={useEditHook} />
 
       <section className={styles.innerSec}>
         <article
@@ -125,7 +127,7 @@ export default function EditScreen() {
                 />
 
                 {useEditHook.watch("tag")?.length > 0 && (
-                  <RecentTagPopup useEnrollHook={useEditHook} />
+                  <RecentTagPopup useEnrollHook={useEnrollHook} />
                 )}
               </span>
             </div>
@@ -156,7 +158,7 @@ export default function EditScreen() {
 
       {useEditHook.selectImg && (
         <>
-          <SelImgPopup useEnrollHook={useEditHook} />
+          <SelImgPopup useEnrollHook={useEnrollHook} />
           <PopupBg bg off={() => useEditHook.setSelectImg(undefined)} />
         </>
       )}
@@ -164,7 +166,7 @@ export default function EditScreen() {
       {useEditHook.draftsPopup && (
         <>
           <DraftsPopup
-            useEnrollHook={useEditHook}
+            useEnrollHook={useEnrollHook}
             off={() => useEditHook.setDraftsPopup(false)}
           />
           <PopupBg bg off={() => useEditHook.setDraftsPopup(false)} />
