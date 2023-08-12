@@ -71,11 +71,17 @@
     .leftBox {
       display: flex;
       align-items: center;
+      gap: 4px;
 
-      .likeBox {
+      .likeBtn {
         display: flex;
         align-items: center;
         gap: 4px;
+
+        &.on {
+          font-weight: 700;
+          color: $Red1;
+        }
 
         svg {
           width: 20px;

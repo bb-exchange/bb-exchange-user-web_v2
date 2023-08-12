@@ -62,11 +62,18 @@ export default function Reply({ data, nested }: Iprops) {
 
             <div className={styles.replyBottomBar}>
               <div className={styles.leftBox}>
-                <div className={styles.likeBox}>
+                <button
+                  className={`${styles.likeBtn} ${
+                    data.isLiked ? styles.on : ""
+                  }`}
+                  onClick={() => {}}
+                >
                   {data.isLiked ? <ThumbUpRed /> : <ThumbUpGrey />}
                   <p className={styles.likeCount}>{data.likeCount || 0}</p>
-                </div>
-                ・
+                </button>
+
+                <p>・</p>
+
                 <button className={styles.setReplyBtn} onClick={() => {}}>
                   댓글달기
                 </button>

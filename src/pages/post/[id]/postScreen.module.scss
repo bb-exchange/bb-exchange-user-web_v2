@@ -197,7 +197,7 @@
         align-items: center;
         gap: 14px;
         padding: 15px;
-        background: $Primary4;
+        background: $White2;
         border-radius: 60px;
 
         &.up {
@@ -254,8 +254,8 @@
           gap: 2px;
           width: 90px;
           height: 90px;
-          background: $White2;
-          border: 3px solid $Gray3;
+          background: $White1;
+          border: 3px solid $Gray2;
           border-radius: 50%;
 
           p {
@@ -336,7 +336,7 @@
           }
         }
 
-        .replyList{
+        .replyList {
           margin: 20px 0 0;
         }
       }
