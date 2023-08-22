@@ -326,7 +326,7 @@ export default function Post() {
                   {hook.postData?.userInfo.nickname}님의 다른 글
                 </p>
 
-                <ul className={styles.postList}>
+                {/* <ul className={styles.postList}>
                   {hook.otherPostList.map((v, i) => (
                     <li key={i}>
                       <div className={styles.topBar}>
@@ -367,7 +367,7 @@ export default function Post() {
                       </div>
                     </li>
                   ))}
-                </ul>
+                </ul> */}
               </article>
 
               <article
@@ -378,7 +378,7 @@ export default function Post() {
                 <ul className={styles.postList}>
                   {hook.otherPostList.map((v, i) => (
                     <li key={i}>
-                      <div className={styles.topBar}>
+                      {/* <div className={styles.topBar}>
                         <p>
                           <strong className={styles.category}>
                             {v.category}
@@ -413,7 +413,7 @@ export default function Post() {
                             v.point || 0
                           )} 원`}</p>
                         </div>
-                      </div>
+                      </div> */}
                     </li>
                   ))}
                 </ul>
