@@ -23,19 +23,19 @@ export default function Lastest() {
         <section className={styles.postSec}>
           <ul className={styles.postList}>
             {customHook.dataList.map((v, i) => (
-              <li key={i} onClick={() => router.push(`/post/${i}`)}>
+              <li key={i} onClick={() => router.push(`/post/${v.articleInfo.articleId}`)}>
                 <div className={styles.leftArea}>
                   <div className={styles.infoCont}>
                     <div className={styles.titleBar}>
                       <h1
                         className={`${styles.title} ${
-                          v.read ? styles.read : ""
+                          v.articleInfo.read ? styles.read : ""
                         }`}
                       >
-                        {v.title}
+                        {v.articleInfo.title}
                       </h1>
                       <p className={styles.replyCount}>{`[${
-                        (v.replyCount || 0) > 99 ? `+99` : v.replyCount || 0
+                        (v.articleInfo.commentNum || 0) > 99 ? `+99` : v.articleInfo.commentNum || 0
                       }]`}</p>
                     </div>
 
@@ -45,47 +45,47 @@ export default function Lastest() {
                           <img src={v.categoryImg} alt="" />
                         </span>
 
-                        <p>{v.category}</p>
+                        <p>{v.boardInfo.description}</p>
                       </div>
 
                       <p className={styles.creator}>
-                        ・{v.creatorNickname}・{moment(v.createdAt).fromNow()}
+                        ・{v.userInfo.nickname}・{moment(v.articleInfo.updatedAt).fromNow()}
                       </p>
                     </div>
                   </div>
 
                   <div className={styles.thumbnailImgBox}>
-                    {v.thumbnailUrl ? (
-                      <img src={v.thumbnailUrl} alt="" />
+                    {v.articleInfo.thumbnail ? (
+                      <img src={v.articleInfo.thumbnail} alt="" />
                     ) : null}
                   </div>
                 </div>
 
                 <article className={styles.rightArea}>
-                  {v.point ? (
+                  {v.articleInfo.purchased ? (
                     <div
                       className={`${styles.priceCont} ${getDiffStyle(
-                        v.percentOfChange || 0
+                        v.priceInfo.changeRate || 0
                       )}`}
                     >
                       <div className={styles.diffBox}>
                         <p>
-                          {`${(v.percentOfChange || 0) > 0 ? "+" : ""}${
-                            v.percentOfChange || 0
-                          }% (${v.amountOfChange || 0})`}
+                          {`${(v.priceInfo.changeRate || 0) > 0 ? "+" : ""}${
+                            v.priceInfo.changeRate || 0
+                          }% (${v.priceInfo.changeAmount || 0})`}
                         </p>
                       </div>
 
                       <h1
                         className={styles.price}
                       >{`${new Intl.NumberFormat().format(
-                        v.point || 0
+                        v.priceInfo.price || 0
                       )} P`}</h1>
                     </div>
                   ) : (
                     <div className={styles.notListedCont}>
                       <div className={styles.likeCountBox}>
-                        <p>{`좋아요 ${v.likeCount || 0}개`}</p>
+                        <p>{`좋아요 ${v.priceInfo.likeNum || 0}개`}</p>
                       </div>
 
                       <p className={styles.notListed}>비상장</p>
@@ -93,12 +93,12 @@ export default function Lastest() {
                   )}
 
                   <button
-                    className={`${v.isLike ? "" : styles.none} ${
+                    className={`${v.articleInfo.interest ? "" : styles.none} ${
                       styles.favBtn
                     }`}
                     onClick={(e) => customHook.onClickFavBtn(e, i)}
                   >
-                    {v.isLike === true ? <HeartRedO /> : <HeartGrey />}
+                    {v.articleInfo.interest === true ? <HeartRedO /> : <HeartGrey />}
                   </button>
                 </article>
               </li>

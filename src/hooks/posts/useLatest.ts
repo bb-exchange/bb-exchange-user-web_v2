@@ -1,5 +1,4 @@
 import { fetchArticles } from ".src/api/articles/articles";
-import { D_latestPostList } from ".src/data/posts/D_latest";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -7,7 +6,7 @@ import { useState } from "react";
 export default function UseLatest() {
   const router = useRouter();
 
-  const [dataList, setDataList] = useState(D_latestPostList);
+  const [dataList, setDataList] = useState<IpostList[]>([]);
 
   const { data: postData } = useQuery(
     ["latest", router.query.page || 0],
@@ -15,7 +14,8 @@ export default function UseLatest() {
     {
       retry: false,
       onSuccess: (res) => {
-        console.log(res);
+        console.log(res.data);
+        setDataList(res.data?.data?.contents);
       },
     }
   );
@@ -25,8 +25,8 @@ export default function UseLatest() {
 
     let _dataList = dataList;
 
-    if (_dataList[i].isLike) _dataList[i].isLike = false;
-    else _dataList[i].isLike = true;
+    if (_dataList[i].articleInfo.interest) _dataList[i].articleInfo.interest = false;
+    else _dataList[i].articleInfo.interest = true;
 
     setDataList([..._dataList]);
   }
