@@ -10,7 +10,6 @@ export default function UseCompPayPopup({ usePost }: Iprops) {
   }
 
   function onClickSeeNowBtn() {
-    usePost.setUnLimited(true);
     usePost.setCompPayPopup(false);
   }
 
