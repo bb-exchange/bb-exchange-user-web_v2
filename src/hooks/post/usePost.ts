@@ -2,14 +2,12 @@ import { fetchPost } from ".src/api/post/post";
 import { D_otherPostList, D_replyList } from ".src/data/post/D_post";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
 export default function UsePost() {
   const router = useRouter();
 
-  const [unLimted, setUnLimited] = useState<boolean>(
-    router.query.unLimited === "true" || false
-  );
+  const [postData, setPostData] = useState<IpostData>();
   const [otherPostList, setOtherPostList] =
     useState<IpostList[]>(D_otherPostList);
   const [isLike, setIsLike] = useState<boolean>(false);
@@ -32,10 +30,11 @@ export default function UsePost() {
     router.query.compPayPopup === "true" || false
   );
 
-  const { data: postData } = useQuery(["post", router.query.id], fetchPost, {
+  useQuery(["post", router.query.id], fetchPost, {
     retry: false,
     onSuccess: (res) => {
-      console.log(res);
+      console.log(res?.data?.data);
+      setPostData(res?.data?.data);
     },
   });
 
@@ -80,8 +79,6 @@ export default function UsePost() {
 
   return {
     postData,
-    unLimted,
-    setUnLimited,
     isLike,
     like,
     reply,

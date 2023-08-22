@@ -1,3 +1,38 @@
+interface IpostData {
+  boardInfo: {
+    category: string;
+    description: string;
+  };
+  userInfo: {
+    image?: string;
+    userId: number;
+    nickname: string;
+    description: string;
+  };
+  articleInfo: {
+    articleId: number;
+    isListed: boolean;
+    title: string;
+    updatedAt: string;
+    totalViewNum: number;
+    content: string;
+  };
+  priceInfo: {
+    likeNum: number;
+    dislikeNum: number;
+    isLike: boolean;
+    isDislike: boolean;
+    price: number;
+    changeRate: number;
+  };
+  tagList: [
+    {
+      tagId: number;
+      tagName: string;
+    }
+  ];
+}
+
 interface IpostCategories {
   category: string;
   description: string;
