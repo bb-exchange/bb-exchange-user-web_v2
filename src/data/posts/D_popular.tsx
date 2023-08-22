@@ -1,6 +1,6 @@
 import { hourToSec } from ".src/util/dateTime";
 
-export const D_popularPostList: IpostList[] = [
+export const D_popularPostList: any[] = [
   {
     rankDiff: 3,
     title:

@@ -1,6 +1,6 @@
 import { hourToSec } from ".src/util/dateTime";
 
-export const D_otherPostList: IpostList[] = [
+export const D_otherPostList: any[] = [
   {
     title:
       "최대두줄최대두줄최대두줄최대두줄까지만쓸수있어요말줄임표..최대두줄최대두줄최대두줄최대두줄까지만쓸수있어요말줄임표..",

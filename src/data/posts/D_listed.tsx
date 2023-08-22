@@ -1,6 +1,6 @@
 const hour = 3600000;
 
-export const D_listedPostList: IpostList[] = [
+export const D_listedPostList: any[] = [
   {
     rankDiff: 3,
     title:
