@@ -23,7 +23,10 @@ export default function Lastest() {
         <section className={styles.postSec}>
           <ul className={styles.postList}>
             {customHook.dataList.map((v, i) => (
-              <li key={i} onClick={() => router.push(`/post/${v.articleInfo.articleId}`)}>
+              <li
+                key={i}
+                onClick={() => router.push(`/post/${v.articleInfo.articleId}`)}
+              >
                 <div className={styles.leftArea}>
                   <div className={styles.infoCont}>
                     <div className={styles.titleBar}>
@@ -35,21 +38,25 @@ export default function Lastest() {
                         {v.articleInfo.title}
                       </h1>
                       <p className={styles.replyCount}>{`[${
-                        (v.articleInfo.commentNum || 0) > 99 ? `+99` : v.articleInfo.commentNum || 0
+                        (v.articleInfo.commentNum || 0) > 99
+                          ? `+99`
+                          : v.articleInfo.commentNum || 0
                       }]`}</p>
                     </div>
 
                     <div className={styles.infoBar}>
                       <div className={styles.categoryCont}>
                         <span className={styles.categoryImgBox}>
-                          <img src={v.categoryImg} alt="" />
+                          {/* <img src={v.categoryImg} alt="" /> */}
+                          <img src={""} alt="" />
                         </span>
 
                         <p>{v.boardInfo.description}</p>
                       </div>
 
                       <p className={styles.creator}>
-                        ・{v.userInfo.nickname}・{moment(v.articleInfo.updatedAt).fromNow()}
+                        ・{v.userInfo.nickname}・
+                        {moment(v.articleInfo.updatedAt).fromNow()}
                       </p>
                     </div>
                   </div>
@@ -98,7 +105,11 @@ export default function Lastest() {
                     }`}
                     onClick={(e) => customHook.onClickFavBtn(e, i)}
                   >
-                    {v.articleInfo.interest === true ? <HeartRedO /> : <HeartGrey />}
+                    {v.articleInfo.interest === true ? (
+                      <HeartRedO />
+                    ) : (
+                      <HeartGrey />
+                    )}
                   </button>
                 </article>
               </li>
