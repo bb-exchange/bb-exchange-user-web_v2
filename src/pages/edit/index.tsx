@@ -17,6 +17,7 @@ import EditHeader from ".src/components/edit/editHeader";
 import useEdit from ".src/hooks/edit/useEdit";
 import { useRouter } from "next/router";
 import useEnroll from ".src/hooks/enroll/useEnroll";
+import UseRecentTagPopup from ".src/hooks/enroll/useRecentTagPopup";
 
 export default function EditScreen() {
   const router = useRouter();
@@ -24,6 +25,7 @@ export default function EditScreen() {
   const quillRef = React.useRef<any>(false);
   const useEditHook = useEdit(quillRef);
   const useEnrollHook = useEnroll(quillRef);
+  const tagHook = UseRecentTagPopup({ useEnrollHook });
 
   function onSubmit() {
     useEditHook.handleSubmitFunc();
@@ -117,18 +119,14 @@ export default function EditScreen() {
 
               <span className={styles.inputBox}>
                 <input
-                  disabled={useEditHook.watch("tagList")?.length >= 10}
-                  {...useEditHook.register("tag")}
-                  onKeyDown={useEditHook.handleKeyDown}
+                  disabled={useEnrollHook.watch("tagList")?.length >= 10}
+                  value={tagHook.tagKeyword}
+                  onKeyDown={tagHook.handleKeywordKeyDown}
                   placeholder="# 멘션할 태그를 입력해주세요(최대 10개)"
-                  onChange={(e) =>
-                    useEditHook.handleTagOnChange(e.target.value)
-                  }
+                  onChange={(e) => tagHook.setTagKeyword(e.target.value)}
                 />
 
-                {useEditHook.watch("tag")?.length > 0 && (
-                  <RecentTagPopup useEnrollHook={useEnrollHook} />
-                )}
+                {tagHook.tagKeyword && <RecentTagPopup tagHook={tagHook} />}
               </span>
             </div>
           </form>
