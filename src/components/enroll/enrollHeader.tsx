@@ -40,6 +40,7 @@ export default function EnrollHeader({ useEnrollHook }: Iprops) {
             className={`${styles.enrollBtn} ${
               useEnrollHook.formState.isValid ? "" : styles.disabled
             }`}
+            disabled={!useEnrollHook.formState.isValid}
             onClick={useEnrollHook.onClickEnrollBtn}
           >
             게시하기

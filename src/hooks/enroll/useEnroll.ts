@@ -15,7 +15,7 @@ export default function useEnroll(quillRef: any) {
   const [loadDraftPopup, setLoadDraftPopup] = useState<boolean>(false);
 
   const { register, watch, setValue, formState, resetField, handleSubmit } =
-    useForm<IenrollProps>();
+    useForm<IenrollProps>({ mode: "onChange" });
 
   const enrollPostMutation = useMutation(postArticle, {
     onSuccess: (res) => console.log(res),
@@ -27,8 +27,8 @@ export default function useEnroll(quillRef: any) {
       category: watch("category").category,
       content: watch("content"),
       articleTagList: watch("tagList"),
-      // thumbnailImage: watch("thumbNail"),
-      thumbnailImage: "https://picsum.photos/72ﬁ",
+      thumbnailImage: watch("thumbNail"),
+      // thumbnailImage: "https://picsum.photos/72",
     });
   }
 
@@ -68,6 +68,12 @@ export default function useEnroll(quillRef: any) {
 
     setErrMsg(_errMsgs[0]!);
   }, [formState]);
+
+  useEffect(() => {
+    console.log("hi");
+  }, [watch("title")]);
+  console.log(formState.isValid);
+  console.log(formState.errors);
 
   const imgHandler = (quillRef: any) => {
     const quill = quillRef.current.getEditor();
