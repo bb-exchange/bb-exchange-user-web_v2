@@ -15,10 +15,12 @@ import SelImgPopup from ".src/components/common/popup/selImgPopup";
 import RecentTagPopup from ".src/components/enroll/recentTagPopup";
 import DraftsPopup from ".src/components/enroll/draftsPopup";
 import ConfirmPopup from ".src/components/common/popup/confirmPopup";
+import UseRecentTagPopup from ".src/hooks/enroll/useRecentTagPopup";
 
 export default function EnrollScreen() {
   const quillRef = React.useRef<any>(false);
   const useEnrollHook = useEnroll(quillRef);
+  const tagHook = UseRecentTagPopup({ useEnrollHook });
 
   return (
     <>
@@ -109,17 +111,13 @@ export default function EnrollScreen() {
               <span className={styles.inputBox}>
                 <input
                   disabled={useEnrollHook.watch("tagList")?.length >= 10}
-                  {...useEnrollHook.register("tag")}
-                  onKeyDown={useEnrollHook.handleKeyDown}
+                  value={tagHook.tagKeyword}
+                  onKeyDown={tagHook.handleKeywordKeyDown}
                   placeholder="# 멘션할 태그를 입력해주세요(최대 10개)"
-                  onChange={(e) =>
-                    useEnrollHook.handleTagOnChange(e.target.value)
-                  }
+                  onChange={(e) => tagHook.setTagKeyword(e.target.value)}
                 />
 
-                {useEnrollHook.watch("tag")?.length > 0 && (
-                  <RecentTagPopup useEnrollHook={useEnrollHook} />
-                )}
+                {tagHook.tagKeyword && <RecentTagPopup tagHook={tagHook} />}
               </span>
             </div>
           </form>

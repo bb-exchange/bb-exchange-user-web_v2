@@ -69,12 +69,6 @@ export default function useEnroll(quillRef: any) {
     setErrMsg(_errMsgs[0]!);
   }, [formState]);
 
-  useEffect(() => {
-    console.log("hi");
-  }, [watch("title")]);
-  console.log(formState.isValid);
-  console.log(formState.errors);
-
   const imgHandler = (quillRef: any) => {
     const quill = quillRef.current.getEditor();
     let fileInput = quill.root.querySelector("input.ql-image[type=file]");
@@ -140,18 +134,6 @@ export default function useEnroll(quillRef: any) {
     if (_tagList.indexOf(newTag) === -1) {
       _tagList.push(newTag);
       setValue("tagList", _tagList);
-    }
-    resetField("tag");
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    let _newTag = watch("tag");
-    if (!_newTag) return;
-
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-
-      setNewTag(_newTag);
     }
   };
 
@@ -224,7 +206,6 @@ export default function useEnroll(quillRef: any) {
     setErrMsgBusy,
     closeErrMsg,
     setNewTag,
-    handleKeyDown,
     handleTagOnChange,
     handleOnClickTagList,
     handleOnClickQuillImg,
