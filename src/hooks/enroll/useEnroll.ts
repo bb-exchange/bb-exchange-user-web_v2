@@ -1,10 +1,15 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { redoBtnHandler, undoBtnHandler } from ".src/util/textEditor";
+import {
+  base64toFile,
+  redoBtnHandler,
+  undoBtnHandler,
+} from ".src/util/textEditor";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
-import { postArticle } from ".src/api/articles/articles";
+import { postArticle, postImages } from ".src/api/articles/articles";
 
 export default function useEnroll(quillRef: any) {
+  const [contObj, setContObj] = useState<any>();
   const [selectImg, setSelectImg] = useState<HTMLImageElement>();
   const [errMsgBusy, setErrMsgBusy] = useState<boolean>(false);
   const [selCategoryPopup, setSelCategoryPopup] = useState<boolean>(false);
@@ -21,16 +26,9 @@ export default function useEnroll(quillRef: any) {
     onSuccess: (res) => console.log(res),
   });
 
-  function onClickEnrollBtn() {
-    enrollPostMutation.mutateAsync({
-      title: watch("title"),
-      category: watch("category").category,
-      content: watch("content"),
-      articleTagList: watch("tagList"),
-      thumbnailImage: watch("thumbNail"),
-      // thumbnailImage: "https://picsum.photos/72",
-    });
-  }
+  const enrollImagesMutation = useMutation(postImages, {
+    onSuccess: (res) => console.log(res),
+  });
 
   const beforeUnloadHandler = (e: BeforeUnloadEvent) => {
     return ((e || window.event).returnValue = ""); // Gecko + Webkit, Safari, Chrome etc.
@@ -68,6 +66,36 @@ export default function useEnroll(quillRef: any) {
 
     setErrMsg(_errMsgs[0]!);
   }, [formState]);
+
+  async function uploadImgFile() {
+    console.log(watch("content"));
+    console.log(contObj);
+    if (!(contObj && contObj.ops)) return;
+
+    let ops = contObj.ops;
+
+    await Promise.all(
+      ops?.map(async (v: any, i: number) => {
+        if (!(v.insert && v.insert.image)) return;
+        const editorSrc = v.insert.image;
+        if (editorSrc.startsWith("data:image/")) {
+          const file = base64toFile(editorSrc, `${i}`);
+          // await enrollImagesMutation.mutateAsync({ file, editorSrc });
+        }
+      })
+    );
+  }
+
+  async function onClickEnrollBtn() {
+    await uploadImgFile();
+    // enrollPostMutation.mutateAsync({
+    //   title: watch("title"),
+    //   category: watch("category").category,
+    //   content: watch("content"),
+    //   articleTagList: watch("tagList"),
+    //   thumbnailImage: watch("thumbNail"),
+    // });
+  }
 
   const imgHandler = (quillRef: any) => {
     const quill = quillRef.current.getEditor();
@@ -198,6 +226,7 @@ export default function useEnroll(quillRef: any) {
     handleSubmit,
     selCategoryPopup,
     setSelCategoryPopup,
+    setContObj,
     selectImg,
     setSelectImg,
     errMsg,

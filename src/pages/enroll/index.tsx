@@ -90,7 +90,15 @@ export default function EnrollScreen() {
                 modules={useEnrollHook.modules}
                 placeholder="나누고 싶은 나만의 비법을 적어주세요."
                 value={useEnrollHook.watch("content")}
-                onChange={(v: any) => useEnrollHook.setValue("content", v)}
+                onChange={(
+                  value: string,
+                  delta: any,
+                  source: any,
+                  editor: any
+                ) => {
+                  useEnrollHook.setValue("content", value);
+                  useEnrollHook.setContObj(editor.getContents());
+                }}
               />
             </div>
 

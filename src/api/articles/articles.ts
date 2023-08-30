@@ -12,7 +12,11 @@ export const fetchArticles = async ({ queryKey }: { queryKey: any[] }) => {
 };
 
 export const postArticle = async (formData: IpostArticle) => {
-  basicInstance
-    .post(`/v1/articles`, formData)
-    .then((res) => console.log(res));
+  basicInstance.post(`/v1/articles`, formData).then((res) => console.log(res));
+};
+
+export const postImages = async (formData: any) => {
+  console.log(formData);
+
+  return basicInstance.post("/v1/images/multi", { images: formData });
 };
