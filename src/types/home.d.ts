@@ -5,6 +5,7 @@ interface IhomeCategory {
 
 interface IpostList {
   boardInfo: {
+    image: string;
     category: string;
     description: string;
   };

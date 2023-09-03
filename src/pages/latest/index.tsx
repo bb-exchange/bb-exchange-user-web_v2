@@ -48,7 +48,7 @@ export default function Lastest() {
                       <div className={styles.categoryCont}>
                         <span className={styles.categoryImgBox}>
                           {/* <img src={v.categoryImg} alt="" /> */}
-                          <img src={""} alt="" />
+                          <img src={v.boardInfo.image} alt="" />
                         </span>
 
                         <p>{v.boardInfo.description}</p>
