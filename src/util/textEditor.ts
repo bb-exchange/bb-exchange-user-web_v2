@@ -25,7 +25,7 @@ export const quillFormats = [
   "color",
 ];
 
-export function base64toFile(base_data: any, filename: string) {
+export async function base64toFile(base_data: any, filename: string) {
   var arr = base_data.split(","),
     mime = arr[0].match(/:(.*?);/)[1],
     bstr = atob(arr[1]),

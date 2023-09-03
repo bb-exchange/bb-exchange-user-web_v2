@@ -18,5 +18,9 @@ export const postArticle = async (formData: IpostArticle) => {
 export const postImages = async (formData: any) => {
   console.log(formData);
 
-  return basicInstance.post("/v1/images/multi", { images: formData });
+  return basicInstance.post("/v1/images/multi", formData, 
+  {
+    headers: { "Content-Type": "multipart/form-data" },
+  }
+  );
 };

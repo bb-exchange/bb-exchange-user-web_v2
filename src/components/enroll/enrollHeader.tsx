@@ -35,12 +35,11 @@ export default function EnrollHeader({ useEnrollHook }: Iprops) {
           </div>
 
           <button
-            type="submit"
-            form="enrollForm"
+            type="button"
             className={`${styles.enrollBtn} ${
               useEnrollHook.formState.isValid ? "" : styles.disabled
             }`}
-            disabled={!useEnrollHook.formState.isValid}
+            // disabled={!useEnrollHook.formState.isValid}
             onClick={useEnrollHook.onClickEnrollBtn}
           >
             게시하기

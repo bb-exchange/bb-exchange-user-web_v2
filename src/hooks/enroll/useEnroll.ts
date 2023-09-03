@@ -68,22 +68,26 @@ export default function useEnroll(quillRef: any) {
   }, [formState]);
 
   async function uploadImgFile() {
-    console.log(watch("content"));
-    console.log(contObj);
+    // console.log(watch("content"));
+    // console.log(contObj);
     if (!(contObj && contObj.ops)) return;
 
     let ops = contObj.ops;
 
-    await Promise.all(
+    let images = await Promise.all(
       ops?.map(async (v: any, i: number) => {
         if (!(v.insert && v.insert.image)) return;
+
         const editorSrc = v.insert.image;
         if (editorSrc.startsWith("data:image/")) {
-          const file = base64toFile(editorSrc, `${i}`);
-          // await enrollImagesMutation.mutateAsync({ file, editorSrc });
+          const file = await base64toFile(editorSrc, `${i}`);
+          return file;
         }
       })
     );
+
+    images = images.filter((e) => e);
+    await enrollImagesMutation.mutateAsync({ images });
   }
 
   async function onClickEnrollBtn() {
