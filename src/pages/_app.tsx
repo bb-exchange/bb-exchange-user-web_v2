@@ -10,6 +10,7 @@ import { Provider } from "react-redux";
 import "react-notion-x/src/styles.css";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { RecoilRoot } from "recoil";
 
 export default function App({ Component, ...rest }: AppProps) {
   const queryClient = new QueryClient();
@@ -30,17 +31,19 @@ export default function App({ Component, ...rest }: AppProps) {
   }
 
   return (
-    <Provider store={store}>
-      <PersistGate persistor={store.__persistor}>
-        <CookiesProvider>
-          <QueryClientProvider client={queryClient}>
-            <Layout pageProps={props.pageProps}>
-              <Component {...props.pageProps} />
-            </Layout>
-            <ReactQueryDevtools />
-          </QueryClientProvider>
-        </CookiesProvider>
-      </PersistGate>
-    </Provider>
+    <RecoilRoot>
+      <Provider store={store}>
+        <PersistGate persistor={store.__persistor}>
+          <CookiesProvider>
+            <QueryClientProvider client={queryClient}>
+              <Layout pageProps={props.pageProps}>
+                <Component {...props.pageProps} />
+              </Layout>
+              <ReactQueryDevtools />
+            </QueryClientProvider>
+          </CookiesProvider>
+        </PersistGate>
+      </Provider>
+    </RecoilRoot>
   );
 }
