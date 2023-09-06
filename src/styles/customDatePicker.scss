@@ -103,5 +103,18 @@
         }
       }
     }
+
+    .react-datepicker__children-container {
+      .datepicker-close-btn {
+        width: 310px;
+        height: 40px;
+        border: 1px solid $Gray3;
+        border-radius: 8px;
+        color: $Black2;
+        font-size: 14px;
+        margin-left: 20px;
+        margin-bottom: 10px;
+      }
+    }
   }
 }

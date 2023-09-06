@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { getMonth, getYear } from "date-fns";
 import DatePicker from "react-datepicker";
 import ko from "date-fns/locale/ko";
@@ -11,8 +12,13 @@ interface IProps {
 }
 
 export default function CustomDatePicker({ date, setDate }: IProps) {
+  const calendar = useRef(null);
+
+  const cancelDatePicker = () => calendar.current?.setOpen(false);
+
   return (
     <DatePicker
+      ref={calendar}
       className="customPickerInput"
       popperClassName="customPickerPopper"
       locale={ko}
@@ -26,7 +32,11 @@ export default function CustomDatePicker({ date, setDate }: IProps) {
           increaseMonth={increaseMonth}
         />
       )}
-    />
+    >
+      <button className="datepicker-close-btn" onClick={cancelDatePicker}>
+        닫기
+      </button>
+    </DatePicker>
   );
 }
 
