@@ -12,9 +12,9 @@ interface IProps {
 }
 
 export default function CustomDatePicker({ date, setDate }: IProps) {
-  const calendar = useRef(null);
+  const calendar = useRef<any | null>(null);
 
-  const cancelDatePicker = () => calendar.current?.setOpen(false);
+  const cancelDatePicker = () => calendar.current.setOpen(false);
 
   return (
     <DatePicker
