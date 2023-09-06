@@ -135,119 +135,121 @@ const MobileAuth = () => {
   return (
     <div id={styles.mobileAuth} className={styles.container}>
       <div className={styles.contentBox}>
-        <h2 className={styles.title}>
-          <span className={styles.blueText}>휴대폰 인증</span>을 해주세요
-        </h2>
-        <form>
-          <section className={styles.section}>
+        <div className={styles.mAutoBox}>
+          <h2 className={styles.title}>
+            <span className={styles.blueText}>휴대폰 인증</span>을 해주세요
+          </h2>
+          <form>
+            <section className={styles.section}>
+              <div className={styles.inputLayout}>
+                <input
+                  type="tel"
+                  placeholder="01012341234"
+                  {...register("phoneNumber", {
+                    required: true,
+                  })}
+                />
+              </div>
+              {showResendBtn ? (
+                <OutlinedBtn
+                  text={"재전송"}
+                  type="gray"
+                  onClick={handleSubmit(sendSecretCode)}
+                />
+              ) : (
+                <ContainedBtn
+                  text={"인증받기"}
+                  disabled={watch("phoneNumber")?.length === 11 ? false : true}
+                  onClick={handleSubmit(sendSecretCode)}
+                />
+              )}
+            </section>
+            {showResendBtn && (
+              <p className={styles.leftTimes}>
+                <IconCheck />
+                일일 문자 인증 가능 건수가 {leftCount}건 남았어요.
+              </p>
+            )}
+
             <div className={styles.inputLayout}>
               <input
                 type="tel"
-                placeholder="01012341234"
-                {...register("phoneNumber", {
-                  required: true,
+                placeholder="인증번호 6자리"
+                {...register("secret", {
+                  required: false,
                 })}
               />
+              {showResendBtn && (
+                <p className={styles.timer}>
+                  {minutes === 0 && seconds === 0 && "만료됨"}
+                  {minutes !== 0 &&
+                    seconds !== 0 &&
+                    `0${minutes}:${
+                      seconds === 0
+                        ? `${seconds}0`
+                        : seconds < 10
+                        ? `0${seconds}`
+                        : seconds
+                    }`}
+                </p>
+              )}
             </div>
-            {showResendBtn ? (
-              <OutlinedBtn
-                text={"재전송"}
-                type="gray"
-                onClick={handleSubmit(sendSecretCode)}
-              />
-            ) : (
-              <ContainedBtn
-                text={"인증받기"}
-                disabled={watch("phoneNumber")?.length === 11 ? false : true}
-                onClick={handleSubmit(sendSecretCode)}
-              />
-            )}
-          </section>
-          {showResendBtn && (
-            <p className={styles.leftTimes}>
-              <IconCheck />
-              일일 문자 인증 가능 건수가 {leftCount}건 남았어요.
-            </p>
-          )}
+          </form>
+          <ContainedBtn
+            text={"다음"}
+            disabled={
+              showResendBtn && getValues("secret")?.length === 6 ? false : true
+            }
+            onClick={handleSubmit(verifyPhones)}
+          />
+        </div>
 
-          <div className={styles.inputLayout}>
-            <input
-              type="tel"
-              placeholder="인증번호 6자리"
-              {...register("secret", {
-                required: false,
-              })}
+        {openExceedPopup && (
+          <>
+            <ErrorMsgPopup
+              confirmFunc={() => setOpenExceedPopup(false)}
+              msg={
+                <>
+                  <span>인증문자는 하루에 최대 6회 받을 수 있어요.</span>
+                  <span>내일 다시 시도해주세요.</span>
+                </>
+              }
             />
-            {showResendBtn && (
-              <p className={styles.timer}>
-                {minutes === 0 && seconds === 0 && "만료됨"}
-                {minutes !== 0 &&
-                  seconds !== 0 &&
-                  `0${minutes}:${
-                    seconds === 0
-                      ? `${seconds}0`
-                      : seconds < 10
-                      ? `0${seconds}`
-                      : seconds
-                  }`}
-              </p>
-            )}
-          </div>
-        </form>
-        <ContainedBtn
-          text={"다음"}
-          disabled={
-            showResendBtn && getValues("secret")?.length === 6 ? false : true
-          }
-          onClick={handleSubmit(verifyPhones)}
-        />
+            <PopupBg bg off={() => setOpenExceedPopup(false)} />
+          </>
+        )}
+        {openErrSecretPopup && (
+          <>
+            <ErrorMsgPopup
+              confirmFunc={() => setOpenErrSecretPopup(false)}
+              msg={
+                <>
+                  <span>인증번호가 올바르지 않아요!</span>
+                  <span>인증번호를 확인해주세요.</span>
+                </>
+              }
+            />
+            <PopupBg bg off={() => setOpenErrSecretPopup(false)} />
+          </>
+        )}
+        {openExpiredKeyPopup && (
+          <>
+            <ErrorMsgPopup
+              confirmFunc={() => {
+                setOpenExpiredKeyPopup(false);
+                push("/auth/signin");
+              }}
+              msg={
+                <>
+                  <span>인증 정보가 만료되었습니다.</span>
+                  <span>로그인 화면으로 이동합니다.</span>
+                </>
+              }
+            />
+            <PopupBg bg off={() => setOpenExpiredKeyPopup(false)} />
+          </>
+        )}
       </div>
-
-      {openExceedPopup && (
-        <>
-          <ErrorMsgPopup
-            confirmFunc={() => setOpenExceedPopup(false)}
-            msg={
-              <>
-                <span>인증문자는 하루에 최대 6회 받을 수 있어요.</span>
-                <span>내일 다시 시도해주세요.</span>
-              </>
-            }
-          />
-          <PopupBg bg off={() => setOpenExceedPopup(false)} />
-        </>
-      )}
-      {openErrSecretPopup && (
-        <>
-          <ErrorMsgPopup
-            confirmFunc={() => setOpenErrSecretPopup(false)}
-            msg={
-              <>
-                <span>인증번호가 올바르지 않아요!</span>
-                <span>인증번호를 확인해주세요.</span>
-              </>
-            }
-          />
-          <PopupBg bg off={() => setOpenErrSecretPopup(false)} />
-        </>
-      )}
-      {openExpiredKeyPopup && (
-        <>
-          <ErrorMsgPopup
-            confirmFunc={() => {
-              setOpenExpiredKeyPopup(false);
-              push("/auth/signin");
-            }}
-            msg={
-              <>
-                <span>인증 정보가 만료되었습니다.</span>
-                <span>로그인 화면으로 이동합니다.</span>
-              </>
-            }
-          />
-          <PopupBg bg off={() => setOpenExpiredKeyPopup(false)} />
-        </>
-      )}
     </div>
   );
 };

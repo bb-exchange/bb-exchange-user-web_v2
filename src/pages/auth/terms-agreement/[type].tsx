@@ -13,6 +13,7 @@ const TermsPopup = ({ recordMap }: { recordMap: ExtendedRecordMap }) => {
       <div className={styles.bg} onClick={() => router.back()} />
       <section className={styles.contentBox}>
         <div className={styles.header}>
+          <h2 className={styles.headerTitle}>서비스 이용동의</h2>
           <IconX className={styles.iconX} onClick={() => router.back()} />
         </div>
         <div className={styles.notionContent}>
