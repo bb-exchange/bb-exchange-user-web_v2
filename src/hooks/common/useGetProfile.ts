@@ -10,5 +10,5 @@ interface profile {
 }
 export default function useGetMyProfile() {
   const { data }: any = useQuery(["myProfile"], getMyProfile);
-  return data?.data as profile;
+  return data?.data.data as profile;
 }
