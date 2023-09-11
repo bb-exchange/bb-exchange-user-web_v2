@@ -1,15 +1,7 @@
-import { basicInstance } from ".src/api/instance";
 import { checkUserNickname } from ".src/api/mypage/nickname";
 import { editMyProfile } from ".src/api/users/users";
-import useGetMyProfile from ".src/hooks/common/useGetProfile";
 import { useRouter } from "next/router";
-import {
-  ChangeEvent,
-  ChangeEventHandler,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function UseEditProf() {
@@ -25,7 +17,6 @@ export default function UseEditProf() {
     watch,
     setValue,
     formState: { errors },
-    resetField,
     handleSubmit,
   } = useForm<IeditProf>({ mode: "onChange" });
 
