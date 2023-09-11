@@ -11,7 +11,7 @@ import WritePost from ".src/components/mypage/write/writePost";
 import ScrollTopBtn from ".src/components/common/scrollTopBtn";
 
 export default function Mypage() {
-  const useMypageWrite = UseMyPageWrite();
+  let useMypageWrite = UseMyPageWrite();
 
   return (
     <>
@@ -69,11 +69,10 @@ export default function Mypage() {
 
           <PageNav />
         </section>
-
       </main>
 
-        <ScrollTopBtn />
-        
+      <ScrollTopBtn />
+
       <CommonFooter />
     </>
   );
