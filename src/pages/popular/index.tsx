@@ -31,8 +31,8 @@ export default function Popular() {
       <main className={styles.popular}>
         <section className={styles.postSec}>
           <ul className={styles.postList} data-cy="postList">
-            {usePopular.dataList.map((v, i) => (
-              <li key={i} onClick={() => router.push(`/post/${i}`)}>
+            {usePopular.dataList.map((v: any, i: number) => (
+              <li key={i} onClick={() => router.push(`/post/${v.id}`)}>
                 <div className={styles.leftArea}>
                   <div className={styles.rankCont}>
                     <h2 className={styles.rank}>{i + 1}</h2>
@@ -65,7 +65,7 @@ export default function Popular() {
                     <div className={styles.infoBar}>
                       <div className={styles.categoryCont}>
                         <span className={styles.categoryImgBox}>
-                          <img src={v.categoryImg} alt="" />
+                          <img src={v.categoryImg.src} alt="" />
                         </span>
 
                         <p>{v.category}</p>
@@ -79,7 +79,7 @@ export default function Popular() {
 
                   <div className={styles.thumbnailImgBox}>
                     {v.thumbnailUrl ? (
-                      <img src={v.thumbnailUrl} alt="" />
+                      <img src={v.thumbnailUrl.src} alt="" />
                     ) : null}
                   </div>
                 </div>

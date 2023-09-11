@@ -23,7 +23,7 @@ export default function Listed() {
         <section className={styles.postSec}>
           <ul className={styles.postList}>
             {customHook.dataList.map((v, i) => (
-              <li key={i} onClick={() => router.push(`/post/${i}`)}>
+              <li key={i} onClick={() => router.push(`/post/${v.id}`)}>
                 <div className={styles.leftArea}>
                   <div className={styles.infoCont}>
                     <div className={styles.titleBar}>
@@ -42,7 +42,7 @@ export default function Listed() {
                     <div className={styles.infoBar}>
                       <div className={styles.categoryCont}>
                         <span className={styles.categoryImgBox}>
-                          <img src={v.categoryImg} alt="" />
+                          <img src={v.categoryImg.src} alt="" />
                         </span>
 
                         <p>{v.category}</p>
@@ -56,7 +56,7 @@ export default function Listed() {
 
                   <div className={styles.thumbnailImgBox}>
                     {v.thumbnailUrl ? (
-                      <img src={v.thumbnailUrl} alt="" />
+                      <img src={v.thumbnailUrl.src} alt="" />
                     ) : null}
                   </div>
                 </div>

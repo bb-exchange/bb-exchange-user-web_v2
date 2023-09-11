@@ -7,6 +7,7 @@ import { useState } from "react";
 export default function UsePopular() {
   const router = useRouter();
 
+  
   const [dataList, setDataList] = useState(D_popularPostList);
 
   const { data: postData } = useQuery(

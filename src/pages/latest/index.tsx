@@ -21,78 +21,71 @@ export default function Lastest() {
     <>
       <main className={styles.lastest}>
         <section className={styles.postSec}>
-          <ul className={styles.postList}>
+          <ul className={styles.postList} data-cy="postList">
             {customHook.dataList.map((v, i) => (
-              <li
-                key={i}
-                onClick={() => router.push(`/post/${v.articleInfo.articleId}`)}
-              >
+              <li key={i} onClick={() => router.push(`/post/${v.id}`)}>
                 <div className={styles.leftArea}>
                   <div className={styles.infoCont}>
                     <div className={styles.titleBar}>
                       <h1
                         className={`${styles.title} ${
-                          v.articleInfo.read ? styles.read : ""
+                          v.read ? styles.read : ""
                         }`}
                       >
-                        {v.articleInfo.title}
+                        {v.title}
                       </h1>
                       <p className={styles.replyCount}>{`[${
-                        (v.articleInfo.commentNum || 0) > 99
-                          ? `+99`
-                          : v.articleInfo.commentNum || 0
+                        (v.replyCount || 0) > 99 ? `+99` : v.replyCount || 0
                       }]`}</p>
                     </div>
 
                     <div className={styles.infoBar}>
                       <div className={styles.categoryCont}>
                         <span className={styles.categoryImgBox}>
-                          {/* <img src={v.categoryImg} alt="" /> */}
-                          <img src={v.boardInfo.image} alt="" />
+                          <img src={v.categoryImg.src} alt="" />
                         </span>
 
-                        <p>{v.boardInfo.description}</p>
+                        <p>{v.category}</p>
                       </div>
 
                       <p className={styles.creator}>
-                        ・{v.userInfo.nickname}・
-                        {moment(v.articleInfo.updatedAt).fromNow()}
+                        ・{v.creatorNickname}・{moment(v.createdAt).fromNow()}
                       </p>
                     </div>
                   </div>
 
                   <div className={styles.thumbnailImgBox}>
-                    {v.articleInfo.thumbnail ? (
-                      <img src={v.articleInfo.thumbnail} alt="" />
+                    {v.thumbnailUrl ? (
+                      <img src={v.thumbnailUrl.src} alt="" />
                     ) : null}
                   </div>
                 </div>
 
                 <article className={styles.rightArea}>
-                  {v.articleInfo.purchased ? (
+                  {v.point ? (
                     <div
                       className={`${styles.priceCont} ${getDiffStyle(
-                        v.priceInfo.changeRate || 0
+                        v.percentOfChange || 0
                       )}`}
                     >
                       <div className={styles.diffBox}>
                         <p>
-                          {`${(v.priceInfo.changeRate || 0) > 0 ? "+" : ""}${
-                            v.priceInfo.changeRate || 0
-                          }% (${v.priceInfo.changeAmount || 0})`}
+                          {`${(v.percentOfChange || 0) > 0 ? "+" : ""}${
+                            v.percentOfChange || 0
+                          }% (${v.amountOfChange || 0})`}
                         </p>
                       </div>
 
                       <h1
                         className={styles.price}
                       >{`${new Intl.NumberFormat().format(
-                        v.priceInfo.price || 0
+                        v.point || 0
                       )} P`}</h1>
                     </div>
                   ) : (
                     <div className={styles.notListedCont}>
                       <div className={styles.likeCountBox}>
-                        <p>{`좋아요 ${v.priceInfo.likeNum || 0}개`}</p>
+                        <p>{`좋아요 ${v.likeCount || 0}개`}</p>
                       </div>
 
                       <p className={styles.notListed}>비상장</p>
@@ -100,16 +93,11 @@ export default function Lastest() {
                   )}
 
                   <button
-                    className={`${v.articleInfo.interest ? "" : styles.none} ${
-                      styles.favBtn
-                    }`}
+                    className={styles.favBtn}
+                    data-js="favBtn"
                     onClick={(e) => customHook.onClickFavBtn(e, i)}
                   >
-                    {v.articleInfo.interest === true ? (
-                      <HeartRedO />
-                    ) : (
-                      <HeartGrey />
-                    )}
+                    {v.isLike === true ? <HeartRedO /> : <HeartGrey />}
                   </button>
                 </article>
               </li>
@@ -123,6 +111,112 @@ export default function Lastest() {
       <ScrollTopBtn />
     </>
   );
+  // return (
+  //   <>
+  //     <main className={styles.lastest}>
+  //       <section className={styles.postSec}>
+  //         <ul className={styles.postList}>
+  //           {customHook.dataList.map((v, i) => (
+  //             <li
+  //               key={i}
+  //               onClick={() => router.push(`/post/${v.articleInfo.articleId}`)}
+  //             >
+  //               <div className={styles.leftArea}>
+  //                 <div className={styles.infoCont}>
+  //                   <div className={styles.titleBar}>
+  //                     <h1
+  //                       className={`${styles.title} ${
+  //                         v.articleInfo.read ? styles.read : ""
+  //                       }`}
+  //                     >
+  //                       {v.articleInfo.title}
+  //                     </h1>
+  //                     <p className={styles.replyCount}>{`[${
+  //                       (v.articleInfo.commentNum || 0) > 99
+  //                         ? `+99`
+  //                         : v.articleInfo.commentNum || 0
+  //                     }]`}</p>
+  //                   </div>
+
+  //                   <div className={styles.infoBar}>
+  //                     <div className={styles.categoryCont}>
+  //                       <span className={styles.categoryImgBox}>
+  //                         {/* <img src={v.categoryImg} alt="" /> */}
+  //                         <img src={v.boardInfo.image} alt="" />
+  //                       </span>
+
+  //                       <p>{v.boardInfo.description}</p>
+  //                     </div>
+
+  //                     <p className={styles.creator}>
+  //                       ・{v.userInfo.nickname}・
+  //                       {moment(v.articleInfo.updatedAt).fromNow()}
+  //                     </p>
+  //                   </div>
+  //                 </div>
+
+  //                 <div className={styles.thumbnailImgBox}>
+  //                   {v.articleInfo.thumbnail ? (
+  //                     <img src={v.articleInfo.thumbnail} alt="" />
+  //                   ) : null}
+  //                 </div>
+  //               </div>
+
+  //               <article className={styles.rightArea}>
+  //                 {v.articleInfo.purchased ? (
+  //                   <div
+  //                     className={`${styles.priceCont} ${getDiffStyle(
+  //                       v.priceInfo.changeRate || 0
+  //                     )}`}
+  //                   >
+  //                     <div className={styles.diffBox}>
+  //                       <p>
+  //                         {`${(v.priceInfo.changeRate || 0) > 0 ? "+" : ""}${
+  //                           v.priceInfo.changeRate || 0
+  //                         }% (${v.priceInfo.changeAmount || 0})`}
+  //                       </p>
+  //                     </div>
+
+  //                     <h1
+  //                       className={styles.price}
+  //                     >{`${new Intl.NumberFormat().format(
+  //                       v.priceInfo.price || 0
+  //                     )} P`}</h1>
+  //                   </div>
+  //                 ) : (
+  //                   <div className={styles.notListedCont}>
+  //                     <div className={styles.likeCountBox}>
+  //                       <p>{`좋아요 ${v.priceInfo.likeNum || 0}개`}</p>
+  //                     </div>
+
+  //                     <p className={styles.notListed}>비상장</p>
+  //                   </div>
+  //                 )}
+
+  //                 <button
+  //                   className={`${v.articleInfo.interest ? "" : styles.none} ${
+  //                     styles.favBtn
+  //                   }`}
+  //                   onClick={(e) => customHook.onClickFavBtn(e, i)}
+  //                 >
+  //                   {v.articleInfo.interest === true ? (
+  //                     <HeartRedO />
+  //                   ) : (
+  //                     <HeartGrey />
+  //                   )}
+  //                 </button>
+  //               </article>
+  //             </li>
+  //           ))}
+  //         </ul>
+
+  //         <PageNav />
+  //       </section>
+  //     </main>
+
+  //     <ScrollTopBtn />
+  //   </>
+  // );
 }
 
 export function getStaticProps() {

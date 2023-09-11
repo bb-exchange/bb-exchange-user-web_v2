@@ -8,8 +8,8 @@ export default function UsePost() {
   const router = useRouter();
 
   const [postData, setPostData] = useState<IpostData>();
-  const [otherPostList, setOtherPostList] =
-    useState<IpostList[]>(D_otherPostList);
+  const [otherPostList, setOtherPostList] = useState<any[]>(D_otherPostList);
+  // const [otherPostList, setOtherPostList] = useState<IpostList[]>(D_otherPostList);
   const [isLike, setIsLike] = useState<boolean>(false);
   const [like, setLike] = useState<1 | 0 | -1>(0);
   const [reply, setReply] = useState<string>("");

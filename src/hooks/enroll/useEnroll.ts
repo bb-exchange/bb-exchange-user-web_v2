@@ -68,8 +68,6 @@ export default function useEnroll(quillRef: any) {
   }, [formState]);
 
   async function uploadImgFile() {
-    // console.log(watch("content"));
-    // console.log(contObj);
     if (!(contObj && contObj.ops)) return;
 
     let ops = contObj.ops;

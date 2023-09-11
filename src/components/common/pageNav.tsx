@@ -20,7 +20,7 @@ export default function PageNav({ inlinePage }: Iprops) {
       </button>
 
       <ul className={styles.pageNavList}>
-        {[1, 2, 3, 4].map((v, i) => (
+        {[1].map((v, i) => (
           <li
             key={i}
             className={`${v == customHook.page ? styles.on : ""}`}
