@@ -1,8 +1,11 @@
+import { imgPreSignedUrl } from ".src/api/img/imgPreSignedUrl";
 import { checkUserNickname } from ".src/api/mypage/nickname";
 import { editMyProfile } from ".src/api/users/users";
 import { useRouter } from "next/router";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { MD5 } from "crypto-js";
+import { uploadImg } from ".src/api/img/uploadImg";
 
 export default function UseEditProf() {
   const router = useRouter();
@@ -20,9 +23,9 @@ export default function UseEditProf() {
     handleSubmit,
   } = useForm<IeditProf>({ mode: "onChange" });
 
-  // console.log(errors);
-  //nickname
   const [isExist, setIsExist] = useState<boolean>();
+  const [uploadFile, setUploadFile] = useState<File | null>(null);
+  const [md5, setMd5] = useState<string | null>(null);
 
   const handleOnChange = async (e: any) => {
     if (
@@ -68,27 +71,46 @@ export default function UseEditProf() {
     });
   }, [watch("nickname")]);
 
-  async function onSubmit(data: any) {
+  const onSubmit = async (data: any) => {
     try {
       const res = await editMyProfile({
         nickname: data.nickname,
         description: data.description,
       });
 
+      if (uploadFile && md5) {
+        const { data } = await imgPreSignedUrl({
+          contentType: uploadFile.type,
+          md5,
+        });
+
+        await uploadImg(data.presignedUrl, uploadFile);
+      }
+
       if (res?.status === 204) {
         router.push("/mypage");
       }
     } catch (error) {}
-  }
+  };
 
   function onChangeProfImg(e: ChangeEvent<HTMLInputElement>) {
+    e.preventDefault();
+
     if (!e.target.files) return;
     const file = e.target.files[0];
-
+    setUploadFile(file);
     const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
+
+    if (file) {
+      reader.readAsDataURL(file);
+      // reader.readAsBinaryString(file);
+    }
+    reader.onloadend = (ev: ProgressEvent<FileReader>) => {
       if (!reader.result) return;
+
+      var binary: any = ev?.target?.result;
+      var md5 = MD5(binary).toString();
+      setMd5(md5);
 
       setValue("profImg", `${reader.result}`);
     };

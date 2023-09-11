@@ -7,10 +7,15 @@ import CheckCircleBlue from ".assets/icons/CheckCircleBlue.svg";
 import Image from "next/image";
 import useGetMyProfile from ".src/hooks/common/useGetProfile";
 import { useEffect } from "react";
+// import { getImgPreSignedUrl } from ".src/api/img/imgPreSignedUrl";
 
 export default function EditProf() {
   const useEditProf = UseEditProf();
   const myProfile = useGetMyProfile();
+
+  // getImgPreSignedUrl({ contentType: "string", md5: "string" }).then((res) =>
+  //   console.log("11", res)
+  // );
 
   useEffect(() => {
     if (myProfile) {
