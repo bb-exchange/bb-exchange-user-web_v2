@@ -36,11 +36,11 @@ import img3 from ".assets/example/post/1/img3.png";
 
 const isListed = false;
 const title = "2023년 주식시장 전망, 경기 침체 우려, 주식 시장 여파는?";
-const creater = "머니로그";
+const creator = "머니로그";
+const category = "주식/투자";
+const createdAt = new Date(2023, 7, 26);
 const price = 0;
 const changeRate = 0;
-const changeAmount = 0;
-const like = 89;
 
 export default function Post() {
   const hook = UsePost();
@@ -59,7 +59,7 @@ export default function Post() {
           <article className={styles.topBar}>
             <div className={styles.verArea}>
               <div className={styles.leftCont}>
-                <h2 className={styles.category}>주식/투자</h2>
+                <h2 className={styles.category}>{category}</h2>
                 {isListed && (
                   <>
                     <hr />
@@ -72,7 +72,9 @@ export default function Post() {
                         <p>Ver.1</p>
                       </div>
                       {/* 안되어있음 */}
-                      <p className={styles.time}>23.07.24</p>
+                      <p className={styles.time}>
+                        {moment(createdAt).format('YYYY.MM.DD')}
+                      </p>
                     </div>
                   </>
                 )}
@@ -100,7 +102,7 @@ export default function Post() {
                   <div className={`${styles.creatorBox} ${styles.contBox}`}>
                     <Gold />
 
-                    <p>{creater}</p>
+                    <p>{creator}</p>
                   </div>
 
                   {true ? (
@@ -154,7 +156,7 @@ export default function Post() {
             </div>
           </article>
 
-          {true ? (
+          {!isListed ? (
             <>
               <article className={`${styles.d} ${styles.contArea}`}>
                 <img src={img1.src} alt="" />
@@ -269,7 +271,7 @@ export default function Post() {
                 </div>
               </article>
 
-              <article className={styles.replyArea}>
+              {/* <article className={styles.replyArea}>
                 <ul className={styles.tagList}>
                   {(hook.postData?.tagList || []).map((v, i) => (
                     <li key={i}>{v.tagName}</li>
@@ -313,7 +315,7 @@ export default function Post() {
                     ))}
                   </ul>
                 </div>
-              </article>
+              </article> */}
             </>
           ) : (
             <>
@@ -365,167 +367,23 @@ export default function Post() {
         </section>
 
         <aside>
-          {true ? (
-            <>
-              <article className={styles.creatorArea}>
-                <div className={styles.profImgBox}>
-                  <img
-                    src={hook.postData?.userInfo.image || DefaultProfImg.src}
-                    alt=""
-                  />
-                </div>
+          <article className={styles.creatorArea}>
+            <div className={styles.profImgBox}>
+              <img
+                src={hook.postData?.userInfo.image || DefaultProfImg.src}
+                alt=""
+              />
+            </div>
 
-                <div className={styles.nicknameBar}>
-                  <h1 className={styles.nickname}>
-                    {hook.postData?.userInfo.nickname}
-                  </h1>
-                  <Gold />
-                </div>
+            <div className={styles.nicknameBar}>
+              <h1 className={styles.nickname}>{creator}</h1>
+              <Gold />
+            </div>
 
-                <p className={styles.profMsg}>
-                  {hook.postData?.userInfo.description}
-                </p>
-              </article>
-
-              <article
-                className={`${styles.otherPostArea} ${styles.postListArea}`}
-              >
-                <p className={styles.areaTitle}>
-                  {hook.postData?.userInfo.nickname}님의 다른 글
-                </p>
-
-                <ul className={styles.postList}>
-                  {hook.otherPostList.map((v, i) => (
-                    <li key={i}>
-                      <div className={styles.topBar}>
-                        <p>
-                          <strong className={styles.category}>
-                            {v.category}
-                          </strong>
-                          ・{v.creatorNickname}・{moment(v.createdAt).fromNow()}
-                        </p>
-                      </div>
-
-                      <div className={styles.contBar}>
-                        <div className={styles.leftCont}>
-                          <p className={styles.title}>{v.title}</p>
-
-                          <div className={styles.thumbnailBox}>
-                            <img src={v.thumbnailUrl} alt="" />
-                          </div>
-                        </div>
-
-                        <div
-                          className={`${styles.rightCont} ${getDiffStyle(
-                            v.percentOfChange || 0
-                          )}`}
-                        >
-                          <p className={styles.diff}>
-                            {`${(v.percentOfChange || 0) > 0 ? "+" : ""}${
-                              v.percentOfChange || 0
-                            }% (${v.amountOfChange || 0})`}
-                          </p>
-
-                          <p
-                            className={styles.price}
-                          >{`${new Intl.NumberFormat().format(
-                            v.point || 0
-                          )} 원`}</p>
-                        </div>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </article>
-
-              <article
-                className={`${styles.categoryPopularPostList} ${styles.postListArea}`}
-              >
-                <p className={styles.areaTitle}>
-                  {hook.postData?.boardInfo.description}의 인기글
-                </p>
-
-                <ul className={styles.postList}>
-                  {hook.otherPostList.map((v, i) => (
-                    <li key={i}>
-                      <div className={styles.topBar}>
-                        <p>
-                          <strong className={styles.category}>
-                            {v.category}
-                          </strong>
-                          ・{v.creatorNickname}・{moment(v.createdAt).fromNow()}
-                        </p>
-                      </div>
-
-                      <div className={styles.contBar}>
-                        <div className={styles.leftCont}>
-                          <p className={styles.title}>{v.title}</p>
-
-                          <div className={styles.thumbnailBox}>
-                            <img src={v.thumbnailUrl} alt="" />
-                          </div>
-                        </div>
-
-                        <div
-                          className={`${styles.rightCont} ${getDiffStyle(
-                            v.percentOfChange || 0
-                          )}`}
-                        >
-                          <p className={styles.diff}>
-                            {`${(v.percentOfChange || 0) > 0 ? "+" : ""}${
-                              v.percentOfChange || 0
-                            }% (${v.amountOfChange || 0})`}
-                          </p>
-
-                          <p
-                            className={styles.price}
-                          >{`${new Intl.NumberFormat().format(
-                            v.point || 0
-                          )} 원`}</p>
-                        </div>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            </>
-          ) : (
-            <article className={styles.buyArea}>
-              <div className={styles.viewCont}>
-                <strong className={styles.icon}>👀</strong>
-                <br />
-                {hook.postData?.articleInfo.totalViewNum}명이 이 글을 봤어요!
-              </div>
-
-              <div className={styles.contCont}>
-                <div className={styles.priceCont}>
-                  <div className={`${styles.diffBox} ${getDiffStyle(1 || 0)}`}>
-                    <p>+{hook.postData?.priceInfo.changeRate || 0}% (63)</p>
-                  </div>
-
-                  <div className={`${styles.priceBox} ${getDiffStyle(1 || 0)}`}>
-                    <p className={styles.key}>현재가</p>
-                    <p className={styles.value}>
-                      {Intl.NumberFormat().format(12000)} P
-                    </p>
-                  </div>
-
-                  <div className={styles.noticeBox}>
-                    <NoticeCircleGrey />
-
-                    <p>실시간으로 가격이 변동될 수 있습니다</p>
-                  </div>
-                </div>
-
-                <button
-                  className={styles.buyBtn}
-                  onClick={() => hook.setBuyPopup(true)}
-                >
-                  구매하기
-                </button>
-              </div>
-            </article>
-          )}
+            <p className={styles.profMsg}>
+              {hook.postData?.userInfo.description}
+            </p>
+          </article>
         </aside>
       </main>
 

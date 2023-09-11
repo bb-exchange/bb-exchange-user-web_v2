@@ -127,7 +127,6 @@
           font-weight: 700;
         }
       }
-      
 
       &.limited {
         height: 320px;
@@ -187,8 +186,7 @@
 
       img {
         width: 100%;
-        height: 416px;
-        object-fit: cover;
+        object-fit: contain;
         border-radius: 12px;
         cursor: pointer;
       }
