@@ -33,17 +33,20 @@ import dynamic from "next/dynamic";
 import img1 from ".assets/example/post/7/img1.png";
 import img2 from ".assets/example/post/7/img2.png";
 import { hourToSec } from ".src/util/dateTime";
+import { D_latestPostList } from ".src/data/posts/D_latest";
 
 const isListed = true;
 const title = "반드시 알아야 할 스타트업 IR 자료 필수 항목 9가지";
 const creator = "투자유치김투자";
 const category = "사업";
 const createdAt = new Date(new Date().getTime() - 4 * 24 * hourToSec);
-const price = 0;
-const changeRate = 0;
+const changeAmount = 90;
+const changeRate = 20;
+const price = 450;
 
 export default function Post() {
   const hook = UsePost();
+  const replyList: Array<any> = D_latestPostList[3].replyList;
 
   function getDiffStyle(diff: number) {
     if (diff > 0) return styles.up;
@@ -206,7 +209,7 @@ export default function Post() {
                   </div>
 
                   <ul className={styles.replyList}>
-                    {hook.replyList.slice(0, 3).map((v, i) => (
+                    {replyList.map((v: any, i: number) => (
                       <li key={i}>
                         <Reply data={v} />
                       </li>
@@ -219,23 +222,63 @@ export default function Post() {
         </section>
 
         <aside>
-          <article className={styles.creatorArea}>
-            <div className={styles.profImgBox}>
-              <img
-                src={hook.postData?.userInfo.image || DefaultProfImg.src}
-                alt=""
-              />
-            </div>
+          {isListed ? (
+            <article className={styles.buyArea}>
+              <div className={styles.viewCont}>
+                <strong className={styles.icon}>👀</strong>
+                <br />
+                {0}명이 이 글을 봤어요!
+              </div>
 
-            <div className={styles.nicknameBar}>
-              <h1 className={styles.nickname}>{creator}</h1>
-              <Gold />
-            </div>
+              <div className={styles.contCont}>
+                <div className={styles.priceCont}>
+                  <div className={`${styles.diffBox} ${getDiffStyle(1 || 0)}`}>
+                    <p>
+                      +{changeRate || 0}% ({changeAmount})
+                    </p>
+                  </div>
 
-            <p className={styles.profMsg}>
-              {hook.postData?.userInfo.description}
-            </p>
-          </article>
+                  <div className={`${styles.priceBox} ${getDiffStyle(1 || 0)}`}>
+                    <p className={styles.key}>현재가</p>
+                    <p className={styles.value}>
+                      {Intl.NumberFormat().format(price)} P
+                    </p>
+                  </div>
+
+                  <div className={styles.noticeBox}>
+                    <NoticeCircleGrey />
+
+                    <p>실시간으로 가격이 변동될 수 있습니다</p>
+                  </div>
+                </div>
+
+                <button
+                  className={styles.buyBtn}
+                  onClick={() => hook.setBuyPopup(true)}
+                >
+                  구매하기
+                </button>
+              </div>
+            </article>
+          ) : (
+            <article className={styles.creatorArea}>
+              <div className={styles.profImgBox}>
+                <img
+                  src={hook.postData?.userInfo.image || DefaultProfImg.src}
+                  alt=""
+                />
+              </div>
+
+              <div className={styles.nicknameBar}>
+                <h1 className={styles.nickname}>{creator}</h1>
+                <Gold />
+              </div>
+
+              <p className={styles.profMsg}>
+                {hook.postData?.userInfo.description}
+              </p>
+            </article>
+          )}
         </aside>
       </main>
 
@@ -314,7 +357,7 @@ export default function Post() {
 
       {hook.buyPopup && (
         <>
-          <BuyPostPopup usePost={hook} />
+          <BuyPostPopup usePost={hook} title={title} price={price} />
           <PopupBg bg off={() => hook.setBuyPopup(false)} />
         </>
       )}

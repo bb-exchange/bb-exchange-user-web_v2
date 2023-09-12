@@ -9,7 +9,8 @@ interface Iprops {
 export default function UseBuyPostPopup({ usePost }: Iprops) {
   const router = useRouter();
 
-  const [point, setPoint] = useState<number>(Number(router.query.point || 0));
+  // const [point, setPoint] = useState<number>(Number(router.query.point || 0));
+  const [point, setPoint] = useState<number>(Number(2000 || 0));
   const [price, setPrice] = useState<number>(425);
   const [agreeTerm, setAgreeTerm] = useState<boolean>(false);
 

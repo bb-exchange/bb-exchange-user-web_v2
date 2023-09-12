@@ -534,7 +534,7 @@ export default function Post() {
 
       {hook.buyPopup && (
         <>
-          <BuyPostPopup usePost={hook} />
+          {/* <BuyPostPopup usePost={hook} /> */}
           <PopupBg bg off={() => hook.setBuyPopup(false)} />
         </>
       )}

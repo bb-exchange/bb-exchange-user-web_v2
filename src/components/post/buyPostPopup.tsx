@@ -6,20 +6,28 @@ import CheckCircle from ".assets/icons/CheckCircle.svg";
 import CheckCircleBlueO from ".assets/icons/CheckCircleBlueO.svg";
 import CautionRed from ".assets/icons/CautionRed.svg";
 
+// interface Iprops {
+//   usePost: ReturnType<typeof UsePost>;
+// }
+
 interface Iprops {
   usePost: ReturnType<typeof UsePost>;
+  title: string;
+  price: number;
 }
 
-export default function BuyPostPopup({ usePost }: Iprops) {
+// export default function BuyPostPopup({ usePost }: Iprops) {
+export default function BuyPostPopup({ usePost, title ,price}: Iprops) {
   const useBuyPostPopup = UseBuyPostPopup({ usePost });
 
   return (
     <section className={styles.buyPostPopup}>
       <article className={styles.topBar}>
-        <h1 className={styles.popupTitle}>
+        {/* <h1 className={styles.popupTitle}>
           취준생 모여라! 답변 못하면 탈락하는 면접 질문 30선 제목 다 나오게
           할까요
-        </h1>
+        </h1> */}
+        <h1 className={styles.popupTitle}>{title}</h1>
 
         <button
           className={styles.exitBtn}
@@ -45,7 +53,8 @@ export default function BuyPostPopup({ usePost }: Iprops) {
           <li className={styles.price}>
             <p className={styles.key}>구매 가격</p>
             <p className={styles.value}>
-              {Intl.NumberFormat().format(useBuyPostPopup.price)} P
+              {/* {Intl.NumberFormat().format(useBuyPostPopup.price)} P */}
+              {Intl.NumberFormat().format(price)} P
             </p>
           </li>
         </ul>

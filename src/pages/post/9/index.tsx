@@ -34,18 +34,24 @@ import img1 from ".assets/example/post/9/img1.png";
 import img2 from ".assets/example/post/9/img2.png";
 import img3 from ".assets/example/post/9/img3.png";
 import img4 from ".assets/example/post/9/img4.png";
+import prof from ".assets/example/post/9/prof.png";
 import { hourToSec } from ".src/util/dateTime";
+import { D_latestPostList } from ".src/data/posts/D_latest";
 
 const isListed = false;
 const title = "이집트(Egypt) 여행 전 꼭 읽어야할 주의사항 및 정보 팁 준비물";
-const creator = "법률법인무한";
+const creator = "김란의유럽투어";
 const category = "기타꿀팁";
 const createdAt = new Date(new Date().getTime() - 2 * 24 * hourToSec);
-const price = 0;
+const changeAmount = 0;
 const changeRate = 0;
+const price = 0;
+const description =
+  "이탈리아 남부여행에서 경험한 숙소, 맛집, 그리고 물놀이까지!\n상세한 후기로 알려주는 유럽투어 꿀팁\n여러분의 소중한 댓글 하나가 저에게는 큰 힘이 됩니다 🙇‍♂️";
 
 export default function Post() {
   const hook = UsePost();
+  const replyList: Array<any> = D_latestPostList[1].replyList;
 
   function getDiffStyle(diff: number) {
     if (diff > 0) return styles.up;
@@ -369,7 +375,7 @@ export default function Post() {
                 </div>
               </article>
 
-              {/* <article className={styles.replyArea}>
+              <article className={styles.replyArea}>
                 <ul className={styles.tagList}>
                   {(hook.postData?.tagList || []).map((v, i) => (
                     <li key={i}>{v.tagName}</li>
@@ -382,7 +388,7 @@ export default function Post() {
 
                     <p className={styles.key}>댓글</p>
                     <p className={styles.value}>
-                      {new Intl.NumberFormat().format(9999)}
+                      {new Intl.NumberFormat().format(replyList.length)}
                     </p>
                   </div>
 
@@ -402,18 +408,14 @@ export default function Post() {
                   </div>
 
                   <ul className={styles.replyList}>
-                    {hook.replyList.map((v, i) => (
+                    {replyList.map((v, i) => (
                       <li key={i}>
                         <Reply data={v} />
-
-                        {v.nestedReply?.map((detV, detI) => (
-                          <Reply key={detI} data={detV} nested />
-                        ))}
                       </li>
                     ))}
                   </ul>
                 </div>
-              </article> */}
+              </article>
             </>
           ) : (
             <>
@@ -452,7 +454,7 @@ export default function Post() {
                   </div>
 
                   <ul className={styles.replyList}>
-                    {hook.replyList.slice(0, 3).map((v, i) => (
+                    {replyList.map((v, i) => (
                       <li key={i}>
                         <Reply data={v} />
                       </li>
@@ -465,23 +467,60 @@ export default function Post() {
         </section>
 
         <aside>
-          <article className={styles.creatorArea}>
-            <div className={styles.profImgBox}>
-              <img
-                src={hook.postData?.userInfo.image || DefaultProfImg.src}
-                alt=""
-              />
-            </div>
+          {isListed ? (
+            <article className={styles.buyArea}>
+              <div className={styles.viewCont}>
+                <strong className={styles.icon}>👀</strong>
+                <br />
+                {0}명이 이 글을 봤어요!
+              </div>
 
-            <div className={styles.nicknameBar}>
-              <h1 className={styles.nickname}>{creator}</h1>
-              <Gold />
-            </div>
+              <div className={styles.contCont}>
+                <div className={styles.priceCont}>
+                  <div className={`${styles.diffBox} ${getDiffStyle(1 || 0)}`}>
+                    <p>
+                      +{changeRate || 0}% ({changeAmount})
+                    </p>
+                  </div>
 
-            <p className={styles.profMsg}>
-              {hook.postData?.userInfo.description}
-            </p>
-          </article>
+                  <div className={`${styles.priceBox} ${getDiffStyle(1 || 0)}`}>
+                    <p className={styles.key}>현재가</p>
+                    <p className={styles.value}>
+                      {Intl.NumberFormat().format(price)} P
+                    </p>
+                  </div>
+
+                  <div className={styles.noticeBox}>
+                    <NoticeCircleGrey />
+
+                    <p>실시간으로 가격이 변동될 수 있습니다</p>
+                  </div>
+                </div>
+
+                <button
+                  className={styles.buyBtn}
+                  onClick={() => hook.setBuyPopup(true)}
+                >
+                  구매하기
+                </button>
+              </div>
+            </article>
+          ) : (
+            <article className={styles.creatorArea}>
+              <div className={styles.profImgBox}>
+                <img
+                  src={prof.src || DefaultProfImg.src}
+                  alt=""
+                />
+              </div>
+
+              <div className={styles.nicknameBar}>
+                <h1 className={styles.nickname}>{creator}</h1>
+              </div>
+
+              <p className={styles.profMsg}>{description}</p>
+            </article>
+          )}
         </aside>
       </main>
 
@@ -560,7 +599,7 @@ export default function Post() {
 
       {hook.buyPopup && (
         <>
-          <BuyPostPopup usePost={hook} />
+          <BuyPostPopup usePost={hook} title={title} price={price} />
           <PopupBg bg off={() => hook.setBuyPopup(false)} />
         </>
       )}
