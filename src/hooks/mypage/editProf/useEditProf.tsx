@@ -1,11 +1,11 @@
-import { imgPreSignedUrl } from ".src/api/img/imgPreSignedUrl";
+import { imgPreSignedUrl } from ".src/api/images/imgPreSignedUrl";
 import { checkUserNickname } from ".src/api/mypage/nickname";
 import { editMyProfile } from ".src/api/users/users";
 import { useRouter } from "next/router";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { MD5 } from "crypto-js";
-import { uploadImg } from ".src/api/img/uploadImg";
+import { uploadImg } from ".src/api/images/uploadImg";
 
 export default function UseEditProf() {
   const router = useRouter();
@@ -25,6 +25,7 @@ export default function UseEditProf() {
 
   const [isExist, setIsExist] = useState<boolean>();
   const [uploadFile, setUploadFile] = useState<any | null>(null);
+  const [imgType, setImgType] = useState<string>("");
   const [md5, setMd5] = useState<string | null>(null);
 
   const handleOnChange = async (e: any) => {
@@ -81,7 +82,7 @@ export default function UseEditProf() {
 
       if (uploadFile && md5) {
         const { data } = await imgPreSignedUrl({
-          contentType: uploadFile.type,
+          contentType: imgType,
           md5,
         });
 
@@ -100,6 +101,7 @@ export default function UseEditProf() {
     if (!e.target.files) return;
 
     const file = e.target.files[0];
+    setImgType(file.type);
     // setUploadFile(file);
 
     const formData = new FormData();
@@ -119,8 +121,6 @@ export default function UseEditProf() {
         const binary: any = ev?.target?.result;
         const md5 = MD5(binary).toString();
         setMd5(md5);
-
-        console.log("reader result-", md5, reader.result);
 
         setValue("profImg", `${reader.result}`);
       }
