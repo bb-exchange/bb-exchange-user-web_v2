@@ -2,17 +2,31 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 import { D_mypagePostCategoryList } from ".src/data/mypage/D_mypage";
-import { D_mypageWritePostList } from ".src/data/mypage/D_mypageWrite";
+import { useQuery } from "@tanstack/react-query";
+import { userArticles } from ".src/api/articles/articles";
+import { queryKeys } from ".src/features/query-keys";
+import useGetMyProfile from ".src/hooks/common/useGetProfile";
 
 export default function UseMyPageWrite() {
   const router = useRouter();
+  const profile = useGetMyProfile();
 
   const categoryList: mypageCategory[] = D_mypagePostCategoryList;
   const category: mypageCategory = categoryList[0];
 
   const [filterOnSale, setFilterOnSale] = useState<boolean>(false);
-  const [postList, setPostList] = useState<mypageWritePosts[]>(
-    D_mypageWritePostList
+  const [postList, setPostList] = useState<mypageWritePosts[]>([]);
+
+  useQuery(
+    queryKeys.articleById("writeByUser"),
+    () => userArticles(`${profile?.userId}?sortBy=LATEST&page=0`),
+    {
+      enabled: !!profile,
+      onSuccess: (data) => {
+        setPostList(data?.data.data.contents);
+      },
+      retry: false,
+    }
   );
 
   function onClickCategoryBtn(url: string) {
@@ -20,15 +34,6 @@ export default function UseMyPageWrite() {
   }
 
   const onClickFilterOnSaleBtn = () => setFilterOnSale((prev) => !prev);
-
-  useEffect(() => {
-    if (filterOnSale) {
-      setPostList(postList.filter((val) => val.state === "판매중"));
-    } else {
-      setPostList(D_mypageWritePostList);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterOnSale]);
 
   return {
     categoryList,

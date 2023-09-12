@@ -27,6 +27,7 @@ const SignIn = () => {
     removeCookie("refreshToken", { path: "/" });
     removeCookie("authKey", { path: "/" });
     dispatch(signOut());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const googleSignIn = () => {

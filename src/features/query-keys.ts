@@ -1,3 +1,4 @@
 export const queryKeys = {
-  userKeyById: (id: string) => ["user", id],
+  userById: (id: string) => ["user", id],
+  articleById: (id: string) => ["article", id],
 };

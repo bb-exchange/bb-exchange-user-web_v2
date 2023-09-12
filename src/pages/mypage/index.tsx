@@ -62,7 +62,7 @@ export default function Mypage() {
           </article>
 
           <ul className={styles.postList}>
-            {useMypageWrite.postList.map((v, i) => (
+            {useMypageWrite.postList?.map((v, i) => (
               <WritePost data={v} key={i} />
             ))}
           </ul>

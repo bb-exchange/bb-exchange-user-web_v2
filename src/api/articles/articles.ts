@@ -18,9 +18,11 @@ export const postArticle = async (formData: IpostArticle) => {
 export const postImages = async (formData: any) => {
   console.log(formData);
 
-  return basicInstance.post("/v1/images/multi", formData, 
-  {
+  return basicInstance.post("/v1/images/multi", formData, {
     headers: { "Content-Type": "multipart/form-data" },
-  }
-  );
+  });
+};
+
+export const userArticles = async (query: string) => {
+  return await basicInstance.get(`/v1/articles/users/${query}`);
 };

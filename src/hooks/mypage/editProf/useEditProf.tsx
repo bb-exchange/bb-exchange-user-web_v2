@@ -24,7 +24,7 @@ export default function UseEditProf() {
   } = useForm<IeditProf>({ mode: "onChange" });
 
   const [isExist, setIsExist] = useState<boolean>();
-  const [uploadFile, setUploadFile] = useState<File | null>(null);
+  const [uploadFile, setUploadFile] = useState<any | null>(null);
   const [md5, setMd5] = useState<string | null>(null);
 
   const handleOnChange = async (e: any) => {
@@ -69,6 +69,7 @@ export default function UseEditProf() {
         message: `최대 ${msgMaxLen}자 이하로 입력해주세요.`,
       },
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watch("nickname")]);
 
   const onSubmit = async (data: any) => {
@@ -87,9 +88,9 @@ export default function UseEditProf() {
         await uploadImg(data.presignedUrl, uploadFile, md5);
       }
 
-      if (res?.status === 204) {
-        router.push("/mypage");
-      }
+      // if (res?.status === 204) {
+      //   router.push("/mypage");
+      // }
     } catch (error) {}
   };
 
@@ -97,22 +98,32 @@ export default function UseEditProf() {
     e.preventDefault();
 
     if (!e.target.files) return;
-    const file = e.target.files[0];
-    setUploadFile(file);
-    const reader = new FileReader();
 
-    if (file) {
-      reader.readAsDataURL(file);
-      // reader.readAsBinaryString(file);
-    }
-    reader.onloadend = (ev: ProgressEvent<FileReader>) => {
+    const file = e.target.files[0];
+    // setUploadFile(file);
+
+    const formData = new FormData();
+    formData.append("image", file);
+    setUploadFile(formData);
+
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    // if (file) {
+    // reader.readAsBinaryString(file);
+    // }
+    reader.onload = (ev: ProgressEvent<FileReader>) => {
       if (!reader.result) return;
 
-      var binary: any = ev?.target?.result;
-      var md5 = MD5(binary).toString();
-      setMd5(md5);
+      if (reader.readyState === 2) {
+        const binary: any = ev?.target?.result;
+        const md5 = MD5(binary).toString();
+        setMd5(md5);
 
-      setValue("profImg", `${reader.result}`);
+        console.log("reader result-", md5, reader.result);
+
+        setValue("profImg", `${reader.result}`);
+      }
     };
   }
 
