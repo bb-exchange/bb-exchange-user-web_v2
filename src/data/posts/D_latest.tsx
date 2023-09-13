@@ -34,7 +34,7 @@ export const D_latestPostList: any[] = [
     title: "이집트(Egypt) 여행 전 꼭 읽어야할 주의사항 및 정보 팁 준비물",
     thumbnailUrl: thumb2,
     categoryImg: invest,
-    category: "주식/투자",
+    category: "취미",
     creatorNickname: "김란의유럽투어",
     createdAt: new Date(new Date().getTime() - 24 * hourToSec),
     likeCount: 28,
