@@ -1,7 +1,7 @@
 import { RequestPayParams, RequestPayResponse } from ".src/types/imp";
 
 export default function usePayment() {
-  const requestPayment = () => {
+  const requestPayment = (v: number) => {
     if (!window.IMP) return;
     /* 1. 가맹점 식별(초기화) */
     const IMP = window.IMP;
@@ -12,8 +12,8 @@ export default function usePayment() {
       pg: "nice_v2.nictest04m", //PG사
       pay_method: "card", // 결제수단
       merchant_uid: `mid_${new Date().getTime()}`, // 주문번호
-      amount: 1000, // 결제금액
-      name: "테스트입니다.", // 주문명
+      amount: v, // 결제금액
+      name: "비법거래소 포인트.", // 주문명
       buyer_name: "조비법", // 구매자 이름
       buyer_tel: "01012341234", // 구매자 전화번호
       buyer_email: "example@example", // 구매자 이메일

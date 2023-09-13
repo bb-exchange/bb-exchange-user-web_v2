@@ -38,9 +38,11 @@ export default function Charge() {
                     {Intl.NumberFormat().format(v)}
                   </p>
                 </div>
-
                 <div className={styles.rightBox}>
-                  <button className={styles.chargeBtn} onClick={requestPayment}>
+                  <button
+                    className={styles.chargeBtn}
+                    onClick={() => requestPayment(v)}
+                  >
                     <p>{Intl.NumberFormat().format(v)}원</p>
                   </button>
                 </div>
@@ -53,9 +55,9 @@ export default function Charge() {
           <h2 className={styles.noticeTitle}>유의사항</h2>
 
           <ul className={styles.noticeList}>
-          {D_chargeNoticeList.map((v, i) => (
-          <li key={i}>{v}</li>
-          ))}
+            {D_chargeNoticeList.map((v, i) => (
+              <li key={i}>{v}</li>
+            ))}
           </ul>
         </section>
       </main>
