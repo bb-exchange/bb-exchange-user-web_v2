@@ -102,11 +102,11 @@ export default function UseEditProf() {
 
     const file = e.target.files[0];
     setImgType(file.type);
-    // setUploadFile(file);
+    setUploadFile(file);
 
     const formData = new FormData();
     formData.append("image", file);
-    setUploadFile(formData);
+    // setUploadFile(formData);
 
     const reader = new FileReader();
     reader.readAsDataURL(file);

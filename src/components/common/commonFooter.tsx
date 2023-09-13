@@ -29,6 +29,10 @@ export default function CommonFooter() {
               <p>
                 <strong>통신판매업신고</strong> 2023-서울서초-1234
               </p>
+
+              <p className={styles.phone}>
+                <strong>연락처</strong> 010-9935-6542
+              </p>
             </li>
 
             <li>
