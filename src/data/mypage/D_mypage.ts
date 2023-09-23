@@ -1,6 +1,6 @@
 export const D_mypagePostCategoryList: mypageCategory[] = [
   { url: "write", label: "작성한 글", count: 21 },
-  { url: "read", label: "읽은 글", count: 21 },
+  { url: "buy", label: "구매한 글", count: 21 },
   { url: "like", label: "찜한 글", count: 21 },
 ];
 
@@ -13,8 +13,8 @@ export const D_mypageNavList: mypageNavs[] = [
         url: "/mypage/write",
       },
       {
-        label: "내가 읽은 글",
-        url: "/mypage/read",
+        label: "내가 구매한 글",
+        url: "/mypage/buy",
       },
       {
         label: "내가 찜한 글",

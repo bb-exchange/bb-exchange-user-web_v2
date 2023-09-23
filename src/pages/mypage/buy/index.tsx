@@ -1,5 +1,5 @@
 import CommonHeader from ".src/components/common/header/commonHeader";
-import styles from "./read.module.scss";
+import styles from "./buy.module.scss";
 import CommonFooter from ".src/components/common/commonFooter";
 import ProfSec from ".src/components/mypage/profSec";
 import Swap from ".assets/icons/Swap.svg";

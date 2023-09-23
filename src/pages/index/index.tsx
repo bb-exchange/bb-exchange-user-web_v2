@@ -375,11 +375,11 @@ export default function Index() {
       <li
         onClick={() =>
           push({
-            pathname: "/mypage/read",
+            pathname: "/mypage/buy",
           })
         }
       >
-        마이페이지(읽은 글)
+        마이페이지(구매한 글)
       </li>
 
       <li

@@ -26,3 +26,7 @@ export const postImages = async (formData: any) => {
 export const userArticles = async (query: string) => {
   return await basicInstance.get(`/v1/articles/users/${query}`);
 };
+
+export const userInterestsArticles = async (query: string) => {
+  return await basicInstance.get(`/v1/articles/interests/users/${query}`);
+};

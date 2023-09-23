@@ -86,7 +86,7 @@ export default function UseEditProf() {
           md5,
         });
 
-        await uploadImg(data.presignedUrl, uploadFile, md5);
+        await uploadImg(data.presignedUrl, uploadFile, md5, imgType);
       }
 
       // if (res?.status === 204) {
