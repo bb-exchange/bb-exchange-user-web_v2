@@ -81,9 +81,10 @@ basicInstance.interceptors.response.use(
       return Promise.reject(error);
     } else {
       //로그인해야 진입가능한 페이지에서 token 없는 경우 (잘못된 접근)
-      if (error.response.status === 401) {
-        location.href = "/";
-      }
+      // [10.03]index페이지 접근 시, 무한 redirect문제 발생
+      // if (error.response.status === 401) {
+      //   location.href = "/";
+      // }
     }
   }
 );
