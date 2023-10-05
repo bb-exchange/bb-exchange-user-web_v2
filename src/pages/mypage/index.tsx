@@ -47,7 +47,7 @@ export default function Mypage() {
               >
                 {useMypageWrite.filterOnSale ? <BtnSqrChkOn /> : <BtnSqrChk />}
 
-                <p>판매중인 글만 보기</p>
+                <p>상장된 글만 보기</p>
               </button>
 
               <button
