@@ -1,5 +1,6 @@
 import styles from "./mypageNavAside.module.scss";
 import Gold from ".assets/icons/tier/Gold.svg";
+import Profile from ".assets/images/img_profile.svg";
 import ChevronRtBlue from ".assets/icons/ChevronRtBlue.svg";
 import { useRouter } from "next/router";
 import UseMypageNavAside from ".src/hooks/mypage/useMypageNavAside";
@@ -14,8 +15,7 @@ export default function MypageNavAside() {
     <aside className={styles.mypageNavAside}>
       <section className={styles.profSec}>
         <article className={styles.infoArea}>
-          <div className={styles.profImgBox}></div>
-
+          <Profile className={styles.defaultProfImgBox} />
           <div className={styles.nicknameBar}>
             <p>{profile?.nickname}</p>
             <Gold />
