@@ -30,6 +30,7 @@ import HeartGrey from ".assets/icons/HeartGrey.svg";
 import BuyPostPopup from ".src/components/post/buyPostPopup";
 import CompPayPopup from ".src/components/post/compPayPopup";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 
 export default function Post() {
   const hook = UsePost();
@@ -300,12 +301,14 @@ export default function Post() {
           {true ? (
             <>
               <article className={styles.creatorArea}>
-                <div className={styles.profImgBox}>
-                  <img
-                    src={hook.postData?.userInfo.image || DefaultProfImg.src}
-                    alt=""
-                  />
-                </div>
+                <Link href={`/seller/${hook.postData?.userInfo.userId || 111}`}>
+                  <div className={styles.profImgBox}>
+                    <img
+                      src={hook.postData?.userInfo.image || DefaultProfImg.src}
+                      alt=""
+                    />
+                  </div>
+                </Link>
 
                 <div className={styles.nicknameBar}>
                   <h1 className={styles.nickname}>
@@ -373,7 +376,9 @@ export default function Post() {
               <article
                 className={`${styles.categoryPopularPostList} ${styles.postListArea}`}
               >
-                <p className={styles.areaTitle}>{hook.postData?.boardInfo.description}의 인기글</p>
+                <p className={styles.areaTitle}>
+                  {hook.postData?.boardInfo.description}의 인기글
+                </p>
 
                 <ul className={styles.postList}>
                   {hook.otherPostList.map((v, i) => (
@@ -430,7 +435,7 @@ export default function Post() {
               <div className={styles.contCont}>
                 <div className={styles.priceCont}>
                   <div className={`${styles.diffBox} ${getDiffStyle(1 || 0)}`}>
-                    <p>+{hook.postData?.priceInfo.changeRate||0}% (63)</p>
+                    <p>+{hook.postData?.priceInfo.changeRate || 0}% (63)</p>
                   </div>
 
                   <div className={`${styles.priceBox} ${getDiffStyle(1 || 0)}`}>
