@@ -43,7 +43,6 @@ const KakaoAuth = () => {
             idToken: data.id_token,
             oauthType: "KAKAO",
           });
-          console.log(response);
           //not registerd
           if (response.data.message === "user not registered") {
             //check kakao user account

@@ -12,13 +12,11 @@ export const basicInstance = axios.create({
 
 basicInstance.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
 basicInstance.defaults.headers.common["Content-Type"] = "application/json";
-basicInstance.defaults.headers.common["Authorization"] = `Bearer ${getCookie(
-  "accessToken"
-)}`;
 
 basicInstance.interceptors.request.use(
   function (config) {
     const token = getCookie("accessToken");
+
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
