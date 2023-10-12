@@ -13,6 +13,9 @@ import Swap from ".assets/icons/Swap.svg";
 import Dot3 from ".assets/icons/Dot3.svg";
 import ReportSellerPopup from ".src/components/seller/reportSellerPopup";
 import ConfirmPopup from ".src/components/common/popup/confirmPopup";
+import ScrollTopBtn from ".src/components/common/scrollTopBtn";
+import PageNav from ".src/components/common/pageNav";
+import WritePost from ".src/components/mypage/write/writePost";
 
 const Seller = () => {
   const hook = UseSeller();
@@ -42,7 +45,7 @@ const Seller = () => {
             className={styles.pointer}
             onClick={() => hook.setMoreMenu(true)}
           >
-            <Dot3 />
+            {hook.showMore && <Dot3 />}
           </button>
           {hook.moreMenu && (
             <>
@@ -91,10 +94,19 @@ const Seller = () => {
               <button onClick={hook.onCancelDisabledBtn}>숨김 해제</button>
             </div>
           ) : (
-            <p>글 목록</p>
+            <>
+              <ul className={styles.postList}>
+                {hook.list?.map((v, i) => (
+                  <WritePost data={v} key={i} />
+                ))}
+              </ul>
+
+              <PageNav />
+            </>
           )}
         </section>
       </main>
+      <ScrollTopBtn />
       <CommonFooter />
       {hook.reportPopup && (
         <>
@@ -195,6 +207,33 @@ const Seller = () => {
             confirmFunc={() => hook.setDisabledConfirmPopup(false)}
           />
           <PopupBg bg off={() => hook.setDisabledConfirmPopup(false)} />
+        </>
+      )}
+      {hook.disabledCancelPopup && (
+        <>
+          <ConfirmPopup
+            title="이 사용자를 게시물을 다시 보시겠어요?"
+            content={
+              <>
+                게시글 목록에서 이 사용자의 게시글을
+                <br /> 다시 볼 수 있어요
+              </>
+            }
+            cancelText="아니요"
+            cancelFunc={() => hook.setDisabledCancelPopup(false)}
+            confirmText="네"
+            confirmFunc={hook.onSuccessCancelDisabledBtn}
+          />
+          <PopupBg bg off={() => hook.setDisabledCancelPopup(false)} />
+        </>
+      )}
+      {hook.disabledCancelConfirmPopup && (
+        <>
+          <ErrorMsgPopup
+            msg="게시글 목록에서 이 사용자의 게시물을 볼 수 있습니다."
+            confirmFunc={() => hook.setDisabledCancelConfirmPopup(false)}
+          />
+          <PopupBg bg off={() => hook.setDisabledCancelConfirmPopup(false)} />
         </>
       )}
     </>

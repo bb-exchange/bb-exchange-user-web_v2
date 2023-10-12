@@ -98,6 +98,11 @@
 }
 
 .postList {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  margin: 40px 0 0;
+
   .blockedMode {
     display: flex;
     flex-direction: column;

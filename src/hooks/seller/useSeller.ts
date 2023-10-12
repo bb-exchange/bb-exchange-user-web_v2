@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { userArticles } from ".src/api/articles/articles";
+import { queryKeys } from ".src/features/query-keys";
+import { useQuery } from "@tanstack/react-query";
 
 export default function UseSeller() {
+  const [list, setList] = useState<[]>([]);
   const [moreMenu, setMoreMenu] = useState<boolean>(false);
   const [reportPopup, setReportPopup] = useState<boolean>(false);
   const [reportConfirmPopup, setReportConfirmPopup] = useState<boolean>(false);
@@ -11,19 +15,31 @@ export default function UseSeller() {
   const [cancelBlockConfirmPopup, setCancelBlockConfirmPopup] =
     useState<boolean>(false);
   const [isBlocked, setIsBlocked] = useState<boolean>(false);
-
   const [disabledPopup, setDisabledPopup] = useState<boolean>(false);
   const [disabledConfirmPopup, setDisabledConfirmPopup] =
     useState<boolean>(false);
-
   const [disabledCancelPopup, setDisabledCancelPopup] =
     useState<boolean>(false);
   const [disabledCancelConfirmPopup, setDisabledCancelConfirmPopup] =
     useState<boolean>(false);
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
+  const [showMore, setShowMore] = useState<boolean>(true);
 
   const { register, setValue, watch, formState, handleSubmit } =
     useForm<IuserReport>();
+
+  // 타인 글 목록 리스트
+  // TODO 아이디 연결 필요
+  useQuery(
+    queryKeys.articleById("writeByUser"),
+    () => userArticles(`31?sortBy=LATEST&page=0`),
+    {
+      onSuccess: (data) => {
+        setList(data?.data.data.contents);
+      },
+      retry: false,
+    }
+  );
 
   useEffect(() => {
     register("category", {
@@ -55,6 +71,7 @@ export default function UseSeller() {
     setBlockPopup(false);
     setBlockConfirmPopup(true);
     setIsBlocked(true);
+    setShowMore(false);
   };
 
   const onCancelBlockBtn = () => {
@@ -65,18 +82,32 @@ export default function UseSeller() {
     setBlockCancelPopup(false);
     setCancelBlockConfirmPopup(true);
     setIsBlocked(false);
+    setShowMore(true);
   };
 
   const onSuccessDisabledBtn = () => {
     setDisabledPopup(false);
     setDisabledConfirmPopup(true);
+    setIsDisabled(true);
+    setShowMore(false);
   };
 
-  const onCancelDisabledBtn = () => {};
+  const onCancelDisabledBtn = () => {
+    setDisabledCancelPopup(true);
+  };
+
+  const onSuccessCancelDisabledBtn = () => {
+    setDisabledCancelPopup(false);
+    setDisabledCancelConfirmPopup(true);
+    setIsDisabled(false);
+    setShowMore(true);
+  };
 
   const onSubmit = () => {};
 
   return {
+    list,
+    showMore,
     moreMenu,
     setMoreMenu,
     reportPopup,
@@ -102,7 +133,7 @@ export default function UseSeller() {
     setDisabledCancelPopup,
     disabledCancelConfirmPopup,
     setDisabledCancelConfirmPopup,
-
+    onSuccessCancelDisabledBtn,
     onClickReportBtn,
     onSuccessReportPopup,
     onSuccessBlockBtn,
