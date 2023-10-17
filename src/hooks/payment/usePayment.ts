@@ -9,7 +9,8 @@ export default function usePayment() {
 
     /* 2. 결제 데이터 정의 */
     const data: RequestPayParams = {
-      pg: "nice_v2.nictest04m", //PG사
+      // pg: "nice_v2.nictest04m", //PG사 상점ID
+      pg: "nice_v2.IM0015589m",
       pay_method: "card", // 결제수단
       merchant_uid: `mid_${new Date().getTime()}`, // 주문번호
       amount: v, // 결제금액
