@@ -2,12 +2,15 @@ import styles from "./withdrawPopup.module.scss";
 import X from ".assets/icons/X.svg";
 import ChevronDn from ".assets/icons/ChevronDn.svg";
 import UseWithdrawPopup from ".src/hooks/mypage/asset/useWithdrawPopup";
+import UseMyTermIncome from ".src/hooks/mypage/asset/useMytermIncome";
 
 interface Iprops {
   useWithdrawPopup: ReturnType<typeof UseWithdrawPopup>;
 }
 
 export default function WithdrawPopup({ useWithdrawPopup }: Iprops) {
+  const useMyTermIncome = UseMyTermIncome();
+
   return (
     <section className={styles.withdrawPopup}>
       <article className={styles.topBar}>
@@ -15,7 +18,7 @@ export default function WithdrawPopup({ useWithdrawPopup }: Iprops) {
         <h1 className={styles.popupTitle}>출금하기</h1>
         <button
           className={styles.exitBtn}
-          onClick={() => useWithdrawPopup.setWithdrawPopup(false)}
+          onClick={() => useMyTermIncome.setDrawPopup(false)}
         >
           <X />
         </button>

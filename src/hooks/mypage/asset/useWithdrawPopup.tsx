@@ -6,7 +6,7 @@ export default function UseWithdrawPopup() {
   const router = useRouter();
 
   const amountInputRef = useRef<HTMLInputElement>(null);
-  
+
   const [withdrawPopup, setWithdrawPopup] = useState<boolean>(
     router.query.withdrawPopup === "true" || false
   );

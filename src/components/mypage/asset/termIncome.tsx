@@ -1,10 +1,9 @@
 import styles from "./termIncome.module.scss";
-import CustomDatePicker from ".src/components/common/customDatePicker";
-import moment from "moment";
 import UseMyTermIncome from ".src/hooks/mypage/asset/useMytermIncome";
+import ArrowIcon from ".assets/icons/ArrowAsset.svg";
 
 export default function TermIncome() {
-  const useMyTermIncome = UseMyTermIncome();
+  const prop = UseMyTermIncome();
 
   return (
     <article className={styles.termIncome}>
@@ -12,25 +11,15 @@ export default function TermIncome() {
         <div className={styles.filterCont}>
           <p className={styles.key}>조회 기간</p>
 
-          <div className={styles.pickerBox}>
-            <CustomDatePicker
-              date={useMyTermIncome.startDate || new Date()}
-              setDate={useMyTermIncome.setStartDate}
-            />
+          <div className={styles.dateLayout}>
+            <span>
+              <ArrowIcon />
+            </span>
+            <p>{prop.selectedDate.format(prop.FORMAT)}</p>
+            <span>
+              <ArrowIcon onClick={prop.onNextDate} />
+            </span>
           </div>
-
-          <p className={styles.slash}>~</p>
-
-          <div className={styles.pickerBox}>
-            <CustomDatePicker
-              date={useMyTermIncome.endDate || new Date()}
-              setDate={useMyTermIncome.setEndDate}
-            />
-          </div>
-
-          <button className={styles.submitBtn} onClick={() => {}}>
-            조회
-          </button>
         </div>
 
         <button className={styles.excelBtn} onClick={() => {}}>
@@ -38,19 +27,28 @@ export default function TermIncome() {
         </button>
       </div>
 
-      <ul className={styles.dataList}>
-        {useMyTermIncome.dataList.map((v, i) => (
-          <li key={i}>
-            <div className={styles.termBox}>
-              {moment(v.startDate).format("YYYY.MM.DD")}~
-              {moment(v.endDate).format("YYYY.MM.DD")}
-            </div>
-            <p className={styles.amount}>
-              {Intl.NumberFormat().format(v.amount)} 원
+      {prop.revenueList.length ? (
+        <>
+          <div className={styles.totalAsset}>
+            <h2>2023년 10월 총 수익</h2>
+            <p className={styles.strongText}>
+              {Intl.NumberFormat().format(prop.totalPoint)}원
             </p>
-          </li>
-        ))}
-      </ul>
+          </div>
+          <ul className={styles.revenueList}>
+            {prop.revenueList.map((v, i) => (
+              <li key={i}>
+                <div>{v.date}</div>
+                <strong className={styles.strongText}>
+                  {Intl.NumberFormat().format(v.point)}원
+                </strong>
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : (
+        <p className={styles.noDateText}>검색결과가 없습니다.</p>
+      )}
     </article>
   );
 }

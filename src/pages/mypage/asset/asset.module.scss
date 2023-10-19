@@ -66,19 +66,18 @@
             gap: 6px;
 
             button {
-              width: 164px;
+              width: 335px;
               height: 48px;
               border-radius: 8px;
               font-size: 14px;
               font-weight: 700;
               color: $White1;
 
-              &.pointBtn {
-                background: $Black2;
-              }
-
-              &.withdrawBtn {
+              &.activeWithdrawBtn {
                 background: $Primary1;
+              }
+              &.deActiveWithdrawBtn {
+                background: $Black2;
               }
             }
           }
