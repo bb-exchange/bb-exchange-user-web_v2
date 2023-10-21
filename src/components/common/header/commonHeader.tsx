@@ -129,15 +129,18 @@ export default function CommonHeader({ commonSort }: Iprops) {
 
           <div className={styles.rightCont}>
             <div className={styles.bannerBox}>
-              <div className={styles.banner}>
+              <div
+                className={styles.banner}
+                onClick={() =>
+                  !customHook.isSignedIn && router.push("/auth/signin")
+                }
+              >
                 <p className={styles.cont}>
-                  {customHook.isSignedIn ? (
-                    <>
+                  {!!customHook.isSignedIn && (
+                    <span>
                       <strong className={styles.nickname}>{nickname}</strong>
                       님,
-                    </>
-                  ) : (
-                    <></>
+                    </span>
                   )}
                   나만의 비법, 지식, 경험을 공유하고 수익을 창출해 보세요!
                 </p>
