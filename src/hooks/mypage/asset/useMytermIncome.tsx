@@ -1,17 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import moment, { Moment } from "moment";
 
 export default function UseMyTermIncome() {
   const FORMAT = "YYYY.MM";
 
   const [selectedDate, setSelectedDate] = useState<Moment>(moment());
+  const [dateText, setDateText] = useState<string>("");
   const [noDrawPopup, setNoDrawPopup] = useState<boolean>(false);
   const [drawPopup, setDrawPopup] = useState<boolean>(false);
 
   const onNextDate = () => {
-    setSelectedDate((prev) => prev.add(1, "M"));
+    const v = selectedDate.add(1, "M");
+    setSelectedDate(v);
   };
+  useEffect(() => {
+    setDateText(selectedDate.format(FORMAT));
+  }, [selectedDate]);
 
+  // 더미데이타
   const revenueList = [
     { date: "2023.10.11", point: 1000 },
     { date: "2023.11.12", point: 2000 },
@@ -34,5 +40,6 @@ export default function UseMyTermIncome() {
     onClickDraw,
     drawPopup,
     setDrawPopup,
+    dateText,
   };
 }

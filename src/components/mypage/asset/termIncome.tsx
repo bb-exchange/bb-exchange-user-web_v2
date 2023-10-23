@@ -15,7 +15,7 @@ export default function TermIncome() {
             <span>
               <ArrowIcon />
             </span>
-            <p>{prop.selectedDate.format(prop.FORMAT)}</p>
+            <p>{prop.dateText}</p>
             <span>
               <ArrowIcon onClick={prop.onNextDate} />
             </span>
