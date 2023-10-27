@@ -11,6 +11,54 @@ export const fetchArticles = async ({ queryKey }: { queryKey: any[] }) => {
   });
 };
 
+interface Pager {
+  pageNumber: number;
+  numberOfElements: number;
+  size: number;
+  hasNext: boolean;
+}
+
+interface Contents {
+  boardInfo: {
+    image: string;
+    category: string;
+    description: string;
+  };
+  userInfo: {
+    gradeType: string;
+    userId: number;
+    nickname: string;
+  };
+  articleInfo: {
+    articleId: number;
+    updatedAt: string;
+    title: string;
+    commentNum: number;
+    thumbnail: string;
+    read: boolean;
+    purchased: boolean;
+    interest: boolean;
+    listed: boolean;
+  };
+  priceInfo: {
+    likeNum: number;
+    changeAmount: number;
+    changeRate: number;
+    price: number;
+  };
+}
+export const articles = async (params: {
+  category: string;
+  sortBy: "LATEST" | "POPULAR" | "LISTED";
+  page: number;
+}) =>
+  await basicInstance
+    .get(`/v1/articles`, { params })
+    .then(
+      ({ data }: { data: { data: Pager & { contents: Contents[] } } }) =>
+        data.data
+    );
+
 export const postArticle = async (formData: IpostArticle) => {
   basicInstance.post(`/v1/articles`, formData).then((res) => console.log(res));
 };
