@@ -96,7 +96,7 @@ const Seller = () => {
           ) : (
             <>
               <ul className={styles.postList}>
-                {hook.list?.map((v, i) => (
+                {hook.list?.map((v: mypageWritePosts, i: number) => (
                   <WritePost data={v} key={i} />
                 ))}
               </ul>
