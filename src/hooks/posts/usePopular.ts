@@ -7,19 +7,12 @@ import { useState } from "react";
 export default function UsePopular() {
   const router = useRouter();
 
-  
   const [dataList, setDataList] = useState(D_popularPostList);
 
-  const { data: postData } = useQuery(
-    ["popular", router.query.page || 1],
-    fetchArticles,
-    {
-      retry: false,
-      onSuccess: (res) => {
-        console.log(res);
-      },
-    }
-  );
+  const { data: postData } = useQuery({
+    queryKey: ["popular", router.query.page || 1],
+    queryFn: fetchArticles,
+  });
 
   function onClickFavBtn(e: React.MouseEvent, i: number) {
     e.stopPropagation();

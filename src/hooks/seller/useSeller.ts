@@ -5,7 +5,7 @@ import { queryKeys } from ".src/features/query-keys";
 import { useQuery } from "@tanstack/react-query";
 
 export default function UseSeller() {
-  const [list, setList] = useState<[]>([]);
+  // const [list, setList] = useState<[]>([]);
   const [moreMenu, setMoreMenu] = useState<boolean>(false);
   const [reportPopup, setReportPopup] = useState<boolean>(false);
   const [reportConfirmPopup, setReportConfirmPopup] = useState<boolean>(false);
@@ -30,16 +30,21 @@ export default function UseSeller() {
 
   // 타인 글 목록 리스트
   // TODO 아이디 연결 필요
-  useQuery(
-    queryKeys.articleById("writeByUser"),
-    () => userArticles(`31?sortBy=LATEST&page=0`),
-    {
-      onSuccess: (data) => {
-        setList(data?.data.data.contents);
-      },
-      retry: false,
-    }
-  );
+  // useQuery(
+  //   queryKeys.articleById("writeByUser"),
+  //   () => userArticles(`31?sortBy=LATEST&page=0`),
+  //   {
+  //     onSuccess: (data) => {
+  //       setList(data?.data.data.contents);
+  //     },
+  //     retry: false,
+  //   }
+  // );
+  const { data: list } = useQuery({
+    queryKey: queryKeys.articleById("writeByUser"),
+    queryFn: () => userArticles(`31?sortBy=LATEST&page=0`),
+    select: (res) => res.data.data.contents ?? [],
+  });
 
   useEffect(() => {
     register("category", {

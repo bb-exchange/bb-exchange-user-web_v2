@@ -9,6 +9,9 @@ interface profile {
   withdrawableBalance: number;
 }
 export default function useGetMyProfile() {
-  const { data }: any = useQuery(["myProfile"], getMyProfile, { retry: false });
+  const { data }: any = useQuery({
+    queryKey: ["myProfile"],
+    queryFn: getMyProfile,
+  });
   return data?.data.data as profile;
 }

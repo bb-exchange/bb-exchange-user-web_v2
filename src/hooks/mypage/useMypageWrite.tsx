@@ -15,19 +15,26 @@ export default function UseMyPageWrite() {
   const category: mypageCategory = categoryList[0];
 
   const [filterOnSale, setFilterOnSale] = useState<boolean>(false);
-  const [postList, setPostList] = useState<mypageWritePosts[]>([]);
+  // const [postList, setPostList] = useState<mypageWritePosts[]>([]);
 
-  useQuery(
-    queryKeys.articleById("writeByUser"),
-    () => userArticles(`${profile?.userId}?sortBy=LATEST&page=0`),
-    {
-      enabled: !!profile,
-      onSuccess: (data) => {
-        setPostList(data?.data.data.contents);
-      },
-      retry: false,
-    }
-  );
+  // useQuery(
+  //   queryKeys.articleById("writeByUser"),
+  //   () => userArticles(`${profile?.userId}?sortBy=LATEST&page=0`),
+  //   {
+  //     enabled: !!profile,
+  //     onSuccess: (data) => {
+  //       setPostList(data?.data.data.contents);
+  //     },
+  //     retry: false,
+  //   }
+  // );
+
+  const { data: postList } = useQuery({
+    queryKey: queryKeys.articleById("writeByUser"),
+    queryFn: () => userArticles(`${profile?.userId}?sortBy=LATEST&page=0`),
+    enabled: !!profile,
+    select: (res) => res.data.data.contents ?? [],
+  });
 
   function onClickCategoryBtn(url: string) {
     router.push(`/mypage/${url}`);
