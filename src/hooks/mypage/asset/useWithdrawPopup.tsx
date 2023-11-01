@@ -7,9 +7,9 @@ export default function UseWithdrawPopup() {
 
   const amountInputRef = useRef<HTMLInputElement>(null);
 
-  const [withdrawPopup, setWithdrawPopup] = useState<boolean>(
-    router.query.withdrawPopup === "true" || false
-  );
+  // const [withdrawPopup, setWithdrawPopup] = useState<boolean>(
+  //   router.query.withdrawPopup === "true" || false
+  // );
   const [compPopup, setCompPopup] = useState<boolean>(
     router.query.compPopup === "true" || false
   );
@@ -24,10 +24,10 @@ export default function UseWithdrawPopup() {
     handleSubmit,
   } = useForm<IorderWithdraw>({
     defaultValues: {
-      name: "장치은",
-      registNumber: 9510032123456,
-      bank: "국민은행",
-      accountNumber: 44444444444,
+      name: "",
+      registNumber: 0,
+      bank: "",
+      accountNumber: 0,
       amount: 0,
     },
   });
@@ -50,14 +50,14 @@ export default function UseWithdrawPopup() {
 
   function onSubmit() {
     reset();
-    setWithdrawPopup(false);
+    // setWithdrawPopup(false);
     setCompPopup(true);
   }
 
   return {
     amountInputRef,
-    withdrawPopup,
-    setWithdrawPopup,
+    // withdrawPopup,
+    // setWithdrawPopup,
     compPopup,
     setCompPopup,
     register,

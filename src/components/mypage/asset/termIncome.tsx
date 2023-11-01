@@ -13,9 +13,9 @@ export default function TermIncome() {
 
           <div className={styles.dateLayout}>
             <span>
-              <ArrowIcon />
+              <ArrowIcon onClick={prop.onPrevDate} />
             </span>
-            <p>{prop.dateText}</p>
+            <p>{prop.selectedDate}</p>
             <span>
               <ArrowIcon onClick={prop.onNextDate} />
             </span>

@@ -15,12 +15,11 @@ export default function MyWithdraw() {
           <p className={styles.key}>조회 기간</p>
           <div className={styles.dateLayout}>
             <span>
-              <ArrowIcon />
+              <ArrowIcon onClick={useMyWithdraw.onPrevDate} />
             </span>
-            {/* <p>{prop.selectedDate.format(prop.FORMAT)}</p> */}
-            <p>2023.10</p>
+            <p>{useMyWithdraw.selectedDate}</p>
             <span>
-              <ArrowIcon />
+              <ArrowIcon onClick={useMyWithdraw.onNextDate} />
             </span>
           </div>
         </div>

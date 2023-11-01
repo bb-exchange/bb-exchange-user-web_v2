@@ -10,7 +10,7 @@ export const uploadImg = async (
     headers: {
       "Content-Type": imgType,
       // "Content-Type": "multipart/form-data",
-      "COntent-MD5": md5,
+      "Content-MD5": md5,
     },
   });
 };
