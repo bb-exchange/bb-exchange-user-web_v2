@@ -11,6 +11,7 @@ import MyWithdraw from ".src/components/mypage/asset/myWithdraw";
 import UseWithdrawPopup from ".src/hooks/mypage/asset/useWithdrawPopup";
 import PopupBg from ".src/components/common/popupBg";
 import WithdrawPopup from ".src/components/mypage/asset/withdrawPopup";
+import WithdrawInfoPopup from ".src/components/mypage/asset/withdrawInfoPopup";
 import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
 import UseMyTermIncome from ".src/hooks/mypage/asset/useMytermIncome";
 
@@ -32,14 +33,14 @@ export default function Asset() {
               <li>
                 <p className={styles.key}>출금 가능 수익금</p>
                 <p className={styles.value}>
-                  {Intl.NumberFormat().format(22548564)}원
+                  {Intl.NumberFormat().format(useMyTermIncome.totalPoint)}원
                 </p>
               </li>
 
               <li>
                 <p className={styles.key}>총 출금 완료 금액</p>
                 <p className={styles.value}>
-                  {Intl.NumberFormat().format(22548564)}원
+                  {Intl.NumberFormat().format(0)}원
                 </p>
               </li>
             </ul>
@@ -63,8 +64,16 @@ export default function Asset() {
               </div>
 
               <div className={styles.accountBox}>
-                <button className={styles.accountBtn} onClick={() => {}}>
-                  <p>출금 계좌 국민은행 999999********</p>
+                <button
+                  className={styles.accountBtn}
+                  onClick={useMyTermIncome.onClickDraw}
+                >
+                  <p>
+                    <strong>출금 계좌</strong>
+                    {useMyTermIncome.isAccount
+                      ? "국민은행 999999********"
+                      : "미입력"}
+                  </p>
                   <ChevronRt />
                 </button>
               </div>
@@ -90,10 +99,23 @@ export default function Asset() {
       </main>
       <ScrollTopBtn />
       <CommonFooter />
+      {/* NOTE 출금하기 팝업 */}
       {useMyTermIncome.drawPopup && (
         <>
-          <WithdrawPopup useWithdrawPopup={useWithdrawPopup} />
+          <WithdrawPopup
+            useWithdrawPopup={useWithdrawPopup}
+            off={() => useMyTermIncome.setDrawPopup(false)}
+          />
           <PopupBg bg off={() => useMyTermIncome.setDrawPopup(false)} />
+        </>
+      )}
+      {/* NOTE 출금 정보 입력 팝업 */}
+      {useMyTermIncome.drawInfoPopup && (
+        <>
+          <WithdrawInfoPopup
+            off={() => useMyTermIncome.setDrawInfoPopup(false)}
+          />
+          <PopupBg bg off={() => useMyTermIncome.setDrawInfoPopup(false)} />
         </>
       )}
       {useWithdrawPopup.compPopup && (
@@ -123,7 +145,7 @@ export default function Asset() {
             msg={<>출금 신청 요건 미충족</>}
             subMsg={
               <>
-                출금 신청은 최소 10,000만원 이상부터
+                출금 신청은 최소 10,000원 이상부터
                 <br />
                 출금이 가능합니다.
               </>

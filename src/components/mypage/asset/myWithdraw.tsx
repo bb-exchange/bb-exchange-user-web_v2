@@ -3,6 +3,7 @@ import CustomDatePicker from ".src/components/common/customDatePicker";
 import moment from "moment";
 import PageNav from ".src/components/common/pageNav";
 import UseMyWithdraw from ".src/hooks/mypage/asset/useMyWithdraw";
+import ArrowIcon from ".assets/icons/ArrowAsset.svg";
 
 export default function MyWithdraw() {
   const useMyWithdraw = UseMyWithdraw();
@@ -12,37 +13,20 @@ export default function MyWithdraw() {
       <div className={styles.topBar}>
         <div className={styles.filterCont}>
           <p className={styles.key}>조회 기간</p>
-
-          <div className={styles.pickerBox}>
-            <CustomDatePicker
-              date={useMyWithdraw.startDate || new Date()}
-              setDate={useMyWithdraw.setStartDate}
-            />
+          <div className={styles.dateLayout}>
+            <span>
+              <ArrowIcon onClick={useMyWithdraw.onPrevDate} />
+            </span>
+            <p>{useMyWithdraw.selectedDate}</p>
+            <span>
+              <ArrowIcon onClick={useMyWithdraw.onNextDate} />
+            </span>
           </div>
-
-          <p className={styles.slash}>~</p>
-
-          <div className={styles.pickerBox}>
-            <CustomDatePicker
-              date={useMyWithdraw.endDate || new Date()}
-              setDate={useMyWithdraw.setEndDate}
-            />
-          </div>
-
-          <button className={styles.submitBtn} onClick={() => {}}>
-            조회
-          </button>
         </div>
 
         <button className={styles.excelBtn} onClick={() => {}}>
           엑셀 다운로드
         </button>
-      </div>
-
-      <div className={styles.countBar}>
-        <p className={styles.count}>
-          총 {useMyWithdraw.dataList.length.toString().padStart(2, "0")}개
-        </p>
       </div>
 
       <ul className={styles.dataList}>

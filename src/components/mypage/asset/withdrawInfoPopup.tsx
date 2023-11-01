@@ -1,33 +1,36 @@
-import styles from "./withdrawPopup.module.scss";
+import styles from "./withdrawInfoPopup.module.scss";
 import X from ".assets/icons/X.svg";
 import ChevronDn from ".assets/icons/ChevronDn.svg";
-import UseWithdrawPopup from ".src/hooks/mypage/asset/useWithdrawPopup";
+import useWithdrawInfoPopup from ".src/hooks/mypage/asset/useWithdrawInfoPopup";
+import ImgErrorMsgPopup from ".src/components/common/popup/imgErrorMsgPopup";
+import PopupBg from ".src/components/common/popupBg";
 
 interface Iprops {
-  useWithdrawPopup: ReturnType<typeof UseWithdrawPopup>;
   off: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-export default function WithdrawPopup({ useWithdrawPopup, off }: Iprops) {
+export default function WithdrawPopup({ off }: Iprops) {
+  const prop = useWithdrawInfoPopup();
+
   return (
     <section className={styles.withdrawPopup}>
       <article className={styles.topBar}>
         <span className={styles.blank} />
-        <h1 className={styles.popupTitle}>출금하기</h1>
+        <h1 className={styles.popupTitle}>출금 정보 입력</h1>
         <button className={styles.exitBtn} onClick={off}>
           <X />
         </button>
       </article>
 
       <article className={styles.contArea}>
-        <form onSubmit={useWithdrawPopup.handleSubmit}>
+        <form onSubmit={prop.handleSubmit(prop.onSubmit)}>
           <ul className={styles.inputList}>
             <li>
               <p className={styles.key}>실명</p>
 
               <div className={styles.valueBox}>
                 <div className={styles.inputBox}>
-                  <input {...useWithdrawPopup.register("name")} disabled />
+                  <input {...prop.register("name")} />
                 </div>
               </div>
             </li>
@@ -37,9 +40,14 @@ export default function WithdrawPopup({ useWithdrawPopup, off }: Iprops) {
 
               <div className={styles.valueBox}>
                 <div className={styles.inputBox}>
-                  <p className={styles.value}>
-                    {useWithdrawPopup.getRegistNumStr()}
-                  </p>
+                  <input
+                    // type="number"
+                    {...prop.register("accountNumber")}
+                    placeholder={`생년월일 6자리  -  ● ● ● ● ● ● ●`}
+                    maxLength={13}
+                    defaultValue={""}
+                    // value={maskingAccountNum}
+                  />
                 </div>
               </div>
             </li>
@@ -50,7 +58,7 @@ export default function WithdrawPopup({ useWithdrawPopup, off }: Iprops) {
               <div className={styles.valueBox}>
                 <button className={styles.selBox}>
                   <p className={styles.value}>
-                    {useWithdrawPopup.watch("bank")}
+                    {/* {useWithdrawPopup.watch("bank")} */}
                   </p>
 
                   <ChevronDn />
@@ -64,7 +72,7 @@ export default function WithdrawPopup({ useWithdrawPopup, off }: Iprops) {
               <div className={styles.valueBox}>
                 <div className={styles.inputBox}>
                   <p className={styles.value}>
-                    {useWithdrawPopup.getAccountNumber()}
+                    {/* {useWithdrawPopup.getAccountNumber()} */}
                   </p>
                 </div>
               </div>
@@ -76,26 +84,26 @@ export default function WithdrawPopup({ useWithdrawPopup, off }: Iprops) {
               <div className={styles.valueBox}>
                 <div
                   className={styles.inputBox}
-                  onClick={() => useWithdrawPopup.setFocus("amount")}
+                  // onClick={() => useWithdrawPopup.setFocus("amount")}
                 >
                   <p className={styles.value}>
-                    {Intl.NumberFormat().format(
+                    {/* {Intl.NumberFormat().format(
                       useWithdrawPopup.watch("amount") || 0
-                    )}
+                    )} */}
                     원
                   </p>
 
                   <input
                     type="number"
                     className={styles.hidden}
-                    {...useWithdrawPopup.register("amount")}
+                    // {...useWithdrawPopup.register("amount")}
                   />
                 </div>
               </div>
             </li>
           </ul>
 
-          <button className={styles.submitBtn} onClick={() => {}}>
+          <button className={styles.submitBtn} onClick={prop.onClickDraw}>
             출금신청
           </button>
         </form>

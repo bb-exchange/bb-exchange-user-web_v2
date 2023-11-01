@@ -97,6 +97,12 @@
 
             p {
               font-size: 12px;
+              color: $Black2;
+
+              strong {
+                margin-right: 6px;
+                font-weight: 700;
+              }
             }
 
             svg {
