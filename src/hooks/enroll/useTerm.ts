@@ -5,7 +5,12 @@ import { useRouter } from "next/router";
 export default function UseTerm() {
   const router = useRouter();
 
-  const postEthicalPledgeMutation = useMutation(postEthicalPledge, {
+  // const postEthicalPledgeMutation = useMutation(postEthicalPledge, {
+  //   onSuccess: (res) => console.log(res),
+  // });
+
+  const postEthicalPledgeMutation = useMutation({
+    mutationFn: postEthicalPledge,
     onSuccess: (res) => console.log(res),
   });
 
