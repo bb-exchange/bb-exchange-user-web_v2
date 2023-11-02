@@ -282,9 +282,11 @@ export default function Post() {
 
               <article className={styles.replyArea}>
                 <ul className={styles.tagList}>
-                  {(hook.postData?.tagList || []).map((v, i) => (
-                    <li key={i}>{v.tagName}</li>
-                  ))}
+                  {(hook.postData?.tagList || []).map(
+                    (v: { tagName: string }, i: number) => (
+                      <li key={i}>{v.tagName}</li>
+                    )
+                  )}
                 </ul>
 
                 <div className={styles.inputCont}>
@@ -413,10 +415,7 @@ export default function Post() {
           ) : (
             <article className={styles.creatorArea}>
               <div className={styles.profImgBox}>
-                <img
-                  src={prof.src || DefaultProfImg.src}
-                  alt=""
-                />
+                <img src={prof.src || DefaultProfImg.src} alt="" />
               </div>
 
               <div className={styles.nicknameBar}>

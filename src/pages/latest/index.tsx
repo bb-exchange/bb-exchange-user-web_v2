@@ -127,6 +127,7 @@ export default function Lastest() {
                           <Image
                             loader={imageLoader}
                             src={thumbnail}
+                            priority
                             width={120}
                             height={82}
                             style={{ objectFit: "cover" }}

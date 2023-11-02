@@ -2,8 +2,9 @@ import { fetchCategory } from ".src/api/articles/category";
 import { useQuery } from "@tanstack/react-query";
 
 export default function usePostCategoryQuery() {
-  const { data } = useQuery(["articleCategory"], fetchCategory, {
-    retry: false,
+  const { data } = useQuery({
+    queryKey: ["articleCategory"],
+    queryFn: fetchCategory,
   });
 
   return data?.data;

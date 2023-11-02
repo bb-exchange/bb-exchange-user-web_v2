@@ -19,20 +19,19 @@ export default function UseMyPageLike() {
     D_filterCategoryList[0]
   );
   const [editMode, setEditMode] = useState<boolean>(false);
-  const [postList, setPostList] =
-    useState<mypageLikePosts[]>(D_mypageLikePostList);
+  const [postList, setPostList] = useState<mypageLikePosts[]>([]);
 
-  useQuery(
-    queryKeys.articleById("likeByUser"),
-    () => userInterestsArticles(`${profile.userId}?sortBy=LATEST&page=0`),
-    {
-      enabled: !!profile,
-      onSuccess: (data) => {
-        setPostList(data?.data.data.contents);
-      },
-      retry: false,
-    }
-  );
+  // useQuery(
+  //   queryKeys.articleById("likeByUser"),
+  //   () => userInterestsArticles(`${profile.userId}?sortBy=LATEST&page=0`),
+  //   {
+  //     enabled: !!profile,
+  //     onSuccess: (data) => {
+  //       setPostList(data?.data.data.contents);
+  //     },
+  //     retry: false,
+  //   }
+  // );
 
   function onClickCategoryBtn(url: string) {
     router.push(`/mypage/${url}`);

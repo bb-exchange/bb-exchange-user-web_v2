@@ -1,12 +1,46 @@
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import {
+  DehydratedState,
+  HydrationBoundary,
+  QueryClient,
+  dehydrate,
+} from "@tanstack/react-query";
+
+import { articles } from ".src/api/articles/articles";
+
 import Lastest from "./latest";
-import Popular from "./popular";
 
-export default function Home() {
-  return <Lastest />;
-  // return <Popular />;
-}
+export const getServerSideProps: GetServerSideProps<{
+  dehydratedState: DehydratedState;
+}> = async () => {
+  const queryClient = new QueryClient();
 
-export function getStaticProps() {
-  return { props: { commonLayout: true, commonSort: "최신" } };
-  // return { props: { commonLayout: true, commonSort: "인기" } };
+  const defaultValues = {
+    category: "ALL",
+    sortBy: "LATEST" as const,
+    page: 0,
+  };
+
+  await queryClient.prefetchQuery({
+    queryKey: ["articles", defaultValues],
+    queryFn: () => articles(defaultValues),
+  });
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+      commonLayout: true,
+      commonSort: "최신",
+    },
+  };
+};
+
+export default function Home({
+  dehydratedState,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  return (
+    <HydrationBoundary state={dehydratedState}>
+      <Lastest />
+    </HydrationBoundary>
+  );
 }

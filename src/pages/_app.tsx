@@ -1,19 +1,37 @@
-import Layout from ".src/components/layouts/Layout";
-import ".src/styles/globals.scss";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import type { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { CookiesProvider, useCookies } from "react-cookie";
-import { wrapper } from ".src/app/store";
-import { PersistGate } from "redux-persist/integration/react";
-import { Provider } from "react-redux";
-import "react-notion-x/src/styles.css";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
 import { RecoilRoot } from "recoil";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { CookiesProvider, useCookies } from "react-cookie";
+
+import "react-notion-x/src/styles.css";
+import ".src/styles/globals.scss";
+
+import { wrapper } from ".src/app/store";
+
+import Layout from ".src/components/layouts/Layout";
 
 export default function App({ Component, ...rest }: AppProps) {
-  const queryClient = new QueryClient();
+  // NOTE - React Query Client 기본 설정
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            refetchOnMount: false,
+            refetchOnWindowFocus: false,
+            retry: false,
+            // staleTime: 60 * 1000,
+            staleTime: 5 * 1000,
+          },
+        },
+      })
+  );
+
   const { store, props } = wrapper.useWrappedStore(rest);
   const router = useRouter();
 

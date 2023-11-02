@@ -9,16 +9,10 @@ export default function useListed() {
 
   const [dataList, setDataList] = useState(D_listedPostList);
 
-  const { data: postData } = useQuery(
-    ["listed", router.query.page || 1],
-    fetchArticles,
-    {
-      retry: false,
-      onSuccess: (res) => {
-        console.log(res);
-      },
-    }
-  );
+  const { data: postData } = useQuery({
+    queryKey: ["listed", router.query.page || 1],
+    queryFn: fetchArticles,
+  });
 
   function onClickFavBtn(e: React.MouseEvent, i: number) {
     e.stopPropagation();

@@ -22,11 +22,21 @@ export default function useEnroll(quillRef: any) {
   const { register, watch, setValue, formState, resetField, handleSubmit } =
     useForm<IenrollProps>({ mode: "onChange" });
 
-  const enrollPostMutation = useMutation(postArticle, {
+  // const enrollPostMutation = useMutation(postArticle, {
+  //   onSuccess: (res) => console.log(res),
+  // });
+
+  // const enrollImagesMutation = useMutation(postImages, {
+  //   onSuccess: (res) => console.log(res),
+  // });
+
+  const enrollPostMutation = useMutation({
+    mutationFn: postArticle,
     onSuccess: (res) => console.log(res),
   });
 
-  const enrollImagesMutation = useMutation(postImages, {
+  const enrollImagesMutation = useMutation({
+    mutationFn: postImages,
     onSuccess: (res) => console.log(res),
   });
 
@@ -65,7 +75,7 @@ export default function useEnroll(quillRef: any) {
     if (!_errMsgs[0]) return;
 
     setErrMsg(_errMsgs[0]!);
-  }, [formState]);
+  }, [errMsgBusy, formState]);
 
   async function uploadImgFile() {
     if (!(contObj && contObj.ops)) return;
@@ -148,7 +158,7 @@ export default function useEnroll(quillRef: any) {
         },
       },
     }),
-    []
+    [quillRef]
   );
 
   const closeErrMsg = () => {
