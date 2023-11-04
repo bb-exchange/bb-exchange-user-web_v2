@@ -5,13 +5,15 @@ import UseMyPoint from ".src/hooks/mypage/useMyPoint";
 import MypageNavAside from ".src/components/mypage/mypageNavAside";
 import PageNav from ".src/components/common/pageNav";
 import ScrollTopBtn from ".src/components/common/scrollTopBtn";
-import moment from "moment";
 import { useRouter } from "next/router";
+import { D_mypagePointCategoryList } from ".src/data/mypage/D_mypage";
 
 export default function Point() {
   const router = useRouter();
 
   const useMyPoint = UseMyPoint();
+
+  const DUMMY_POINT_LIST = [];
 
   function getDiffStyle(diff: number) {
     if (diff > 0) return styles.up;
@@ -47,7 +49,7 @@ export default function Point() {
 
           <article className={styles.contArea}>
             <ul className={styles.categoryList}>
-              {useMyPoint.categoryList.map((v, i) => (
+              {D_mypagePointCategoryList.map((v, i) => (
                 <li
                   key={i}
                   className={v === useMyPoint.category ? styles.on : ""}
@@ -58,7 +60,18 @@ export default function Point() {
               ))}
             </ul>
 
-            <ul className={styles.dataList}>
+            {DUMMY_POINT_LIST.length ? (
+              <>
+                <ul className={styles.dataList}>
+                  {/* TODO 포인트 API완료되면 연결 해야함 */}
+                  <li></li>
+                </ul>
+                <PageNav inlinePage />
+              </>
+            ) : (
+              <div className={styles.noDataText}>검색 결과가 없습니다.</div>
+            )}
+            {/* <ul className={styles.dataList}>
               {useMyPoint.dataList.map((v, i) => (
                 <li key={i}>
                   <div className={styles.leftBox}>
@@ -83,9 +96,7 @@ export default function Point() {
                   </div>
                 </li>
               ))}
-            </ul>
-
-            <PageNav inlinePage />
+            </ul> */}
           </article>
         </section>
       </main>
