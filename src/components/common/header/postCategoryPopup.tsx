@@ -1,8 +1,18 @@
-import usePostCategoryQuery from ".src/hooks/common/useCategoryQuery";
+import { useQuery } from "@tanstack/react-query";
+import { useRecoilState } from "recoil";
 import styles from "./postCategoryPopup.module.scss";
 
+import { categoryState } from ".src/recoil/category";
+import { fetchCategory } from ".src/api/articles/category";
+
 export default function CategoryPopup() {
-  const categoryQuery = usePostCategoryQuery();
+  const [currentCategory, setCurrentCategory] = useRecoilState(categoryState);
+
+  const { data: categoryList } = useQuery({
+    queryKey: ["articleCategory"],
+    queryFn: fetchCategory,
+    select: (data) => [{ category: "ALL", description: "전체" }, ...data],
+  });
 
   return (
     <section className={styles.hoverArea}>
@@ -15,9 +25,13 @@ export default function CategoryPopup() {
         </div>
 
         <ul className={styles.categoryList}>
-          {((categoryQuery?.data as IpostCategories[]) || []).map((v, i) => (
-            <li key={i}>
-              <p>{v.description}</p>
+          {categoryList?.map(({ category, description }) => (
+            <li
+              key={category}
+              className={category === currentCategory ? styles.selected : ""}
+              onClick={() => setCurrentCategory(category)}
+            >
+              <p>{description}</p>
             </li>
           ))}
         </ul>

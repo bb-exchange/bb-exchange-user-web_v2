@@ -1,5 +1,12 @@
 import { basicInstance } from "../instance";
 
-export const fetchCategory = async () => {
-  return await basicInstance.get("/v1/articles/category");
-};
+export const fetchCategory = async () =>
+  await basicInstance
+    .get("/v1/articles/category")
+    .then(
+      ({
+        data,
+      }: {
+        data: { data: Array<{ category: string; description: string }> };
+      }) => data.data
+    );

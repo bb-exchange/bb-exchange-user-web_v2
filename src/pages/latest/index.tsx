@@ -15,17 +15,17 @@ import PageNav from ".src/components/common/pageNav";
 import ScrollTopBtn from ".src/components/common/scrollTopBtn";
 
 import { articles } from ".src/api/articles/articles";
+import { useRecoilValue } from "recoil";
+import { categoryState } from ".src/recoil/category";
 
 export default function Lastest() {
-  const router = useRouter();
-
   // FIXME - API 연동끝나면 관련 코드 일괄 정리
   // const customHook = UseLatest();
 
-  // TODO - 전역 상태
-  const category = "ALL";
-  const sortBy = "LATEST";
+  const router = useRouter();
 
+  const sortBy = "LATEST";
+  const category = useRecoilValue(categoryState);
   const [page, setPage] = useState<number>(0);
 
   const { data: articleList } = useQuery({

@@ -1,5 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
 import styles from "./selCategoryPopup.module.scss";
-import usePostCategoryQuery from ".src/hooks/common/useCategoryQuery";
+
+import { fetchCategory } from ".src/api/articles/category";
 
 interface Iprops {
   off: Function;
@@ -7,7 +9,10 @@ interface Iprops {
 }
 
 export default function SelCategoryPopup({ off, setValue }: Iprops) {
-  const categoryQuery = usePostCategoryQuery();
+  const { data: categoryList } = useQuery({
+    queryKey: ["articleCategory"],
+    queryFn: fetchCategory,
+  });
 
   function handleClickCategory(v: IpostCategories) {
     setValue(v);
@@ -17,9 +22,12 @@ export default function SelCategoryPopup({ off, setValue }: Iprops) {
   return (
     <section className={styles.selCategoryPopup}>
       <ul className={styles.dataList}>
-        {((categoryQuery?.data as IpostCategories[]) || []).map((v, i) => (
-          <li key={i} onClick={() => handleClickCategory(v)}>
-            {v.description}
+        {categoryList?.map(({ category, description }) => (
+          <li
+            key={category}
+            onClick={() => handleClickCategory({ category, description })}
+          >
+            {description}
           </li>
         ))}
       </ul>
