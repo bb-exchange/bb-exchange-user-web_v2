@@ -1,16 +1,19 @@
-import { AppStore } from ".src/app/store";
-import { signOut } from ".src/features/userSlice";
 import { useRouter } from "next/router";
 import { useCookies } from "react-cookie";
-import { useDispatch, useSelector } from "react-redux";
+import { useSetRecoilState } from "recoil";
+
+import { isLoginState, userNameState } from ".src/recoil";
 
 export const useSignOut = () => {
   const router = useRouter();
-  const dispatch = useDispatch();
   const [, , removeCookie] = useCookies(["accessToken", "refreshToken"]);
 
+  const setIsLoginState = useSetRecoilState(isLoginState);
+  const setUserNameState = useSetRecoilState(userNameState);
+
   const logOut = () => {
-    dispatch(signOut());
+    setIsLoginState(false);
+    setUserNameState(null);
     removeCookie("accessToken", { path: "/" });
     removeCookie("refreshToken", { path: "/" });
     router.push("/auth/signin");

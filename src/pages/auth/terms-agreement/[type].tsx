@@ -1,9 +1,10 @@
-import notion from ".src/lib/notion";
+import { useRouter } from "next/router";
 import { NotionRenderer } from "react-notion-x";
 import { ExtendedRecordMap } from "notion-types";
+
+import notion from ".src/lib/notion";
 import styles from "./[type].module.scss";
 import IconX from ".assets/icons/X.svg";
-import { useRouter } from "next/router";
 
 const TermsPopup = ({ recordMap }: { recordMap: ExtendedRecordMap }) => {
   const router = useRouter();

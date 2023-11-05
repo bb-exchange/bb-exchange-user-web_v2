@@ -1,23 +1,23 @@
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
+import { useCookies } from "react-cookie";
+
 import styles from "./index.module.scss";
 import ContainedBtn from ".src/components/Buttons/ContainedBtn";
 import { basicInstance } from ".src/api/instance";
-import { useCookies } from "react-cookie";
 import IconRedCaution from "../../../../public/assets/icons/RedCaution.svg";
 import IconBlueCheck from "../../../../public/assets/icons/BlueCheck.svg";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import PopupBg from ".src/components/common/popupBg";
 import ConfirmPopup from ".src/components/common/popup/confirmPopup";
-import { useDispatch } from "react-redux";
-import { signIn } from ".src/features/userSlice";
+import { useSetRecoilState } from "recoil";
+import { isLoginState, userNameState } from ".src/recoil";
 interface Inputs {
   nickname: string;
 }
 
 const Register = () => {
   const router = useRouter();
-  const dispatch = useDispatch();
   const [cookies, setCookies] = useCookies([
     "oauthId",
     "oauthType",
@@ -25,6 +25,10 @@ const Register = () => {
     "accessToken",
     "refreshToken",
   ]);
+
+  const setIsLoginState = useSetRecoilState(isLoginState);
+  const setUserNameState = useSetRecoilState(userNameState);
+
   const [availableNickname, setAvailableNickname] = useState<string>("");
   const [openConfirmPopup, setOpenConfirmPopup] = useState(
     router.query.openConfirmPopup === "true" || false
@@ -33,8 +37,6 @@ const Register = () => {
   const {
     register,
     handleSubmit,
-    getValues,
-    setValue,
     watch,
     setError,
     formState: { errors },
@@ -67,7 +69,8 @@ const Register = () => {
       //가입성공
       setCookies("accessToken", res.data.data.accessToken);
       setCookies("refreshToken", res.data.data.refreshToken);
-      dispatch(signIn(data.nickname));
+      setIsLoginState(true);
+      setUserNameState(data.nickname);
       router.push("/auth/signup-completion");
     }
   };

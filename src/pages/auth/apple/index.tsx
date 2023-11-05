@@ -1,22 +1,25 @@
-import { basicInstance } from ".src/api/instance";
-import { signIn } from ".src/features/userSlice";
-import axios from "axios";
-import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { useRouter } from "next/router";
+import axios from "axios";
 import { useCookies } from "react-cookie";
-import { useDispatch } from "react-redux";
 import Image from "next/image";
+import { useSetRecoilState } from "recoil";
+
+import { basicInstance } from ".src/api/instance";
 import styles from "../loadingLayout.module.scss";
+import { isLoginState, userNameState } from ".src/recoil";
 
 const AppleAuth = () => {
   const { query, push } = useRouter();
-  const dispatch = useDispatch();
   const [cookie, setCookie] = useCookies([
     "oauthId",
     "oauthType",
     "accessToken",
     "refreshToken",
   ]);
+
+  const setIsLoginState = useSetRecoilState(isLoginState);
+  const setUserNameState = useSetRecoilState(userNameState);
 
   useEffect(() => {
     if (query?.code) {
@@ -65,7 +68,8 @@ const AppleAuth = () => {
               },
             }
           );
-          dispatch(signIn(data?.data.nickname)); //전역 로그인 처리
+          setIsLoginState(true);
+          setUserNameState(data?.data.nickname);
           push("/");
         }
       })();

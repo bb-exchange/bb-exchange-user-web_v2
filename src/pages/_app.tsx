@@ -4,14 +4,10 @@ import type { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { RecoilRoot } from "recoil";
-import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react";
-import { CookiesProvider, useCookies } from "react-cookie";
+import { CookiesProvider } from "react-cookie";
 
 import "react-notion-x/src/styles.css";
 import ".src/styles/globals.scss";
-
-import { wrapper } from ".src/app/store";
 
 import Layout from ".src/components/layouts/Layout";
 
@@ -32,7 +28,6 @@ export default function App({ Component, ...rest }: AppProps) {
       })
   );
 
-  const { store, props } = wrapper.useWrappedStore(rest);
   const router = useRouter();
 
   //tracking the current and previous page
@@ -50,18 +45,14 @@ export default function App({ Component, ...rest }: AppProps) {
 
   return (
     <RecoilRoot>
-      <Provider store={store}>
-        <PersistGate persistor={store.__persistor}>
-          <CookiesProvider>
-            <QueryClientProvider client={queryClient}>
-              <Layout pageProps={props.pageProps}>
-                <Component {...props.pageProps} />
-              </Layout>
-              <ReactQueryDevtools />
-            </QueryClientProvider>
-          </CookiesProvider>
-        </PersistGate>
-      </Provider>
+      <CookiesProvider>
+        <QueryClientProvider client={queryClient}>
+          <Layout pageProps={rest.pageProps}>
+            <Component {...rest.pageProps} />
+          </Layout>
+          <ReactQueryDevtools />
+        </QueryClientProvider>
+      </CookiesProvider>
     </RecoilRoot>
   );
 }

@@ -1,13 +1,13 @@
-import { basicInstance } from ".src/api/instance";
-import { signIn } from ".src/features/userSlice";
-import LocalStorage from ".src/util/localStorage";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { useCookies } from "react-cookie";
-import { useDispatch } from "react-redux";
 import Image from "next/image";
+import { useCookies } from "react-cookie";
+import { useEffect } from "react";
+import { useSetRecoilState } from "recoil";
+
+import { basicInstance } from ".src/api/instance";
 import styles from "../loadingLayout.module.scss";
+import { isLoginState, userNameState } from ".src/recoil";
 
 const KakaoAuth = () => {
   const { query, push } = useRouter();
@@ -17,7 +17,8 @@ const KakaoAuth = () => {
     "accessToken",
     "refreshToken",
   ]);
-  const dispatch = useDispatch();
+  const setIsLoginState = useSetRecoilState(isLoginState);
+  const setUserNameState = useSetRecoilState(userNameState);
 
   useEffect(() => {
     if (query?.code) {
@@ -96,7 +97,8 @@ const KakaoAuth = () => {
                 },
               }
             );
-            dispatch(signIn(data?.data.nickname)); //전역 로그인 처리
+            setIsLoginState(true);
+            setUserNameState(data?.data.nickname);
             push("/");
           }
         }

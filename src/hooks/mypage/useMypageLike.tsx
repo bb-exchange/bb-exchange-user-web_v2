@@ -2,7 +2,6 @@ import { userInterestsArticles } from ".src/api/articles/articles";
 import { D_mypagePostCategoryList } from ".src/data/mypage/D_mypage";
 import { D_mypageLikePostList } from ".src/data/mypage/D_mypageLike";
 import { D_filterCategoryList } from ".src/data/mypage/D_mypageRead";
-import { queryKeys } from ".src/features/query-keys";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useState } from "react";

@@ -78,3 +78,7 @@ export const userArticles = async (query: string) => {
 export const userInterestsArticles = async (query: string) => {
   return await basicInstance.get(`/v1/articles/interests/users/${query}`);
 };
+
+export const fetchArticleLike = async (articleId: number) => {
+  return await basicInstance.post(`/v1/articles/${articleId}/like`);
+};

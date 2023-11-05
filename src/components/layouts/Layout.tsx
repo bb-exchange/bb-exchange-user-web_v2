@@ -1,11 +1,12 @@
+import { useCookies } from "react-cookie";
 import { ReactNode, useEffect } from "react";
+import { useRouter } from "next/router";
+import { useSetRecoilState } from "recoil";
+
 import Navbar from "./Navbar";
 import CommonHeader from ".src/components/common/header/commonHeader";
 import CommonFooter from "../common/commonFooter";
-import { useDispatch, useSelector } from "react-redux";
-import { useCookies } from "react-cookie";
-import { signOut } from ".src/features/userSlice";
-import { useRouter } from "next/router";
+import { isLoginState, userNameState } from ".src/recoil";
 
 interface Iprops {
   pageProps: any;
@@ -14,12 +15,15 @@ interface Iprops {
 
 const Layout = ({ pageProps, children }: Iprops) => {
   const router = useRouter();
-  const dispatch = useDispatch();
   const [cookie] = useCookies(["authKey", "accessToken", "refreshToken"]);
+
+  const setIsLoginState = useSetRecoilState(isLoginState);
+  const setUserNameState = useSetRecoilState(userNameState);
 
   useEffect(() => {
     if (!cookie.accessToken && !cookie.refreshToken) {
-      dispatch(signOut());
+      setIsLoginState(false);
+      setUserNameState(null);
     }
   }, [router.pathname]);
 

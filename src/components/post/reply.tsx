@@ -12,6 +12,8 @@ import ConfirmPopup from "../common/popup/confirmPopup";
 import ErrorMsgPopup from "../common/popup/errorMsgPopup";
 import ReportUserPopup from "./reportUserPopup";
 import ReportReplyPopup from "./reportReplyPopup";
+import { isLoginState } from ".src/recoil";
+import { useRecoilValue } from "recoil";
 
 interface Iprops {
   data: Ireply;
@@ -20,6 +22,8 @@ interface Iprops {
 
 export default function Reply({ data, nested }: Iprops) {
   const useReply = UseReply();
+
+  const isLogin = useRecoilValue(isLoginState);
 
   return (
     <>
@@ -40,21 +44,23 @@ export default function Reply({ data, nested }: Iprops) {
                   {moment(data.createdAt).format("YYYY.MM.DD")}
                 </p>
 
-                <span className={styles.btnBox}>
-                  <button
-                    className={styles.moreBtn}
-                    onClick={() => useReply.setMorePopup(true)}
-                  >
-                    <Dot3 />
-                  </button>
+                {isLogin ? (
+                  <span className={styles.btnBox}>
+                    <button
+                      className={styles.moreBtn}
+                      onClick={() => useReply.setMorePopup(true)}
+                    >
+                      <Dot3 />
+                    </button>
 
-                  {useReply.morePopup && (
-                    <>
-                      <ReplyMorePopup useReply={useReply} />
-                      <PopupBg off={() => useReply.setMorePopup(false)} />
-                    </>
-                  )}
-                </span>
+                    {useReply.morePopup && (
+                      <>
+                        <ReplyMorePopup useReply={useReply} />
+                        <PopupBg off={() => useReply.setMorePopup(false)} />
+                      </>
+                    )}
+                  </span>
+                ) : null}
               </div>
             </div>
 

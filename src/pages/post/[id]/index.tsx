@@ -1,3 +1,12 @@
+import dynamic from "next/dynamic";
+import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/router";
+import { fetchPost } from ".src/api/post/post";
+import Image from "next/image";
+import moment from "moment";
+import { useState } from "react";
+import "moment/locale/ko";
+
 import CommonHeader from ".src/components/common/header/commonHeader";
 import styles from "./postScreen.module.scss";
 import CommonFooter from ".src/components/common/commonFooter";
@@ -14,8 +23,6 @@ import ThumbDnBlue from ".assets/icons/ThumbDnBlue.svg";
 import NoticeCircleGrey from ".assets/icons/NoticeCircleGrey.svg";
 import Message from ".assets/icons/Message.svg";
 import UsePost from ".src/hooks/post/usePost";
-import moment from "moment";
-import "moment/locale/ko";
 import Reply from ".src/components/post/reply";
 import PopupBg from ".src/components/common/popupBg";
 import PostVerPopup from ".src/components/post/postVerPopup";
@@ -27,13 +34,51 @@ import ConfirmPopup from ".src/components/common/popup/confirmPopup";
 import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
 import HeartRedO from ".assets/icons/HeartRedO.svg";
 import HeartGrey from ".assets/icons/HeartGrey.svg";
-import BuyPostPopup from ".src/components/post/buyPostPopup";
+// import BuyPostPopup from ".src/components/post/buyPostPopup";
 import CompPayPopup from ".src/components/post/compPayPopup";
-import dynamic from "next/dynamic";
-import Link from "next/link";
+import { useRecoilValue } from "recoil";
+import { isLoginState } from ".src/recoil";
+import { userArticles } from ".src/api/articles/articles";
 
 export default function Post() {
   const hook = UsePost();
+  const router = useRouter();
+
+  const isLogin = useRecoilValue(isLoginState);
+  const [like, setLike] = useState<1 | 0 | -1>(0);
+
+  // NOTE 글 상세 정보 조회
+  const { data: postData } = useQuery({
+    queryKey: ["post", router.query.id],
+    queryFn: fetchPost,
+    select: (res) => res?.data.data,
+  });
+
+  const userId = postData?.userInfo.userId;
+
+  // NOTE 유저의 다른 글 조회
+  const { data: userPostList } = useQuery({
+    queryKey: ["userPostList", userId],
+    queryFn: () => userArticles(`${userId}?sortBy=LATEST&page=0`),
+    enabled: !!userId,
+  });
+
+  // NOTE 유저프로필 클릭 시 유저상세페이지로 연결
+  const onMoveUserPage = () => {
+    router.push({
+      pathname: `/seller/${userId}`,
+      query: { userId },
+    });
+  };
+
+  // NOTE 좋아요/싫어요 클릭 시
+  const onClickLikeBtn = (int: -1 | 0 | 1) => {
+    if (!isLogin) router.push("/auth/signin");
+    else {
+      if (int === like) setLike(0);
+      else setLike(int);
+    }
+  };
 
   function getDiffStyle(diff: number) {
     if (diff > 0) return styles.up;
@@ -50,7 +95,7 @@ export default function Post() {
             <div className={styles.verArea}>
               <div className={styles.leftCont}>
                 <h2 className={styles.category}>
-                  {hook.postData?.boardInfo.description}
+                  {postData?.boardInfo.description}
                 </h2>
                 {true && (
                   <>
@@ -85,16 +130,16 @@ export default function Post() {
             </div>
 
             <div className={styles.titleArea}>
-              <h1 className={styles.title}>
-                {hook.postData?.articleInfo.title}
-              </h1>
+              <h1 className={styles.title}>{postData?.articleInfo.title}</h1>
 
               <div className={styles.utilBar}>
                 <div className={styles.leftCont}>
                   <div className={`${styles.creatorBox} ${styles.contBox}`}>
                     <Gold />
 
-                    <p>{hook.postData?.userInfo.nickname}</p>
+                    <p onClick={onMoveUserPage} className={styles.cursor}>
+                      {postData?.userInfo.nickname}
+                    </p>
                   </div>
 
                   {true ? (
@@ -103,7 +148,7 @@ export default function Post() {
 
                       <p>
                         {new Intl.NumberFormat().format(
-                          hook.postData?.articleInfo.totalViewNum || 0
+                          postData?.articleInfo.totalViewNum || 0
                         )}
                       </p>
                     </div>
@@ -112,7 +157,7 @@ export default function Post() {
                       <p>
                         작성일{" "}
                         {moment(
-                          new Date(hook.postData?.articleInfo.updatedAt || "")
+                          new Date(postData?.articleInfo.updatedAt || "")
                         ).format("YYYY.MM.DD")}
                       </p>
                     </div>
@@ -127,12 +172,14 @@ export default function Post() {
                       </button>
 
                       <div className={styles.btnBox}>
-                        <button
-                          className={styles.moreBtn}
-                          onClick={() => hook.setMorePopup(true)}
-                        >
-                          <Dot3 />
-                        </button>
+                        {isLogin ? (
+                          <button
+                            className={styles.moreBtn}
+                            onClick={() => hook.setMorePopup(true)}
+                          >
+                            <Dot3 />
+                          </button>
+                        ) : null}
 
                         {hook.morePopup && (
                           <>
@@ -153,24 +200,22 @@ export default function Post() {
               <article className={styles.contArea}>
                 <ReactQuill
                   readOnly
-                  value={hook.postData?.articleInfo.content}
+                  value={postData?.articleInfo.content}
                   modules={{ toolbar: false }}
                 />
               </article>
 
               <article className={styles.likeArea}>
                 <div
-                  className={`${
-                    hook.postData?.priceInfo.isLike ? styles.up : ""
-                  } ${hook.postData?.priceInfo.isDislike ? styles.dn : ""} ${
-                    styles.innerCont
-                  }`}
+                  className={`${postData?.priceInfo.isLike ? styles.up : ""} ${
+                    postData?.priceInfo.isDislike ? styles.dn : ""
+                  } ${styles.innerCont}`}
                 >
                   <button
                     className={styles.likeBtn}
-                    onClick={() => hook.onClickLikeBtn(1)}
+                    onClick={() => onClickLikeBtn(1)}
                   >
-                    {hook.postData?.priceInfo.isLike ? (
+                    {postData?.priceInfo.isLike ? (
                       <ThumbUpRed />
                     ) : (
                       <ThumbUpGrey />
@@ -182,17 +227,19 @@ export default function Post() {
                     <p>현재가</p>
                     <h2
                       className={styles.price}
-                    >{`${new Intl.NumberFormat().format(9999999)}P`}</h2>
+                    >{`${new Intl.NumberFormat().format(
+                      Number(postData?.priceInfo.price)
+                    )}P`}</h2>
                     <p className={styles.percent}>
-                      {hook.postData?.priceInfo.changeRate || 0}%
+                      {postData?.priceInfo.changeRate || 0}%
                     </p>
                   </div>
 
                   <button
                     className={styles.likeBtn}
-                    onClick={() => hook.onClickLikeBtn(-1)}
+                    onClick={() => onClickLikeBtn(-1)}
                   >
-                    {hook.postData?.priceInfo.isDislike ? (
+                    {postData?.priceInfo.isDislike ? (
                       <ThumbDnBlue />
                     ) : (
                       <ThumbDnGrey />
@@ -204,7 +251,7 @@ export default function Post() {
 
               <article className={styles.replyArea}>
                 <ul className={styles.tagList}>
-                  {(hook.postData?.tagList || []).map(
+                  {(postData?.tagList || []).map(
                     (v: { tagName: string }, i: number) => (
                       <li key={i}>{v.tagName}</li>
                     )
@@ -221,20 +268,22 @@ export default function Post() {
                     </p>
                   </div>
 
-                  <div className={styles.inputBox}>
-                    <textarea
-                      value={hook.reply}
-                      onChange={(e) => hook.setReply(e.target.value)}
-                      placeholder="댓글을 입력해주세요"
-                    />
+                  {isLogin ? (
+                    <div className={styles.inputBox}>
+                      <textarea
+                        value={hook.reply}
+                        onChange={(e) => hook.setReply(e.target.value)}
+                        placeholder="댓글을 입력해주세요"
+                      />
 
-                    <button
-                      className={styles.enrollBtn}
-                      onClick={() => hook.setReply("")}
-                    >
-                      입력
-                    </button>
-                  </div>
+                      <button
+                        className={styles.enrollBtn}
+                        onClick={() => hook.setReply("")}
+                      >
+                        입력
+                      </button>
+                    </div>
+                  ) : null}
 
                   <ul className={styles.replyList}>
                     {hook.replyList.map((v, i) => (
@@ -303,24 +352,24 @@ export default function Post() {
           {true ? (
             <>
               <article className={styles.creatorArea}>
-                <Link href={`/seller/${hook.postData?.userInfo.userId || 111}`}>
-                  <div className={styles.profImgBox}>
-                    <img
-                      src={hook.postData?.userInfo.image || DefaultProfImg.src}
-                      alt=""
-                    />
-                  </div>
-                </Link>
+                <div className={styles.profImgBox} onClick={onMoveUserPage}>
+                  <Image
+                    width={48}
+                    height={48}
+                    src={postData?.userInfo.image || DefaultProfImg.src}
+                    alt=""
+                  />
+                </div>
 
-                <div className={styles.nicknameBar}>
+                <div className={styles.nicknameBar} onClick={onMoveUserPage}>
                   <h1 className={styles.nickname}>
-                    {hook.postData?.userInfo.nickname}
+                    {postData?.userInfo.nickname}
                   </h1>
                   <Gold />
                 </div>
 
                 <p className={styles.profMsg}>
-                  {hook.postData?.userInfo.description}
+                  {postData?.userInfo.description}
                 </p>
               </article>
 
@@ -328,7 +377,7 @@ export default function Post() {
                 className={`${styles.otherPostArea} ${styles.postListArea}`}
               >
                 <p className={styles.areaTitle}>
-                  {hook.postData?.userInfo.nickname}님의 다른 글
+                  {postData?.userInfo.nickname}님의 다른 글
                 </p>
 
                 {/* <ul className={styles.postList}>
@@ -379,7 +428,7 @@ export default function Post() {
                 className={`${styles.categoryPopularPostList} ${styles.postListArea}`}
               >
                 <p className={styles.areaTitle}>
-                  {hook.postData?.boardInfo.description}의 인기글
+                  {postData?.boardInfo.description}의 인기글
                 </p>
 
                 <ul className={styles.postList}>
@@ -431,13 +480,13 @@ export default function Post() {
               <div className={styles.viewCont}>
                 <strong className={styles.icon}>👀</strong>
                 <br />
-                {hook.postData?.articleInfo.totalViewNum}명이 이 글을 봤어요!
+                {postData?.articleInfo.totalViewNum}명이 이 글을 봤어요!
               </div>
 
               <div className={styles.contCont}>
                 <div className={styles.priceCont}>
                   <div className={`${styles.diffBox} ${getDiffStyle(1 || 0)}`}>
-                    <p>+{hook.postData?.priceInfo.changeRate || 0}% (63)</p>
+                    <p>+{postData?.priceInfo.changeRate || 0}% (63)</p>
                   </div>
 
                   <div className={`${styles.priceBox} ${getDiffStyle(1 || 0)}`}>

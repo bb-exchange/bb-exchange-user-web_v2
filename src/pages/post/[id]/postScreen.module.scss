@@ -373,6 +373,7 @@
         align-items: center;
         gap: 4px;
         margin: 12px 0 0;
+        cursor: pointer;
 
         .nickname {
           font-size: 16px;
@@ -592,4 +593,8 @@
       }
     }
   }
+}
+
+.cursor {
+  cursor: pointer;
 }

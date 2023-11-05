@@ -1,8 +1,8 @@
-import { AppStore } from ".src/app/store";
-import { useSelector } from "react-redux";
+import { isLoginState } from ".src/recoil";
+import { useRecoilValue } from "recoil";
 
 export default function useCommonHeader() {
-  const isSignedIn = useSelector((state: AppStore) => state.user.isSignedIn);
+  const isSignedIn = useRecoilValue(isLoginState);
 
-  return {  isSignedIn };
+  return { isSignedIn };
 }

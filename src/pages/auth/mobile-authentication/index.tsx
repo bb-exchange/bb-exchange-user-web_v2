@@ -1,14 +1,15 @@
+import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
+import { useRouter } from "next/router";
+import { useForm } from "react-hook-form";
+
 import styles from "./index.module.scss";
 import ContainedBtn from ".src/components/Buttons/ContainedBtn";
-import { useEffect, useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
 import { basicInstance } from ".src/api/instance";
 import OutlinedBtn from ".src/components/Buttons/OutlinedBtn";
 import IconCheck from "../../../../public/assets/icons/AuthCheck.svg";
 import PopupBg from ".src/components/common/popupBg";
 import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
-import { useCookies } from "react-cookie";
-import { useRouter } from "next/router";
 import LocalStorage from ".src/util/localStorage";
 
 interface Inputs {

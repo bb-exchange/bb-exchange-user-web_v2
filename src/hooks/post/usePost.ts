@@ -7,9 +7,7 @@ import { useMemo, useRef, useState } from "react";
 export default function UsePost() {
   const router = useRouter();
 
-  // const [postData, setPostData] = useState<IpostData>();
   const [otherPostList, setOtherPostList] = useState<any[]>(D_otherPostList);
-  // const [otherPostList, setOtherPostList] = useState<IpostList[]>(D_otherPostList);
   const [isLike, setIsLike] = useState<boolean>(false);
   const [like, setLike] = useState<1 | 0 | -1>(0);
   const [reply, setReply] = useState<string>("");
@@ -29,20 +27,6 @@ export default function UsePost() {
   const [compPayPopup, setCompPayPopup] = useState<boolean>(
     router.query.compPayPopup === "true" || false
   );
-
-  // useQuery(["post", router.query.id], fetchPost, {
-  //   retry: false,
-  //   onSuccess: (res) => {
-  //     console.log(res?.data?.data);
-  //     setPostData(res?.data?.data);
-  //   },
-  // });
-
-  const { data: postData } = useQuery({
-    queryKey: ["post", router.query.id],
-    queryFn: fetchPost,
-    select: (res) => res?.data.data,
-  });
 
   function onClickLikeBtn(int: -1 | 0 | 1) {
     if (int === like) setLike(0);
@@ -84,7 +68,6 @@ export default function UsePost() {
   }
 
   return {
-    postData,
     isLike,
     like,
     reply,

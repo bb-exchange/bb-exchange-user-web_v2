@@ -1,3 +1,8 @@
+import { useEffect } from "react";
+import { useCookies } from "react-cookie";
+import { useSetRecoilState } from "recoil";
+import { isLoginState, userNameState } from ".src/recoil";
+
 import styles from "./index.module.scss";
 import Kakao from "../../../../public/assets/images/kakao_login.svg";
 import Google from "../../../../public/assets/images/google_logo.svg";
@@ -8,13 +13,11 @@ import {
   GOOGLE_AUTH_URL,
   KAKAO_AUTH_URL,
 } from ".src/data/signin/D_authUrl";
-import { useEffect } from "react";
-import { useCookies } from "react-cookie";
-import { useDispatch } from "react-redux";
-import { signOut } from ".src/features/userSlice";
 
 const SignIn = () => {
-  const dispatch = useDispatch();
+  const setIsLoginState = useSetRecoilState(isLoginState);
+  const setUserNameState = useSetRecoilState(userNameState);
+
   const [, , removeCookie] = useCookies([
     "accessToken",
     "refreshToken",
@@ -26,7 +29,8 @@ const SignIn = () => {
     removeCookie("accessToken", { path: "/" });
     removeCookie("refreshToken", { path: "/" });
     removeCookie("authKey", { path: "/" });
-    dispatch(signOut());
+    setIsLoginState(false);
+    setUserNameState(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

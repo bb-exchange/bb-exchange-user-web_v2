@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { userArticles } from ".src/api/articles/articles";
-import { queryKeys } from ".src/features/query-keys";
+import { queryKeys } from ".src/recoil/query-keys";
 import { useQuery } from "@tanstack/react-query";
 
 export default function UseSeller() {

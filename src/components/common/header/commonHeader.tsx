@@ -15,8 +15,8 @@ import ProfileHoverPopup from "./profileHoverPopup";
 import AlertHoverPopup from "./alertHoverPopup";
 import AlertCount from "./alertCount";
 import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
-import { AppStore } from ".src/app/store";
+import { useRecoilValue } from "recoil";
+import { userNameState } from ".src/recoil";
 
 interface Iprops {
   commonSort?: "인기" | "최신" | "상장";
@@ -25,7 +25,7 @@ interface Iprops {
 export default function CommonHeader({ commonSort }: Iprops) {
   const router = useRouter();
   const customHook = useCommonHeader();
-  const nickname = useSelector((state: AppStore) => state.user.nickname);
+  const nickname = useRecoilValue(userNameState);
 
   return (
     <header className={styles.commonHeader}>

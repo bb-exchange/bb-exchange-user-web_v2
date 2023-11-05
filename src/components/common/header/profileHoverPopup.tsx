@@ -1,16 +1,15 @@
+import { useRecoilValue } from "recoil";
 import { useRouter } from "next/router";
+
 import styles from "./profileHoverPopup.module.scss";
-import { useDispatch, useSelector } from "react-redux";
-import { signOut } from ".src/features/userSlice";
-import { useCookies } from "react-cookie";
-import { AppStore } from ".src/app/store";
-import { useEffect } from "react";
-import { basicInstance } from ".src/api/instance";
 import { useSignOut } from ".src/hooks/common/useSignOut";
+import { userNameState } from ".src/recoil";
 
 const ProfileHoverPopup = () => {
   const router = useRouter();
-  const nickname = useSelector((state: AppStore) => state.user.nickname);
+
+  const nickname = useRecoilValue(userNameState);
+
   const [logOut] = useSignOut();
 
   return (

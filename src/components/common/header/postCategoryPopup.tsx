@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useRecoilState } from "recoil";
 import styles from "./postCategoryPopup.module.scss";
 
-import { categoryState } from ".src/recoil/category";
+import { categoryState } from ".src/recoil";
 import { fetchCategory } from ".src/api/articles/category";
 
 export default function CategoryPopup() {

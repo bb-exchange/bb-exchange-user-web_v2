@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { D_mypagePostCategoryList } from ".src/data/mypage/D_mypage";
 import { useQuery } from "@tanstack/react-query";
 import { userArticles } from ".src/api/articles/articles";
-import { queryKeys } from ".src/features/query-keys";
+import { queryKeys } from ".src/recoil/query-keys";
 import useGetMyProfile from ".src/hooks/common/useGetProfile";
 
 export default function UseMyPageWrite() {

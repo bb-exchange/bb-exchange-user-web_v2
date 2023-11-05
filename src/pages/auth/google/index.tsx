@@ -1,13 +1,13 @@
-import { basicInstance } from ".src/api/instance";
-import { signIn } from ".src/features/userSlice";
 import axios from "axios";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
-import { useDispatch } from "react-redux";
-import Image from "next/image";
-import LocalStorage from ".src/util/localStorage";
+import { useSetRecoilState } from "recoil";
+
+import { basicInstance } from ".src/api/instance";
 import styles from "../loadingLayout.module.scss";
+import { isLoginState, userNameState } from ".src/recoil";
 //(비회원인 경우)
 //카카오 인증 성공 -> 서비스 이용동의 -> 바로 닉네임 설정 페이지로 이동 (휴대폰 인증 단계 X) (중도 이탈 시 맨 처음부터 시작)
 //구글, 애플 인증 성공 -> -> 서비스 이용동의-> 휴대폰 인증 페이지로 이동 -> 닉네임 설정 페이지로 이동 (중도 이탈 시 맨 처음부터 시작)
@@ -17,13 +17,15 @@ import styles from "../loadingLayout.module.scss";
 
 const GoogleAuth = () => {
   const { query, push } = useRouter();
-  const dispatch = useDispatch();
   const [cookie, setCookie] = useCookies([
     "oauthId",
     "oauthType",
     "accessToken",
     "refreshToken",
   ]);
+
+  const setIsLoginState = useSetRecoilState(isLoginState);
+  const setUserNameState = useSetRecoilState(userNameState);
 
   useEffect(() => {
     if (query?.code) {
@@ -89,7 +91,8 @@ const GoogleAuth = () => {
                 },
               }
             );
-            dispatch(signIn(data?.data.nickname)); //전역 로그인 처리
+            setIsLoginState(true);
+            setUserNameState(data?.data.nickname);
             push("/");
           }
         }

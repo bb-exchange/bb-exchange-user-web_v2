@@ -16,7 +16,7 @@ import ScrollTopBtn from ".src/components/common/scrollTopBtn";
 
 import { articles } from ".src/api/articles/articles";
 import { useRecoilValue } from "recoil";
-import { categoryState } from ".src/recoil/category";
+import { categoryState, isLoginState } from ".src/recoil";
 
 export default function Lastest() {
   // FIXME - API 연동끝나면 관련 코드 일괄 정리
@@ -26,6 +26,7 @@ export default function Lastest() {
 
   const sortBy = "LATEST";
   const category = useRecoilValue(categoryState);
+  const isLogin = useRecoilValue(isLoginState);
   const [page, setPage] = useState<number>(0);
 
   const { data: articleList } = useQuery({
@@ -49,6 +50,17 @@ export default function Lastest() {
     width: number;
     quality?: number;
   }) => `${src}?w=${width}&q=${quality || 75}`;
+
+  const onClickFavBtn = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    articleId: number
+  ) => {
+    e.stopPropagation();
+
+    if (isLogin) {
+      // TODO 로그인 상태일 경우, 찜하기 기능 구현
+    }
+  };
 
   return (
     <>
@@ -172,7 +184,7 @@ export default function Lastest() {
                         className={styles.favBtn}
                         data-js="favBtn"
                         onClick={(e) => {
-                          // customHook.onClickFavBtn(e, i)
+                          onClickFavBtn(e, articleId);
                         }}
                       >
                         {interest ? <HeartRedO /> : <HeartGrey />}

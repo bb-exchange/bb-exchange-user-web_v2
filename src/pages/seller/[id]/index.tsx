@@ -4,6 +4,7 @@ import styles from "./seller.module.scss";
 import UseSeller from ".src/hooks/seller/useSeller";
 import PopupBg from ".src/components/common/popupBg";
 import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
+import { useRouter } from "next/router";
 
 import Profile from ".assets/images/img_profile.svg";
 import Gold from ".assets/icons/tier/Gold.svg";
@@ -16,9 +17,21 @@ import ConfirmPopup from ".src/components/common/popup/confirmPopup";
 import ScrollTopBtn from ".src/components/common/scrollTopBtn";
 import PageNav from ".src/components/common/pageNav";
 import WritePost from ".src/components/mypage/write/writePost";
+import { useQuery } from "@tanstack/react-query";
+import { queryKeys } from ".src/recoil/query-keys";
+import { getProfile } from ".src/api/users/users";
 
 const Seller = () => {
   const hook = UseSeller();
+  const router = useRouter();
+
+  const id = router.query.id;
+
+  const { data: userInfo } = useQuery({
+    queryKey: [queryKeys.userById, id],
+    queryFn: () => getProfile(Number(id)),
+    select: (res) => res?.data.data,
+  });
 
   return (
     <>

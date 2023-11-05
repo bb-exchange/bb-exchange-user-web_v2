@@ -1,13 +1,15 @@
+import { useRecoilValue } from "recoil";
+import { useRouter } from "next/router";
+
 import styles from "./index.module.scss";
 import ImageFirework from "../../../../public/assets/images/firework.svg";
 import ContainedBtn from ".src/components/Buttons/ContainedBtn";
-import { useRouter } from "next/router";
-import { AppStore } from ".src/app/store";
-import { useSelector } from "react-redux";
+import { userNameState } from ".src/recoil";
 
 const SignUpCompletion = () => {
   const router = useRouter();
-  const nickname = useSelector((state: AppStore) => state.user.nickname);
+
+  const nickname = useRecoilValue(userNameState);
 
   return (
     <div id={styles.signUpCompletion} className={styles.container}>
