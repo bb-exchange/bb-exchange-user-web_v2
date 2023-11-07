@@ -6,7 +6,7 @@ interface profile {
   nickname: string;
   description: string;
   balance: number;
-  withdrawableBalance: number;
+  expectedSettlementAmount: number;
 }
 export default function useGetMyProfile() {
   const { data }: any = useQuery({

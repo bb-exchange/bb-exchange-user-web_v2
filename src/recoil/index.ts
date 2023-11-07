@@ -1,4 +1,7 @@
 import { atom } from "recoil";
+import { recoilPersist } from "recoil-persist";
+
+const { persistAtom } = recoilPersist();
 
 const categoryState = atom({
   key: "categoryState",
@@ -6,13 +9,19 @@ const categoryState = atom({
 });
 
 const isLoginState = atom<boolean>({
-  key: "isLoginAtom",
+  key: "isLoginState",
   default: false,
 });
 
 const userNameState = atom<string | null>({
-  key: "userNameAtom",
+  key: "userNameState",
   default: null,
 });
 
-export { categoryState, isLoginState, userNameState };
+const activePostTypeState = atom<string>({
+  key: "activePostTypeState",
+  default: "최신",
+  effects_UNSTABLE: [persistAtom],
+});
+
+export { categoryState, isLoginState, userNameState, activePostTypeState };

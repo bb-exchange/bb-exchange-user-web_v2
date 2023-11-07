@@ -44,7 +44,9 @@ export default function ProfSec() {
               <p className={styles.key}>예상 정산금</p>
 
               <p className={styles.value}>
-                {Intl.NumberFormat().format(myProfile?.withdrawableBalance)}
+                {Intl.NumberFormat().format(
+                  myProfile?.expectedSettlementAmount
+                )}
               </p>
 
               <button

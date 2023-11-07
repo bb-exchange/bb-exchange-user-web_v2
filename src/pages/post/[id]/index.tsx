@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { fetchPost } from ".src/api/post/post";
 import Image from "next/image";
 import moment from "moment";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "moment/locale/ko";
 
 import CommonHeader from ".src/components/common/header/commonHeader";
@@ -37,15 +37,22 @@ import HeartGrey from ".assets/icons/HeartGrey.svg";
 // import BuyPostPopup from ".src/components/post/buyPostPopup";
 import CompPayPopup from ".src/components/post/compPayPopup";
 import { useRecoilValue } from "recoil";
-import { isLoginState } from ".src/recoil";
+import { activePostTypeState, isLoginState } from ".src/recoil";
 import { userArticles } from ".src/api/articles/articles";
 
 export default function Post() {
   const hook = UsePost();
   const router = useRouter();
 
+  const activePostType = useRecoilValue(activePostTypeState);
   const isLogin = useRecoilValue(isLoginState);
   const [like, setLike] = useState<1 | 0 | -1>(0);
+  const [isListingPost, setIsListingPost] = useState<boolean>();
+
+  useEffect(() => {
+    // NOTE 서버/클라단에서 서로 다른 트리를 렌더링함(에러 발생). 페이지 렌더링 된 후 상태 할당
+    setIsListingPost(activePostType === "상장" ? true : false);
+  }, [activePostType]);
 
   // NOTE 글 상세 정보 조회
   const { data: postData } = useQuery({
@@ -57,11 +64,11 @@ export default function Post() {
   const userId = postData?.userInfo.userId;
 
   // NOTE 유저의 다른 글 조회
-  const { data: userPostList } = useQuery({
-    queryKey: ["userPostList", userId],
-    queryFn: () => userArticles(`${userId}?sortBy=LATEST&page=0`),
-    enabled: !!userId,
-  });
+  // const { data: userPostList } = useQuery({
+  //   queryKey: ["userPostList", userId],
+  //   queryFn: () => userArticles(`${userId}?sortBy=LATEST&page=0`),
+  //   enabled: !!userId,
+  // });
 
   // NOTE 유저프로필 클릭 시 유저상세페이지로 연결
   const onMoveUserPage = () => {
@@ -71,7 +78,7 @@ export default function Post() {
     });
   };
 
-  // NOTE 좋아요/싫어요 클릭 시
+  // NOTE 좋아요/싫어요 클릭
   const onClickLikeBtn = (int: -1 | 0 | 1) => {
     if (!isLogin) router.push("/auth/signin");
     else {
@@ -85,6 +92,12 @@ export default function Post() {
     else if (diff < 0) return styles.dn;
   }
 
+  // NOTE '구매하기' 클릭
+  const onClickBuy = () => {
+    if (!isLogin) router.push("/auth/signin");
+    else hook.setBuyPopup(true);
+  };
+
   return (
     <>
       <CommonHeader />
@@ -97,7 +110,7 @@ export default function Post() {
                 <h2 className={styles.category}>
                   {postData?.boardInfo.description}
                 </h2>
-                {true && (
+                {!isListingPost && (
                   <>
                     <hr />
 
@@ -116,7 +129,7 @@ export default function Post() {
               </div>
 
               <div className={styles.rightCont}>
-                {true && (
+                {!isListingPost && (
                   <button
                     className={styles.otherVerBtn}
                     onClick={() => hook.setPostVerPopup(true)}
@@ -142,7 +155,7 @@ export default function Post() {
                     </p>
                   </div>
 
-                  {true ? (
+                  {!isListingPost ? (
                     <div className={`${styles.creatorBox} ${styles.contBox}`}>
                       <Eye />
 
@@ -165,7 +178,7 @@ export default function Post() {
                 </div>
 
                 <div className={styles.rightCont}>
-                  {true && (
+                  {!isListingPost && (
                     <>
                       <button className={styles.urlCopyBtn} onClick={() => {}}>
                         URL 복사
@@ -195,7 +208,7 @@ export default function Post() {
             </div>
           </article>
 
-          {true ? (
+          {!isListingPost ? (
             <>
               <article className={styles.contArea}>
                 <ReactQuill
@@ -349,7 +362,7 @@ export default function Post() {
         </section>
 
         <aside>
-          {true ? (
+          {!isListingPost ? (
             <>
               <article className={styles.creatorArea}>
                 <div className={styles.profImgBox} onClick={onMoveUserPage}>
@@ -503,10 +516,7 @@ export default function Post() {
                   </div>
                 </div>
 
-                <button
-                  className={styles.buyBtn}
-                  onClick={() => hook.setBuyPopup(true)}
-                >
+                <button className={styles.buyBtn} onClick={onClickBuy}>
                   구매하기
                 </button>
               </div>

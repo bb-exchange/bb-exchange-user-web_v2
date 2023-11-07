@@ -15,8 +15,8 @@ import ProfileHoverPopup from "./profileHoverPopup";
 import AlertHoverPopup from "./alertHoverPopup";
 import AlertCount from "./alertCount";
 import { useRouter } from "next/router";
-import { useRecoilValue } from "recoil";
-import { userNameState } from ".src/recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { activePostTypeState, userNameState } from ".src/recoil";
 
 interface Iprops {
   commonSort?: "인기" | "최신" | "상장";
@@ -26,6 +26,12 @@ export default function CommonHeader({ commonSort }: Iprops) {
   const router = useRouter();
   const customHook = useCommonHeader();
   const nickname = useRecoilValue(userNameState);
+  const setActivePostType = useSetRecoilState(activePostTypeState);
+
+  const onClickTab = (label: string, url: string) => {
+    setActivePostType(label);
+    router.push(`/${url}`);
+  };
 
   return (
     <header className={styles.commonHeader}>
@@ -119,7 +125,7 @@ export default function CommonHeader({ commonSort }: Iprops) {
                 <li
                   key={i}
                   className={v.label === commonSort ? styles.on : ""}
-                  onClick={() => router.push(`/${v.url}`)}
+                  onClick={() => onClickTab(v.label, v.url)}
                 >
                   <p>{v.label}</p>
                 </li>

@@ -37,6 +37,7 @@
     "react-notion-x": "^6.16.0",
     "react-quill": "^2.0.0",
     "recoil": "^0.7.7",
+    "recoil-persist": "^5.1.0",
     "sharp": "^0.32.6",
     "typescript": "5.0.4"
   },
