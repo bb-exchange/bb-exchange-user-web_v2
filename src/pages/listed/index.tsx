@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useRecoilValue } from "recoil";
 import moment from "moment";
 import "moment/locale/ko";
+import Image from "next/image";
 
 // import useListed from ".src/hooks/posts/useListed";
 import { categoryState, isLoginState } from ".src/recoil";
@@ -11,11 +12,11 @@ import { articles } from ".src/api/articles/articles";
 
 import PageNav from ".src/components/common/pageNav";
 import ScrollTopBtn from ".src/components/common/scrollTopBtn";
-
 import HeartRedO from ".assets/icons/HeartRedO.svg";
 import HeartGrey from ".assets/icons/HeartGrey.svg";
 import styles from "./listed.module.scss";
-import Image from "next/image";
+import PopupBg from ".src/components/common/popupBg";
+import ConfirmPopup from ".src/components/common/popup/confirmPopup";
 
 export default function Listed() {
   // FIXME - API 연동끝나면 관련 코드 일괄 정리
@@ -26,7 +27,9 @@ export default function Listed() {
   const sortBy = "LISTED";
   const category = useRecoilValue(categoryState);
   const isLogin = useRecoilValue(isLoginState);
+
   const [page, setPage] = useState<number>(0);
+  const [requestLoginPop, setRequestLoginPop] = useState<boolean>(false);
 
   const { data: articleList } = useQuery({
     queryKey: ["articles", { category, sortBy, page }],
@@ -38,6 +41,7 @@ export default function Listed() {
     else if (diff < 0) return styles.dn;
   }
 
+  // NOTE 찜하기 버튼 클릭
   const onClickFavBtn = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     articleId: number
@@ -46,6 +50,8 @@ export default function Listed() {
 
     if (isLogin) {
       // TODO 로그인 상태일 경우, 찜하기 기능 구현
+    } else {
+      setRequestLoginPop(true);
     }
   };
 
@@ -194,6 +200,20 @@ export default function Listed() {
           <PageNav />
         </section>
       </main>
+
+      {requestLoginPop && (
+        <>
+          <ConfirmPopup
+            title="로그인해 주세요"
+            content="해당 기능은 로그인이 필요해요"
+            confirmText="로그인하기"
+            confirmFunc={() => router.push("/auth/signin")}
+            cancelText="취소"
+            cancelFunc={() => setRequestLoginPop(false)}
+          />
+          <PopupBg bg off={() => setRequestLoginPop(false)} />
+        </>
+      )}
 
       <ScrollTopBtn />
     </>

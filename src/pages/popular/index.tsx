@@ -1,19 +1,28 @@
+import { useRecoilValue } from "recoil";
+import { useRouter } from "next/router";
+import moment from "moment";
+import "moment/locale/ko";
+
 import styles from "./popular.module.scss";
 import PolygonUpRedO from ".assets/icons/PolygonUpRedO.svg";
 import PolygonDnBlueO from ".assets/icons/PolygonDnBlueO.svg";
 import HorizonBarGrey from ".assets/icons/HorizonBarGrey.svg";
 import HeartRedO from ".assets/icons/HeartRedO.svg";
 import HeartGrey from ".assets/icons/HeartGrey.svg";
-import moment from "moment";
-import "moment/locale/ko";
 import UsePopular from ".src/hooks/posts/usePopular";
 import PageNav from ".src/components/common/pageNav";
 import ScrollTopBtn from ".src/components/common/scrollTopBtn";
-import { useRouter } from "next/router";
+import { isLoginState } from ".src/recoil";
+import { useState } from "react";
+import ConfirmPopup from ".src/components/common/popup/confirmPopup";
+import PopupBg from ".src/components/common/popupBg";
 
 export default function Popular() {
   const router = useRouter();
   const usePopular = UsePopular();
+
+  const isLogin = useRecoilValue(isLoginState);
+  const [requestLoginPop, setRequestLoginPop] = useState<boolean>(false);
 
   function getDiffStyle(diff: number) {
     if (diff > 0) return styles.up;
@@ -25,6 +34,19 @@ export default function Popular() {
     else if (diff < 0) return <PolygonDnBlueO />;
     else return <HorizonBarGrey />;
   }
+
+  // NOTE 찜하기 버튼 클릭
+  const onClickFavBtn = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.stopPropagation();
+
+    if (isLogin) {
+      // TODO 로그인 상태일 경우, 찜하기 기능 구현
+    } else {
+      setRequestLoginPop(true);
+    }
+  };
 
   return (
     <>
@@ -118,7 +140,8 @@ export default function Popular() {
                   <button
                     className={styles.favBtn}
                     data-js="favBtn"
-                    onClick={(e) => usePopular.onClickFavBtn(e, i)}
+                    // onClick={(e) => usePopular.onClickFavBtn(e, i)}
+                    onClick={(e) => onClickFavBtn(e)}
                   >
                     {v.isLike === true ? <HeartRedO /> : <HeartGrey />}
                   </button>
@@ -130,6 +153,20 @@ export default function Popular() {
           <PageNav />
         </section>
       </main>
+
+      {requestLoginPop && (
+        <>
+          <ConfirmPopup
+            title="로그인해 주세요"
+            content="해당 기능은 로그인이 필요해요"
+            confirmText="로그인하기"
+            confirmFunc={() => router.push("/auth/signin")}
+            cancelText="취소"
+            cancelFunc={() => setRequestLoginPop(false)}
+          />
+          <PopupBg bg off={() => setRequestLoginPop(false)} />
+        </>
+      )}
 
       <ScrollTopBtn />
     </>
