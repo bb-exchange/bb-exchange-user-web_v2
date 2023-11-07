@@ -1,24 +1,23 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
+import { useRecoilValue } from "recoil";
 import moment from "moment";
 import "moment/locale/ko";
 
 // import UseLatest from ".src/hooks/posts/useLatest";
-
-import styles from "./latest.module.scss";
-import HeartRedO from ".assets/icons/HeartRedO.svg";
-import HeartGrey from ".assets/icons/HeartGrey.svg";
+import { articles } from ".src/api/articles/articles";
+import { categoryState, isLoginState } from ".src/recoil";
 
 import PageNav from ".src/components/common/pageNav";
 import ScrollTopBtn from ".src/components/common/scrollTopBtn";
-
-import { articles } from ".src/api/articles/articles";
-import { useRecoilValue } from "recoil";
-import { categoryState, isLoginState } from ".src/recoil";
+import Image from ".src/components/Image";
 import PopupBg from ".src/components/common/popupBg";
 import ConfirmPopup from ".src/components/common/popup/confirmPopup";
+
+import HeartRedO from ".assets/icons/HeartRedO.svg";
+import HeartGrey from ".assets/icons/HeartGrey.svg";
+import styles from "./latest.module.scss";
 
 export default function Lastest() {
   // FIXME - API 연동끝나면 관련 코드 일괄 정리
@@ -42,18 +41,6 @@ export default function Lastest() {
     if (diff > 0) return styles.up;
     else if (diff < 0) return styles.dn;
   }
-
-  // TODO - 전역 유틸 함수로
-  // NOTE - 다이나믹 url 이미지로더
-  const imageLoader = ({
-    src,
-    width,
-    quality,
-  }: {
-    src: string;
-    width: number;
-    quality?: number;
-  }) => `${src}?w=${width}&q=${quality || 75}`;
 
   // NOTE 찜하기 버튼 클릭
   const onClickFavBtn = (
@@ -124,8 +111,8 @@ export default function Lastest() {
                           <div className={styles.categoryCont}>
                             <span className={styles.categoryImgBox}>
                               <Image
-                                loader={imageLoader}
                                 src={boardInfo.image}
+                                loader
                                 width={24}
                                 height={24}
                                 alt="catImg"
@@ -144,8 +131,8 @@ export default function Lastest() {
                       <div className={styles.thumbnailImgBox}>
                         {thumbnail && (
                           <Image
-                            loader={imageLoader}
                             src={thumbnail}
+                            loader
                             priority
                             width={120}
                             height={82}

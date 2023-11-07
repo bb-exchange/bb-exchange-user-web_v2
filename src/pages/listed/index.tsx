@@ -4,7 +4,6 @@ import { useQuery } from "@tanstack/react-query";
 import { useRecoilValue } from "recoil";
 import moment from "moment";
 import "moment/locale/ko";
-import Image from "next/image";
 
 // import useListed from ".src/hooks/posts/useListed";
 import { categoryState, isLoginState } from ".src/recoil";
@@ -12,11 +11,13 @@ import { articles } from ".src/api/articles/articles";
 
 import PageNav from ".src/components/common/pageNav";
 import ScrollTopBtn from ".src/components/common/scrollTopBtn";
+import PopupBg from ".src/components/common/popupBg";
+import ConfirmPopup from ".src/components/common/popup/confirmPopup";
+import Image from ".src/components/Image";
+
 import HeartRedO from ".assets/icons/HeartRedO.svg";
 import HeartGrey from ".assets/icons/HeartGrey.svg";
 import styles from "./listed.module.scss";
-import PopupBg from ".src/components/common/popupBg";
-import ConfirmPopup from ".src/components/common/popup/confirmPopup";
 
 export default function Listed() {
   // FIXME - API 연동끝나면 관련 코드 일괄 정리
@@ -120,8 +121,8 @@ export default function Listed() {
                         <div className={styles.categoryCont}>
                           <span className={styles.categoryImgBox}>
                             <Image
-                              loader={imageLoader}
                               src={boardInfo.image}
+                              loader
                               width={24}
                               height={24}
                               alt="catImg"
@@ -140,8 +141,8 @@ export default function Listed() {
                     <div className={styles.thumbnailImgBox}>
                       {thumbnail && (
                         <Image
-                          loader={imageLoader}
                           src={thumbnail}
+                          loader
                           priority
                           width={120}
                           height={82}

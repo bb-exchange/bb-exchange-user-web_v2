@@ -6,6 +6,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { RecoilRoot } from "recoil";
 import { CookiesProvider } from "react-cookie";
 
+import ".src/lib/recoil";
 import "react-notion-x/src/styles.css";
 import ".src/styles/globals.scss";
 

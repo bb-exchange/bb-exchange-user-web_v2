@@ -47,6 +47,9 @@ interface Contents {
     price: number;
   };
 }
+
+type Articles = Pager & { contents: Array<Contents> };
+
 export const articles = async (params: {
   category: string;
   sortBy: "LATEST" | "POPULAR" | "LISTED";
@@ -54,10 +57,7 @@ export const articles = async (params: {
 }) =>
   await basicInstance
     .get(`/v1/articles`, { params })
-    .then(
-      ({ data }: { data: { data: Pager & { contents: Contents[] } } }) =>
-        data.data
-    );
+    .then(({ data: { data } }: { data: { data: Articles } }) => data);
 
 export const postArticle = async (formData: IpostArticle) => {
   basicInstance.post(`/v1/articles`, formData).then((res) => console.log(res));
