@@ -15,7 +15,10 @@ const Navbar = () => {
             <HomeLink />
           </Link>
         </section>
-        <OutlinedBtn text={"문의하기"} />
+        <OutlinedBtn
+          text={"문의하기"}
+          onClick={() => window.open("https://pf.kakao.com/_xbTmcxj")}
+        />
       </div>
       {!pathname?.includes("/auth") && <div className={styles.subNavbar}></div>}
     </nav>
