@@ -1,6 +1,13 @@
 import { useState } from "react";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useRouter } from "next/router";
-import { useQuery } from "@tanstack/react-query";
+import {
+  DehydratedState,
+  HydrationBoundary,
+  QueryClient,
+  dehydrate,
+  useQuery,
+} from "@tanstack/react-query";
 import { useRecoilValue } from "recoil";
 import moment from "moment";
 import "moment/locale/ko";
@@ -19,7 +26,34 @@ import HeartRedO from ".assets/icons/HeartRedO.svg";
 import HeartGrey from ".assets/icons/HeartGrey.svg";
 import styles from "./listed.module.scss";
 
-export default function Listed() {
+export const getServerSideProps: GetServerSideProps<{
+  dehydratedState: DehydratedState;
+}> = async () => {
+  const queryClient = new QueryClient();
+
+  const defaultValues = {
+    category: "ALL",
+    sortBy: "LISTED" as const,
+    page: 0,
+  };
+
+  await queryClient.prefetchQuery({
+    queryKey: ["articles", defaultValues],
+    queryFn: () => articles(defaultValues),
+  });
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+      commonLayout: true,
+      commonSort: "상장",
+    },
+  };
+};
+
+export default function Listed({
+  dehydratedState,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   // FIXME - API 연동끝나면 관련 코드 일괄 정리
   // const customHook = useListed();
 
@@ -68,7 +102,7 @@ export default function Listed() {
   }) => `${src}?w=${width}&q=${quality || 75}`;
 
   return (
-    <>
+    <HydrationBoundary state={dehydratedState}>
       <main className={styles.listed}>
         <section className={styles.postSec}>
           <ul className={styles.postList}>
@@ -217,10 +251,6 @@ export default function Listed() {
       )}
 
       <ScrollTopBtn />
-    </>
+    </HydrationBoundary>
   );
-}
-
-export function getStaticProps() {
-  return { props: { commonLayout: true, commonSort: "상장" } };
 }

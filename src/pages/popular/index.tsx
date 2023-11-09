@@ -1,6 +1,13 @@
 import { useState } from "react";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useRouter } from "next/router";
-import { useQuery } from "@tanstack/react-query";
+import {
+  DehydratedState,
+  HydrationBoundary,
+  QueryClient,
+  dehydrate,
+  useQuery,
+} from "@tanstack/react-query";
 import { useRecoilValue } from "recoil";
 import moment from "moment";
 import "moment/locale/ko";
@@ -22,7 +29,34 @@ import HeartRedO from ".assets/icons/HeartRedO.svg";
 import HeartGrey from ".assets/icons/HeartGrey.svg";
 import styles from "./popular.module.scss";
 
-export default function Popular() {
+export const getServerSideProps: GetServerSideProps<{
+  dehydratedState: DehydratedState;
+}> = async () => {
+  const queryClient = new QueryClient();
+
+  const defaultValues = {
+    category: "ALL",
+    sortBy: "POPULAR" as const,
+    page: 0,
+  };
+
+  await queryClient.prefetchQuery({
+    queryKey: ["articles", defaultValues],
+    queryFn: () => articles(defaultValues),
+  });
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+      commonLayout: true,
+      commonSort: "인기",
+    },
+  };
+};
+
+export default function Popular({
+  dehydratedState,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   // FIXME - API 연동끝나면 관련 코드 일괄 정리
   // const usePopular = UsePopular();
 
@@ -65,7 +99,7 @@ export default function Popular() {
   };
 
   return (
-    <>
+    <HydrationBoundary state={dehydratedState}>
       <main className={styles.popular}>
         <section className={styles.postSec}>
           <ul className={styles.postList} data-cy="postList">
@@ -232,10 +266,6 @@ export default function Popular() {
       )}
 
       <ScrollTopBtn />
-    </>
+    </HydrationBoundary>
   );
-}
-
-export function getStaticProps() {
-  return { props: { commonLayout: true, commonSort: "인기" } };
 }
