@@ -184,12 +184,6 @@ export default function Listed({
                           height={82}
                           style={{ objectFit: "cover" }}
                           alt=""
-                          isError={imageLoadError.has(articleId)}
-                          onError={() =>
-                            setImageLoadError(
-                              new Set(imageLoadError).add(articleId)
-                            )
-                          }
                         />
                       )}
                     </div>

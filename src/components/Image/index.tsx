@@ -1,25 +1,34 @@
+import { useMemo, useState } from "react";
 import NextImage, { ImageLoaderProps, ImageProps } from "next/image";
 
 const Image = ({
   src,
   loader,
-  isError = false,
   title,
   ...props
-}: Omit<ImageProps, "loader"> & { loader?: boolean; isError?: boolean }) => {
-  const imgPath = !isError ? src : "/assets/images/error_image.svg";
+}: Omit<ImageProps, "loader"> & { loader?: boolean }) => {
+  const [error, setError] = useState<boolean>(false);
 
-  const imgLoader =
-    loader && !isError
-      ? ({ src, width, quality }: ImageLoaderProps) =>
-          `${src}?w=${width}&q=${quality || 75}`
-      : undefined;
+  const imgPath = useMemo(
+    () => (error ? "/assets/images/error_image.svg" : src),
+    [error, src]
+  );
+
+  const imgLoader = useMemo(
+    () =>
+      loader && !error
+        ? ({ src, width, quality }: ImageLoaderProps) =>
+            `${src}?w=${width}&q=${quality || 75}`
+        : undefined,
+    [error, loader]
+  );
 
   return (
     <NextImage
       loader={imgLoader}
       src={imgPath}
-      title={isError ? "이미지를 불러오는데 실패했습니다" : title ?? undefined}
+      onError={() => setError(true)}
+      title={error ? "이미지를 불러오는데 실패했습니다" : title ?? undefined}
       {...props}
     />
   );
