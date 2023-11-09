@@ -19,8 +19,15 @@ export default function useEnroll(quillRef: any) {
   const [delDraftPopup, setDelDraftPopup] = useState<boolean>(false);
   const [loadDraftPopup, setLoadDraftPopup] = useState<boolean>(false);
 
-  const { register, watch, setValue, formState, resetField, handleSubmit } =
-    useForm<IenrollProps>({ mode: "onChange" });
+  const {
+    register,
+    watch,
+    setValue,
+    getValues,
+    formState,
+    resetField,
+    handleSubmit,
+  } = useForm<IenrollProps>({ mode: "onChange" });
 
   // const enrollPostMutation = useMutation(postArticle, {
   //   onSuccess: (res) => console.log(res),
@@ -99,6 +106,8 @@ export default function useEnroll(quillRef: any) {
   }
 
   async function onClickEnrollBtn() {
+    console.log("content", getValues("content"));
+
     await uploadImgFile();
     // enrollPostMutation.mutateAsync({
     //   title: watch("title"),

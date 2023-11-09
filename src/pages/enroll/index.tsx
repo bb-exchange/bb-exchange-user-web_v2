@@ -40,14 +40,18 @@ export default function EnrollScreen() {
                   className={styles.selBtn}
                   onClick={() => useEnrollHook.setSelCategoryPopup(true)}
                 >
-                  <input
-                    disabled
-                    {...useEnrollHook.register("category", {
-                      required: "카테고리를 선택해주세요",
-                    })}
-                    value={useEnrollHook.watch("category")?.description}
-                    placeholder="카테고리를 선택해주세요"
-                  />
+                  {useEnrollHook.watch("category") ? (
+                    <p className={styles.categoryText}>
+                      {useEnrollHook.watch("category")?.description}
+                    </p>
+                  ) : (
+                    <input
+                      {...useEnrollHook.register("category", {
+                        required: "카테고리를 선택해주세요",
+                      })}
+                      placeholder="카테고리를 선택해주세요"
+                    />
+                  )}
 
                   <ChevronDn />
                 </button>
@@ -88,7 +92,7 @@ export default function EnrollScreen() {
                 forwardedRef={quillRef}
                 formats={quillFormats}
                 modules={useEnrollHook.modules}
-                placeholder="나누고 싶은 나만의 비법을 적어주세요."
+                placeholder="나누고 싶은 나만의 비법을 적어주세요. (100자 이상)"
                 value={useEnrollHook.watch("content")}
                 onChange={(
                   value: string,
