@@ -71,6 +71,8 @@ export default function Listed({
     queryFn: () => articles({ category, sortBy, page }),
   });
 
+  const [imageLoadError, setImageLoadError] = useState<Set<number>>(new Set());
+
   function getDiffStyle(diff: number) {
     if (diff > 0) return styles.up;
     else if (diff < 0) return styles.dn;
@@ -181,7 +183,13 @@ export default function Listed({
                           width={120}
                           height={82}
                           style={{ objectFit: "cover" }}
-                          alt="thumbnail"
+                          alt=""
+                          isError={imageLoadError.has(articleId)}
+                          onError={() =>
+                            setImageLoadError(
+                              new Set(imageLoadError).add(articleId)
+                            )
+                          }
                         />
                       )}
                     </div>

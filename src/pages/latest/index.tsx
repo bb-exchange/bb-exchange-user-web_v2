@@ -37,6 +37,9 @@ export default function Lastest() {
     queryFn: () => articles({ category, sortBy, page }),
   });
 
+  // TODO 리스트 새로 불러올 때마다 초기화해야됨
+  const [imageLoadError, setImageLoadError] = useState<Set<number>>(new Set());
+
   function getDiffStyle(diff: number) {
     if (diff > 0) return styles.up;
     else if (diff < 0) return styles.dn;
@@ -137,7 +140,13 @@ export default function Lastest() {
                             width={120}
                             height={82}
                             style={{ objectFit: "cover" }}
-                            alt="thumbnail"
+                            alt=""
+                            isError={imageLoadError.has(articleId)}
+                            onError={() =>
+                              setImageLoadError(
+                                new Set(imageLoadError).add(articleId)
+                              )
+                            }
                           />
                         )}
                       </div>

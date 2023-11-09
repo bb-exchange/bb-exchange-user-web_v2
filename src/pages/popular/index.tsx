@@ -66,13 +66,15 @@ export default function Popular({
   const category = useRecoilValue(categoryState);
   const [page, setPage] = useState<number>(0);
 
+  const isLogin = useRecoilValue(isLoginState);
+  const [requestLoginPop, setRequestLoginPop] = useState<boolean>(false);
+
   const { data: articleList } = useQuery({
     queryKey: ["articles", { category, sortBy, page }],
     queryFn: () => articles({ category, sortBy, page }),
   });
 
-  const isLogin = useRecoilValue(isLoginState);
-  const [requestLoginPop, setRequestLoginPop] = useState<boolean>(false);
+  const [imageLoadError, setImageLoadError] = useState<Set<number>>(new Set());
 
   function getDiffStyle(diff: number) {
     if (diff > 0) return styles.up;
@@ -196,7 +198,13 @@ export default function Popular({
                           width={120}
                           height={82}
                           style={{ objectFit: "cover" }}
-                          alt="thumbnail"
+                          alt=""
+                          isError={imageLoadError.has(articleId)}
+                          onError={() =>
+                            setImageLoadError(
+                              new Set(imageLoadError).add(articleId)
+                            )
+                          }
                         />
                       )}
                     </div>
