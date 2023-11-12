@@ -13,8 +13,9 @@ import moment from "moment";
 import "moment/locale/ko";
 
 // import UsePopular from ".src/hooks/posts/usePopular";
-import { articles } from ".src/api/articles/articles";
 import { categoryState, isLoginState } from ".src/recoil";
+import { articles } from ".src/api/articles/articles";
+import { useArticles } from ".src/hooks/posts/useArticles";
 
 import PageNav from ".src/components/common/pageNav";
 import ScrollTopBtn from ".src/components/common/scrollTopBtn";
@@ -69,12 +70,12 @@ export default function Popular({
   const isLogin = useRecoilValue(isLoginState);
   const [requestLoginPop, setRequestLoginPop] = useState<boolean>(false);
 
-  const { data: articleList } = useQuery({
-    queryKey: ["articles", { category, sortBy, page }],
-    queryFn: () => articles({ category, sortBy, page }),
+  // NOTE 글 목록 관련 hooks
+  const { articleList, mutateArticle } = useArticles({
+    sortBy,
+    category,
+    page,
   });
-
-  const [imageLoadError, setImageLoadError] = useState<Set<number>>(new Set());
 
   function getDiffStyle(diff: number) {
     if (diff > 0) return styles.up;
@@ -88,13 +89,21 @@ export default function Popular({
   // }
 
   // NOTE 찜하기 버튼 클릭
-  const onClickFavBtn = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    e.stopPropagation();
-
+  const onClickFavBtn = ({
+    articleId,
+    interest,
+  }: {
+    articleId: number;
+    interest: boolean;
+  }) => {
     if (isLogin) {
-      // TODO 로그인 상태일 경우, 찜하기 기능 구현
+      const { contents } = articleList!;
+
+      const index = contents.findIndex(
+        (content) => content.articleInfo.articleId === articleId
+      );
+
+      mutateArticle({ index, articleId, bookmarking: !interest });
     } else {
       setRequestLoginPop(true);
     }
@@ -244,8 +253,10 @@ export default function Popular({
                     <button
                       className={styles.favBtn}
                       data-js="favBtn"
-                      // onClick={(e) => usePopular.onClickFavBtn(e, i)}
-                      onClick={(e) => onClickFavBtn(e)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onClickFavBtn({ articleId, interest });
+                      }}
                     >
                       {interest === true ? <HeartRedO /> : <HeartGrey />}
                     </button>

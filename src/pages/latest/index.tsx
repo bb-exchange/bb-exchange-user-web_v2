@@ -6,12 +6,8 @@ import moment from "moment";
 import "moment/locale/ko";
 
 // import UseLatest from ".src/hooks/posts/useLatest";
-import {
-  Articles,
-  articles,
-  updateArticleBookmark,
-} from ".src/api/articles/articles";
 import { categoryState, isLoginState } from ".src/recoil";
+import { useArticles } from ".src/hooks/posts/useArticles";
 
 import PageNav from ".src/components/common/pageNav";
 import ScrollTopBtn from ".src/components/common/scrollTopBtn";
@@ -36,9 +32,11 @@ export default function Lastest() {
   const [page, setPage] = useState<number>(0);
   const [requestLoginPop, setRequestLoginPop] = useState<boolean>(false);
 
-  const { data: articleList } = useQuery({
-    queryKey: ["articles", { category, sortBy, page }],
-    queryFn: () => articles({ category, sortBy, page }),
+  // NOTE 글 목록 관련 hooks
+  const { articleList, mutateArticle } = useArticles({
+    sortBy,
+    category,
+    page,
   });
 
   function getDiffStyle(diff: number) {
@@ -46,35 +44,14 @@ export default function Lastest() {
     else if (diff < 0) return styles.dn;
   }
 
-  const queryClient = useQueryClient();
-  const { mutate: mutateArticle } = useMutation({
-    mutationFn: ({
-      index,
-      ...props
-    }: {
-      index: number;
-      bookmarking: boolean;
-      articleId: number;
-    }) => updateArticleBookmark(props),
-    onMutate: ({ index, bookmarking }) => {
-      queryClient.setQueryData<Articles>(
-        ["articles", { category, sortBy, page }],
-        (articles) => {
-          if (articles != null) {
-            const { contents } = articles;
-            contents[index].articleInfo.interest = bookmarking;
-          }
-          return articles;
-        }
-      );
-    },
-    onError: () => {
-      // TODO alert
-    },
-  });
-
   // NOTE 찜하기 버튼 클릭
-  const onClickFavBtn = (articleId: number) => {
+  const onClickFavBtn = ({
+    articleId,
+    interest,
+  }: {
+    articleId: number;
+    interest: boolean;
+  }) => {
     if (isLogin) {
       const { contents } = articleList!;
 
@@ -82,9 +59,7 @@ export default function Lastest() {
         (content) => content.articleInfo.articleId === articleId
       );
 
-      const isBookmared = contents[index].articleInfo.interest;
-
-      mutateArticle({ index, articleId, bookmarking: !isBookmared });
+      mutateArticle({ index, articleId, bookmarking: !interest });
     } else {
       setRequestLoginPop(true);
     }
@@ -219,7 +194,7 @@ export default function Lastest() {
                         data-js="favBtn"
                         onClick={(e) => {
                           e.stopPropagation();
-                          onClickFavBtn(articleId);
+                          onClickFavBtn({ articleId, interest });
                         }}
                       >
                         {interest ? <HeartRedO /> : <HeartGrey />}

@@ -15,6 +15,7 @@ import "moment/locale/ko";
 // import useListed from ".src/hooks/posts/useListed";
 import { categoryState, isLoginState } from ".src/recoil";
 import { articles } from ".src/api/articles/articles";
+import { useArticles } from ".src/hooks/posts/useArticles";
 
 import PageNav from ".src/components/common/pageNav";
 import ScrollTopBtn from ".src/components/common/scrollTopBtn";
@@ -66,12 +67,12 @@ export default function Listed({
   const [page, setPage] = useState<number>(0);
   const [requestLoginPop, setRequestLoginPop] = useState<boolean>(false);
 
-  const { data: articleList } = useQuery({
-    queryKey: ["articles", { category, sortBy, page }],
-    queryFn: () => articles({ category, sortBy, page }),
+  // NOTE 글 목록 관련 hooks
+  const { articleList, mutateArticle } = useArticles({
+    sortBy,
+    category,
+    page,
   });
-
-  const [imageLoadError, setImageLoadError] = useState<Set<number>>(new Set());
 
   function getDiffStyle(diff: number) {
     if (diff > 0) return styles.up;
@@ -79,14 +80,19 @@ export default function Listed({
   }
 
   // NOTE 찜하기 버튼 클릭
-  const onClickFavBtn = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    articleId: number
-  ) => {
-    e.stopPropagation();
-
+  const onClickFavBtn = ({
+    articleId,
+    interest,
+  }: {
+    articleId: number;
+    interest: boolean;
+  }) => {
     if (isLogin) {
-      // TODO 로그인 상태일 경우, 찜하기 기능 구현
+      const { contents } = articleList!;
+      const index = contents.findIndex(
+        (content) => content.articleInfo.articleId === articleId
+      );
+      mutateArticle({ index, articleId, bookmarking: !interest });
     } else {
       setRequestLoginPop(true);
     }
@@ -229,7 +235,8 @@ export default function Listed({
                     <button
                       className={styles.favBtn}
                       onClick={(e) => {
-                        onClickFavBtn(e, articleId);
+                        e.stopPropagation();
+                        onClickFavBtn({ articleId, interest });
                       }}
                     >
                       {interest === true ? <HeartRedO /> : <HeartGrey />}
