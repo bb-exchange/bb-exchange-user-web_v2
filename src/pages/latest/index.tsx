@@ -127,15 +127,13 @@ export default function Lastest() {
                     onClick={() => router.push(`/post/${articleId}`)}
                   >
                     <div className={styles.leftArea}>
-                      <div className={styles.infoCont}>
+                      <div
+                        className={`${styles.infoCont} ${
+                          read ? styles.read : ""
+                        }`}
+                      >
                         <div className={styles.titleBar}>
-                          <h1
-                            className={`${styles.title} ${
-                              read ? styles.read : ""
-                            }`}
-                          >
-                            {title}
-                          </h1>
+                          <h1 className={styles.title}>{title}</h1>
                           <p className={styles.replyCount}>{`[${
                             (commentNum || 0) > 99 ? `+99` : commentNum || 0
                           }]`}</p>
@@ -162,7 +160,11 @@ export default function Lastest() {
                         </div>
                       </div>
 
-                      <div className={styles.thumbnailImgBox}>
+                      <div
+                        className={`${styles.thumbnailImgBox} ${
+                          read ? styles.read : ""
+                        }`}
+                      >
                         {thumbnail && (
                           <Image
                             src={thumbnail}
@@ -182,7 +184,7 @@ export default function Lastest() {
                         <div
                           className={`${styles.priceCont} ${getDiffStyle(
                             changeRate || 0
-                          )}`}
+                          )} ${read ? styles.read : ""}`}
                         >
                           <div className={styles.diffBox}>
                             <p>
@@ -199,7 +201,11 @@ export default function Lastest() {
                           )} P`}</h1>
                         </div>
                       ) : (
-                        <div className={styles.notListedCont}>
+                        <div
+                          className={`${styles.notListedCont} ${
+                            read ? styles.read : ""
+                          }`}
+                        >
                           <div className={styles.likeCountBox}>
                             <p>{`좋아요 ${likeNum || 0}개`}</p>
                           </div>

@@ -81,6 +81,11 @@
             gap: 8px;
             overflow: hidden;
 
+            &.read {
+              // color: $Gray1;
+              opacity: 0.5;
+            }
+
             .titleBar {
               display: flex;
               gap: 4px;
@@ -92,10 +97,6 @@
                 overflow: hidden;
                 white-space: nowrap;
                 text-overflow: ellipsis;
-
-                &.read {
-                  color: $Gray1;
-                }
               }
 
               .replyCount {
@@ -144,6 +145,10 @@
             border-radius: 6px;
             overflow: hidden;
 
+            &.read {
+              opacity: 0.5;
+            }
+
             img {
               width: 100%;
               height: 100%;
@@ -162,6 +167,10 @@
             flex-direction: column;
             align-items: center;
             gap: 12px;
+
+            &.read {
+              opacity: 0.5;
+            }
 
             &.up {
               .diffBox {
@@ -214,6 +223,10 @@
             flex-direction: column;
             align-items: center;
             gap: 12px;
+
+            &.read {
+              opacity: 0.5;
+            }
 
             .likeCountBox {
               padding: 4px 8px;
