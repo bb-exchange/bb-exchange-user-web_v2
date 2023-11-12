@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRecoilValue } from "recoil";
 import moment from "moment";
 import "moment/locale/ko";
 
 // import UseLatest from ".src/hooks/posts/useLatest";
-import { articles } from ".src/api/articles/articles";
+import {
+  Articles,
+  articles,
+  updateArticleBookmark,
+} from ".src/api/articles/articles";
 import { categoryState, isLoginState } from ".src/recoil";
 
 import PageNav from ".src/components/common/pageNav";
@@ -37,23 +41,50 @@ export default function Lastest() {
     queryFn: () => articles({ category, sortBy, page }),
   });
 
-  // TODO 리스트 새로 불러올 때마다 초기화해야됨
-  const [imageLoadError, setImageLoadError] = useState<Set<number>>(new Set());
-
   function getDiffStyle(diff: number) {
     if (diff > 0) return styles.up;
     else if (diff < 0) return styles.dn;
   }
 
-  // NOTE 찜하기 버튼 클릭
-  const onClickFavBtn = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    articleId: number
-  ) => {
-    e.stopPropagation();
+  const queryClient = useQueryClient();
+  const { mutate: mutateArticle } = useMutation({
+    mutationFn: ({
+      index,
+      ...props
+    }: {
+      index: number;
+      bookmarking: boolean;
+      articleId: number;
+    }) => updateArticleBookmark(props),
+    onMutate: ({ index, bookmarking }) => {
+      queryClient.setQueryData<Articles>(
+        ["articles", { category, sortBy, page }],
+        (articles) => {
+          if (articles != null) {
+            const { contents } = articles;
+            contents[index].articleInfo.interest = bookmarking;
+          }
+          return articles;
+        }
+      );
+    },
+    onError: () => {
+      // TODO alert
+    },
+  });
 
+  // NOTE 찜하기 버튼 클릭
+  const onClickFavBtn = (articleId: number) => {
     if (isLogin) {
-      // TODO 로그인 상태일 경우, 찜하기 기능 구현
+      const { contents } = articleList!;
+
+      const index = contents.findIndex(
+        (content) => content.articleInfo.articleId === articleId
+      );
+
+      const isBookmared = contents[index].articleInfo.interest;
+
+      mutateArticle({ index, articleId, bookmarking: !isBookmared });
     } else {
       setRequestLoginPop(true);
     }
@@ -181,7 +212,8 @@ export default function Lastest() {
                         className={styles.favBtn}
                         data-js="favBtn"
                         onClick={(e) => {
-                          onClickFavBtn(e, articleId);
+                          e.stopPropagation();
+                          onClickFavBtn(articleId);
                         }}
                       >
                         {interest ? <HeartRedO /> : <HeartGrey />}

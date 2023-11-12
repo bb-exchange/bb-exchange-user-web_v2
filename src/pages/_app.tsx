@@ -22,8 +22,8 @@ export default function App({ Component, ...rest }: AppProps) {
             refetchOnMount: false,
             refetchOnWindowFocus: false,
             retry: false,
-            staleTime: 5 * 1000,
-            gcTime: 1000,
+            // staleTime: 5 * 100,
+            gcTime: 0,
           },
         },
       })

@@ -11,14 +11,14 @@ export const fetchArticles = async ({ queryKey }: { queryKey: any[] }) => {
   });
 };
 
-interface Pager {
+export interface Pager {
   pageNumber: number;
   numberOfElements: number;
   size: number;
   hasNext: boolean;
 }
 
-interface Contents {
+export interface Contents {
   boardInfo: {
     image: string;
     category: string;
@@ -48,8 +48,9 @@ interface Contents {
   };
 }
 
-type Articles = Pager & { contents: Array<Contents> };
+export type Articles = Pager & { contents: Array<Contents> };
 
+// NOTE 게시글 목록
 export const articles = async (params: {
   category: string;
   sortBy: "LATEST" | "POPULAR" | "LISTED";
@@ -81,4 +82,19 @@ export const userInterestsArticles = async (query: string) => {
 
 export const fetchArticleLike = async (articleId: number) => {
   return await basicInstance.post(`/v1/articles/${articleId}/like`);
+};
+
+// NOTE 게시글 찜 등록/찜 해제
+export const updateArticleBookmark = async ({
+  bookmarking,
+  articleId,
+}: {
+  bookmarking: boolean;
+  articleId: number;
+}) => {
+  const method = bookmarking ? "POST" : "DELETE";
+  return await basicInstance({
+    url: `/v1/articles/interests/${articleId}`,
+    method,
+  }).then(({ data: { message } }: { data: { message: string } }) => message);
 };
