@@ -1,7 +1,22 @@
-import { atom } from "recoil";
+import { AtomEffect, atom, useSetRecoilState } from "recoil";
 import { recoilPersist } from "recoil-persist";
 
 const { persistAtom } = recoilPersist();
+
+const ssrComplatedState = atom({
+  key: "SsrCompleted",
+  default: false,
+});
+
+export const useSsrCompletedState = () => {
+  const setSsrCompleted = useSetRecoilState(ssrComplatedState);
+
+  return () => setSsrCompleted(true);
+};
+
+const persistAtomEffect = <T>(param: Parameters<AtomEffect<T>>[0]) => {
+  param.getPromise(ssrComplatedState).then(() => persistAtom(param));
+};
 
 const categoryState = atom({
   key: "categoryState",
@@ -11,17 +26,19 @@ const categoryState = atom({
 const isLoginState = atom<boolean>({
   key: "isLoginState",
   default: false,
+  effects_UNSTABLE: [persistAtomEffect],
 });
 
 const userNameState = atom<string | null>({
   key: "userNameState",
   default: null,
+  effects_UNSTABLE: [persistAtomEffect],
 });
 
 const activePostTypeState = atom<string>({
   key: "activePostTypeState",
   default: "최신",
-  effects_UNSTABLE: [persistAtom],
+  effects_UNSTABLE: [persistAtomEffect],
 });
 
 export { categoryState, isLoginState, userNameState, activePostTypeState };

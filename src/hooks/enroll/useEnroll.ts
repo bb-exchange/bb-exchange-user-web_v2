@@ -27,15 +27,9 @@ export default function useEnroll(quillRef: any) {
     formState,
     resetField,
     handleSubmit,
+    clearErrors,
+    setError,
   } = useForm<IenrollProps>({ mode: "onChange" });
-
-  // const enrollPostMutation = useMutation(postArticle, {
-  //   onSuccess: (res) => console.log(res),
-  // });
-
-  // const enrollImagesMutation = useMutation(postImages, {
-  //   onSuccess: (res) => console.log(res),
-  // });
 
   const enrollPostMutation = useMutation({
     mutationFn: postArticle,
@@ -53,7 +47,8 @@ export default function useEnroll(quillRef: any) {
 
   useEffect(() => {
     register("content", {
-      required: "내용을 좀 더 입력하면 상장될 것 같아요",
+      required: true,
+      // "내용을 좀 더 입력하면 상장될 것 같아요",
       minLength: {
         value: 100,
         message: "최소 100글자 이상 입력해주세요",
@@ -69,15 +64,17 @@ export default function useEnroll(quillRef: any) {
         capture: true,
       });
     };
-  }, []);
+  }, [register]);
 
   useEffect(() => {
-    if (errMsgBusy) return;
+    // if (errMsgBusy) return;
 
     const { errors } = formState;
+    console.log("1errors", errors);
 
     let _errKeys = Object.values(errors);
     let _errMsgs = _errKeys.map((e) => e.message);
+    console.log("_errMsgs", _errKeys, _errMsgs);
 
     if (!_errMsgs[0]) return;
 
@@ -106,9 +103,36 @@ export default function useEnroll(quillRef: any) {
   }
 
   async function onClickEnrollBtn() {
-    console.log("content", getValues("content"));
+    if (!watch("category.description")) {
+      return setError("category", {
+        type: "noText",
+        message: "카테고리를 선택해주세요",
+      });
+    }
+    if (!watch("title")) {
+      return setError("title", {
+        type: "noText",
+        message: "제목을 입력해주세요",
+      });
+    }
+    if (!watch("content")) {
+      return setError("content", {
+        type: "noText",
+        message: "내용을 입력해주세요",
+      });
+    }
+    if (watch("content")) {
+      return setError("content", {
+        type: "minLength",
+        message: "최소 100글자 이상 입력해주세요",
+      });
+    }
 
-    await uploadImgFile();
+    // console.log("content", getValues("content"));
+
+    // TODO 에러 체크
+
+    // await uploadImgFile();
     // enrollPostMutation.mutateAsync({
     //   title: watch("title"),
     //   category: watch("category").category,
@@ -117,6 +141,8 @@ export default function useEnroll(quillRef: any) {
     //   thumbnailImage: watch("thumbNail"),
     // });
   }
+
+  // console.log("errMsg", errMsg);
 
   const imgHandler = (quillRef: any) => {
     const quill = quillRef.current.getEditor();
@@ -172,7 +198,8 @@ export default function useEnroll(quillRef: any) {
 
   const closeErrMsg = () => {
     setErrMsg("");
-    setErrMsgBusy(true);
+    clearErrors();
+    // setErrMsgBusy(true);
   };
 
   const setNewTag = (newTag: string) => {

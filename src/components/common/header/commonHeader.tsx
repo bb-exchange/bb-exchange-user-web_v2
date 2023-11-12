@@ -8,7 +8,6 @@ import TriangleDn from ".assets/icons/TriangleDn.svg";
 import ChevronRt from ".assets/icons/ChevronRt.svg";
 import DefaultProfImg from ".assets/example/DefaultProfImg.png";
 import { D_commonHeaderCategoryList } from ".src/data/common/header";
-import useCommonHeader from ".src/hooks/common/useCommonHeader";
 import PostCategoryPopup from "./postCategoryPopup";
 import Image from "next/image";
 import ProfileHoverPopup from "./profileHoverPopup";
@@ -16,7 +15,7 @@ import AlertHoverPopup from "./alertHoverPopup";
 import AlertCount from "./alertCount";
 import { useRouter } from "next/router";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { activePostTypeState, userNameState } from ".src/recoil";
+import { activePostTypeState, isLoginState, userNameState } from ".src/recoil";
 
 interface Iprops {
   commonSort?: "인기" | "최신" | "상장";
@@ -24,8 +23,9 @@ interface Iprops {
 
 export default function CommonHeader({ commonSort }: Iprops) {
   const router = useRouter();
-  const customHook = useCommonHeader();
+
   const nickname = useRecoilValue(userNameState);
+  const isSignedIn = useRecoilValue(isLoginState);
   const setActivePostType = useSetRecoilState(activePostTypeState);
 
   const onClickTab = (label: string, url: string) => {
@@ -43,12 +43,8 @@ export default function CommonHeader({ commonSort }: Iprops) {
             </button>
           </div>
 
-          <div
-            className={`${styles.rightCont} ${
-              customHook.isSignedIn ? "login" : ""
-            } `}
-          >
-            {customHook.isSignedIn ? (
+          <div className={`${styles.rightCont} ${isSignedIn ? "login" : ""} `}>
+            {isSignedIn ? (
               <>
                 <button
                   className={styles.writeBtn}
@@ -137,12 +133,10 @@ export default function CommonHeader({ commonSort }: Iprops) {
             <div className={styles.bannerBox}>
               <div
                 className={styles.banner}
-                onClick={() =>
-                  !customHook.isSignedIn && router.push("/auth/signin")
-                }
+                onClick={() => !isSignedIn && router.push("/auth/signin")}
               >
                 <p className={styles.cont}>
-                  {!!customHook.isSignedIn && (
+                  {!!isSignedIn && (
                     <span>
                       <strong className={styles.nickname}>{nickname}</strong>
                       님,

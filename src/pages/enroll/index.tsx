@@ -75,7 +75,10 @@ export default function EnrollScreen() {
                 <input
                   {...useEnrollHook.register("title", {
                     required: "제목을 입력해주세요",
-                    maxLength: { value: 40, message: "미정" },
+                    maxLength: {
+                      value: 40,
+                      message: "제목은 최대 40자까지 입력 가능합니다.",
+                    },
                   })}
                   placeholder="제목을 입력해주세요. (최대 40자)"
                 />
