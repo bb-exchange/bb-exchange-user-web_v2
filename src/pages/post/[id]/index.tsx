@@ -37,22 +37,15 @@ import HeartGrey from ".assets/icons/HeartGrey.svg";
 // import BuyPostPopup from ".src/components/post/buyPostPopup";
 import CompPayPopup from ".src/components/post/compPayPopup";
 import { useRecoilValue } from "recoil";
-import { activePostTypeState, isLoginState } from ".src/recoil";
-import { userArticles } from ".src/api/articles/articles";
+import { isLoginState } from ".src/recoil";
+// import { userArticles } from ".src/api/articles/articles";
 
 export default function Post() {
   const hook = UsePost();
   const router = useRouter();
 
-  const activePostType = useRecoilValue(activePostTypeState);
   const isLogin = useRecoilValue(isLoginState);
   const [like, setLike] = useState<1 | 0 | -1>(0);
-  const [isListingPost, setIsListingPost] = useState<boolean>();
-
-  useEffect(() => {
-    // NOTE 서버/클라단에서 서로 다른 트리를 렌더링함(에러 발생). 페이지 렌더링 된 후 상태 할당
-    setIsListingPost(activePostType === "상장" ? true : false);
-  }, [activePostType]);
 
   // NOTE 글 상세 정보 조회
   const { data: postData } = useQuery({
@@ -110,7 +103,7 @@ export default function Post() {
                 <h2 className={styles.category}>
                   {postData?.boardInfo.description}
                 </h2>
-                {!isListingPost && (
+                {!postData?.articleInfo.isListed && (
                   <>
                     <hr />
 
@@ -129,7 +122,7 @@ export default function Post() {
               </div>
 
               <div className={styles.rightCont}>
-                {!isListingPost && (
+                {!postData?.articleInfo.isListed && (
                   <button
                     className={styles.otherVerBtn}
                     onClick={() => hook.setPostVerPopup(true)}
@@ -155,7 +148,7 @@ export default function Post() {
                     </p>
                   </div>
 
-                  {!isListingPost ? (
+                  {!postData?.articleInfo.isListed ? (
                     <div className={`${styles.creatorBox} ${styles.contBox}`}>
                       <Eye />
 
@@ -178,7 +171,7 @@ export default function Post() {
                 </div>
 
                 <div className={styles.rightCont}>
-                  {!isListingPost && (
+                  {!postData?.articleInfo.isListed && (
                     <>
                       <button className={styles.urlCopyBtn} onClick={() => {}}>
                         URL 복사
@@ -208,7 +201,7 @@ export default function Post() {
             </div>
           </article>
 
-          {!isListingPost ? (
+          {!postData?.articleInfo.isListed ? (
             <>
               <article className={styles.contArea}>
                 <ReactQuill
@@ -362,7 +355,7 @@ export default function Post() {
         </section>
 
         <aside>
-          {!isListingPost ? (
+          {!postData?.articleInfo.isListed ? (
             <>
               <article className={styles.creatorArea}>
                 <div className={styles.profImgBox} onClick={onMoveUserPage}>

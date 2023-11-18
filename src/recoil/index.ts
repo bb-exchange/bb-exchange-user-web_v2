@@ -35,10 +35,4 @@ const userNameState = atom<string | null>({
   effects_UNSTABLE: [persistAtomEffect],
 });
 
-const activePostTypeState = atom<string>({
-  key: "activePostTypeState",
-  default: "최신",
-  effects_UNSTABLE: [persistAtomEffect],
-});
-
-export { categoryState, isLoginState, userNameState, activePostTypeState };
+export { categoryState, isLoginState, userNameState };
