@@ -47,6 +47,8 @@ export default function Post() {
   const isLogin = useRecoilValue(isLoginState);
   const [like, setLike] = useState<1 | 0 | -1>(0);
 
+  const [copied, setCopied] = useState<boolean>(false);
+
   // NOTE 글 상세 정보 조회
   const { data: postData } = useQuery({
     queryKey: ["post", router.query.id],
@@ -89,6 +91,12 @@ export default function Post() {
   const onClickBuy = () => {
     if (!isLogin) router.push("/auth/signin");
     else hook.setBuyPopup(true);
+  };
+
+  // NOTE URL 복사 클릭
+  const urlCopy = () => {
+    navigator.clipboard.writeText(window.location.href);
+    setCopied(true);
   };
 
   return (
@@ -173,7 +181,7 @@ export default function Post() {
                 <div className={styles.rightCont}>
                   {!postData?.articleInfo.isListed && (
                     <>
-                      <button className={styles.urlCopyBtn} onClick={() => {}}>
+                      <button className={styles.urlCopyBtn} onClick={urlCopy}>
                         URL 복사
                       </button>
 
@@ -605,6 +613,16 @@ export default function Post() {
             off={() => hook.setCompPayPopup(false)}
           />
           <PopupBg bg off={() => hook.setCompPayPopup(false)} />
+        </>
+      )}
+
+      {copied && (
+        <>
+          <ErrorMsgPopup
+            msg="URL이 복사되었습니다. "
+            confirmFunc={() => setCopied(false)}
+          />
+          <PopupBg bg off={() => setCopied(false)} />
         </>
       )}
     </>
