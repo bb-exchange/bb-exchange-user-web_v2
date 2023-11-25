@@ -1,10 +1,10 @@
 import dynamic from "next/dynamic";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { fetchPost } from ".src/api/post/post";
 import Image from "next/image";
 import moment from "moment";
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import "moment/locale/ko";
 
 import CommonHeader from ".src/components/common/header/commonHeader";
@@ -38,6 +38,7 @@ import HeartGrey from ".assets/icons/HeartGrey.svg";
 import CompPayPopup from ".src/components/post/compPayPopup";
 import { useRecoilValue } from "recoil";
 import { isLoginState } from ".src/recoil";
+import { currentUserInfo, hideAuthorsPosts } from ".src/api/users/users";
 // import { userArticles } from ".src/api/articles/articles";
 
 export default function Post() {
@@ -46,6 +47,13 @@ export default function Post() {
 
   const isLogin = useRecoilValue(isLoginState);
   const [like, setLike] = useState<1 | 0 | -1>(0);
+
+  const { data: currentUserData } = useQuery({
+    queryKey: ["currentUser"],
+    queryFn: currentUserInfo,
+    enabled: isLogin,
+    gcTime: Infinity,
+  });
 
   const [copied, setCopied] = useState<boolean>(false);
 
@@ -98,6 +106,15 @@ export default function Post() {
     navigator.clipboard.writeText(window.location.href);
     setCopied(true);
   };
+
+  // NOTE 현재 글 작성자의 모든 글 숨기기
+  const { mutate: mutateHidePosts } = useMutation({
+    mutationFn: hideAuthorsPosts,
+    onSuccess: hook.onSuccessHideUserPost,
+    onError: (error) => {
+      //TODO - 에러처리
+    },
+  });
 
   return (
     <>
@@ -562,12 +579,14 @@ export default function Post() {
         </>
       )}
 
-      {hook.hideUserPostPopup && (
+      {userId && currentUserData && hook.hideUserPostPopup && (
         <>
           <ConfirmPopup
             title="이 사용자의 글을 숨기시겠어요?"
-            content="이미 구매한 글을 제외하고 wooAng님의 게시글을 더는 보이지 않아요."
-            confirmFunc={hook.onSuccessHideUserPost}
+            content={`이미 구매한 글을 제외하고 ${postData?.userInfo.nickname}님의 게시글을 더는 보이지 않아요.`}
+            confirmFunc={() =>
+              mutateHidePosts({ author: userId, userId: currentUserData.id })
+            }
             cancelFunc={() => hook.setHideUserPostPopup(false)}
           />
           <PopupBg bg off={() => hook.setHideUserPostPopup(false)} />
@@ -593,7 +612,10 @@ export default function Post() {
                 <br /> 완료하였습니다.
               </>
             }
-            confirmFunc={() => hook.setCompHideUserPostPopup(false)}
+            confirmFunc={() => {
+              hook.setCompHideUserPostPopup(false);
+              router.replace("/");
+            }}
           />
           <PopupBg bg off={() => hook.setCompHideUserPostPopup(false)} />
         </>
