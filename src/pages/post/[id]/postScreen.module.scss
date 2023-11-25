@@ -200,6 +200,23 @@
         background: $White2;
         border-radius: 60px;
 
+        &.notListed {
+          height: 90px;
+          width: 160px;
+          justify-content: space-between;
+          gap: unset;
+          padding: 0 38px 0 27px;
+          background: $White1;
+          border: 3px solid $Gray2;
+
+          cursor: pointer;
+
+          &.like {
+            box-shadow: 0px 0px 10px 0px #ff3f2533;
+            border-color: $Red1;
+          }
+        }
+
         &.up {
           .likeBtn {
             &:nth-of-type(1) {
@@ -277,6 +294,10 @@
             font-size: 18px;
             font-weight: 700;
             line-height: 28px;
+          }
+
+          .like {
+            color: $Red1;
           }
         }
       }

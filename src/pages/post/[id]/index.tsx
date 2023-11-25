@@ -1,10 +1,14 @@
 import dynamic from "next/dynamic";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { fetchPost } from ".src/api/post/post";
+import {
+  fetchPost,
+  updateDislikePost,
+  updateLikePost,
+} from ".src/api/post/post";
 import Image from "next/image";
 import moment from "moment";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import "moment/locale/ko";
 
 import CommonHeader from ".src/components/common/header/commonHeader";
@@ -16,10 +20,8 @@ import NewSky from ".assets/icons/NewSky.svg";
 import ChevronRt from ".assets/icons/ChevronRt.svg";
 import Dot3 from ".assets/icons/Dot3.svg";
 import Eye from ".assets/icons/Eye.svg";
-import ThumbUpRed from ".assets/icons/ThumbUpRed.svg";
-import ThumbUpGrey from ".assets/icons/ThumbUpGrey.svg";
-import ThumbDnGrey from ".assets/icons/ThumbDnGrey.svg";
-import ThumbDnBlue from ".assets/icons/ThumbDnBlue.svg";
+// import ThumbDnGrey from ".assets/icons/ThumbDnGrey.svg";
+// import ThumbDnBlue from ".assets/icons/ThumbDnBlue.svg";
 import NoticeCircleGrey from ".assets/icons/NoticeCircleGrey.svg";
 import Message from ".assets/icons/Message.svg";
 import UsePost from ".src/hooks/post/usePost";
@@ -40,14 +42,24 @@ import { useRecoilValue } from "recoil";
 import { isLoginState } from ".src/recoil";
 import { currentUserInfo, hideAuthorsPosts } from ".src/api/users/users";
 // import { userArticles } from ".src/api/articles/articles";
+import { IPostDetailRes } from ".src/api/interface/post";
+import ImageComp from ".src/components/Image";
 
 export default function Post() {
   const hook = UsePost();
   const router = useRouter();
+  const { id: articleId } = router.query as { id: string };
 
   const isLogin = useRecoilValue(isLoginState);
-  const [like, setLike] = useState<1 | 0 | -1>(0);
 
+  // NOTE 좋아요/싫어요 수정 불가 팝업 오픈 여부
+  const [oneMinOver, setOneMinOver] = useState<boolean>(false);
+
+  // NOTE tanstack qurey 현재 페이지 공통 키
+  const queryKey = ["post", { articleId }];
+  const queryClient = useQueryClient();
+
+  // NOTE 현재 로그인한 유저 정보
   const { data: currentUserData } = useQuery({
     queryKey: ["currentUser"],
     queryFn: currentUserInfo,
@@ -55,16 +67,57 @@ export default function Post() {
     gcTime: Infinity,
   });
 
+  // NOTE URL 복사 완료 팝업 오픈 여부
   const [copied, setCopied] = useState<boolean>(false);
 
   // NOTE 글 상세 정보 조회
   const { data: postData } = useQuery({
-    queryKey: ["post", router.query.id],
-    queryFn: fetchPost,
+    queryKey,
+    queryFn: () => fetchPost(articleId),
     select: (res) => res?.data.data,
+    enabled: !!articleId,
   });
 
   const userId = postData?.userInfo.userId;
+
+  type LikeProps = {
+    isTrue: boolean;
+    type: "like" | "dislike";
+  };
+  // NOTE 좋아요/싫어요 - 등록/해제
+  const { mutate: mutateSetValue } = useMutation({
+    mutationFn: async ({ isTrue, type }: LikeProps) =>
+      type === "like"
+        ? await updateLikePost({
+            articleId,
+            isLike: isTrue,
+          })
+        : await updateDislikePost({
+            articleId,
+            isDislike: isTrue,
+          }),
+
+    onSuccess: (_, { type, isTrue }) =>
+      queryClient.setQueryData<IPostDetailRes>(queryKey, (post) => {
+        if (post != null) {
+          const { priceInfo } = post.data.data;
+
+          if (type === "like") {
+            priceInfo.isLike = isTrue;
+            isTrue ? (priceInfo.likeNum += 1) : (priceInfo.likeNum -= 1);
+          } else {
+            priceInfo.isDislike = isTrue;
+            isTrue ? (priceInfo.dislikeNum += 1) : (priceInfo.dislikeNum -= 1);
+          }
+        }
+
+        return post;
+      }),
+
+    onError: (error) => {
+      error?.message.includes("minutes") && setOneMinOver(true);
+    },
+  });
 
   // NOTE 유저의 다른 글 조회
   // const { data: userPostList } = useQuery({
@@ -82,13 +135,24 @@ export default function Post() {
   };
 
   // NOTE 좋아요/싫어요 클릭
-  const onClickLikeBtn = (int: -1 | 0 | 1) => {
-    if (!isLogin) router.push("/auth/signin");
-    else {
-      if (int === like) setLike(0);
-      else setLike(int);
-    }
-  };
+  const onClickSetValue = useCallback(
+    ({ type }: { type: "like" | "dislike" }) => {
+      if (!isLogin) router.push("/auth/signin");
+      else {
+        const { isLike, isDislike } = postData!.priceInfo;
+
+        if (!isLike && !isDislike)
+          return mutateSetValue({ type, isTrue: true });
+        else if (type === "like" && isDislike)
+          return mutateSetValue({ type: "dislike", isTrue: false });
+        else if (type === "dislike" && isLike)
+          return mutateSetValue({ type: "like", isTrue: false });
+
+        return mutateSetValue({ type, isTrue: false });
+      }
+    },
+    [isLogin, mutateSetValue, postData, router]
+  );
 
   function getDiffStyle(diff: number) {
     if (diff > 0) return styles.up;
@@ -226,6 +290,7 @@ export default function Post() {
             </div>
           </article>
 
+          {/* NOTE 비상장글일 때 */}
           {!postData?.articleInfo.isListed ? (
             <>
               <article className={styles.contArea}>
@@ -237,14 +302,15 @@ export default function Post() {
               </article>
 
               <article className={styles.likeArea}>
-                <div
+                {/* TODO 상장글에 적용될 코드 */}
+                {/* <div
                   className={`${postData?.priceInfo.isLike ? styles.up : ""} ${
                     postData?.priceInfo.isDislike ? styles.dn : ""
                   } ${styles.innerCont}`}
                 >
                   <button
                     className={styles.likeBtn}
-                    onClick={() => onClickLikeBtn(1)}
+                    onClick={() => onClickSetValue({ type: "like" })}
                   >
                     {postData?.priceInfo.isLike ? (
                       <ThumbUpRed />
@@ -268,7 +334,7 @@ export default function Post() {
 
                   <button
                     className={styles.likeBtn}
-                    onClick={() => onClickLikeBtn(-1)}
+                    onClick={() => onClickSetValue({ type: "dislike" })}
                   >
                     {postData?.priceInfo.isDislike ? (
                       <ThumbDnBlue />
@@ -277,6 +343,45 @@ export default function Post() {
                     )}
                     <p>-1P</p>
                   </button>
+                </div> */}
+
+                <div
+                  className={`${
+                    postData?.priceInfo.isLike ? styles.like : ""
+                  } ${styles.innerCont} ${styles.notListed}`}
+                  onClick={() => onClickSetValue({ type: "like" })}
+                >
+                  <ImageComp
+                    src={
+                      postData?.priceInfo.isLike
+                        ? "/assets/icons/ThumbUpRed.svg"
+                        : "/assets/icons/ThumbUpGrey.svg"
+                    }
+                    width={36}
+                    height={36}
+                    alt=""
+                  />
+
+                  <div
+                    className={`${styles.currentBox} ${
+                      postData?.priceInfo.isLike ? styles.like : ""
+                    }`}
+                  >
+                    <p
+                      className={`${
+                        postData?.priceInfo.isLike ? styles.like : ""
+                      }`}
+                    >
+                      좋아요
+                    </p>
+                    <h2
+                      className={`${styles.price} ${
+                        postData?.priceInfo.isLike ? styles.like : ""
+                      }`}
+                    >
+                      {postData?.priceInfo.likeNum}
+                    </h2>
+                  </div>
                 </div>
               </article>
 
@@ -331,6 +436,7 @@ export default function Post() {
               </article>
             </>
           ) : (
+            // NOTE 상장글일 때
             <>
               <article
                 className={`${styles.contArea} ${true ? "" : styles.limited}`}
@@ -380,6 +486,7 @@ export default function Post() {
         </section>
 
         <aside>
+          {/* NOTE 비상장글일 때 */}
           {!postData?.articleInfo.isListed ? (
             <>
               <article className={styles.creatorArea}>
@@ -507,6 +614,7 @@ export default function Post() {
               </article>
             </>
           ) : (
+            // NOTE 상장글일 때
             <article className={styles.buyArea}>
               <div className={styles.viewCont}>
                 <strong className={styles.icon}>👀</strong>
@@ -544,6 +652,16 @@ export default function Post() {
       </main>
 
       <CommonFooter />
+
+      {oneMinOver && (
+        <>
+          <ErrorMsgPopup
+            msg="평가의 수정은 1분 이내에만 가능합니다"
+            confirmFunc={() => setOneMinOver(false)}
+          />
+          <PopupBg bg off={() => setOneMinOver(false)} />
+        </>
+      )}
 
       {hook.postVerPopup && (
         <>
