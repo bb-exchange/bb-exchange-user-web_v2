@@ -60,6 +60,20 @@ export const articles = async (params: {
     .get(`/v1/articles`, { params })
     .then(({ data: { data } }: { data: { data: Articles } }) => data);
 
+// NOTE 작성자의 게시글 목록
+export const articlesByUser = async ({
+  userId,
+  sortBy = "PRICE",
+  page = 0,
+}: {
+  userId?: number;
+  sortBy?: "PRICE" | "POPULAR" | "LATEST";
+  page?: number;
+}) =>
+  await basicInstance
+    .get(`/v1/articles/users/${userId}`, { params: { sortBy, page } })
+    .then(({ data: { data } }: { data: { data: Articles } }) => data.contents);
+
 export const postArticle = async (formData: IpostArticle) => {
   basicInstance.post(`/v1/articles`, formData).then((res) => console.log(res));
 };

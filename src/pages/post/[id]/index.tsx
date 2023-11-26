@@ -8,7 +8,7 @@ import {
 } from ".src/api/post/post";
 import Image from "next/image";
 import moment from "moment";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import "moment/locale/ko";
 
 import CommonHeader from ".src/components/common/header/commonHeader";
@@ -44,6 +44,7 @@ import { currentUserInfo, hideAuthorsPosts } from ".src/api/users/users";
 // import { userArticles } from ".src/api/articles/articles";
 import { IPostDetailRes } from ".src/api/interface/post";
 import ImageComp from ".src/components/Image";
+import { articlesByUser } from ".src/api/articles/articles";
 
 export default function Post() {
   const hook = UsePost();
@@ -120,11 +121,25 @@ export default function Post() {
   });
 
   // NOTE 유저의 다른 글 조회
-  // const { data: userPostList } = useQuery({
-  //   queryKey: ["userPostList", userId],
-  //   queryFn: () => userArticles(`${userId}?sortBy=LATEST&page=0`),
-  //   enabled: !!userId,
-  // });
+  const {
+    data: articlesByUserSortByPrice,
+    isError,
+    isFetched,
+  } = useQuery({
+    queryKey: ["articles", { userId, sortBy: "PRICE" }],
+    queryFn: () => articlesByUser({ userId }),
+    enabled: !!userId,
+  });
+  const { data: articlesByUserSortByLatest } = useQuery({
+    queryKey: ["articles", { userId, sortBy: "LATEST" }],
+    queryFn: () => articlesByUser({ userId, sortBy: "LATEST" }),
+    enabled: !!userId && isFetched && isError,
+  });
+  const articleListByUser = useMemo(
+    () =>
+      (articlesByUserSortByPrice ?? articlesByUserSortByLatest ?? []).slice(2),
+    [articlesByUserSortByLatest, articlesByUserSortByPrice]
+  );
 
   // NOTE 유저프로필 클릭 시 유저상세페이지로 연결
   const onMoveUserPage = () => {
@@ -511,56 +526,88 @@ export default function Post() {
                 </p>
               </article>
 
-              <article
-                className={`${styles.otherPostArea} ${styles.postListArea}`}
-              >
-                <p className={styles.areaTitle}>
-                  {postData?.userInfo.nickname}님의 다른 글
-                </p>
+              {!!articleListByUser.length && (
+                <article
+                  className={`${styles.otherPostArea} ${styles.postListArea}`}
+                >
+                  <p className={styles.areaTitle}>
+                    {postData?.userInfo.nickname}님의 다른 글
+                  </p>
 
-                {/* <ul className={styles.postList}>
-                  {hook.otherPostList.map((v, i) => (
-                    <li key={i}>
-                      <div className={styles.topBar}>
-                        <p>
-                          <strong className={styles.category}>
-                            {v.category}
-                          </strong>
-                          ・{v.creatorNickname}・{moment(v.createdAt).fromNow()}
-                        </p>
-                      </div>
-
-                      <div className={styles.contBar}>
-                        <div className={styles.leftCont}>
-                          <p className={styles.title}>{v.title}</p>
-
-                          <div className={styles.thumbnailBox}>
-                            <img src={v.thumbnailUrl} alt="" />
+                  <ul className={styles.postList}>
+                    {articleListByUser.map(
+                      (
+                        {
+                          boardInfo: { category },
+                          articleInfo: { updatedAt, title, thumbnail, listed },
+                          priceInfo: {
+                            price,
+                            changeRate,
+                            changeAmount,
+                            likeNum,
+                          },
+                        },
+                        i
+                      ) => (
+                        <li key={i}>
+                          <div className={styles.topBar}>
+                            <p>
+                              <strong className={styles.category}>
+                                {category}
+                              </strong>
+                              ・{moment(updatedAt).fromNow()}
+                            </p>
                           </div>
-                        </div>
 
-                        <div
-                          className={`${styles.rightCont} ${getDiffStyle(
-                            v.percentOfChange || 0
-                          )}`}
-                        >
-                          <p className={styles.diff}>
-                            {`${(v.percentOfChange || 0) > 0 ? "+" : ""}${
-                              v.percentOfChange || 0
-                            }% (${v.amountOfChange || 0})`}
-                          </p>
+                          <div className={styles.contBar}>
+                            <div className={styles.leftCont}>
+                              <p className={styles.title}>{title}</p>
 
-                          <p
-                            className={styles.price}
-                          >{`${new Intl.NumberFormat().format(
-                            v.point || 0
-                          )} 원`}</p>
-                        </div>
-                      </div>
-                    </li>
-                  ))}
-                </ul> */}
-              </article>
+                              <div className={styles.thumbnailBox}>
+                                {thumbnail && (
+                                  <ImageComp
+                                    src={thumbnail}
+                                    loader
+                                    priority
+                                    width={40}
+                                    height={40}
+                                    style={{ objectFit: "cover" }}
+                                    alt=""
+                                  />
+                                )}
+                              </div>
+                            </div>
+
+                            {listed ? (
+                              <div
+                                className={`${styles.rightCont} ${getDiffStyle(
+                                  changeRate || 0
+                                )}`}
+                              >
+                                <p className={styles.diff}>
+                                  {`${(changeRate || 0) > 0 ? "+" : ""}${
+                                    changeRate || 0
+                                  }% (${changeAmount || 0})`}
+                                </p>
+
+                                <p
+                                  className={styles.price}
+                                >{`${new Intl.NumberFormat().format(
+                                  price || 0
+                                )} 원`}</p>
+                              </div>
+                            ) : (
+                              <div>
+                                <p>{`좋아요 ${likeNum || 0}개`}</p>
+                              </div>
+                            )}
+                          </div>
+                        </li>
+                      )
+                    )}
+                  </ul>
+                </article>
+              )}
 
               <article
                 className={`${styles.categoryPopularPostList} ${styles.postListArea}`}
