@@ -597,8 +597,13 @@ export default function Post() {
                                 )} 원`}</p>
                               </div>
                             ) : (
-                              <div>
-                                <p>{`좋아요 ${likeNum || 0}개`}</p>
+                              <div
+                                className={`${styles.rightCont} ${styles.notListed}`}
+                              >
+                                <p
+                                  className={`${styles.rightCont} ${styles.notListed} ${styles.like}`}
+                                >{`좋아요 ${likeNum || 0}개`}</p>
+                                <p>비상장</p>
                               </div>
                             )}
                           </div>

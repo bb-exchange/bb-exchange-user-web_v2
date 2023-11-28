@@ -509,6 +509,22 @@
                 font-weight: 700;
                 line-height: 24px;
               }
+
+              &.notListed {
+                &.like {
+                  font-size: 12px;
+                  line-height: 18px;
+                  font-weight: 400;
+                  color: $Red1;
+                }
+
+                p {
+                  font-size: 16px;
+                  font-weight: 700;
+                  line-height: 24px;
+                  color: $PrimaryBG1;
+                }
+              }
             }
           }
         }
