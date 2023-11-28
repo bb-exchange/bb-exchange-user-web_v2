@@ -137,8 +137,12 @@ export default function Post() {
   });
   const articleListByUser = useMemo(
     () =>
-      (articlesByUserSortByPrice ?? articlesByUserSortByLatest ?? []).slice(2),
-    [articlesByUserSortByLatest, articlesByUserSortByPrice]
+      (articlesByUserSortByPrice ?? articlesByUserSortByLatest ?? [])
+        .filter(
+          ({ articleInfo: { articleId: id } }) => id !== Number(articleId)
+        )
+        .slice(0, 3),
+    [articleId, articlesByUserSortByLatest, articlesByUserSortByPrice]
   );
 
   // NOTE 유저프로필 클릭 시 유저상세페이지로 연결
@@ -536,20 +540,18 @@ export default function Post() {
 
                   <ul className={styles.postList}>
                     {articleListByUser.map(
-                      (
-                        {
-                          boardInfo: { category },
-                          articleInfo: { updatedAt, title, thumbnail, listed },
-                          priceInfo: {
-                            price,
-                            changeRate,
-                            changeAmount,
-                            likeNum,
-                          },
+                      ({
+                        boardInfo: { category },
+                        articleInfo: {
+                          updatedAt,
+                          title,
+                          thumbnail,
+                          listed,
+                          articleId,
                         },
-                        i
-                      ) => (
-                        <li key={i}>
+                        priceInfo: { price, changeRate, changeAmount, likeNum },
+                      }) => (
+                        <li key={articleId}>
                           <div className={styles.topBar}>
                             <p>
                               <strong className={styles.category}>
@@ -559,7 +561,10 @@ export default function Post() {
                             </p>
                           </div>
 
-                          <div className={styles.contBar}>
+                          <div
+                            className={styles.contBar}
+                            onClick={() => router.push(`/post/${articleId}`)}
+                          >
                             <div className={styles.leftCont}>
                               <p className={styles.title}>{title}</p>
 
