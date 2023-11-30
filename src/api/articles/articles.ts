@@ -50,10 +50,12 @@ export interface Contents {
 
 export type Articles = Pager & { contents: Array<Contents> };
 
+export type ArticleSortByType = "LATEST" | "POPULAR" | "LISTED" | "PRICE";
+
 // NOTE 게시글 목록
 export const articles = async (params: {
   category: string;
-  sortBy: "LATEST" | "POPULAR" | "LISTED";
+  sortBy: ArticleSortByType;
   page: number;
 }) =>
   await basicInstance
@@ -67,7 +69,7 @@ export const articlesByUser = async ({
   page = 0,
 }: {
   userId?: number;
-  sortBy?: "PRICE" | "POPULAR" | "LATEST";
+  sortBy?: ArticleSortByType;
   page?: number;
 }) =>
   await basicInstance

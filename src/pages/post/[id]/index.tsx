@@ -38,13 +38,18 @@ import HeartRedO from ".assets/icons/HeartRedO.svg";
 import HeartGrey from ".assets/icons/HeartGrey.svg";
 // import BuyPostPopup from ".src/components/post/buyPostPopup";
 import CompPayPopup from ".src/components/post/compPayPopup";
-import { useRecoilValue } from "recoil";
-import { isLoginState } from ".src/recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { categoryState, isLoginState } from ".src/recoil";
 import { currentUserInfo, hideAuthorsPosts } from ".src/api/users/users";
 // import { userArticles } from ".src/api/articles/articles";
 import { IPostDetailRes } from ".src/api/interface/post";
 import ImageComp from ".src/components/Image";
-import { articlesByUser } from ".src/api/articles/articles";
+import {
+  ArticleSortByType,
+  Contents,
+  articles,
+  articlesByUser,
+} from ".src/api/articles/articles";
 
 export default function Post() {
   const hook = UsePost();
@@ -52,17 +57,18 @@ export default function Post() {
   const { id: articleId } = router.query as { id: string };
 
   const isLogin = useRecoilValue(isLoginState);
+  const setCategory = useSetRecoilState(categoryState);
 
   // NOTE 좋아요/싫어요 수정 불가 팝업 오픈 여부
   const [oneMinOver, setOneMinOver] = useState<boolean>(false);
 
   // NOTE tanstack qurey 현재 페이지 공통 키
-  const queryKey = ["post", { articleId }];
+  const queryKey = [fetchPost.name, { articleId }];
   const queryClient = useQueryClient();
 
   // NOTE 현재 로그인한 유저 정보
   const { data: currentUserData } = useQuery({
-    queryKey: ["currentUser"],
+    queryKey: [currentUserInfo.name],
     queryFn: currentUserInfo,
     enabled: isLogin,
     gcTime: Infinity,
@@ -81,13 +87,15 @@ export default function Post() {
 
   const userId = postData?.userInfo.userId;
 
-  type LikeProps = {
-    isTrue: boolean;
-    type: "like" | "dislike";
-  };
   // NOTE 좋아요/싫어요 - 등록/해제
   const { mutate: mutateSetValue } = useMutation({
-    mutationFn: async ({ isTrue, type }: LikeProps) =>
+    mutationFn: async ({
+      isTrue,
+      type,
+    }: {
+      isTrue: boolean;
+      type: "like" | "dislike";
+    }) =>
       type === "like"
         ? await updateLikePost({
             articleId,
@@ -115,10 +123,26 @@ export default function Post() {
         return post;
       }),
 
-    onError: (error) => {
-      error?.message.includes("minutes") && setOneMinOver(true);
-    },
+    onError: (error) =>
+      error?.message.includes("minutes") && setOneMinOver(true),
   });
+
+  // NOTE articlesByUser 인자 리턴 함수
+  const setParams = useCallback(
+    ({ sortBy }: { sortBy: ArticleSortByType }) => ({ userId, sortBy }),
+    [userId]
+  );
+
+  // NOTE 목록 필터 함수
+  const filteredList = useCallback(
+    ({ list, count = 3 }: { list: Array<Contents>; count?: number }) =>
+      list
+        .filter(
+          ({ articleInfo: { articleId: id } }) => id !== Number(articleId)
+        )
+        .slice(0, count),
+    [articleId]
+  );
 
   // NOTE 유저의 다른 글 조회
   const {
@@ -126,24 +150,35 @@ export default function Post() {
     isError,
     isFetched,
   } = useQuery({
-    queryKey: ["articles", { userId, sortBy: "PRICE" }],
-    queryFn: () => articlesByUser({ userId }),
+    queryKey: [articlesByUser.name, setParams({ sortBy: "PRICE" })],
+    queryFn: () => articlesByUser(setParams({ sortBy: "PRICE" })),
     enabled: !!userId,
   });
   const { data: articlesByUserSortByLatest } = useQuery({
-    queryKey: ["articles", { userId, sortBy: "LATEST" }],
-    queryFn: () => articlesByUser({ userId, sortBy: "LATEST" }),
+    queryKey: [articlesByUser.name, setParams({ sortBy: "LATEST" })],
+    queryFn: () => articlesByUser(setParams({ sortBy: "LATEST" })),
     enabled: !!userId && isFetched && isError,
   });
   const articleListByUser = useMemo(
     () =>
-      (articlesByUserSortByPrice ?? articlesByUserSortByLatest ?? [])
-        .filter(
-          ({ articleInfo: { articleId: id } }) => id !== Number(articleId)
-        )
-        .slice(0, 3),
-    [articleId, articlesByUserSortByLatest, articlesByUserSortByPrice]
+      filteredList({
+        list: articlesByUserSortByPrice ?? articlesByUserSortByLatest ?? [],
+      }),
+    [articlesByUserSortByLatest, articlesByUserSortByPrice, filteredList]
   );
+
+  // NOTE 현재 카테고리의 인기글 조회
+  const { data: popularArticles } = useQuery({
+    queryKey: [articles.name, { category: postData?.boardInfo.category }],
+    enabled: !!(postData?.boardInfo.category != null),
+    queryFn: () =>
+      articles({
+        category: postData!.boardInfo.category,
+        sortBy: "POPULAR",
+        page: 0,
+      }),
+    select: ({ contents }) => filteredList({ list: contents }),
+  });
 
   // NOTE 유저프로필 클릭 시 유저상세페이지로 연결
   const onMoveUserPage = () => {
@@ -198,6 +233,16 @@ export default function Post() {
       //TODO - 에러처리
     },
   });
+
+  // NOTE 다른 글로 이동하는 함수
+  const onClickMoveToPost = (articleId: number) =>
+    router.push(`/post/${articleId}`);
+
+  // NOTE 전체 인기글 보러가기
+  const onClickMoveToPopular = () => {
+    setCategory(postData!.boardInfo.category);
+    router.push("/popular");
+  };
 
   return (
     <>
@@ -530,6 +575,7 @@ export default function Post() {
                 </p>
               </article>
 
+              {/* NOTE 작성자의 다른 글 목록 */}
               {!!articleListByUser.length && (
                 <article
                   className={`${styles.otherPostArea} ${styles.postListArea}`}
@@ -539,86 +585,19 @@ export default function Post() {
                   </p>
 
                   <ul className={styles.postList}>
-                    {articleListByUser.map(
-                      ({
-                        boardInfo: { category },
-                        articleInfo: {
-                          updatedAt,
-                          title,
-                          thumbnail,
-                          listed,
-                          articleId,
-                        },
-                        priceInfo: { price, changeRate, changeAmount, likeNum },
-                      }) => (
-                        <li key={articleId}>
-                          <div className={styles.topBar}>
-                            <p>
-                              <strong className={styles.category}>
-                                {category}
-                              </strong>
-                              ・{moment(updatedAt).fromNow()}
-                            </p>
-                          </div>
-
-                          <div
-                            className={styles.contBar}
-                            onClick={() => router.push(`/post/${articleId}`)}
-                          >
-                            <div className={styles.leftCont}>
-                              <p className={styles.title}>{title}</p>
-
-                              <div className={styles.thumbnailBox}>
-                                {thumbnail && (
-                                  <ImageComp
-                                    src={thumbnail}
-                                    loader
-                                    priority
-                                    width={40}
-                                    height={40}
-                                    style={{ objectFit: "cover" }}
-                                    alt=""
-                                  />
-                                )}
-                              </div>
-                            </div>
-
-                            {listed ? (
-                              <div
-                                className={`${styles.rightCont} ${getDiffStyle(
-                                  changeRate || 0
-                                )}`}
-                              >
-                                <p className={styles.diff}>
-                                  {`${(changeRate || 0) > 0 ? "+" : ""}${
-                                    changeRate || 0
-                                  }% (${changeAmount || 0})`}
-                                </p>
-
-                                <p
-                                  className={styles.price}
-                                >{`${new Intl.NumberFormat().format(
-                                  price || 0
-                                )} 원`}</p>
-                              </div>
-                            ) : (
-                              <div
-                                className={`${styles.rightCont} ${styles.notListed}`}
-                              >
-                                <p
-                                  className={`${styles.rightCont} ${styles.notListed} ${styles.like}`}
-                                >{`좋아요 ${likeNum || 0}개`}</p>
-                                <p>비상장</p>
-                              </div>
-                            )}
-                          </div>
-                        </li>
-                      )
-                    )}
+                    {articleListByUser.map((props) => (
+                      <ArticleItem
+                        key={props.articleInfo.articleId}
+                        onClickMoveToPost={onClickMoveToPost}
+                        getDiffStyle={getDiffStyle}
+                        {...props}
+                      />
+                    ))}
                   </ul>
                 </article>
               )}
 
+              {/* NOTE 현재 카테고리 인기글 목록 */}
               <article
                 className={`${styles.categoryPopularPostList} ${styles.postListArea}`}
               >
@@ -627,46 +606,38 @@ export default function Post() {
                 </p>
 
                 <ul className={styles.postList}>
-                  {hook.otherPostList.map((v, i) => (
-                    <li key={i}>
-                      {/* <div className={styles.topBar}>
-                        <p>
-                          <strong className={styles.category}>
-                            {v.category}
-                          </strong>
-                          ・{v.creatorNickname}・{moment(v.createdAt).fromNow()}
-                        </p>
+                  {popularArticles?.length ? (
+                    popularArticles.map((props) => (
+                      <ArticleItem
+                        key={props.articleInfo.articleId}
+                        onClickMoveToPost={onClickMoveToPost}
+                        getDiffStyle={getDiffStyle}
+                        {...props}
+                      />
+                    ))
+                  ) : (
+                    <div className={styles.emptyArea}>
+                      <div>
+                        <ImageComp
+                          src="/assets/icons/Warn.svg"
+                          width={48}
+                          height={48}
+                          alt=""
+                        />
+                        <p className={styles.emptyDesc}>인기글이 없습니다</p>
+                        <button onClick={onClickMoveToPopular}>
+                          <p>전체 인기글 보러가기</p>
+
+                          <ImageComp
+                            src="/assets/icons/BlackArrowRight.svg"
+                            height={20}
+                            width={20}
+                            alt=""
+                          />
+                        </button>
                       </div>
-
-                      <div className={styles.contBar}>
-                        <div className={styles.leftCont}>
-                          <p className={styles.title}>{v.title}</p>
-
-                          <div className={styles.thumbnailBox}>
-                            <img src={v.thumbnailUrl} alt="" />
-                          </div>
-                        </div>
-
-                        <div
-                          className={`${styles.rightCont} ${getDiffStyle(
-                            v.percentOfChange || 0
-                          )}`}
-                        >
-                          <p className={styles.diff}>
-                            {`${(v.percentOfChange || 0) > 0 ? "+" : ""}${
-                              v.percentOfChange || 0
-                            }% (${v.amountOfChange || 0})`}
-                          </p>
-
-                          <p
-                            className={styles.price}
-                          >{`${new Intl.NumberFormat().format(
-                            v.point || 0
-                          )} 원`}</p>
-                        </div>
-                      </div> */}
-                    </li>
-                  ))}
+                    </div>
+                  )}
                 </ul>
               </article>
             </>
@@ -840,3 +811,71 @@ const ReactQuill = dynamic(
     ssr: false,
   }
 );
+
+const ArticleItem = ({
+  boardInfo: { category },
+  articleInfo: { updatedAt, title, thumbnail, listed, articleId },
+  priceInfo: { price, changeRate, changeAmount, likeNum },
+  onClickMoveToPost,
+  getDiffStyle,
+}: Contents & {
+  onClickMoveToPost: (articleId: number) => void;
+  getDiffStyle: (diff: number) => string | undefined;
+}) => {
+  return (
+    <li>
+      <div className={styles.topBar}>
+        <p>
+          <strong className={styles.category}>{category}</strong>・
+          {moment(updatedAt).fromNow()}
+        </p>
+      </div>
+
+      <div
+        className={styles.contBar}
+        onClick={() => onClickMoveToPost(articleId)}
+      >
+        <div className={styles.leftCont}>
+          <p className={styles.title}>{title}</p>
+
+          <div className={styles.thumbnailBox}>
+            {thumbnail && (
+              <ImageComp
+                src={thumbnail}
+                loader
+                priority
+                width={40}
+                height={40}
+                style={{ objectFit: "cover" }}
+                alt=""
+              />
+            )}
+          </div>
+        </div>
+
+        {listed ? (
+          <div
+            className={`${styles.rightCont} ${getDiffStyle(changeRate || 0)}`}
+          >
+            <p className={styles.diff}>
+              {`${(changeRate || 0) > 0 ? "+" : ""}${changeRate || 0}% (${
+                changeAmount || 0
+              })`}
+            </p>
+
+            <p className={styles.price}>{`${new Intl.NumberFormat().format(
+              price || 0
+            )} 원`}</p>
+          </div>
+        ) : (
+          <div className={`${styles.rightCont} ${styles.notListed}`}>
+            <p
+              className={`${styles.rightCont} ${styles.notListed} ${styles.like}`}
+            >{`좋아요 ${likeNum || 0}개`}</p>
+            <p>비상장</p>
+          </div>
+        )}
+      </div>
+    </li>
+  );
+};
