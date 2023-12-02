@@ -38,18 +38,14 @@ import HeartRedO from ".assets/icons/HeartRedO.svg";
 import HeartGrey from ".assets/icons/HeartGrey.svg";
 // import BuyPostPopup from ".src/components/post/buyPostPopup";
 import CompPayPopup from ".src/components/post/compPayPopup";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { categoryState, isLoginState } from ".src/recoil";
+import { useRecoilValue } from "recoil";
+import { isLoginState } from ".src/recoil";
 import { currentUserInfo, hideAuthorsPosts } from ".src/api/users/users";
 // import { userArticles } from ".src/api/articles/articles";
 import { IPostDetailRes } from ".src/api/interface/post";
 import ImageComp from ".src/components/Image";
-import {
-  ArticleSortByType,
-  Contents,
-  articles,
-  articlesByUser,
-} from ".src/api/articles/articles";
+import { Contents, articles } from ".src/api/articles/articles";
+import { useArticlesByUser } from ".src/hooks/posts/useArticlesByUser";
 
 export default function Post() {
   const hook = UsePost();
@@ -57,7 +53,6 @@ export default function Post() {
   const { id: articleId } = router.query as { id: string };
 
   const isLogin = useRecoilValue(isLoginState);
-  const setCategory = useSetRecoilState(categoryState);
 
   // NOTE 좋아요/싫어요 수정 불가 팝업 오픈 여부
   const [oneMinOver, setOneMinOver] = useState<boolean>(false);
@@ -127,45 +122,8 @@ export default function Post() {
       error?.message.includes("minutes") && setOneMinOver(true),
   });
 
-  // NOTE articlesByUser 인자 리턴 함수
-  const setParams = useCallback(
-    ({ sortBy }: { sortBy: ArticleSortByType }) => ({ userId, sortBy }),
-    [userId]
-  );
-
-  // NOTE 목록 필터 함수
-  const filteredList = useCallback(
-    ({ list, count = 3 }: { list: Array<Contents>; count?: number }) =>
-      list
-        .filter(
-          ({ articleInfo: { articleId: id } }) => id !== Number(articleId)
-        )
-        .slice(0, count),
-    [articleId]
-  );
-
   // NOTE 유저의 다른 글 조회
-  const {
-    data: articlesByUserSortByPrice,
-    isError,
-    isFetched,
-  } = useQuery({
-    queryKey: [articlesByUser.name, setParams({ sortBy: "PRICE" })],
-    queryFn: () => articlesByUser(setParams({ sortBy: "PRICE" })),
-    enabled: !!userId,
-  });
-  const { data: articlesByUserSortByLatest } = useQuery({
-    queryKey: [articlesByUser.name, setParams({ sortBy: "LATEST" })],
-    queryFn: () => articlesByUser(setParams({ sortBy: "LATEST" })),
-    enabled: !!userId && isFetched && isError,
-  });
-  const articleListByUser = useMemo(
-    () =>
-      filteredList({
-        list: articlesByUserSortByPrice ?? articlesByUserSortByLatest ?? [],
-      }),
-    [articlesByUserSortByLatest, articlesByUserSortByPrice, filteredList]
-  );
+  const articlesByUser = useArticlesByUser({ userId, articleId });
 
   // NOTE 현재 카테고리의 인기글 조회
   const { data: popularArticles } = useQuery({
@@ -177,7 +135,12 @@ export default function Post() {
         sortBy: "POPULAR",
         page: 0,
       }),
-    select: ({ contents }) => filteredList({ list: contents }),
+    select: ({ contents }) =>
+      contents
+        .filter(
+          ({ articleInfo: { articleId: id } }) => id !== Number(articleId)
+        )
+        .slice(0, 3),
   });
 
   // NOTE 유저프로필 클릭 시 유저상세페이지로 연결
@@ -237,12 +200,6 @@ export default function Post() {
   // NOTE 다른 글로 이동하는 함수
   const onClickMoveToPost = (articleId: number) =>
     router.push(`/post/${articleId}`);
-
-  // NOTE 전체 인기글 보러가기
-  const onClickMoveToPopular = () => {
-    setCategory(postData!.boardInfo.category);
-    router.push("/popular");
-  };
 
   return (
     <>
@@ -576,7 +533,7 @@ export default function Post() {
               </article>
 
               {/* NOTE 작성자의 다른 글 목록 */}
-              {!!articleListByUser.length && (
+              {!!articlesByUser.length && (
                 <article
                   className={`${styles.otherPostArea} ${styles.postListArea}`}
                 >
@@ -585,7 +542,7 @@ export default function Post() {
                   </p>
 
                   <ul className={styles.postList}>
-                    {articleListByUser.map((props) => (
+                    {articlesByUser.map((props) => (
                       <ArticleItem
                         key={props.articleInfo.articleId}
                         onClickMoveToPost={onClickMoveToPost}
@@ -625,7 +582,7 @@ export default function Post() {
                           alt=""
                         />
                         <p className={styles.emptyDesc}>인기글이 없습니다</p>
-                        <button onClick={onClickMoveToPopular}>
+                        <button onClick={() => router.push("/popular")}>
                           <p>전체 인기글 보러가기</p>
 
                           <ImageComp

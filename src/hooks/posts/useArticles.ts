@@ -1,4 +1,5 @@
 import {
+  ArticleSortByType,
   Articles,
   articles,
   updateArticleBookmark,
@@ -6,11 +7,11 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const useArticles = (props: {
-  sortBy: "LATEST" | "POPULAR" | "LISTED";
+  sortBy: ArticleSortByType;
   category: string;
   page: number;
 }) => {
-  const queryKey = ["articles", props];
+  const queryKey = [articles.name, props];
 
   // NOTE 글 목록
   const { data: articleList } = useQuery({

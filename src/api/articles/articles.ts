@@ -67,13 +67,15 @@ export const articlesByUser = async ({
   userId,
   sortBy = "PRICE",
   page = 0,
+  size = 3,
 }: {
   userId?: number;
   sortBy?: ArticleSortByType;
   page?: number;
+  size?: number;
 }) =>
   await basicInstance
-    .get(`/v1/articles/users/${userId}`, { params: { sortBy, page } })
+    .get(`/v1/articles/users/${userId}`, { params: { sortBy, page, size } })
     .then(({ data: { data } }: { data: { data: Articles } }) => data.contents);
 
 export const postArticle = async (formData: IpostArticle) => {
