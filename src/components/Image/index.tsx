@@ -5,6 +5,7 @@ const Image = ({
   src,
   loader,
   title,
+  style,
   ...props
 }: Omit<ImageProps, "loader"> & { loader?: boolean }) => {
   const [error, setError] = useState<boolean>(false);
@@ -25,10 +26,12 @@ const Image = ({
 
   return (
     <NextImage
+      draggable={false}
       loader={imgLoader}
       src={imgPath}
       onError={() => setError(true)}
       title={error ? "이미지를 불러오는데 실패했습니다" : title ?? undefined}
+      style={{ pointerEvents: "none", ...style }}
       {...props}
     />
   );

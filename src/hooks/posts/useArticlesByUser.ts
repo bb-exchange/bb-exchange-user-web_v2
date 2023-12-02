@@ -44,7 +44,9 @@ export const useArticlesByUser = ({
         (listPopularStatus !== "pending" && !listPopular?.length)),
   });
 
-  return (listPrice ?? listPopular ?? listLatest ?? []).filter(
+  const list = (listPrice ?? listPopular ?? listLatest ?? []).filter(
     ({ articleInfo: { articleId: id } }) => id !== Number(articleId)
   );
+
+  return list.length > 3 ? list.slice(0, 3) : list;
 };

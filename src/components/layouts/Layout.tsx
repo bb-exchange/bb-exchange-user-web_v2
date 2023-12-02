@@ -34,7 +34,12 @@ const Layout = ({ pageProps, children }: Iprops) => {
   ]);
 
   return (
-    <>
+    <div
+      style={{ height: "inherit", width: "inherit" }}
+      onContextMenu={(e) => e.preventDefault()}
+      onDragStart={(e) => e.preventDefault()}
+      onKeyDown={(e) => e.ctrlKey && e.code === "KeyC" && e.preventDefault()}
+    >
       {pageProps.navBar && <Navbar />}
       {pageProps.commonLayout && (
         <CommonHeader commonSort={pageProps.commonSort} />
@@ -43,7 +48,7 @@ const Layout = ({ pageProps, children }: Iprops) => {
       <div>{children}</div>
 
       {pageProps.commonLayout && <CommonFooter />}
-    </>
+    </div>
   );
 };
 
