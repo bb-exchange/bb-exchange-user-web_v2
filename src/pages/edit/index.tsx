@@ -24,7 +24,7 @@ export default function EditScreen() {
 
   const quillRef = React.useRef<any>(false);
   const useEditHook = useEdit(quillRef);
-  const useEnrollHook = useEnroll(quillRef);
+  const useEnrollHook = useEnroll(null);
   const tagHook = UseRecentTagPopup({ useEnrollHook });
 
   function onSubmit() {
@@ -120,7 +120,7 @@ export default function EditScreen() {
               <span className={styles.inputBox}>
                 <input
                   disabled={useEnrollHook.watch("tagList")?.length >= 10}
-                  value={tagHook.tagKeyword}
+                  value={tagHook.tagKeyword ?? ""}
                   onKeyDown={tagHook.handleKeywordKeyDown}
                   placeholder="# 멘션할 태그를 입력해주세요(최대 10개)"
                   onChange={(e) => tagHook.setTagKeyword(e.target.value)}

@@ -1,9 +1,29 @@
 import EnrollHeader from ".src/components/enroll/enrollHeader";
 import styles from "./enrollScreen.module.scss";
 import "react-quill/dist/quill.snow.css";
-import React from "react";
-import dynamic from "next/dynamic";
-import { quillFormats } from ".src/util/textEditor";
+
+import { useEditor, EditorContent, getText } from "@tiptap/react";
+// import { EditorProvider, useCurrentEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import Bold from "@tiptap/extension-bold";
+import Italic from "@tiptap/extension-italic";
+import Underline from "@tiptap/extension-underline";
+import Blockquote from "@tiptap/extension-blockquote";
+import Heading from "@tiptap/extension-heading";
+// import { Color } from '@tiptap/extension-color'
+import ListItem from "@tiptap/extension-list-item";
+import OrderedList from "@tiptap/extension-ordered-list";
+import BulletList from "@tiptap/extension-bullet-list";
+import TextAlign from "@tiptap/extension-text-align";
+import Link from "@tiptap/extension-link";
+import Placeholder from "@tiptap/extension-placeholder";
+import Paragraph from "@tiptap/extension-paragraph";
+import History from "@tiptap/extension-history";
+
+// import TextStyle from "@tiptap/extension-text-style";
+// import Document from "@tiptap/extension-document";
+// import Text from "@tiptap/extension-text";
+
 import useEnroll from ".src/hooks/enroll/useEnroll";
 import ChevronDn from ".assets/icons/ChevronDn.svg";
 import CellPhoneBlue from ".assets/icons/CellPhoneBlue.svg";
@@ -18,13 +38,57 @@ import ConfirmPopup from ".src/components/common/popup/confirmPopup";
 import UseRecentTagPopup from ".src/hooks/enroll/useRecentTagPopup";
 
 export default function EnrollScreen() {
-  const quillRef = React.useRef<any>(false);
-  const useEnrollHook = useEnroll(quillRef);
+  const editor = useEditor({
+    extensions: [
+      // History,
+      StarterKit,
+      // Document,
+      Paragraph,
+      // Text,
+      Bold.configure({
+        HTMLAttributes: {
+          class: "t-bold",
+        },
+      }),
+      Italic.configure({
+        HTMLAttributes: {
+          class: "t-italic",
+        },
+      }),
+      Underline.configure({
+        HTMLAttributes: {
+          class: "t-underline",
+        },
+      }),
+      Blockquote.configure({
+        HTMLAttributes: {
+          class: "t-blockquote",
+        },
+      }),
+      Heading.configure({
+        levels: [1, 2, 3, 4, 5],
+      }),
+      OrderedList,
+      BulletList,
+      ListItem,
+      TextAlign.configure({
+        types: ["heading", "paragraph"],
+      }),
+      Link.configure({
+        openOnClick: true,
+      }),
+      Placeholder.configure({
+        placeholder: "나누고 싶은 나만의 비법을 적어주세요. (100자 이상)",
+      }),
+    ],
+  });
+
+  const useEnrollHook = useEnroll(editor ?? null);
   const tagHook = UseRecentTagPopup({ useEnrollHook });
 
   return (
     <>
-      <EnrollHeader useEnrollHook={useEnrollHook} />
+      <EnrollHeader editor={editor} useEnrollHook={useEnrollHook} />
 
       <section className={styles.innerSec}>
         <article
@@ -74,7 +138,6 @@ export default function EnrollScreen() {
               <div className={styles.titleBox}>
                 <input
                   {...useEnrollHook.register("title", {
-                    required: "제목을 입력해주세요",
                     maxLength: {
                       value: 40,
                       message: "제목은 최대 40자까지 입력 가능합니다.",
@@ -87,26 +150,9 @@ export default function EnrollScreen() {
 
             <div
               className={styles.quillBox}
-              onClick={useEnrollHook.handleOnClickQuillImg}
+              onClick={() => editor?.commands.focus()}
             >
-              <ReactQuill
-                className={`${styles.quill}`}
-                theme="snow"
-                forwardedRef={quillRef}
-                formats={quillFormats}
-                modules={useEnrollHook.modules}
-                placeholder="나누고 싶은 나만의 비법을 적어주세요. (100자 이상)"
-                value={useEnrollHook.watch("content")}
-                onChange={(
-                  value: string,
-                  delta: any,
-                  source: any,
-                  editor: any
-                ) => {
-                  useEnrollHook.setValue("content", value);
-                  useEnrollHook.setContObj(editor.getContents());
-                }}
-              />
+              {editor && <EditorContent editor={editor} height={"100%"} />}
             </div>
 
             <div className={styles.tagBar}>
@@ -126,10 +172,11 @@ export default function EnrollScreen() {
               <span className={styles.inputBox}>
                 <input
                   disabled={useEnrollHook.watch("tagList")?.length >= 10}
-                  value={tagHook.tagKeyword}
-                  onKeyDown={tagHook.handleKeywordKeyDown}
+                  value={tagHook.tagKeyword ?? ""}
+                  // onKeyDown={tagHook.handleKeywordKeyDown}
+                  onKeyUp={tagHook.handleKeywordKeyDown}
                   placeholder="# 멘션할 태그를 입력해주세요(최대 10개)"
-                  onChange={(e) => tagHook.setTagKeyword(e.target.value)}
+                  onChange={(e) => tagHook.onChangeTag(e.target.value)}
                 />
 
                 {tagHook.tagKeyword && <RecentTagPopup tagHook={tagHook} />}
@@ -137,7 +184,6 @@ export default function EnrollScreen() {
             </div>
           </form>
         </article>
-
         <button
           className={styles.phoneScreenBtn}
           onClick={() => useEnrollHook.setMobileView(!useEnrollHook.mobileView)}
@@ -218,18 +264,3 @@ export default function EnrollScreen() {
     </>
   );
 }
-
-const ReactQuill = dynamic(
-  async () => {
-    const { default: RQ } = await import("react-quill");
-
-    const reactQuill = ({ forwardedRef, ...props }: any) => (
-      <RQ ref={forwardedRef} {...props} />
-    );
-
-    return reactQuill;
-  },
-  {
-    ssr: false,
-  }
-);

@@ -38,6 +38,7 @@ const MobileAuth = () => {
   const [openExpiredKeyPopup, setOpenExpiredKeyPopup] =
     useState<boolean>(false); //인증키 만료
   const [openErrorPopup, setOpenErrorPopup] = useState<boolean>(false);
+  const [openTryKeyErrPopup, setOpenTryKeyErrPopup] = useState<boolean>(false);
 
   const {
     register,
@@ -89,15 +90,15 @@ const MobileAuth = () => {
         push("/auth/duplicate-social-account");
       }
     } catch (error: any) {
-      if (error.response.data.message === "auth key not found") {
+      if (error.response?.data.message === "auth key not found") {
         setOpenExpiredKeyPopup(true);
       } else if (
-        error.response.data.message ===
+        error.response?.data.message ===
         "인증 문자는 하루에 최대 6회 받을 수 있어요. 내일 다시 시도해주세요."
       ) {
         setOpenExceedPopup(true);
       } else if (
-        error.response.data.message ===
+        error.response?.data.message ===
         "30초 이내에는 인증번호를 다시 전송할 수 없어요."
       ) {
         setOpenErrorPopup(true);
@@ -113,6 +114,7 @@ const MobileAuth = () => {
         oauthId: cookie.oauthId,
         phoneNumber: data.phoneNumber,
         secret: data.secret,
+        deviceUID: visitorId,
       });
       //인증 성공
       if (res.data.data.status === "PHONE_VERIFIED") {
@@ -128,10 +130,15 @@ const MobileAuth = () => {
         push("/auth/duplicate-social-account");
       }
     } catch (error: any) {
-      if (error.response.data.message === "request body's field is not valid") {
+      if (error.response?.data.message === "wrong secret") {
         setOpenErrSecretPopup(true);
-      } else if (error.response.data.message === "auth key not found") {
+      } else if (error.response?.data.message === "auth key not found") {
         setOpenExpiredKeyPopup(true);
+      } else if (
+        error.response?.data.message ===
+        "인증번호 입력 시도 횟수가 초과되었습니다."
+      ) {
+        setOpenTryKeyErrPopup(true);
       }
     }
   };
@@ -299,6 +306,20 @@ const MobileAuth = () => {
             }
           />
           <PopupBg bg off={() => setOpenExpiredKeyPopup(false)} />
+        </>
+      )}
+      {openTryKeyErrPopup && (
+        <>
+          <ErrorMsgPopup
+            confirmFunc={() => setOpenTryKeyErrPopup(false)}
+            msg={
+              <>
+                <span>인증번호 입력 시도 횟수가 초과되었습니다.</span>
+                <span>인증번호를 재전송 후 다시 입력해주세요.</span>
+              </>
+            }
+          />
+          <PopupBg bg off={() => setOpenTryKeyErrPopup(false)} />
         </>
       )}
     </div>

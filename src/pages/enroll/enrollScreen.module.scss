@@ -99,6 +99,8 @@
       .quillBox {
         padding: 44px 0 40px;
         border-bottom: 1px solid $Gray2;
+        min-height: 1100px;
+        outline: none;
 
         .quill {
           & > div {
@@ -130,6 +132,9 @@
             }
           }
         }
+      }
+      .quillBox:focus-visible {
+        outline: none !important;
       }
 
       .tagBar {

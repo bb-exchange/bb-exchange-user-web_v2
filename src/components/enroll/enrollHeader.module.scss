@@ -41,20 +41,26 @@
           color: $Gray1;
         }
       }
-
-      .enrollBtn {
-        width: 140px;
-        height: 40px;
-        font-weight: 700;
-        color: #fff;
-        background: $Primary1;
-        border-radius: 8px;
-
-        &.disabled {
-          background: $Gray3;
-        }
-      }
     }
+  }
+
+  .enrollBtn {
+    width: 140px;
+    height: 40px;
+    font-weight: 700;
+    color: #fff;
+    background: $Primary1;
+    cursor: pointer;
+    border-radius: 8px;
+  }
+  .disabled {
+    width: 140px;
+    height: 40px;
+    font-weight: 700;
+    color: #fff;
+    background: $Gray3;
+    cursor: pointer;
+    border-radius: 8px;
   }
 
   .toolBar.toolBar2 {
@@ -64,6 +70,7 @@
     padding: 0 60px;
     border: none;
     border-bottom: 1px solid $Gray3;
+    gap: 10px;
 
     & > span {
       display: flex;
@@ -101,6 +108,28 @@
         padding: 0;
         margin: 0 14px 0 0;
       }
+    }
+  }
+
+  .fileButtonArea {
+    position: relative;
+    .fileButtonImg {
+    }
+    .fileInput {
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      // display: block;
+      // opacity: 0;
+      // pointer-events: none;
+      // pointer-events: visible;
+
+      width: 16px;
+      height: 16px;
+
+      display: none;
+      cursor: pointer;
     }
   }
 }

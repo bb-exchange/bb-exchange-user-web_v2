@@ -8,16 +8,7 @@ interface Iprops {
 }
 
 export default function UseRecentTagPopup({ useEnrollHook }: Iprops) {
-  const [tagKeyword, setTagKeyword] = useState<string>("");
-  // const [tagList, setTagList] = useState<string[]>([]);
-
-  // useQuery(["tagList", tagKeyword], fetchTagList, {
-  //   retry: false,
-  //   onSuccess: (res) => {
-  //     console.log(res?.data?.data);
-  //     setTagList(res?.data?.data);
-  //   },
-  // });
+  const [tagKeyword, setTagKeyword] = useState<string | null>(null);
 
   const { data: tagList } = useQuery({
     queryKey: ["tagList", tagKeyword],
@@ -25,18 +16,14 @@ export default function UseRecentTagPopup({ useEnrollHook }: Iprops) {
     select: (res) => res.data.data ?? [],
   });
 
+  const onChangeTag = (value: string) => {
+    setTagKeyword(value);
+  };
+
   const handleKeywordKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    tagKeyword;
-    if (!tagKeyword) return;
-
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-
-      if (useEnrollHook) {
-        useEnrollHook.setNewTag(tagKeyword);
-      }
-
-      setTagKeyword("");
+    if (e.key === "Enter") {
+      tagKeyword && useEnrollHook?.setNewTag(tagKeyword);
+      setTagKeyword(null);
     }
   };
 
@@ -54,5 +41,6 @@ export default function UseRecentTagPopup({ useEnrollHook }: Iprops) {
     tagList,
     handleKeywordKeyDown,
     handleClickCategory,
+    onChangeTag,
   };
 }

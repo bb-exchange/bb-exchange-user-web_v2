@@ -3,7 +3,8 @@
 .commonFooter {
   .innerSec {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    // justify-content: space-between;
     width: 100%;
     max-width: 1200px;
     padding: 40px 0 60px;
@@ -22,58 +23,72 @@
     }
 
     .leftArea {
-      .infoList {
+      display: flex;
+      justify-content: space-between;
+
+      border-bottom: 1px solid #9f9f9f31;
+
+      padding-bottom: 20px;
+      margin-bottom: 24px;
+    }
+
+    .infoList {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      li {
         display: flex;
-        flex-direction: column;
-        gap: 12px;
+        align-items: center;
 
-        li {
-          display: flex;
-          align-items: center;
-
-          hr {
-            width: 1;
-            height: 12px;
-            margin: 0 12px;
-            background: $Gray3;
-          }
-          .phone {
-            margin-left: 8px;
-          }
+        hr {
+          width: 1;
+          height: 12px;
+          margin: 0 12px;
+          background: $Gray3;
         }
-      }
-
-      .categoryList {
-        display: flex;
-        gap: 32px;
-        margin: 32px 0 0;
-        
-        li {
-          cursor: pointer;
+        .phone {
+          margin-left: 8px;
         }
       }
     }
 
-    .rightArea {
-      .btnBox {
+    .categoryList {
+      display: flex;
+      gap: 32px;
+      margin-top: 12px;
+
+      li {
+        cursor: pointer;
+      }
+    }
+
+    .bottomArea {
+      .infoText {
+        font-size: 13px;
+        font-weight: 400;
+        color: #9f9f9fd3;
+      }
+    }
+
+    .btnBox {
+      display: flex;
+      gap: 12px;
+      margin: 12px 0 0;
+
+      button {
         display: flex;
-        gap: 12px;
-        margin: 12px 0 0;
+        align-items: center;
+        gap: 4px;
+        height: 44px;
+        padding: 0 10px;
+        border: 1px solid $Gray3;
+        border-radius: 12px;
 
-        button {
-          display: flex;
-          align-items: center;
-          gap: 4px;
-          height: 44px;
-          padding: 0 10px;
-          border: 1px solid $Gray3;
-          border-radius: 12px;
-
-          &.google {
-            svg {
-              width: 20px;
-              height: 20px;
-            }
+        &.google {
+          svg {
+            width: 20px;
+            height: 20px;
           }
         }
       }

@@ -36,6 +36,7 @@ export default function CommonHeader({ commonSort }: Iprops) {
           <div className={styles.leftCont}>
             <button className={styles.logoBtn} onClick={() => router.push("/")}>
               <LogoBlue />
+              <span className={styles.logoBeta}>Beta</span>
             </button>
           </div>
 

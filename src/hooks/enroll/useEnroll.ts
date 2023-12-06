@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Editor } from "@tiptap/react";
+import { useEffect, useMemo, useState } from "react";
 import {
   base64toFile,
   redoBtnHandler,
@@ -6,9 +7,10 @@ import {
 } from ".src/util/textEditor";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
+
 import { postArticle, postImages } from ".src/api/articles/articles";
 
-export default function useEnroll(quillRef: any) {
+export default function useEnroll(editor: Editor | null) {
   const [contObj, setContObj] = useState<any>();
   const [selectImg, setSelectImg] = useState<HTMLImageElement>();
   const [errMsgBusy, setErrMsgBusy] = useState<boolean>(false);
@@ -46,35 +48,18 @@ export default function useEnroll(quillRef: any) {
   };
 
   useEffect(() => {
-    register("content", {
-      required: true,
-      // "내용을 좀 더 입력하면 상장될 것 같아요",
-      minLength: {
-        value: 100,
-        message: "최소 100글자 이상 입력해주세요",
-      },
-    });
-
-    window.addEventListener("beforeunload", beforeUnloadHandler, {
-      capture: true,
-    });
-
-    return () => {
-      window.removeEventListener("beforeunload", beforeUnloadHandler, {
-        capture: true,
-      });
-    };
-  }, [register]);
+    editor?.commands.focus();
+  }, [editor]);
 
   useEffect(() => {
     // if (errMsgBusy) return;
 
     const { errors } = formState;
-    console.log("1errors", errors);
+    // console.log("1errors", errors);
 
     let _errKeys = Object.values(errors);
     let _errMsgs = _errKeys.map((e) => e.message);
-    console.log("_errMsgs", _errKeys, _errMsgs);
+    // console.log("_errMsgs", _errKeys, _errMsgs);
 
     if (!_errMsgs[0]) return;
 
@@ -115,86 +100,87 @@ export default function useEnroll(quillRef: any) {
         message: "제목을 입력해주세요",
       });
     }
-    if (!watch("content")) {
+    if (!editor?.getText()) {
       return setError("content", {
         type: "noText",
         message: "내용을 입력해주세요",
       });
     }
-    if (watch("content")) {
+    if (editor?.getText().length < 100) {
       return setError("content", {
         type: "minLength",
         message: "최소 100글자 이상 입력해주세요",
       });
     }
 
-    // console.log("content", getValues("content"));
-
-    // TODO 에러 체크
-
     // await uploadImgFile();
     // enrollPostMutation.mutateAsync({
     //   title: watch("title"),
     //   category: watch("category").category,
-    //   content: watch("content"),
+    //   content: "", // editor.getJSON()
     //   articleTagList: watch("tagList"),
     //   thumbnailImage: watch("thumbNail"),
     // });
   }
 
-  // console.log("errMsg", errMsg);
+  // console.log("getjson", editor?.getJSON());
 
-  const imgHandler = (quillRef: any) => {
-    const quill = quillRef.current.getEditor();
-    let fileInput = quill.root.querySelector("input.ql-image[type=file]");
+  const isDisabledBtn =
+    formState.isValid && editor?.getText() && editor?.getText()?.length > 100
+      ? false
+      : true;
 
-    if (fileInput === null) {
-      fileInput = document.createElement("input");
-      fileInput.setAttribute("type", "file");
-      fileInput.setAttribute("accept", "image/*");
-      fileInput.classList.add("ql-image");
+  // const imgHandler = (quillRef: any) => {
+  //   const quill = quillRef.current.getEditor();
+  //   let fileInput = quill.root.querySelector("input.ql-image[type=file]");
 
-      fileInput.addEventListener("change", () => {
-        const files = fileInput.files;
-        const range = quill.getSelection(true);
+  //   if (fileInput === null) {
+  //     fileInput = document.createElement("input");
+  //     fileInput.setAttribute("type", "file");
+  //     fileInput.setAttribute("accept", "image/*");
+  //     fileInput.classList.add("ql-image");
 
-        if (!files || !files.length) {
-          console.log("No files selected");
-          return;
-        }
+  //     fileInput.addEventListener("change", () => {
+  //       const files = fileInput.files;
+  //       const range = quill.getSelection(true);
 
-        if (files[0].size > 5242880) {
-          setErrMsg("5MB 이하의 이미지를 사용해 주세요");
-          return;
-        }
+  //       if (!files || !files.length) {
+  //         console.log("No files selected");
+  //         return;
+  //       }
 
-        let reader = new FileReader();
-        reader.readAsDataURL(files[0]);
-        reader.onloadend = () => {
-          quill.insertEmbed(range.index, "image", reader.result);
-          quill.setSelection(range.index + 1);
-          fileInput.value = "";
-        };
-      });
+  //       if (files[0].size > 5242880) {
+  //         setErrMsg("5MB 이하의 이미지를 사용해 주세요");
+  //         return;
+  //       }
 
-      quill.root.appendChild(fileInput);
-    }
-    fileInput.click();
-  };
+  //       let reader = new FileReader();
+  //       reader.readAsDataURL(files[0]);
+  //       reader.onloadend = () => {
+  //         quill.insertEmbed(range.index, "image", reader.result);
+  //         quill.setSelection(range.index + 1);
+  //         fileInput.value = "";
+  //       };
+  //     });
 
-  const modules = useMemo(
-    () => ({
-      toolbar: {
-        container: "#toolbar",
-        handlers: {
-          image: () => imgHandler(quillRef),
-          undoBtn: () => undoBtnHandler(quillRef),
-          redoBtn: () => redoBtnHandler(quillRef),
-        },
-      },
-    }),
-    [quillRef]
-  );
+  //     quill.root.appendChild(fileInput);
+  //   }
+  //   fileInput.click();
+  // };
+
+  // const modules = useMemo(
+  //   () => ({
+  //     toolbar: {
+  //       container: "#toolbar",
+  //       handlers: {
+  //         image: () => imgHandler(quillRef),
+  //         undoBtn: () => undoBtnHandler(quillRef),
+  //         redoBtn: () => redoBtnHandler(quillRef),
+  //       },
+  //     },
+  //   }),
+  //   [quillRef]
+  // );
 
   const closeErrMsg = () => {
     setErrMsg("");
@@ -203,7 +189,10 @@ export default function useEnroll(quillRef: any) {
   };
 
   const setNewTag = (newTag: string) => {
+    console.log("1", newTag);
+
     newTag = newTag.replace(/#/g, "");
+    console.log("2", newTag);
 
     let _tagList = watch("tagList") || [];
 
@@ -265,7 +254,7 @@ export default function useEnroll(quillRef: any) {
   };
 
   return {
-    modules,
+    // modules,
     register,
     watch,
     setValue,
@@ -298,5 +287,6 @@ export default function useEnroll(quillRef: any) {
     setLoadDraftPopup,
     enrollPostMutation,
     onClickEnrollBtn,
+    isDisabledBtn,
   };
 }

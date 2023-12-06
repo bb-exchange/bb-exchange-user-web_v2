@@ -2,6 +2,7 @@
 @import "colors";
 @import "_variable";
 @import "customDatePicker";
+@import "customTiptap";
 
 * {
   box-sizing: border-box;
@@ -74,24 +75,4 @@ button {
   font-family: pretendard;
   font-weight: 700;
   src: url("../../public/assets/fonts/Pretendard-Bold.woff2");
-}
-
-.ql-editor {
-  .thumbBox {
-    display: inline-block;
-    position: relative;
-
-    &::after {
-      content: "대표";
-      height: 22px;
-      padding: 0 12px;
-      color: $White1;
-      background: $Primary1;
-      border-radius: 12px;
-      top: 16px;
-      left: 16px;
-      position: absolute;
-      font-style: normal;
-    }
-  }
 }

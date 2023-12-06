@@ -11,30 +11,23 @@ export default function CommonFooter() {
           <ul className={styles.infoList}>
             <li>
               <strong className={styles.company}>비법거래소</strong>
-
               <hr />
-
               <p className={styles.companyNum}>
                 <strong>사업자번호</strong> 495-59-00604
               </p>
-
               <hr />
-
               <p className={styles.manager}>
                 <strong>대표</strong> 민윤기
               </p>
             </li>
-
             <li>
               <p>
                 <strong>통신판매업신고</strong> 2023-서울서초-1234
               </p>
-
               <p className={styles.phone}>
                 <strong>연락처</strong> 010-9935-6542
               </p>
             </li>
-
             <li>
               <p>
                 <strong>주소</strong> 경기도 용인시 수지구 현암로 148,
@@ -43,6 +36,29 @@ export default function CommonFooter() {
             </li>
           </ul>
 
+          <div className={styles.rightArea}>
+            <strong className={styles.label}>비법거래소 APP Download</strong>
+            <div className={styles.btnBox}>
+              <button>
+                <Apple />
+                <strong>APP Store</strong>
+              </button>
+
+              <button className={styles.google}>
+                <Google />
+
+                <strong>Google Play</strong>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <article className={styles.bottomArea}>
+          <p className={styles.infoText}>
+            비법거래소는 통신판매중개시스템의 제공자로서 통신판매의 당사자가
+            아닙니다. 콘텐츠 생산, 환불 등과 광련한 의무와 책임은 판매자에게
+            있습니다.
+          </p>
           <ul className={styles.categoryList}>
             <li
               onClick={() =>
@@ -76,23 +92,6 @@ export default function CommonFooter() {
               <p>제휴제안</p>
             </li>
           </ul>
-        </article>
-
-        <article className={styles.rightArea}>
-          <strong className={styles.label}>비법거래소 APP Download</strong>
-
-          <div className={styles.btnBox}>
-            <button>
-              <Apple />
-              <strong>APP Store</strong>
-            </button>
-
-            <button className={styles.google}>
-              <Google />
-
-              <strong>Google Play</strong>
-            </button>
-          </div>
         </article>
       </section>
     </footer>
