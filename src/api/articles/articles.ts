@@ -11,11 +11,13 @@ export const fetchArticles = async ({ queryKey }: { queryKey: any[] }) => {
   });
 };
 
-export interface Pager {
+export interface PageData {
   pageNumber: number;
   numberOfElements: number;
   size: number;
   hasNext: boolean;
+  totalElements: number;
+  totalPages: number;
 }
 
 export interface Contents {
@@ -48,7 +50,7 @@ export interface Contents {
   };
 }
 
-export type Articles = Pager & { contents: Array<Contents> };
+export type Articles = PageData & { contents: Array<Contents> };
 
 export type ArticleSortByType = "LATEST" | "POPULAR" | "LISTED" | "PRICE";
 
@@ -67,7 +69,7 @@ export const articlesByUser = async ({
   userId,
   sortBy = "PRICE",
   page = 0,
-  size = 3,
+  size = 4,
 }: {
   userId?: number;
   sortBy?: ArticleSortByType;

@@ -1,10 +1,12 @@
+import { useMemo } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
 import {
   ArticleSortByType,
   Articles,
   articles,
   updateArticleBookmark,
 } from ".src/api/articles/articles";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const useArticles = (props: {
   sortBy: ArticleSortByType;
@@ -14,12 +16,24 @@ export const useArticles = (props: {
   const queryKey = [articles.name, props];
 
   // NOTE 글 목록
-  const { data: articleList } = useQuery({
+  const { data } = useQuery({
     queryKey,
     queryFn: () => articles(props),
   });
 
   const queryClient = useQueryClient();
+
+  const articlesData = useMemo(
+    () =>
+      data == null
+        ? { totalPages: 1, pageNumber: 0, contents: [] }
+        : {
+            totalPages: data.totalPages,
+            pageNumber: data.pageNumber,
+            contents: data.contents,
+          },
+    [data]
+  );
 
   // NOTE 글 목록 수정
   const { mutate: mutateArticle } = useMutation({
@@ -45,5 +59,5 @@ export const useArticles = (props: {
     },
   });
 
-  return { articleList, mutateArticle };
+  return { articlesData, mutateArticle };
 };

@@ -135,12 +135,13 @@ export default function Post() {
         sortBy: "POPULAR",
         page: 0,
       }),
-    select: ({ contents }) =>
-      contents
-        .filter(
-          ({ articleInfo: { articleId: id } }) => id !== Number(articleId)
-        )
-        .slice(0, 3),
+    select: ({ contents }) => {
+      const list = contents.filter(
+        ({ articleInfo: { articleId: id } }) => id !== Number(articleId)
+      );
+
+      return list.length > 3 ? list.slice(0, 3) : list;
+    },
   });
 
   // NOTE 유저프로필 클릭 시 유저상세페이지로 연결

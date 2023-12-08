@@ -55,7 +55,7 @@ export default function MyWithdraw() {
         ))}
       </ul>
 
-      <PageNav inlinePage />
+      <PageNav />
     </article>
   );
 }

@@ -66,7 +66,7 @@ export default function Point() {
                   {/* TODO 포인트 API완료되면 연결 해야함 */}
                   <li></li>
                 </ul>
-                <PageNav inlinePage />
+                <PageNav />
               </>
             ) : (
               <div className={styles.noDataText}>검색 결과가 없습니다.</div>

@@ -62,13 +62,17 @@ export default function Listed({
 
   const sortBy = "LISTED";
   const category = useRecoilValue(categoryState);
+  const [page, setPage] = useState<number>(0);
+
   const isLogin = useRecoilValue(isLoginState);
 
-  const [page, setPage] = useState<number>(0);
   const [requestLoginPop, setRequestLoginPop] = useState<boolean>(false);
 
   // NOTE 글 목록 관련 hooks
-  const { articleList, mutateArticle } = useArticles({
+  const {
+    articlesData: { totalPages, pageNumber, contents },
+    mutateArticle,
+  } = useArticles({
     sortBy,
     category,
     page,
@@ -88,7 +92,6 @@ export default function Listed({
     interest: boolean;
   }) => {
     if (isLogin) {
-      const { contents } = articleList!;
       const index = contents.findIndex(
         (content) => content.articleInfo.articleId === articleId
       );
@@ -97,6 +100,9 @@ export default function Listed({
       setRequestLoginPop(true);
     }
   };
+
+  // NOTE 페이지 변경 함수
+  const onChangePage = (pageIndex: number) => setPage(pageIndex);
 
   // FIXME BB-337에서 컴포넌트로 분리함 full받고 적용할 것
   const imageLoader = ({
@@ -114,7 +120,7 @@ export default function Listed({
       <main className={styles.listed}>
         <section className={styles.postSec}>
           <ul className={styles.postList}>
-            {articleList?.contents?.map(
+            {contents?.map(
               ({
                 boardInfo,
                 userInfo: { nickname },
@@ -247,7 +253,11 @@ export default function Listed({
             )}
           </ul>
 
-          <PageNav />
+          <PageNav
+            totalPages={totalPages}
+            currentPage={pageNumber}
+            onChangePage={onChangePage}
+          />
         </section>
       </main>
 

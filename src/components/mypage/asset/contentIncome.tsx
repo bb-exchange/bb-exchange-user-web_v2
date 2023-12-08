@@ -61,7 +61,7 @@ export default function ContentIncome() {
         ))}
       </ul>
 
-      <PageNav inlinePage />
+      <PageNav />
     </article>
   );
 }

@@ -71,7 +71,10 @@ export default function Popular({
   const [requestLoginPop, setRequestLoginPop] = useState<boolean>(false);
 
   // NOTE 글 목록 관련 hooks
-  const { articleList, mutateArticle } = useArticles({
+  const {
+    articlesData: { totalPages, pageNumber, contents },
+    mutateArticle,
+  } = useArticles({
     sortBy,
     category,
     page,
@@ -97,8 +100,6 @@ export default function Popular({
     interest: boolean;
   }) => {
     if (isLogin) {
-      const { contents } = articleList!;
-
       const index = contents.findIndex(
         (content) => content.articleInfo.articleId === articleId
       );
@@ -109,12 +110,15 @@ export default function Popular({
     }
   };
 
+  // NOTE 페이지 변경 함수
+  const onChangePage = (pageIndex: number) => setPage(pageIndex);
+
   return (
     <HydrationBoundary state={dehydratedState}>
       <main className={styles.popular}>
         <section className={styles.postSec}>
           <ul className={styles.postList} data-cy="postList">
-            {articleList?.contents?.map(
+            {contents?.map(
               (
                 {
                   boardInfo,
@@ -266,7 +270,11 @@ export default function Popular({
             )}
           </ul>
 
-          <PageNav />
+          <PageNav
+            totalPages={totalPages}
+            currentPage={pageNumber}
+            onChangePage={onChangePage}
+          />
         </section>
       </main>
 
