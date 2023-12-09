@@ -771,7 +771,7 @@ const ReactQuill = dynamic(
 );
 
 const ArticleItem = ({
-  boardInfo: { category },
+  boardInfo: { description },
   articleInfo: { updatedAt, title, thumbnail, listed, articleId },
   priceInfo: { price, changeRate, changeAmount, likeNum },
   onClickMoveToPost,
@@ -784,7 +784,7 @@ const ArticleItem = ({
     <li>
       <div className={styles.topBar}>
         <p>
-          <strong className={styles.category}>{category}</strong>・
+          <strong className={styles.category}>{description}</strong>・
           {moment(updatedAt).fromNow()}
         </p>
       </div>
