@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 import styles from "./profileHoverPopup.module.scss";
 import { useSignOut } from ".src/hooks/common/useSignOut";
 import { userNameState } from ".src/recoil";
+import { RECOMMENDER_CODE } from ".src/consts/common";
+import IconCopy from ".assets/icons/Copy.svg";
 
 const ProfileHoverPopup = () => {
   const router = useRouter();
@@ -18,6 +20,18 @@ const ProfileHoverPopup = () => {
         <li className={styles.bold}>
           <span>안녕하세요,</span> <br />
           <span className={styles.blue}>{nickname}님</span>
+          <span className={styles.codeArea}>
+            <div>추천인 코드</div>
+            <div>{RECOMMENDER_CODE}</div>
+            <div
+              onClick={() => {
+                navigator.clipboard.writeText(RECOMMENDER_CODE);
+              }}
+              className={styles.copyIcon}
+            >
+              <IconCopy />
+            </div>
+          </span>
         </li>
         <li onClick={() => router.push("/mypage")}>마이페이지</li>
         <li onClick={() => router.push("/setting")}>설정</li>

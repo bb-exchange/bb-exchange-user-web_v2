@@ -189,11 +189,7 @@ export default function useEnroll(editor: Editor | null) {
   };
 
   const setNewTag = (newTag: string) => {
-    console.log("1", newTag);
-
     newTag = newTag.replace(/#/g, "");
-    console.log("2", newTag);
-
     let _tagList = watch("tagList") || [];
 
     if (_tagList.indexOf(newTag) === -1) {

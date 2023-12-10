@@ -1,6 +1,6 @@
 import { fetchTagList } from ".src/api/articles/tags";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import useEnroll from "./useEnroll";
 
 interface Iprops {
@@ -13,6 +13,7 @@ export default function UseRecentTagPopup({ useEnrollHook }: Iprops) {
   const { data: tagList } = useQuery({
     queryKey: ["tagList", tagKeyword],
     queryFn: fetchTagList,
+    enabled: !!tagKeyword,
     select: (res) => res.data.data ?? [],
   });
 
@@ -20,12 +21,28 @@ export default function UseRecentTagPopup({ useEnrollHook }: Iprops) {
     setTagKeyword(value);
   };
 
-  const handleKeywordKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      tagKeyword && useEnrollHook?.setNewTag(tagKeyword);
-      setTagKeyword(null);
-    }
-  };
+  // const handleKeywordKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  //   if (e.key === "Enter") {
+  //     tagKeyword && useEnrollHook?.setNewTag(tagKeyword);
+  //     setTagKeyword(null);
+  //   }
+  //   if (tagKeyword === "" && e.key === "Backspace") {
+  //     console.log("삭제");
+  //   }
+  // };
+
+  const handleKeywordKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === "Enter") {
+        tagKeyword && useEnrollHook?.setNewTag(tagKeyword);
+        setTagKeyword(null);
+      }
+      if (!tagKeyword && e.key === "Backspace") {
+        // console.log("삭제", tagKeyword);
+      }
+    },
+    [tagKeyword, useEnrollHook]
+  );
 
   function handleClickCategory(v: string) {
     if (useEnrollHook) {

@@ -4,6 +4,8 @@ import Profile from ".assets/images/img_profile.svg";
 import ChevronRtBlue from ".assets/icons/ChevronRtBlue.svg";
 import { useRouter } from "next/router";
 import useGetMyProfile from ".src/hooks/common/useGetProfile";
+import IconCopy from ".assets/icons/Copy.svg";
+import { RECOMMENDER_CODE } from ".src/consts/common";
 
 export default function ProfSec() {
   const router = useRouter();
@@ -18,6 +20,19 @@ export default function ProfSec() {
           <div className={styles.nicknameBar}>
             <h1 className={styles.nickname}>{myProfile?.nickname}</h1>
             <Gold />
+            <div className={styles.codeArea}>
+              <span className={styles.textLine} />
+              <div>추천인 코드</div>
+              <div>{RECOMMENDER_CODE}</div>
+              <div
+                onClick={() => {
+                  navigator.clipboard.writeText(RECOMMENDER_CODE);
+                }}
+                className={styles.copyIcon}
+              >
+                <IconCopy />
+              </div>
+            </div>
           </div>
 
           <p className={styles.profMsg}>{myProfile?.description}</p>

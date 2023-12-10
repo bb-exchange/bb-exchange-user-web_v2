@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
@@ -28,6 +28,7 @@ const MobileAuth = () => {
   const [showResendBtn, setShowResendBtn] = useState<boolean>(false);
   const [minutes, setMinutes] = useState<number>(3);
   const [seconds, setSeconds] = useState<number>(0);
+  const [timeText, setTimeText] = useState<string>("");
   const [openExceedPopup, setOpenExceedPopup] = useState<boolean>(
     query?.openExceedPopup === "true" || false
   ); //일일인증횟수초과
@@ -51,7 +52,12 @@ const MobileAuth = () => {
     mode: "onChange",
   });
 
-  const phoneValid = watch("phoneNumber")?.match(/^[0-9]{11}$/i);
+  const isErrorRef = useRef<boolean>(false);
+  const phoneValidRef = useRef<boolean>(true);
+  phoneValidRef.current =
+    watch("phoneNumber")?.match(/^[0-9]{11}$/i) && !isErrorRef.current
+      ? false
+      : true;
 
   //남은 인증 회수 더미데이터
   let leftTimes = 1;
@@ -90,12 +96,14 @@ const MobileAuth = () => {
         push("/auth/duplicate-social-account");
       }
     } catch (error: any) {
-      if (error.response?.data.message === "auth key not found") {
-        setOpenExpiredKeyPopup(true);
-      } else if (
+      // if (error.response?.data.message === "auth key not found") {
+      //   setOpenExpiredKeyPopup(true);
+      // } else
+      if (
         error.response?.data.message ===
         "인증 문자는 하루에 최대 6회 받을 수 있어요. 내일 다시 시도해주세요."
       ) {
+        isErrorRef.current = true;
         setOpenExceedPopup(true);
       } else if (
         error.response?.data.message ===
@@ -132,9 +140,11 @@ const MobileAuth = () => {
     } catch (error: any) {
       if (error.response?.data.message === "wrong secret") {
         setOpenErrSecretPopup(true);
-      } else if (error.response?.data.message === "auth key not found") {
-        setOpenExpiredKeyPopup(true);
-      } else if (
+      }
+      // else if (error.response?.data.message === "auth key not found") {
+      //   setOpenExpiredKeyPopup(true);
+      // }
+      else if (
         error.response?.data.message ===
         "인증번호 입력 시도 횟수가 초과되었습니다."
       ) {
@@ -163,6 +173,22 @@ const MobileAuth = () => {
     }
   }, [minutes, seconds, showResendBtn]);
 
+  useEffect(() => {
+    let text = "";
+    if (minutes === 0 && seconds === 0) {
+      text = "만료됨";
+      setOpenExpiredKeyPopup(true);
+    }
+    if (minutes !== 0 && seconds !== 0) {
+      text = `0${minutes}:${
+        seconds === 0 ? `${seconds}0` : seconds < 10 ? `0${seconds}` : seconds
+      }`;
+    }
+    setTimeText(text);
+  }, [minutes, seconds]);
+
+  // console.log("seconds", seconds);
+
   return (
     <div id={styles.mobileAuth} className={styles.container}>
       <div className={styles.contentBox}>
@@ -190,7 +216,7 @@ const MobileAuth = () => {
               ) : (
                 <ContainedBtn
                   text={"인증요청"}
-                  disabled={phoneValid ? false : true}
+                  disabled={phoneValidRef.current}
                   onClick={handleSubmit(sendSecretCode)}
                 />
               )}
@@ -210,7 +236,8 @@ const MobileAuth = () => {
                   required: false,
                 })}
               />
-              {showResendBtn && (
+              {<p className={styles.timer}>{timeText}</p>}
+              {/* {showResendBtn && (
                 <p className={styles.timer}>
                   {minutes === 0 && seconds === 0 && "만료됨"}
                   {minutes !== 0 &&
@@ -223,7 +250,7 @@ const MobileAuth = () => {
                         : seconds
                     }`}
                 </p>
-              )}
+              )} */}
             </div>
           </form>
           <ContainedBtn

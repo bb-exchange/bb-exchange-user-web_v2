@@ -4,10 +4,10 @@ export default function UseScrollTopBtn() {
   const [scrollEnd, setScrollEnd] = useState<boolean>(false);
 
   function onScrollScrollRef(e: any) {
-    console.log(
-      document.documentElement?.scrollHeight <
-        document.documentElement.scrollTop + window.innerHeight + 100
-    );
+    // console.log(
+    //   document.documentElement?.scrollHeight <
+    //     document.documentElement.scrollTop + window.innerHeight + 100
+    // );
 
     if (
       document.documentElement?.scrollHeight <

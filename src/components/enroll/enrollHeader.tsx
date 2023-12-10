@@ -82,6 +82,7 @@ export default function EnrollHeader({ editor, useEnrollHook }: Iprops) {
         <article className={styles.leftArea}>
           <button className={styles.logoBtn} onClick={() => router.push("/")}>
             <LogoBlue />
+            <span className={styles.logoBeta}>Beta</span>
           </button>
         </article>
 
