@@ -1,6 +1,6 @@
 import styles from "./reply.module.scss";
-import Gold from ".assets/icons/tier/Gold.svg";
-import Silver from ".assets/icons/tier/Silver.svg";
+// import Gold from ".assets/icons/tier/Gold.svg";
+// import Silver from ".assets/icons/tier/Silver.svg";
 import Dot3 from ".assets/icons/Dot3.svg";
 import moment from "moment";
 import ThumbUpRed from ".assets/icons/ThumbUpRed.svg";
@@ -14,34 +14,51 @@ import ReportUserPopup from "./reportUserPopup";
 import ReportReplyPopup from "./reportReplyPopup";
 import { isLoginState } from ".src/recoil";
 import { useRecoilValue } from "recoil";
+import { CommentData } from ".src/api/comments";
+import { useMemo } from "react";
 
 interface Iprops {
-  data: Ireply;
+  // data: Ireply;
+  data: CommentData;
   nested?: boolean;
 }
 
-export default function Reply({ data, nested }: Iprops) {
+export default function Reply({
+  data: { isDeleted, nickname, createdAt, content, isLike, likeCounts },
+  nested,
+}: Iprops) {
   const useReply = UseReply();
 
   const isLogin = useRecoilValue(isLoginState);
 
+  // NOTE 멘션 분리
+  const contentEl = useMemo(() => {
+    if (!nested) return { mention: null, content };
+
+    const contentArr = content.split(" ");
+    const mention = contentArr.shift();
+
+    return { mention: mention?.concat(" "), content: contentArr.join(" ") };
+  }, [content, nested]);
+
   return (
     <>
       <div className={`${styles.replyBox} ${nested ? styles.nested : ""}`}>
-        {data.isDeleted ? (
+        {isDeleted ? (
           <p className={styles.deleted}>삭제된 댓글입니다.</p>
         ) : (
           <>
             <div className={styles.replyTopBar}>
               <div className={styles.leftBox}>
-                {data.tier === "gold" && <Gold />}
-                {data.tier === "silver" && <Silver />}
-                <p className={styles.nickname}>{data.nickname}</p>
+                {/* FIXME 정보 없음 */}
+                {/* {data.tier === "gold" && <Gold />}
+                {data.tier === "silver" && <Silver />} */}
+                <p className={styles.nickname}>{nickname}</p>
               </div>
 
               <div className={styles.rightBox}>
                 <p className={styles.time}>
-                  {moment(data.createdAt).format("YYYY.MM.DD")}
+                  {moment(createdAt).format("YYYY.MM.DD")}
                 </p>
 
                 {isLogin ? (
@@ -64,18 +81,21 @@ export default function Reply({ data, nested }: Iprops) {
               </div>
             </div>
 
-            <span className={styles.contBox}>{data.text}</span>
+            <span className={styles.contBox}>
+              {!!contentEl.mention != null && (
+                <strong>{contentEl.mention}</strong>
+              )}
+              {contentEl.content}
+            </span>
 
             <div className={styles.replyBottomBar}>
               <div className={styles.leftBox}>
                 <button
-                  className={`${styles.likeBtn} ${
-                    data.isLiked ? styles.on : ""
-                  }`}
+                  className={`${styles.likeBtn} ${isLike ? styles.on : ""}`}
                   onClick={() => {}}
                 >
-                  {data.isLiked ? <ThumbUpRed /> : <ThumbUpGrey />}
-                  <p className={styles.likeCount}>{data.likeCount || 0}</p>
+                  {isLike ? <ThumbUpRed /> : <ThumbUpGrey />}
+                  <p className={styles.likeCount}>{likeCounts || 0}</p>
                 </button>
 
                 <p>・</p>

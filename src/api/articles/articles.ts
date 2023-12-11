@@ -1,5 +1,7 @@
 import { basicInstance } from "../instance";
 
+import { PageData } from ".src/types/common";
+
 export const fetchArticles = async ({ queryKey }: { queryKey: any[] }) => {
   const [sortBy, page]: string[] = queryKey;
 
@@ -11,16 +13,7 @@ export const fetchArticles = async ({ queryKey }: { queryKey: any[] }) => {
   });
 };
 
-export interface PageData {
-  pageNumber: number;
-  numberOfElements: number;
-  size: number;
-  hasNext: boolean;
-  totalElements: number;
-  totalPages: number;
-}
-
-export interface Contents {
+export interface ArticleData {
   boardInfo: {
     image: string;
     category: string;
@@ -50,7 +43,7 @@ export interface Contents {
   };
 }
 
-export type Articles = PageData & { contents: Array<Contents> };
+export type Articles = PageData & { contents: Array<ArticleData> };
 
 export type ArticleSortByType = "LATEST" | "POPULAR" | "LISTED" | "PRICE";
 

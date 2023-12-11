@@ -1,5 +1,10 @@
 import dynamic from "next/dynamic";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import {
   fetchPost,
@@ -44,8 +49,10 @@ import { currentUserInfo, hideAuthorsPosts } from ".src/api/users/users";
 // import { userArticles } from ".src/api/articles/articles";
 import { IPostDetailRes } from ".src/api/interface/post";
 import ImageComp from ".src/components/Image";
-import { Contents, articles } from ".src/api/articles/articles";
+import { ArticleData, articles } from ".src/api/articles/articles";
 import { useArticlesByUser } from ".src/hooks/posts/useArticlesByUser";
+import { commentsByArticleId } from ".src/api/comments";
+import { InView } from "react-intersection-observer";
 
 export default function Post() {
   const hook = UsePost();
@@ -142,6 +149,22 @@ export default function Post() {
 
       return list.length > 3 ? list.slice(0, 3) : list;
     },
+  });
+
+  // NOTE 댓글 목록 조회
+  const {
+    data: comments,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    enabled: !!articleId,
+    queryKey: [commentsByArticleId.name],
+    initialPageParam: 0,
+    queryFn: ({ pageParam }) =>
+      commentsByArticleId({ articleId, page: pageParam }),
+    getNextPageParam: ({ hasNext, pageNumber }) =>
+      hasNext ? pageNumber + 1 : null,
   });
 
   // NOTE 유저프로필 클릭 시 유저상세페이지로 연결
@@ -407,6 +430,7 @@ export default function Post() {
                 </div>
               </article>
 
+              {/* NOTE 태그 영역 */}
               <article className={styles.replyArea}>
                 <ul className={styles.tagList}>
                   {(postData?.tagList || []).map(
@@ -416,17 +440,18 @@ export default function Post() {
                   )}
                 </ul>
 
+                {/* NOTE 비상장글/구매한글 댓글? */}
                 <div className={styles.inputCont}>
                   <div className={styles.countBar}>
                     <Message />
 
                     <p className={styles.key}>댓글</p>
                     <p className={styles.value}>
-                      {new Intl.NumberFormat().format(9999)}
+                      {comments?.pages[0].totalElements ?? 0}
                     </p>
                   </div>
 
-                  {isLogin ? (
+                  {!!isLogin && (
                     <div className={styles.inputBox}>
                       <textarea
                         value={hook.reply}
@@ -441,18 +466,38 @@ export default function Post() {
                         입력
                       </button>
                     </div>
-                  ) : null}
+                  )}
 
                   <ul className={styles.replyList}>
-                    {hook.replyList.map((v, i) => (
-                      <li key={i}>
-                        <Reply data={v} />
-
-                        {v.nestedReply?.map((detV, detI) => (
-                          <Reply key={detI} data={detV} nested />
-                        ))}
-                      </li>
-                    ))}
+                    {comments?.pages.map((page) =>
+                      page.contents.map((props) => (
+                        <li key={props.commentId}>
+                          <Reply
+                            data={props}
+                            nested={!!(props.parentCommentId != null)}
+                          />
+                        </li>
+                      ))
+                    )}
+                    {!!comments?.pages[0].contents.length &&
+                      (!isFetchingNextPage ? (
+                        <InView
+                          onChange={(inView) =>
+                            inView && hasNextPage && fetchNextPage()
+                          }
+                        />
+                      ) : (
+                        <div
+                          style={{ display: "flex", justifyContent: "center" }}
+                        >
+                          <ImageComp
+                            src={"/assets/icons/loading/threeDots.gif"}
+                            alt={"loading dots"}
+                            width={70}
+                            height={70}
+                          />
+                        </div>
+                      ))}
                   </ul>
                 </div>
               </article>
@@ -486,6 +531,7 @@ export default function Post() {
                 </p>
               </article>
 
+              {/* NOTE 상장글 댓글? */}
               <article className={styles.replyArea}>
                 <div className={styles.inputCont}>
                   <div className={styles.countBar}>
@@ -494,13 +540,14 @@ export default function Post() {
                     <p className={styles.key}>대표댓글</p>
                   </div>
 
-                  <ul className={styles.replyList}>
+                  {/* FIXME 실 적용할 때 데이터 다시 확인 필요 */}
+                  {/* <ul className={styles.replyList}>
                     {hook.replyList.slice(0, 3).map((v, i) => (
                       <li key={i}>
                         <Reply data={v} />
                       </li>
                     ))}
-                  </ul>
+                  </ul> */}
                 </div>
               </article>
             </>
@@ -776,7 +823,7 @@ const ArticleItem = ({
   priceInfo: { price, changeRate, changeAmount, likeNum },
   onClickMoveToPost,
   getDiffStyle,
-}: Contents & {
+}: ArticleData & {
   onClickMoveToPost: (articleId: number) => void;
   getDiffStyle: (diff: number) => string | undefined;
 }) => {

@@ -1,5 +1,10 @@
 import { useMemo } from "react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  keepPreviousData,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 
 import {
   ArticleSortByType,
@@ -19,6 +24,7 @@ export const useArticles = (props: {
   const { data } = useQuery({
     queryKey,
     queryFn: () => articles(props),
+    placeholderData: keepPreviousData,
   });
 
   const queryClient = useQueryClient();
