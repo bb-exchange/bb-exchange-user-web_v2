@@ -28,13 +28,16 @@ export default function PageNav({
 
     const length = !!(hasPrev && hasNext) ? listCount : totalPages % listCount;
     // NOTE 현재 페이지 기준으로만 페이지 목록 생성
-    const pageList = Array.from({ length }).map((_, idx) => {
-      const page = currentPageGroup * listCount + idx;
-      return {
-        page,
-        label: page + 1,
-      };
-    });
+    const basePage = currentPageGroup * listCount;
+    const pageList =
+      length === 0
+        ? [{ page: basePage, label: basePage + 1 }]
+        : Array.from({ length }).map((_, idx) => {
+            return {
+              page: basePage + idx,
+              label: basePage + idx + 1,
+            };
+          });
 
     return { hasPrev, hasNext, pageList, currentPageGroup };
   }, [currentPage, totalPages]);
