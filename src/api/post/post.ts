@@ -1,13 +1,11 @@
 import { basicInstance } from "../instance";
-import { IPostDetailRes } from "../interface/post";
+import { PostData } from "../interface";
 
-export const fetchPost = async (articleId?: string) => {
-  if (articleId == null) return;
-
-  return (await basicInstance.get(
-    `/v1/articles/${articleId}`
-  )) as IPostDetailRes;
-};
+// NOTE 게시글 상세
+export const postById = async (articleId?: string) =>
+  await basicInstance
+    .get(`/v1/articles/${articleId}`)
+    .then(({ data: { data } }: { data: { data: PostData } }) => data);
 
 // NOTE 게시글 좋아요 등록/해제
 export const updateLikePost = async ({

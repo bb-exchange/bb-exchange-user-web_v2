@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { ArticleSortByType, articlesByUser } from ".src/api/articles/articles";
+import { articlesByUser } from ".src/api/articles/articles";
+import { ArticleSortByType } from ".src/api/interface";
 
 export const useArticlesByUser = ({
   userId,

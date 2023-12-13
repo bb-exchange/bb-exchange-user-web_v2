@@ -6,12 +6,8 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 
-import {
-  ArticleSortByType,
-  Articles,
-  articles,
-  updateArticleBookmark,
-} from ".src/api/articles/articles";
+import { articles, updateArticleBookmark } from ".src/api/articles/articles";
+import { ArticleSortByType, Articles } from ".src/api/interface";
 
 export const useArticles = (props: {
   sortBy: ArticleSortByType;

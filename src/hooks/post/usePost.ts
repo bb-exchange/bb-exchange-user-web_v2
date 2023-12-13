@@ -1,4 +1,3 @@
-import { fetchPost } from ".src/api/post/post";
 import { D_otherPostList, D_replyList } from ".src/data/post/D_post";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";

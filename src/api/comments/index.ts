@@ -1,4 +1,4 @@
-import { PageData } from ".src/types/common";
+import { PageData } from ".src/api/interface";
 import { basicInstance } from "../instance";
 
 export interface CommentData {

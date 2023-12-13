@@ -1,6 +1,6 @@
 import { basicInstance } from "../instance";
 
-import { PageData } from ".src/types/common";
+import { ArticleSortByType, Articles } from "../interface";
 
 export const fetchArticles = async ({ queryKey }: { queryKey: any[] }) => {
   const [sortBy, page]: string[] = queryKey;
@@ -12,40 +12,6 @@ export const fetchArticles = async ({ queryKey }: { queryKey: any[] }) => {
     },
   });
 };
-
-export interface ArticleData {
-  boardInfo: {
-    image: string;
-    category: string;
-    description: string;
-  };
-  userInfo: {
-    gradeType: string;
-    userId: number;
-    nickname: string;
-  };
-  articleInfo: {
-    articleId: number;
-    updatedAt: string;
-    title: string;
-    commentNum: number;
-    thumbnail: string;
-    read: boolean;
-    purchased: boolean;
-    interest: boolean;
-    listed: boolean;
-  };
-  priceInfo: {
-    likeNum: number;
-    changeAmount: number;
-    changeRate: number;
-    price: number;
-  };
-}
-
-export type Articles = PageData & { contents: Array<ArticleData> };
-
-export type ArticleSortByType = "LATEST" | "POPULAR" | "LISTED" | "PRICE";
 
 // NOTE 게시글 목록
 export const articles = async (params: {
