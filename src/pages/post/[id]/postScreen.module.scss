@@ -335,14 +335,15 @@
           display: flex;
           align-items: center;
           min-height: 54px;
+          height: auto;
           font-size: 14px;
           border: 1px solid $Gray2;
           border-radius: 12px;
           position: relative;
 
           textarea {
+            font-family: pretendard;
             flex: 1;
-            height: 54px;
             resize: none;
             padding: 16px;
 

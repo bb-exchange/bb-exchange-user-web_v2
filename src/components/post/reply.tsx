@@ -1,6 +1,6 @@
 import styles from "./reply.module.scss";
-// import Gold from ".assets/icons/tier/Gold.svg";
-// import Silver from ".assets/icons/tier/Silver.svg";
+import Gold from ".assets/icons/tier/Gold.svg";
+import Silver from ".assets/icons/tier/Silver.svg";
 import Dot3 from ".assets/icons/Dot3.svg";
 import moment from "moment";
 import ThumbUpRed from ".assets/icons/ThumbUpRed.svg";
@@ -18,14 +18,28 @@ import { CommentData } from ".src/api/comments";
 import { useMemo } from "react";
 
 interface Iprops {
-  // data: Ireply;
   data: CommentData;
   nested?: boolean;
+  onClickNestedComment: (props: {
+    nickname: string;
+    commentId: number;
+  }) => void;
 }
 
 export default function Reply({
-  data: { isDeleted, nickname, createdAt, content, isLike, likeCounts },
+  data: {
+    isDeleted,
+    nickname,
+    createdAt,
+    content,
+    isLike,
+    likeCounts,
+    gradeType,
+    commentId,
+    parentCommentId,
+  },
   nested,
+  onClickNestedComment,
 }: Iprops) {
   const useReply = UseReply();
 
@@ -33,12 +47,17 @@ export default function Reply({
 
   // NOTE 멘션 분리
   const contentEl = useMemo(() => {
-    if (!nested) return { mention: null, content };
+    const defaultObj = { mention: null, content };
 
-    const contentArr = content.split(" ");
-    const mention = contentArr.shift();
+    if (nested) {
+      const contentArr = content.split(" ");
+      const mention = contentArr.shift();
 
-    return { mention: mention?.concat(" "), content: contentArr.join(" ") };
+      if (mention?.startsWith("@"))
+        return { mention: mention?.concat(" "), content: contentArr.join(" ") };
+    }
+
+    return defaultObj;
   }, [content, nested]);
 
   return (
@@ -50,9 +69,9 @@ export default function Reply({
           <>
             <div className={styles.replyTopBar}>
               <div className={styles.leftBox}>
-                {/* FIXME 정보 없음 */}
-                {/* {data.tier === "gold" && <Gold />}
-                {data.tier === "silver" && <Silver />} */}
+                {/* NOTE 회원 등급 */}
+                {gradeType === "MASTER" && <Gold />}
+                {gradeType === "SEMI" && <Silver />}
                 <p className={styles.nickname}>{nickname}</p>
               </div>
 
@@ -97,12 +116,25 @@ export default function Reply({
                   {isLike ? <ThumbUpRed /> : <ThumbUpGrey />}
                   <p className={styles.likeCount}>{likeCounts || 0}</p>
                 </button>
+                {isLogin && (
+                  <>
+                    <p>・</p>
 
-                <p>・</p>
-
-                <button className={styles.setReplyBtn} onClick={() => {}}>
-                  댓글달기
-                </button>
+                    <button
+                      className={styles.setReplyBtn}
+                      onClick={() =>
+                        onClickNestedComment({
+                          commentId: nested
+                            ? (parentCommentId as number)
+                            : commentId,
+                          nickname,
+                        })
+                      }
+                    >
+                      댓글달기
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           </>

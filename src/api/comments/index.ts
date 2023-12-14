@@ -11,10 +11,14 @@ export interface CommentData {
   isLike: boolean;
   createdAt: number;
   isDeleted: boolean;
+  gradeType: "MASTER" | "SEMI" | "GENERAL";
 }
 
 export type Comments = PageData & { contents: Array<CommentData> };
 
+export type CommentSortByType = "POPULAR" | "LATEST" | "EARLIEST";
+
+// NOTE 댓글 목록
 export const commentsByArticleId = async ({
   articleId,
   page = 0,
@@ -23,12 +27,25 @@ export const commentsByArticleId = async ({
   articleId?: string;
   page?: number;
   size?: number;
-  sortBy?: "POPULAR" | "LATEST" | "EARLIEST";
+  sortBy?: CommentSortByType;
   currentUserId?: number;
 }) =>
   await basicInstance
     .get(`/v1/comments/articles/${articleId}`, { params: { page, ...props } })
     .then(({ data: { data } }: { data: { data: Comments } }) => data)
+    .catch((error) => {
+      throw error.response.data;
+    });
+
+// NOTE 신규 댓글 추가
+export const createComment = async (params: {
+  articleId: string;
+  parentCommentId: number | null;
+  content: string;
+}) =>
+  await basicInstance
+    .post(`/v1/comments`, params)
+    .then(({ data: { message } }: { data: { message: string } }) => message)
     .catch((error) => {
       throw error.response.data;
     });

@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
 import {
+  keepPreviousData,
   useInfiniteQuery,
   useMutation,
   useQuery,
@@ -13,7 +14,7 @@ import {
 } from ".src/api/post/post";
 import Image from "next/image";
 import moment from "moment";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import "moment/locale/ko";
 
 import CommonHeader from ".src/components/common/header/commonHeader";
@@ -53,7 +54,11 @@ import { currentUserInfo, hideAuthorsPosts } from ".src/api/users/users";
 import ImageComp from ".src/components/Image";
 import { articles } from ".src/api/articles/articles";
 import { useArticlesByUser } from ".src/hooks/posts/useArticlesByUser";
-import { commentsByArticleId } from ".src/api/comments";
+import {
+  CommentSortByType,
+  commentsByArticleId,
+  createComment,
+} from ".src/api/comments";
 import { InView } from "react-intersection-observer";
 import { ArticleData } from ".src/api/interface/articles";
 import { PostData } from ".src/api/interface";
@@ -84,7 +89,7 @@ export default function Post() {
   const [copied, setCopied] = useState<boolean>(false);
 
   // NOTE 글 상세 정보 조회
-  const { data: postData, isLoading: isPostDataLoading } = useQuery({
+  const { data: postData, status: postDataStatus } = useQuery({
     queryKey,
     queryFn: () => postById(articleId),
     enabled: !!articleId,
@@ -154,21 +159,95 @@ export default function Post() {
     },
   });
 
+  // NOTE 댓글 목록 정렬 기준
+  const [commentSortBy, setCommentSortBy] =
+    useState<CommentSortByType>("POPULAR");
   // NOTE 댓글 목록 조회
   const {
     data: comments,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
+    refetch: refetchComments,
   } = useInfiniteQuery({
     enabled: !!articleId,
-    queryKey: [commentsByArticleId.name],
+    queryKey: [commentsByArticleId.name, { sortBy: commentSortBy }],
     initialPageParam: 0,
     queryFn: ({ pageParam }) =>
-      commentsByArticleId({ articleId, page: pageParam }),
+      commentsByArticleId({
+        articleId,
+        page: pageParam,
+        sortBy: commentSortBy,
+      }),
     getNextPageParam: ({ hasNext, pageNumber }) =>
       hasNext ? pageNumber + 1 : null,
+    placeholderData: keepPreviousData,
   });
+
+  // NOTE 대댓글 입력 시 정보
+  const commentMention = useRef<string | null>(null);
+  const parentCommentId = useRef<number | null>(null);
+
+  const [commentContent, setCommentContent] = useState<string>("");
+
+  // NOTE 댓글 추가
+  const { mutate: mutateComment } = useMutation({
+    mutationFn: () =>
+      createComment({
+        articleId,
+        parentCommentId: parentCommentId.current,
+        content: commentContent,
+      }),
+    onSuccess: () => {
+      if (parentCommentId.current == null) {
+        setCommentSortBy("LATEST");
+      } else {
+        commentMention.current = null;
+        parentCommentId.current = null;
+
+        refetchComments();
+      }
+
+      setCommentContent("");
+    },
+  });
+
+  // NOTE 댓글 입력
+  const onChangeComment = (value: string) => {
+    if (
+      commentMention.current != null &&
+      !value.startsWith(commentMention.current)
+    ) {
+      commentMention.current = null;
+      parentCommentId.current = null;
+    }
+
+    setCommentContent(value);
+  };
+
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  // NOTE 대댓글 달기 버튼 클릭 시
+  const onClickNestedComment = ({
+    nickname,
+    commentId,
+  }: {
+    nickname: string;
+    commentId: number;
+  }) => {
+    const mention = `@${nickname} `;
+    commentMention.current = mention;
+    parentCommentId.current = commentId;
+    setCommentContent(mention);
+
+    textareaRef.current?.focus();
+  };
+
+  // NOTE 댓글 저장
+  const onSubmit = useCallback(() => {
+    if (!commentContent || commentContent == null) return;
+    mutateComment();
+  }, [commentContent, mutateComment]);
 
   // NOTE 유저프로필 클릭 시 유저상세페이지로 연결
   const onMoveUserPage = () => {
@@ -242,7 +321,7 @@ export default function Post() {
     <>
       <CommonHeader />
 
-      {isPostDataLoading ? (
+      {postDataStatus === "pending" ? (
         <div
           style={{
             display: "flex",
@@ -506,15 +585,24 @@ export default function Post() {
                     {!!isLogin && (
                       <div className={styles.inputBox}>
                         <textarea
-                          value={hook.reply}
-                          onChange={(e) => hook.setReply(e.target.value)}
+                          ref={(ref) => {
+                            textareaRef.current = ref;
+                            if (ref?.style) {
+                              ref.style.minHeight = "54px";
+                              ref.style.height = "auto";
+                              ref.style.height = `${ref?.scrollHeight}px`;
+                              ref.style.maxHeight = "200px";
+                            }
+                          }}
+                          rows={1}
+                          value={commentContent}
+                          onChange={({ target: { value } }) =>
+                            onChangeComment(value)
+                          }
                           placeholder="댓글을 입력해주세요"
                         />
 
-                        <button
-                          className={styles.enrollBtn}
-                          onClick={() => hook.setReply("")}
-                        >
+                        <button className={styles.enrollBtn} onClick={onSubmit}>
                           입력
                         </button>
                       </div>
@@ -528,6 +616,7 @@ export default function Post() {
                             <Reply
                               data={props}
                               nested={!!(props.parentCommentId != null)}
+                              onClickNestedComment={onClickNestedComment}
                             />
                           </li>
                         ))
