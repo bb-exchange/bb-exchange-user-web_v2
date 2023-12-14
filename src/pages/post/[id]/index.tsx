@@ -358,21 +358,24 @@ export default function Post() {
                       {/* NOTE 현재 글 버전 */}
                       <div className={styles.verCont}>
                         <div className={styles.verBox}>
-                          {/* 안되어있음 */}
-                          <NewSky />
-                          {/* 안되어있음 */}
-                          <p>Ver.9</p>
+                          {/* REVIEW 벳지 출력 관련 정보 없음(최신글/베스트글 여부) */}
+                          {/* <NewSky /> */}
+                          <p>Ver.{postData?.articleInfo.version || 1}</p>
                         </div>
                         {/* 안되어있음 */}
-                        <p className={styles.time}>23.04.05</p>
+                        <p className={styles.time}>
+                          {moment(postData?.articleInfo.updatedAt).format(
+                            "YY.MM.DD"
+                          )}
+                        </p>
                       </div>
                     </>
                   )}
                 </div>
 
                 {/* NOTE 글 히스토리(이전 버전) */}
-                <div className={styles.rightCont}>
-                  {/* NOTE 비상장글 이거나 구매한 글일 때 출력 */}
+                {/* NOTE 비상장글 이거나 구매한 글일 때 출력 */}
+                {/* <div className={styles.rightCont}>
                   {isOwnership && (
                     <button
                       className={styles.otherVerBtn}
@@ -383,7 +386,7 @@ export default function Post() {
                       <ChevronRt />
                     </button>
                   )}
-                </div>
+                </div> */}
               </div>
 
               <div className={styles.titleArea}>
@@ -394,12 +397,14 @@ export default function Post() {
                   <div className={styles.leftCont}>
                     {/* NOTE 작성자 */}
                     <div className={`${styles.creatorBox} ${styles.contBox}`}>
-                      {postData?.userInfo.gradeType !== "GENERAL" &&
-                        (postData?.userInfo.gradeType === "MASTER" ? (
+                      <>
+                        {!!(postData?.userInfo.gradeType === "MASTER") && (
                           <Gold />
-                        ) : (
+                        )}
+                        {!!(postData?.userInfo.gradeType === "SEMI") && (
                           <Silver />
-                        ))}
+                        )}
+                      </>
 
                       <p onClick={onMoveUserPage} className={styles.cursor}>
                         {postData?.userInfo.nickname}
@@ -734,12 +739,14 @@ export default function Post() {
                     <h1 className={styles.nickname}>
                       {postData?.userInfo.nickname}
                     </h1>
-                    {postData?.userInfo.gradeType !== "GENERAL" &&
-                      (postData?.userInfo.gradeType === "MASTER" ? (
+                    <>
+                      {!!(postData?.userInfo.gradeType === "MASTER") && (
                         <Gold />
-                      ) : (
+                      )}
+                      {!!(postData?.userInfo.gradeType === "SEMI") && (
                         <Silver />
-                      ))}
+                      )}
+                    </>
                   </div>
 
                   <p className={styles.profMsg}>
@@ -828,7 +835,7 @@ export default function Post() {
                       className={`${styles.diffBox} ${getDiffStyle(1 || 0)}`}
                     >
                       <p>
-                        +{postData?.priceInfo.changeRate || 0}% ($
+                        +{postData?.priceInfo.changeRate || 0}% (
                         {postData?.priceInfo.changeAmount || 0})
                       </p>
                     </div>

@@ -44,3 +44,44 @@ export const updateDislikePost = async ({
       throw error.response.data;
     });
 };
+
+type ArticleHistories = Array<{
+  id: number;
+  version: number;
+  createdAt: string;
+  title: string;
+  isArticle: boolean;
+  isRead: boolean;
+}>;
+
+// NOTE 게시글 히스토리(버전) 목록
+export const articleHistories = async (articleId?: string) =>
+  await basicInstance
+    .get(`/v1/articles/${articleId}/log`)
+    .then(({ data: { data } }: { data: { data: ArticleHistories } }) => data)
+    .catch((error) => {
+      throw error.response.data;
+    });
+
+interface ArticleHistory {
+  version: number;
+  id: number;
+  title: string;
+  updatedAt: string;
+  content: string;
+}
+
+// NOTE 게시글 히스토리에서 히스토리(버전) 선택했을 때
+export const articleHistoryByVersion = async ({
+  articleId,
+  version,
+}: {
+  articleId: string;
+  version: number;
+}) =>
+  await basicInstance
+    .get(`/v1/articles/${articleId}/log/${version}`)
+    .then(({ data: { data } }: { data: { data: ArticleHistory } }) => data)
+    .catch((error) => {
+      throw error.response.data;
+    });
