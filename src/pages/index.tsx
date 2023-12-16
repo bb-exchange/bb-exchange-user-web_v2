@@ -17,7 +17,7 @@ export const getServerSideProps: GetServerSideProps<{
 
   const defaultValues = {
     category: "ALL",
-    sortBy: "LATEST" as const,
+    searchType: "LATEST" as const,
     page: 0,
   };
 

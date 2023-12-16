@@ -147,7 +147,7 @@ export default function Post() {
     queryFn: () =>
       articles({
         category: postData!.boardInfo.category,
-        sortBy: "POPULAR",
+        searchType: "POPULAR",
         page: 0,
       }),
     select: ({ contents }) => {

@@ -37,7 +37,7 @@ export const getServerSideProps: GetServerSideProps<{
 
   const defaultValues = {
     category: "ALL",
-    sortBy: "POPULAR" as const,
+    searchType: "POPULAR" as const,
     page: 0,
   };
 
@@ -63,7 +63,7 @@ export default function Popular({
 
   const router = useRouter();
 
-  const sortBy = "POPULAR";
+  const searchType = "POPULAR";
   const category = useRecoilValue(categoryState);
   const [page, setPage] = useState<number>(0);
 
@@ -75,7 +75,7 @@ export default function Popular({
     articlesData: { totalPages, pageNumber, contents },
     mutateArticle,
   } = useArticles({
-    sortBy,
+    searchType,
     category,
     page,
   });

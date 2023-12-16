@@ -1,6 +1,6 @@
 import { basicInstance } from "../instance";
 
-import { ArticleSortByType, Articles } from "../interface";
+import { ArticleSearchType, ArticleSortBy, Articles } from "../interface";
 
 export const fetchArticles = async ({ queryKey }: { queryKey: any[] }) => {
   const [sortBy, page]: string[] = queryKey;
@@ -16,7 +16,7 @@ export const fetchArticles = async ({ queryKey }: { queryKey: any[] }) => {
 // NOTE 게시글 목록
 export const articles = async (params: {
   category: string;
-  sortBy: ArticleSortByType;
+  searchType: ArticleSearchType;
   page: number;
 }) =>
   await basicInstance
@@ -31,7 +31,7 @@ export const articlesByUser = async ({
   size = 4,
 }: {
   userId?: number;
-  sortBy?: ArticleSortByType;
+  sortBy?: ArticleSortBy;
   page?: number;
   size?: number;
 }) =>

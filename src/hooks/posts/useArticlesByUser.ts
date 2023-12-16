@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { articlesByUser } from ".src/api/articles/articles";
-import { ArticleSortByType } from ".src/api/interface";
+import { ArticleSortBy } from ".src/api/interface";
 
 export const useArticlesByUser = ({
   userId,
@@ -10,13 +10,13 @@ export const useArticlesByUser = ({
   articleId,
 }: {
   userId?: number;
-  sortBy?: ArticleSortByType;
+  sortBy?: ArticleSortBy;
   size?: number;
   articleId: string;
 }) => {
   const setKey = (
-    sortBy: ArticleSortByType
-  ): [string, { userId?: number; sortBy: ArticleSortByType; size: number }] => [
+    sortBy: ArticleSortBy
+  ): [string, { userId?: number; sortBy: ArticleSortBy; size: number }] => [
     articlesByUser.name,
     { userId, sortBy, size },
   ];
@@ -27,25 +27,16 @@ export const useArticlesByUser = ({
     enabled: !!userId && (sortBy === "PRICE" || sortBy == null),
   });
 
-  const { data: listPopular, status: listPopularStatus } = useQuery({
-    queryKey: setKey("POPULAR"),
-    queryFn: ({ queryKey: [_, props] }) => articlesByUser(props),
-    enabled:
-      !!userId &&
-      (sortBy === "POPULAR" ||
-        (listPriceStatus !== "pending" && !listPrice?.length)),
-  });
-
   const { data: listLatest } = useQuery({
     queryKey: setKey("LATEST"),
     queryFn: ({ queryKey: [_, props] }) => articlesByUser(props),
     enabled:
       !!userId &&
       (sortBy === "LATEST" ||
-        (listPopularStatus !== "pending" && !listPopular?.length)),
+        (listPriceStatus !== "pending" && !listPrice?.length)),
   });
 
-  const list = (listPrice ?? listPopular ?? listLatest ?? []).filter(
+  const list = (listPrice ?? listLatest ?? []).filter(
     ({ articleInfo: { articleId: id } }) => id !== Number(articleId)
   );
 

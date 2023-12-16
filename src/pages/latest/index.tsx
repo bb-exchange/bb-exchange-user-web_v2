@@ -25,7 +25,7 @@ export default function Lastest() {
 
   const router = useRouter();
 
-  const sortBy = "LATEST";
+  const searchType = "LATEST";
   const category = useRecoilValue(categoryState);
   const [page, setPage] = useState<number>(0);
 
@@ -38,7 +38,7 @@ export default function Lastest() {
     articlesData: { totalPages, pageNumber, contents },
     mutateArticle,
   } = useArticles({
-    sortBy,
+    searchType,
     category,
     page,
   });

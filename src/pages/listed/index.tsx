@@ -34,7 +34,7 @@ export const getServerSideProps: GetServerSideProps<{
 
   const defaultValues = {
     category: "ALL",
-    sortBy: "LISTED" as const,
+    searchType: "LISTED" as const,
     page: 0,
   };
 
@@ -60,7 +60,7 @@ export default function Listed({
 
   const router = useRouter();
 
-  const sortBy = "LISTED";
+  const searchType = "LISTED";
   const category = useRecoilValue(categoryState);
   const [page, setPage] = useState<number>(0);
 
@@ -73,7 +73,7 @@ export default function Listed({
     articlesData: { totalPages, pageNumber, contents },
     mutateArticle,
   } = useArticles({
-    sortBy,
+    searchType,
     category,
     page,
   });

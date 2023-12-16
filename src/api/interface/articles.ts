@@ -32,4 +32,6 @@ export interface ArticleData {
 
 export type Articles = PageData & { contents: Array<ArticleData> };
 
-export type ArticleSortByType = "LATEST" | "POPULAR" | "LISTED" | "PRICE";
+export type ArticleSearchType = "LATEST" | "POPULAR" | "LISTED";
+
+export type ArticleSortBy = "LATEST" | "PRICE";

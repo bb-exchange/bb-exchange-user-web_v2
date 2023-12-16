@@ -7,10 +7,10 @@ import {
 } from "@tanstack/react-query";
 
 import { articles, updateArticleBookmark } from ".src/api/articles/articles";
-import { ArticleSortByType, Articles } from ".src/api/interface";
+import { ArticleSearchType, Articles } from ".src/api/interface";
 
 export const useArticles = (props: {
-  sortBy: ArticleSortByType;
+  searchType: ArticleSearchType;
   category: string;
   page: number;
 }) => {
