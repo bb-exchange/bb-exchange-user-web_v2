@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
 import {
+  InfiniteData,
   keepPreviousData,
   useInfiniteQuery,
   useMutation,
@@ -56,8 +57,10 @@ import { articles } from ".src/api/articles/articles";
 import { useArticlesByUser } from ".src/hooks/posts/useArticlesByUser";
 import {
   CommentSortByType,
+  Comments,
   commentsByArticleId,
   createComment,
+  updateLikeComment,
 } from ".src/api/comments";
 import { InView } from "react-intersection-observer";
 import { ArticleData } from ".src/api/interface/articles";
@@ -248,6 +251,40 @@ export default function Post() {
     if (!commentContent || commentContent == null) return;
     mutateComment();
   }, [commentContent, mutateComment]);
+
+  // NOTE 댓글 좋아요 등록/해제
+  const { mutate: mutateLikeComment } = useMutation({
+    mutationFn: updateLikeComment,
+    onSuccess: (_, { isLike, commentId }) =>
+      queryClient.setQueryData<InfiniteData<Comments>>(
+        [commentsByArticleId.name, { sortBy: commentSortBy }],
+        (data) => {
+          if (data != null) {
+            data.pages = data.pages.map((page) => ({
+              ...page,
+              contents: page.contents.map((content) =>
+                content.commentId === commentId
+                  ? {
+                      ...content,
+                      isLike,
+                      likeCounts: isLike
+                        ? (content.likeCounts += 1)
+                        : (content.likeCounts -= 1),
+                    }
+                  : content
+              ),
+            }));
+          }
+          return data;
+        }
+      ),
+  });
+
+  // NOTE 댓글 좋아요 등록/해제 함수
+  const onClickLikeComment = useCallback(
+    (props: { isLike: boolean; commentId: number }) => mutateLikeComment(props),
+    [mutateLikeComment]
+  );
 
   // NOTE 유저프로필 클릭 시 유저상세페이지로 연결
   const onMoveUserPage = () => {
@@ -622,6 +659,7 @@ export default function Post() {
                               data={props}
                               nested={!!(props.parentCommentId != null)}
                               onClickNestedComment={onClickNestedComment}
+                              onClickLikeComment={onClickLikeComment}
                             />
                           </li>
                         ))

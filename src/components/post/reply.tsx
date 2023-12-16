@@ -24,6 +24,7 @@ interface Iprops {
     nickname: string;
     commentId: number;
   }) => void;
+  onClickLikeComment: (props: { isLike: boolean; commentId: number }) => void;
 }
 
 export default function Reply({
@@ -40,6 +41,7 @@ export default function Reply({
   },
   nested,
   onClickNestedComment,
+  onClickLikeComment,
 }: Iprops) {
   const useReply = UseReply();
 
@@ -111,7 +113,11 @@ export default function Reply({
               <div className={styles.leftBox}>
                 <button
                   className={`${styles.likeBtn} ${isLike ? styles.on : ""}`}
-                  onClick={() => {}}
+                  onClick={() =>
+                    isLogin &&
+                    onClickLikeComment({ isLike: !isLike, commentId })
+                  }
+                  style={{ cursor: isLogin ? "pointer" : "default" }}
                 >
                   {isLike ? <ThumbUpRed /> : <ThumbUpGrey />}
                   <p className={styles.likeCount}>{likeCounts || 0}</p>

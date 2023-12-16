@@ -49,3 +49,22 @@ export const createComment = async (params: {
     .catch((error) => {
       throw error.response.data;
     });
+
+// NOTE 댓글 좋아요 등록/해제
+export const updateLikeComment = async ({
+  isLike,
+  commentId,
+}: {
+  isLike: boolean;
+  commentId: number;
+}) => {
+  const method = isLike ? "POST" : "DELETE";
+  return await basicInstance({
+    url: `/v1/comments/${commentId}/like`,
+    method,
+  })
+    .then(({ data: { message } }: { data: { message: string } }) => message)
+    .catch((error) => {
+      throw error.response.data;
+    });
+};
