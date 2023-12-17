@@ -1,3 +1,5 @@
+import { useRouter } from "next/router";
+
 import EnrollHeader from ".src/components/enroll/enrollHeader";
 import styles from "./enrollScreen.module.scss";
 import "react-quill/dist/quill.snow.css";
@@ -18,6 +20,7 @@ import TextAlign from "@tiptap/extension-text-align";
 import Link from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
 import Paragraph from "@tiptap/extension-paragraph";
+import Image from "@tiptap/extension-image";
 import History from "@tiptap/extension-history";
 
 // import TextStyle from "@tiptap/extension-text-style";
@@ -38,6 +41,8 @@ import ConfirmPopup from ".src/components/common/popup/confirmPopup";
 import UseRecentTagPopup from ".src/hooks/enroll/useRecentTagPopup";
 
 export default function EnrollScreen() {
+  const router = useRouter();
+
   const editor = useEditor({
     extensions: [
       // History,
@@ -80,11 +85,16 @@ export default function EnrollScreen() {
       Placeholder.configure({
         placeholder: "나누고 싶은 나만의 비법을 적어주세요. (100자 이상)",
       }),
+      Image.configure({
+        inline: true,
+      }),
     ],
   });
 
   const useEnrollHook = useEnroll(editor ?? null);
   const tagHook = UseRecentTagPopup({ useEnrollHook });
+
+  console.log("getjson", editor?.getJSON());
 
   return (
     <>
@@ -205,14 +215,12 @@ export default function EnrollScreen() {
           <PopupBg bg off={() => useEnrollHook.closeErrMsg()} />
         </>
       )}
-
-      {useEnrollHook.selectImg && (
+      {/* {useEnrollHook.selectImg && (
         <>
           <SelImgPopup useEnrollHook={useEnrollHook} />
           <PopupBg bg off={() => useEnrollHook.setSelectImg(undefined)} />
         </>
-      )}
-
+      )} */}
       {useEnrollHook.draftsPopup && (
         <>
           <DraftsPopup
@@ -222,7 +230,6 @@ export default function EnrollScreen() {
           <PopupBg bg off={() => useEnrollHook.setDraftsPopup(false)} />
         </>
       )}
-
       {useEnrollHook.delDraftPopup && (
         <>
           <ConfirmPopup
@@ -240,7 +247,6 @@ export default function EnrollScreen() {
           />
         </>
       )}
-
       {useEnrollHook.loadDraftPopup && (
         <>
           <ConfirmPopup
@@ -258,6 +264,43 @@ export default function EnrollScreen() {
             bg
             zIndex={70}
             off={() => useEnrollHook.setLoadDraftPopup(false)}
+          />
+        </>
+      )}
+      {useEnrollHook.writeCancelPopup && (
+        <>
+          <ConfirmPopup
+            title="글쓰기를 취소하시겠습니까?"
+            content={`임시저장하면 나중에 이어서
+작성할 수 있습니다.`}
+            cancelText="글쓰기 취소"
+            cancelFunc={() => {
+              // 뒤로가기?
+              useEnrollHook.setWriteCancelPopup(false);
+              router.back();
+            }}
+            confirmText="임시저장"
+            confirmFunc={() => {
+              // 임시저장
+            }}
+            zIndex={80}
+          />
+          <PopupBg
+            bg
+            zIndex={70}
+            off={() => useEnrollHook.setWriteCancelPopup(false)}
+          />
+        </>
+      )}
+      {useEnrollHook.tempSuccessPostPopup && (
+        <>
+          <ErrorMsgPopup
+            msg="임시저장되었습니다."
+            confirmFunc={() => useEnrollHook.setTempSuccessPostPopup(false)}
+          />
+          <PopupBg
+            bg
+            off={() => useEnrollHook.setTempSuccessPostPopup(false)}
           />
         </>
       )}

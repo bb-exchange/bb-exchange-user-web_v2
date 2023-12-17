@@ -21,24 +21,11 @@ export default function UseRecentTagPopup({ useEnrollHook }: Iprops) {
     setTagKeyword(value);
   };
 
-  // const handleKeywordKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-  //   if (e.key === "Enter") {
-  //     tagKeyword && useEnrollHook?.setNewTag(tagKeyword);
-  //     setTagKeyword(null);
-  //   }
-  //   if (tagKeyword === "" && e.key === "Backspace") {
-  //     console.log("삭제");
-  //   }
-  // };
-
   const handleKeywordKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (e.key === "Enter") {
         tagKeyword && useEnrollHook?.setNewTag(tagKeyword);
         setTagKeyword(null);
-      }
-      if (!tagKeyword && e.key === "Backspace") {
-        // console.log("삭제", tagKeyword);
       }
     },
     [tagKeyword, useEnrollHook]

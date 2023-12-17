@@ -1,10 +1,6 @@
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import styles from "./enrollHeader.module.scss";
-import LogoBlue from ".assets/logos/LogoBlue.svg";
-// import Undo from ".assets/icons/Undo.svg";
-// import Redo from ".assets/icons/Redo.svg";
-import useEnroll from ".src/hooks/enroll/useEnroll";
-import { useCallback, useState } from "react";
+import { BsJustify, BsJustifyLeft, BsJustifyRight } from "react-icons/bs";
 import {
   BoldIcon,
   ItalicIcon,
@@ -18,10 +14,16 @@ import {
   Undo2Icon,
   Redo2Icon,
   Link,
-  TextIcon,
   ImageIcon,
 } from "lucide-react";
-import { BsJustify, BsJustifyLeft, BsJustifyRight } from "react-icons/bs";
+import { MD5 } from "crypto-js";
+import { useMutation } from "@tanstack/react-query";
+
+import { imgPreSignedUrl } from ".src/api/images/imgPreSignedUrl";
+
+import LogoBlue from ".assets/logos/LogoBlue.svg";
+import useEnroll from ".src/hooks/enroll/useEnroll";
+import styles from "./enrollHeader.module.scss";
 
 interface Iprops {
   editor: any;
@@ -59,28 +61,47 @@ export default function EnrollHeader({ editor, useEnrollHook }: Iprops) {
     setIsLink(true);
   }, [editor]);
 
-  const upload = (file: File) => {
-    // handle upload logic here
-  };
-  const addImage = (url: string) => {
-    if (url) {
-      editor.chain().focus().setImage({ src: url }).run();
-    }
-  };
-  const handleChangeImg = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e?.target?.files?.[0]) return;
-    console.log("file?", e?.target?.files);
+  const mutation = useMutation({
+    mutationFn: imgPreSignedUrl,
+    onSettled: (data, error, variables, context) => {
+      console.log("onSettled", data, error, variables, context);
 
-    // upload(e.target.files[0])
-    //   .then((res) => addImage(res))
-    //   .catch((err) => console.error(err))
+      editor &&
+        editor.chain().focus().setImage({ src: data.data.imagePath }).run();
+    },
+  });
+
+  const handleChangeImg = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e?.target?.files;
+
+    if (!files?.length) return;
+
+    [...files].map((file) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+
+      reader.onload = (e: ProgressEvent<FileReader>) => {
+        if (!reader.result) return;
+        if (reader.readyState === 2) {
+          const binary: any = e?.target?.result;
+
+          mutation.mutate({
+            contentType: file.type,
+            md5: MD5(binary).toString(),
+          });
+        }
+      };
+    });
   };
 
   return (
     <header className={styles.enrollHeader}>
       <section className={styles.saveBar}>
         <article className={styles.leftArea}>
-          <button className={styles.logoBtn} onClick={() => router.push("/")}>
+          <button
+            className={styles.logoBtn}
+            onClick={() => useEnrollHook.setWriteCancelPopup(true)}
+          >
             <LogoBlue />
             <span className={styles.logoBeta}>Beta</span>
           </button>
@@ -93,7 +114,7 @@ export default function EnrollHeader({ editor, useEnrollHook }: Iprops) {
             </button>
             <button
               className={styles.tempSaveBtn1}
-              onClick={() => useEnrollHook.setDraftsPopup(true)}
+              onClick={useEnrollHook.onClickEnrollTemp}
             >
               임시저장
             </button>
@@ -209,20 +230,20 @@ export default function EnrollHeader({ editor, useEnrollHook }: Iprops) {
               <Link size={16} />
             </button>
             <button className={styles.fileButtonArea}>
-              <ImageIcon
-                aria-label="image"
-                size={16}
-                className={styles.fileButtonImg}
-              />
               <input
                 type="file"
                 name="file"
                 accept=".png,.jpg,.jpeg"
                 id="upload"
+                multiple={true}
                 onChange={handleChangeImg}
                 className={styles.fileInput}
               />
-              {/* editor.chain().focus().setImage({ src: url }).run() */}
+              <ImageIcon
+                aria-label="image"
+                size={16}
+                className={styles.fileButtonImg}
+              />
             </button>
           </>
         )}

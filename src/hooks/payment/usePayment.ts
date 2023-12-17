@@ -1,6 +1,10 @@
+import { userNameState } from ".src/recoil";
 import { RequestPayParams, RequestPayResponse } from ".src/types/imp";
+import { useRecoilValue } from "recoil";
 
 export default function usePayment() {
+  const userName = useRecoilValue(userNameState);
+
   const requestPayment = (v: number) => {
     if (!window.IMP) return;
     /* 1. 가맹점 식별(초기화) */
@@ -15,7 +19,7 @@ export default function usePayment() {
       merchant_uid: `mid_${new Date().getTime()}`, // 주문번호
       amount: v, // 결제금액
       name: "비법거래소 포인트.", // 주문명
-      buyer_name: "조비법", // 구매자 이름
+      buyer_name: `${userName ?? ""}`, // 구매자 이름
       buyer_tel: "01012341234", // 구매자 전화번호
       buyer_email: "example@example", // 구매자 이메일
       buyer_addr: "신사동 661-16", // 구매자 주소

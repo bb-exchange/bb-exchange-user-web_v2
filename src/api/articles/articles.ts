@@ -39,8 +39,16 @@ export const articlesByUser = async ({
     .get(`/v1/articles/users/${userId}`, { params: { sortBy, page, size } })
     .then(({ data: { data } }: { data: { data: Articles } }) => data.contents);
 
-export const postArticle = async (formData: IpostArticle) => {
-  basicInstance.post(`/v1/articles`, formData).then((res) => console.log(res));
+// NOTE 글 작성하기
+interface IArticle {
+  title: string;
+  category: string;
+  content: any;
+  articleTagList: string[];
+  thumbnailImage: string;
+}
+export const postArticle = async (body: IArticle) => {
+  (await basicInstance.post(`/v1/articles`, body)).data;
 };
 
 export const postImages = async (formData: any) => {
@@ -76,4 +84,9 @@ export const updateArticleBookmark = async ({
     url: `/v1/articles/interests/${articleId}`,
     method,
   }).then(({ data: { message } }: { data: { message: string } }) => message);
+};
+
+// NOTE 게시글 임시 저장
+export const postArticleTemp = async (body: IArticle) => {
+  (await basicInstance.post(`/v1/articles/temp`, body)).data;
 };

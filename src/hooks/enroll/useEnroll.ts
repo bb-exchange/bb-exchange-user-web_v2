@@ -1,5 +1,5 @@
 import { Editor } from "@tiptap/react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   base64toFile,
   redoBtnHandler,
@@ -7,10 +7,17 @@ import {
 } from ".src/util/textEditor";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/router";
 
-import { postArticle, postImages } from ".src/api/articles/articles";
+import {
+  postArticle,
+  postArticleTemp,
+  postImages,
+} from ".src/api/articles/articles";
 
 export default function useEnroll(editor: Editor | null) {
+  const router = useRouter();
+
   const [contObj, setContObj] = useState<any>();
   const [selectImg, setSelectImg] = useState<HTMLImageElement>();
   const [errMsgBusy, setErrMsgBusy] = useState<boolean>(false);
@@ -20,6 +27,10 @@ export default function useEnroll(editor: Editor | null) {
   const [draftsPopup, setDraftsPopup] = useState<boolean>(false);
   const [delDraftPopup, setDelDraftPopup] = useState<boolean>(false);
   const [loadDraftPopup, setLoadDraftPopup] = useState<boolean>(false);
+  const [writeCancelPopup, setWriteCancelPopup] = useState<boolean>(false);
+  const [successPostPopup, setSuccessPostPopup] = useState<boolean>(false);
+  const [tempSuccessPostPopup, setTempSuccessPostPopup] =
+    useState<boolean>(false);
 
   const {
     register,
@@ -35,7 +46,18 @@ export default function useEnroll(editor: Editor | null) {
 
   const enrollPostMutation = useMutation({
     mutationFn: postArticle,
-    onSuccess: (res) => console.log(res),
+    onSuccess: (res) => {
+      setSuccessPostPopup(true);
+      router.push("/");
+    },
+  });
+
+  const enrollTempPostMutation = useMutation({
+    mutationFn: postArticleTemp,
+    onSuccess: (res) => {
+      // 임시저장 완료 팝업
+      setTempSuccessPostPopup(true);
+    },
   });
 
   const enrollImagesMutation = useMutation({
@@ -66,26 +88,26 @@ export default function useEnroll(editor: Editor | null) {
     setErrMsg(_errMsgs[0]!);
   }, [errMsgBusy, formState]);
 
-  async function uploadImgFile() {
-    if (!(contObj && contObj.ops)) return;
+  // async function uploadImgFile() {
+  //   if (!(contObj && contObj.ops)) return;
 
-    let ops = contObj.ops;
+  //   let ops = contObj.ops;
 
-    let images = await Promise.all(
-      ops?.map(async (v: any, i: number) => {
-        if (!(v.insert && v.insert.image)) return;
+  //   let images = await Promise.all(
+  //     ops?.map(async (v: any, i: number) => {
+  //       if (!(v.insert && v.insert.image)) return;
 
-        const editorSrc = v.insert.image;
-        if (editorSrc.startsWith("data:image/")) {
-          const file = await base64toFile(editorSrc, `${i}`);
-          return file;
-        }
-      })
-    );
+  //       const editorSrc = v.insert.image;
+  //       if (editorSrc.startsWith("data:image/")) {
+  //         const file = await base64toFile(editorSrc, `${i}`);
+  //         return file;
+  //       }
+  //     })
+  //   );
 
-    images = images.filter((e) => e);
-    await enrollImagesMutation.mutateAsync({ images });
-  }
+  //   images = images.filter((e) => e);
+  //   await enrollImagesMutation.mutateAsync({ images });
+  // }
 
   async function onClickEnrollBtn() {
     if (!watch("category.description")) {
@@ -113,17 +135,30 @@ export default function useEnroll(editor: Editor | null) {
       });
     }
 
-    // await uploadImgFile();
-    // enrollPostMutation.mutateAsync({
-    //   title: watch("title"),
-    //   category: watch("category").category,
-    //   content: "", // editor.getJSON()
-    //   articleTagList: watch("tagList"),
-    //   thumbnailImage: watch("thumbNail"),
-    // });
+    const body = {
+      title: watch("title"),
+      category: watch("category").category,
+      content: JSON.stringify({ ...editor.getJSON().content }),
+      articleTagList: [],
+      thumbnailImage: "",
+    };
+
+    enrollPostMutation.mutate(body);
   }
 
-  // console.log("getjson", editor?.getJSON());
+  const onClickEnrollTemp = () => {
+    if (editor) {
+      const body = {
+        title: watch("title"),
+        category: watch("category").category,
+        content: JSON.stringify({ ...editor.getJSON().content }),
+        articleTagList: [],
+        thumbnailImage: "",
+      };
+
+      enrollTempPostMutation.mutate(body);
+    }
+  };
 
   const isDisabledBtn =
     formState.isValid && editor?.getText() && editor?.getText()?.length > 100
@@ -284,5 +319,12 @@ export default function useEnroll(editor: Editor | null) {
     enrollPostMutation,
     onClickEnrollBtn,
     isDisabledBtn,
+    writeCancelPopup,
+    setWriteCancelPopup,
+    successPostPopup,
+    setSuccessPostPopup,
+    onClickEnrollTemp,
+    tempSuccessPostPopup,
+    setTempSuccessPostPopup,
   };
 }
