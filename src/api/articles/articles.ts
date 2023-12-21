@@ -90,3 +90,6 @@ export const updateArticleBookmark = async ({
 export const postArticleTemp = async (body: IArticle) => {
   (await basicInstance.post(`/v1/articles/temp`, body)).data;
 };
+
+// NOTE 임시 게시글 목록
+// export const

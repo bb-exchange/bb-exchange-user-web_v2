@@ -30,7 +30,7 @@ const AppleAuth = () => {
         });
 
         //not registerd
-        if (response.data.message === "user not registered") {
+        if (response.data.message === "등록되지 않은 유저입니다.") {
           const {
             data: { data: registerVerifyData },
           } = await basicInstance.post("/v1/auth/register/verify ", {

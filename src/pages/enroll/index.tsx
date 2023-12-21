@@ -94,8 +94,6 @@ export default function EnrollScreen() {
   const useEnrollHook = useEnroll(editor ?? null);
   const tagHook = UseRecentTagPopup({ useEnrollHook });
 
-  console.log("getjson", editor?.getJSON());
-
   return (
     <>
       <EnrollHeader editor={editor} useEnrollHook={useEnrollHook} />

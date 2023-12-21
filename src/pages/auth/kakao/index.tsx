@@ -45,7 +45,7 @@ const KakaoAuth = () => {
             oauthType: "KAKAO",
           });
           //not registerd
-          if (response.data.message === "user not registered") {
+          if (response.data.message === "등록되지 않은 유저입니다.") {
             //check kakao user account
             const {
               data: { data: registerVerifyData },

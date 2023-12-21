@@ -15,8 +15,10 @@ import {
 } from ".src/api/post/post";
 import Image from "next/image";
 import moment from "moment";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import "moment/locale/ko";
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
 
 import CommonHeader from ".src/components/common/header/commonHeader";
 import styles from "./postScreen.module.scss";
@@ -80,6 +82,10 @@ export default function Post() {
   const queryKey = [postById.name, { articleId }];
   const queryClient = useQueryClient();
 
+  const editor = useEditor({
+    extensions: [StarterKit],
+  });
+
   // NOTE 현재 로그인한 유저 정보
   const { data: currentUserData } = useQuery({
     queryKey: [currentUserInfo.name],
@@ -97,6 +103,16 @@ export default function Post() {
     queryFn: () => postById(articleId),
     enabled: !!articleId,
   });
+
+  // json[0]넣으면 보이는게 맞는지 확인 필요함
+  useEffect(() => {
+    if (editor && postData && Object.keys(postData).length) {
+      const json = JSON.parse(postData?.articleInfo?.content);
+      // console.log("?", json[0]);
+      editor?.commands.setContent(json[0]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [postData]);
 
   const userId = postData?.userInfo.userId;
 
@@ -354,6 +370,8 @@ export default function Post() {
     [postData]
   );
 
+  // console.log("postData", JSON.parse(postData?.articleInfo?.content));
+
   return (
     <>
       <CommonHeader />
@@ -379,6 +397,7 @@ export default function Post() {
         <main className={styles.postScreen}>
           <section className={styles.contSec}>
             {/* SECTION 타이틀 영역 */}
+            {editor && <EditorContent editor={editor} height={"300px"} />}
             <article className={styles.topBar}>
               <div className={styles.verArea}>
                 <div className={styles.leftCont}>

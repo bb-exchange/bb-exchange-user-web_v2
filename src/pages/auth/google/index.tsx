@@ -49,7 +49,7 @@ const GoogleAuth = () => {
               oauthType: "GOOGLE",
             }
           );
-          if (authLoginData.message === "user not registered") {
+          if (authLoginData.message === "등록되지 않은 유저입니다.") {
             //verify user account
             const { data: registerVerifyData } = await basicInstance.post(
               "/v1/auth/register/verify ",

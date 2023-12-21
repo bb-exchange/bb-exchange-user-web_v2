@@ -326,5 +326,6 @@ export default function useEnroll(editor: Editor | null) {
     onClickEnrollTemp,
     tempSuccessPostPopup,
     setTempSuccessPostPopup,
+    editor,
   };
 }
