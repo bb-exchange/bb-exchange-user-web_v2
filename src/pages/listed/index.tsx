@@ -6,7 +6,6 @@ import {
   HydrationBoundary,
   QueryClient,
   dehydrate,
-  useQuery,
 } from "@tanstack/react-query";
 import { useRecoilValue } from "recoil";
 import moment from "moment";
@@ -175,7 +174,7 @@ export default function Listed({
                             />
                           </span>
 
-                          <p>{category}</p>
+                          <p>{boardInfo.description}</p>
                         </div>
 
                         <p className={styles.creator}>
