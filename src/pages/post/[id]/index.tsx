@@ -67,6 +67,7 @@ import {
 import { InView } from "react-intersection-observer";
 import { ArticleData } from ".src/api/interface/articles";
 import { PostData } from ".src/api/interface";
+import Head from "next/head";
 
 export default function Post() {
   const hook = UsePost();
@@ -374,6 +375,13 @@ export default function Post() {
 
   return (
     <>
+      <Head>
+        <title>
+          비법거래소
+          {postData?.articleInfo.title && ` • ${postData?.articleInfo.title}`}
+        </title>
+      </Head>
+
       <CommonHeader />
 
       {postDataStatus === "pending" ? (

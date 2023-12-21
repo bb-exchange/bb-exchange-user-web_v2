@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import type { AppProps } from "next/app";
+import Head from "next/head";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { RecoilRoot } from "recoil";
@@ -48,6 +49,10 @@ export default function App({ Component, ...rest }: AppProps) {
     <RecoilRoot>
       <CookiesProvider>
         <QueryClientProvider client={queryClient}>
+          <Head>
+            <title>비법거래소</title>
+          </Head>
+
           <Layout pageProps={rest.pageProps}>
             <Component {...rest.pageProps} />
           </Layout>
