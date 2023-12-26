@@ -13,9 +13,6 @@ import PopupBg from ".src/components/common/popupBg";
 import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
 import LocalStorage from ".src/util/localStorage";
 
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-
 interface Inputs {
   phoneNumber: string;
   secret: string;
@@ -40,6 +37,9 @@ const MobileAuth = () => {
     useState<boolean>(false); //인증키 만료
   const [openErrorPopup, setOpenErrorPopup] = useState<boolean>(false);
   const [openTryKeyErrPopup, setOpenTryKeyErrPopup] = useState<boolean>(false);
+  const [isTryKeyErr, setIsTryKeyErr] = useState<boolean>(false);
+
+  const isNextBtnDisabled = useRef<boolean>(false);
 
   const {
     register,
@@ -74,6 +74,7 @@ const MobileAuth = () => {
   //send sms api
   const sendSecretCode = async (data: Inputs) => {
     try {
+      setIsTryKeyErr(false);
       const {
         data: { data: secretData },
       }: any = await basicInstance.post("/v1/auth/phones/send-secret", {
@@ -91,24 +92,14 @@ const MobileAuth = () => {
         setSeconds(0);
         setValue("secret", ""); //인증번호 입력창 초기화
       } else if (secretData.oauthTypes) {
-        //이미 가입된 정보가 있는 경우
         LocalStorage.setItem("oauthType", secretData.oauthTypes[0]);
         push("/auth/duplicate-social-account");
       }
     } catch (error: any) {
-      // if (error.response?.data.message === "auth key not found") {
-      //   setOpenExpiredKeyPopup(true);
-      // } else
-      if (
-        error.response?.data.message ===
-        "인증 문자는 하루에 최대 6회 받을 수 있어요. 내일 다시 시도해주세요."
-      ) {
+      if (error.response?.data.code === "ATH010") {
         isErrorRef.current = true;
         setOpenExceedPopup(true);
-      } else if (
-        error.response?.data.message ===
-        "30초 이내에는 인증번호를 다시 전송할 수 없어요."
-      ) {
+      } else if (error.response?.data.code === "ATH009") {
         setOpenErrorPopup(true);
       }
     }
@@ -138,16 +129,14 @@ const MobileAuth = () => {
         push("/auth/duplicate-social-account");
       }
     } catch (error: any) {
-      if (error.response?.data.message === "wrong secret") {
+      if (error.response?.data.code === "ATH012") {
         setOpenErrSecretPopup(true);
       }
       // else if (error.response?.data.message === "auth key not found") {
       //   setOpenExpiredKeyPopup(true);
       // }
-      else if (
-        error.response?.data.message ===
-        "인증번호 입력 시도 횟수가 초과되었습니다."
-      ) {
+      else if (error.response?.data.code === "ATH011") {
+        setIsTryKeyErr(true);
         setOpenTryKeyErrPopup(true);
       }
     }
@@ -175,11 +164,14 @@ const MobileAuth = () => {
 
   useEffect(() => {
     let text = "";
-    if (minutes === 0 && seconds === 0) {
+    if (!minutes && !seconds) {
       text = "만료됨";
       setOpenExpiredKeyPopup(true);
     }
-    if (minutes !== 0 && seconds !== 0) {
+
+    if (minutes === 3) {
+      text = "";
+    } else if (minutes || seconds) {
       text = `0${minutes}:${
         seconds === 0 ? `${seconds}0` : seconds < 10 ? `0${seconds}` : seconds
       }`;
@@ -187,7 +179,10 @@ const MobileAuth = () => {
     setTimeText(text);
   }, [minutes, seconds]);
 
-  // console.log("seconds", seconds);
+  isNextBtnDisabled.current =
+    showResendBtn && getValues("secret")?.length === 6 && !isTryKeyErr
+      ? false
+      : true;
 
   return (
     <div id={styles.mobileAuth} className={styles.container}>
@@ -237,45 +232,15 @@ const MobileAuth = () => {
                 })}
               />
               {<p className={styles.timer}>{timeText}</p>}
-              {/* {showResendBtn && (
-                <p className={styles.timer}>
-                  {minutes === 0 && seconds === 0 && "만료됨"}
-                  {minutes !== 0 &&
-                    seconds !== 0 &&
-                    `0${minutes}:${
-                      seconds === 0
-                        ? `${seconds}0`
-                        : seconds < 10
-                        ? `0${seconds}`
-                        : seconds
-                    }`}
-                </p>
-              )} */}
             </div>
           </form>
           <ContainedBtn
             text={"다음"}
-            disabled={
-              showResendBtn && getValues("secret")?.length === 6 ? false : true
-            }
+            disabled={isNextBtnDisabled.current}
             onClick={handleSubmit(verifyPhones)}
           />
         </div>
       </div>
-      {leftCount === 0 && (
-        <>
-          <ErrorMsgPopup
-            confirmFunc={() => setLeftCount(5)}
-            msg={
-              <>
-                <span>인증번호 입력 시도 횟수가 초과되었습니다.</span>
-                <span>인증번호를 재전송 후 다시 입력해주세요.</span>
-              </>
-            }
-          />
-          <PopupBg bg off={() => setLeftCount(5)} />
-        </>
-      )}
       {openErrorPopup && (
         <>
           <ErrorMsgPopup
@@ -332,7 +297,7 @@ const MobileAuth = () => {
               </>
             }
           />
-          <PopupBg bg off={() => setOpenExpiredKeyPopup(false)} />
+          <PopupBg bg off={() => {}} />
         </>
       )}
       {openTryKeyErrPopup && (
@@ -346,7 +311,12 @@ const MobileAuth = () => {
               </>
             }
           />
-          <PopupBg bg off={() => setOpenTryKeyErrPopup(false)} />
+          <PopupBg
+            bg
+            off={() => {
+              setOpenTryKeyErrPopup(false);
+            }}
+          />
         </>
       )}
     </div>
