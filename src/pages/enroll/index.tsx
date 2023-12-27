@@ -273,9 +273,8 @@ export default function EnrollScreen() {
 작성할 수 있습니다.`}
             cancelText="글쓰기 취소"
             cancelFunc={() => {
-              // 뒤로가기?
               useEnrollHook.setWriteCancelPopup(false);
-              router.back();
+              router.push("/");
             }}
             confirmText="임시저장"
             confirmFunc={() => {

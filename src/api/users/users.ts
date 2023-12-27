@@ -16,6 +16,10 @@ export const withdrawal = async () => {
   return await basicInstance.delete("v1/users", { data: { reason: "기타" } });
 };
 
+export const getEthicalPledge = async () => {
+  return (await basicInstance.get("v1/users/ethical-pledge")).data;
+};
+
 export const postEthicalPledge = async () => {
   return await basicInstance.patch("v1/users/ethical-pledge");
 };

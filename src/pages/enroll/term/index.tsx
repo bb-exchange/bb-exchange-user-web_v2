@@ -1,11 +1,29 @@
-import styles from "./termScreen.module.scss";
+import { useRecoilValue } from "recoil";
+import { useRouter } from "next/router";
+import { useMutation } from "@tanstack/react-query";
+
+import { postEthicalPledge } from ".src/api/users/users";
 import { D_termList } from ".src/data/enroll/D_term";
 import CommonHeader from ".src/components/common/header/commonHeader";
 import CommonFooter from ".src/components/common/commonFooter";
-import UseTerm from ".src/hooks/enroll/useTerm";
+import { userNameState } from ".src/recoil";
+
+import styles from "./termScreen.module.scss";
 
 export default function TermScreen() {
-  const useTerm = UseTerm();
+  const router = useRouter();
+  const userName = useRecoilValue(userNameState);
+
+  const postEthicalPledgeMutation = useMutation({
+    mutationFn: postEthicalPledge,
+    onSuccess: () => {
+      router.push("/enroll");
+    },
+  });
+
+  const onClickAgreeBtn = () => {
+    postEthicalPledgeMutation.mutateAsync();
+  };
 
   return (
     <>
@@ -19,7 +37,7 @@ export default function TermScreen() {
         <article className={styles.contArea}>
           <div className={styles.termCont}>
             <div className={styles.explainBox}>
-              <p className={styles.key}>YGmin20님, 안녕하세요!</p>
+              <p className={styles.key}>{userName}님, 안녕하세요!</p>
               <p className={styles.value}>
                 비법 작성 전, 꼭 알아두셔야 하는 사항들을 미리 알려드립니다.
                 아래 사항을 꼭 숙지하여, 즐겁고 안전한 비법 거래를 시작해보세요.
@@ -48,7 +66,7 @@ export default function TermScreen() {
             </ul>
           </div>
 
-          <button className={styles.agreeBtn} onClick={useTerm.onClickAgreeBtn}>
+          <button className={styles.agreeBtn} onClick={onClickAgreeBtn}>
             동의합니다
           </button>
         </article>

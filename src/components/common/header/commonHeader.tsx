@@ -16,6 +16,8 @@ import AlertCount from "./alertCount";
 import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
 import { isLoginState, userNameState } from ".src/recoil";
+import { useQuery } from "@tanstack/react-query";
+import { getEthicalPledge } from ".src/api/users/users";
 
 interface Iprops {
   commonSort?: "인기" | "최신" | "상장";
@@ -28,6 +30,20 @@ export default function CommonHeader({ commonSort }: Iprops) {
   const isSignedIn = useRecoilValue(isLoginState);
 
   const onClickTab = (url: string) => router.push(`/${url}`);
+
+  const { refetch, data: ethicalPledgeData } = useQuery({
+    queryKey: ["user", "get|ethical-pledge"],
+    queryFn: getEthicalPledge,
+    enabled: false,
+    gcTime: Infinity,
+  });
+
+  const onClickEnroll = () => {
+    refetch();
+
+    if (ethicalPledgeData?.data.agreeToEthicalPledge) router.push("/enroll");
+    else router.push("/enroll/term");
+  };
 
   return (
     <header className={styles.commonHeader}>
@@ -43,10 +59,7 @@ export default function CommonHeader({ commonSort }: Iprops) {
           <div className={`${styles.rightCont} ${isSignedIn ? "login" : ""} `}>
             {isSignedIn ? (
               <>
-                <button
-                  className={styles.writeBtn}
-                  onClick={() => router.push("/enroll")}
-                >
+                <button className={styles.writeBtn} onClick={onClickEnroll}>
                   <WriteWhite />
                   <p>작성하기</p>
                 </button>
