@@ -345,7 +345,8 @@ export default function Post() {
 
   // NOTE URL 복사 클릭
   const urlCopy = () => {
-    navigator.clipboard.writeText(window.location.href);
+    const value = window.location.href.replace("post", "link");
+    navigator.clipboard.writeText(value);
     setCopied(true);
   };
 
