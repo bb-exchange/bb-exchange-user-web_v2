@@ -18,6 +18,8 @@ import useEdit from ".src/hooks/edit/useEdit";
 import { useRouter } from "next/router";
 import useEnroll from ".src/hooks/enroll/useEnroll";
 import UseRecentTagPopup from ".src/hooks/enroll/useRecentTagPopup";
+import { useQuery } from "@tanstack/react-query";
+import { fetchCategory } from ".src/api/articles/category";
 
 export default function EditScreen() {
   const router = useRouter();
@@ -30,6 +32,12 @@ export default function EditScreen() {
   function onSubmit() {
     useEditHook.handleSubmitFunc();
   }
+
+  //NOTE - 카테고리 목록 호출
+  const { data: categoryList } = useQuery({
+    queryKey: ["articleCategory"],
+    queryFn: fetchCategory,
+  });
 
   return (
     <>
@@ -64,6 +72,7 @@ export default function EditScreen() {
                 {useEditHook.selCategoryPopup && (
                   <>
                     <SelCategoryPopup
+                      categoryList={categoryList ?? []}
                       setValue={(v: IpostCategories) =>
                         useEditHook.setValue("category", v)
                       }

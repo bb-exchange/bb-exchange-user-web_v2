@@ -3,6 +3,7 @@ import { basicInstance } from "../instance";
 interface IData {
   contentType: string;
   md5: string;
+  file: File;
 }
 export const imgPreSignedUrl = async (data: IData) => {
   return await basicInstance

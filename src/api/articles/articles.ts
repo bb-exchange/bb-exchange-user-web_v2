@@ -92,4 +92,22 @@ export const postArticleTemp = async (body: IArticle) => {
 };
 
 // NOTE 임시 게시글 목록
-// export const
+export const getArticlesTemp = async () =>
+  (await basicInstance.get(`/v1/articles/temp`)).data;
+
+// NOTE 임시 게시글 조회
+export const getArticleTemp = async (articleId: number) =>
+  (await basicInstance.get(`/v1/articles/temp/${articleId}`)).data;
+
+// NOTE 임시 게시글 수정
+interface IPatchAriticleTemp {
+  articleId: number;
+  body: IArticle;
+}
+export const patchArticleTemp = async (data: IPatchAriticleTemp) =>
+  (await basicInstance.patch(`/v1/articles/temp/${data.articleId}`, data.body))
+    .data;
+
+// NOTE 임시 게시글 삭제
+export const deleteArticleTemp = async (articleId: number) =>
+  (await basicInstance.delete(`/v1/articles/temp/${articleId}`)).data;

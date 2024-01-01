@@ -18,6 +18,7 @@ import { useRecoilValue } from "recoil";
 import { isLoginState, userNameState } from ".src/recoil";
 import { useQuery } from "@tanstack/react-query";
 import { getEthicalPledge } from ".src/api/users/users";
+import { useEffect, useRef } from "react";
 
 interface Iprops {
   commonSort?: "인기" | "최신" | "상장";
@@ -29,21 +30,30 @@ export default function CommonHeader({ commonSort }: Iprops) {
   const nickname = useRecoilValue(userNameState);
   const isSignedIn = useRecoilValue(isLoginState);
 
+  const isClickedEnroll = useRef<boolean>(false);
+
   const onClickTab = (url: string) => router.push(`/${url}`);
 
   const { refetch, data: ethicalPledgeData } = useQuery({
     queryKey: ["user", "get|ethical-pledge"],
     queryFn: getEthicalPledge,
     enabled: false,
-    gcTime: Infinity,
   });
 
   const onClickEnroll = () => {
+    isClickedEnroll.current = true;
     refetch();
-
-    if (ethicalPledgeData?.data.agreeToEthicalPledge) router.push("/enroll");
-    else router.push("/enroll/term");
   };
+
+  useEffect(() => {
+    if (isClickedEnroll.current) {
+      ethicalPledgeData?.data.agreeToEthicalPledge
+        ? router.push("/enroll")
+        : router.push("/enroll/term");
+
+      isClickedEnroll.current = false;
+    }
+  }, [ethicalPledgeData, router]);
 
   return (
     <header className={styles.commonHeader}>

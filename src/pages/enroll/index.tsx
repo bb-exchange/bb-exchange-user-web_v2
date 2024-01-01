@@ -4,28 +4,7 @@ import EnrollHeader from ".src/components/enroll/enrollHeader";
 import styles from "./enrollScreen.module.scss";
 import "react-quill/dist/quill.snow.css";
 
-import { useEditor, EditorContent, getText } from "@tiptap/react";
-// import { EditorProvider, useCurrentEditor } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import Bold from "@tiptap/extension-bold";
-import Italic from "@tiptap/extension-italic";
-import Underline from "@tiptap/extension-underline";
-import Blockquote from "@tiptap/extension-blockquote";
-import Heading from "@tiptap/extension-heading";
-// import { Color } from '@tiptap/extension-color'
-import ListItem from "@tiptap/extension-list-item";
-import OrderedList from "@tiptap/extension-ordered-list";
-import BulletList from "@tiptap/extension-bullet-list";
-import TextAlign from "@tiptap/extension-text-align";
-import Link from "@tiptap/extension-link";
-import Placeholder from "@tiptap/extension-placeholder";
-import Paragraph from "@tiptap/extension-paragraph";
-import Image from "@tiptap/extension-image";
-import History from "@tiptap/extension-history";
-
-// import TextStyle from "@tiptap/extension-text-style";
-// import Document from "@tiptap/extension-document";
-// import Text from "@tiptap/extension-text";
+import { EditorContent } from "@tiptap/react";
 
 import useEnroll from ".src/hooks/enroll/useEnroll";
 import ChevronDn from ".assets/icons/ChevronDn.svg";
@@ -39,60 +18,39 @@ import RecentTagPopup from ".src/components/enroll/recentTagPopup";
 import DraftsPopup from ".src/components/enroll/draftsPopup";
 import ConfirmPopup from ".src/components/common/popup/confirmPopup";
 import UseRecentTagPopup from ".src/hooks/enroll/useRecentTagPopup";
+import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { fetchCategory } from ".src/api/articles/category";
+import { useMakeEditor } from ".src/hooks/enroll/useMakeEditor";
 
 export default function EnrollScreen() {
   const router = useRouter();
 
-  const editor = useEditor({
-    extensions: [
-      // History,
-      StarterKit,
-      // Document,
-      Paragraph,
-      // Text,
-      Bold.configure({
-        HTMLAttributes: {
-          class: "t-bold",
-        },
-      }),
-      Italic.configure({
-        HTMLAttributes: {
-          class: "t-italic",
-        },
-      }),
-      Underline.configure({
-        HTMLAttributes: {
-          class: "t-underline",
-        },
-      }),
-      Blockquote.configure({
-        HTMLAttributes: {
-          class: "t-blockquote",
-        },
-      }),
-      Heading.configure({
-        levels: [1, 2, 3, 4, 5],
-      }),
-      OrderedList,
-      BulletList,
-      ListItem,
-      TextAlign.configure({
-        types: ["heading", "paragraph"],
-      }),
-      Link.configure({
-        openOnClick: true,
-      }),
-      Placeholder.configure({
-        placeholder: "나누고 싶은 나만의 비법을 적어주세요. (100자 이상)",
-      }),
-      Image.configure({
-        inline: true,
-      }),
-    ],
-  });
-
+  const { editor } = useMakeEditor();
   const useEnrollHook = useEnroll(editor ?? null);
   const tagHook = UseRecentTagPopup({ useEnrollHook });
+
+  //NOTE - 카테고리 목록 호출
+  const { data: categoryList } = useQuery({
+    queryKey: ["articleCategory"],
+    queryFn: fetchCategory,
+  });
+
+  //NOTE - 임시 저장된 글 불러왔을 때
+  useEffect(() => {
+    const article = useEnrollHook.tempArticle;
+    if (article) {
+      const category = categoryList?.filter(
+        (item) => item.category === article.data.category
+      )[0];
+      useEnrollHook.setValue("title", article.data.title);
+      category && useEnrollHook.setValue("category", category);
+
+      const json = JSON.parse(article.data.content);
+      editor?.commands.setContent(json);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [useEnrollHook.tempArticle]);
 
   return (
     <>
@@ -131,6 +89,7 @@ export default function EnrollScreen() {
                 {useEnrollHook.selCategoryPopup && (
                   <>
                     <SelCategoryPopup
+                      categoryList={categoryList ?? []}
                       setValue={(v: IpostCategories) =>
                         useEnrollHook.setValue("category", v)
                       }
@@ -157,7 +116,7 @@ export default function EnrollScreen() {
             </div>
 
             <div
-              className={styles.quillBox}
+              className={styles.editorBox}
               onClick={() => editor?.commands.focus()}
             >
               {editor && <EditorContent editor={editor} height={"100%"} />}
@@ -235,7 +194,7 @@ export default function EnrollScreen() {
             content={`선택한 임시저장글을 삭제하면
 다시 불러올 수 없습니다.`}
             cancelFunc={() => useEnrollHook.setDelDraftPopup(false)}
-            confirmFunc={() => useEnrollHook.setDelDraftPopup(false)}
+            confirmFunc={() => useEnrollHook.onDeleteTemp()}
             zIndex={80}
           />
           <PopupBg
@@ -252,10 +211,7 @@ export default function EnrollScreen() {
             content={`임시글을 불러오면 작성 중인 글은
 사라집니다.`}
             cancelFunc={() => useEnrollHook.setLoadDraftPopup(false)}
-            confirmFunc={() => {
-              useEnrollHook.setDraftsPopup(false);
-              useEnrollHook.setLoadDraftPopup(false);
-            }}
+            confirmFunc={() => useEnrollHook.onLoadTempArticle()}
             zIndex={80}
           />
           <PopupBg
@@ -277,9 +233,7 @@ export default function EnrollScreen() {
               router.push("/");
             }}
             confirmText="임시저장"
-            confirmFunc={() => {
-              // 임시저장
-            }}
+            confirmFunc={() => useEnrollHook.onClickEnrollTemp()}
             zIndex={80}
           />
           <PopupBg
@@ -298,6 +252,18 @@ export default function EnrollScreen() {
           <PopupBg
             bg
             off={() => useEnrollHook.setTempSuccessPostPopup(false)}
+          />
+        </>
+      )}
+      {useEnrollHook.successTempUpdatePopup && (
+        <>
+          <ErrorMsgPopup
+            msg="글 수정이 완료되었습니다."
+            confirmFunc={() => useEnrollHook.setSuccessTempUpdatePopup(false)}
+          />
+          <PopupBg
+            bg
+            off={() => useEnrollHook.setSuccessTempUpdatePopup(false)}
           />
         </>
       )}

@@ -80,14 +80,14 @@ export default function UseEditProf() {
         description: data.description,
       });
 
-      if (uploadFile && md5) {
-        const { data } = await imgPreSignedUrl({
-          contentType: imgType,
-          md5,
-        });
+      // if (uploadFile && md5) {
+      //   const { data } = await imgPreSignedUrl({
+      //     contentType: imgType,
+      //     md5,
+      //   });
 
-        await uploadImg(data.presignedUrl, uploadFile, md5, imgType);
-      }
+      //   await uploadImg(data.presignedUrl, uploadFile, md5, imgType);
+      // }
 
       // if (res?.status === 204) {
       //   router.push("/mypage");

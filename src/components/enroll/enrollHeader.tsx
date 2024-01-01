@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { useCallback, useState } from "react";
 import { BsJustify, BsJustifyLeft, BsJustifyRight } from "react-icons/bs";
 import {
   BoldIcon,
@@ -16,10 +15,6 @@ import {
   Link,
   ImageIcon,
 } from "lucide-react";
-import { MD5 } from "crypto-js";
-import { useMutation } from "@tanstack/react-query";
-
-import { imgPreSignedUrl } from ".src/api/images/imgPreSignedUrl";
 
 import LogoBlue from ".assets/logos/LogoBlue.svg";
 import useEnroll from ".src/hooks/enroll/useEnroll";
@@ -31,8 +26,6 @@ interface Iprops {
 }
 
 export default function EnrollHeader({ editor, useEnrollHook }: Iprops) {
-  const router = useRouter();
-
   const [isLink, setIsLink] = useState<boolean>(true);
 
   const setLink = useCallback(() => {
@@ -61,39 +54,6 @@ export default function EnrollHeader({ editor, useEnrollHook }: Iprops) {
     setIsLink(true);
   }, [editor]);
 
-  const mutation = useMutation({
-    mutationFn: imgPreSignedUrl,
-    onSettled: (data, error, variables, context) => {
-      console.log("onSettled", data, error, variables, context);
-
-      editor &&
-        editor.chain().focus().setImage({ src: data.data.imagePath }).run();
-    },
-  });
-
-  const handleChangeImg = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e?.target?.files;
-
-    if (!files?.length) return;
-
-    [...files].map((file) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-
-      reader.onload = (e: ProgressEvent<FileReader>) => {
-        if (!reader.result) return;
-        if (reader.readyState === 2) {
-          const binary: any = e?.target?.result;
-
-          mutation.mutate({
-            contentType: file.type,
-            md5: MD5(binary).toString(),
-          });
-        }
-      };
-    });
-  };
-
   return (
     <header className={styles.enrollHeader}>
       <section className={styles.saveBar}>
@@ -106,11 +66,13 @@ export default function EnrollHeader({ editor, useEnrollHook }: Iprops) {
             <span className={styles.logoBeta}>Beta</span>
           </button>
         </article>
-
         <article className={styles.rightArea}>
           <div className={styles.tempSaveBox}>
-            <button className={styles.tempSaveBtn2} onClick={() => {}}>
-              임시 2
+            <button
+              className={styles.tempSaveBtn2}
+              onClick={useEnrollHook.openDraftsPopup}
+            >
+              임시 {useEnrollHook.articleTempList?.data.length ?? 0}
             </button>
             <button
               className={styles.tempSaveBtn1}
@@ -126,7 +88,7 @@ export default function EnrollHeader({ editor, useEnrollHook }: Iprops) {
               className={styles.disabled}
               onClick={useEnrollHook.onClickEnrollBtn}
             >
-              게시하기
+              {useEnrollHook.btnName}
             </button>
           ) : (
             <button
@@ -134,7 +96,7 @@ export default function EnrollHeader({ editor, useEnrollHook }: Iprops) {
               className={styles.enrollBtn}
               onClick={useEnrollHook.onClickEnrollBtn}
             >
-              게시하기
+              {useEnrollHook.btnName}
             </button>
           )}
         </article>
@@ -236,7 +198,7 @@ export default function EnrollHeader({ editor, useEnrollHook }: Iprops) {
                 accept=".png,.jpg,.jpeg"
                 id="upload"
                 multiple={true}
-                onChange={handleChangeImg}
+                onChange={useEnrollHook.handleChangeImg}
                 className={styles.fileInput}
               />
               <ImageIcon

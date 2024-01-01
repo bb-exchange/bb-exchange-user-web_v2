@@ -13,6 +13,12 @@
     height: 0;
   }
 
+  .editorBox {
+    padding: 24px 0 40px;
+    flex-grow: 1;
+    min-height: 900px;
+    font-size: 16px;
+  }
   .contArea {
     width: 996px;
     height: 100%;
@@ -34,18 +40,18 @@
           }
         }
 
-        .quillBox {
-          padding: 24px 0 40px;
+        // .quillBox {
+        //   padding: 24px 0 40px;
 
-          .quill {
-            & > div {
-              & > div {
-                min-height: 900px;
-                font-size: 16px;
-              }
-            }
-          }
-        }
+        //   .quill {
+        //     & > div {
+        //       & > div {
+        //         min-height: 900px;
+        //         font-size: 16px;
+        //       }
+        //     }
+        //   }
+        // }
 
         .tagBar {
           flex-wrap: wrap;
@@ -96,46 +102,46 @@
         }
       }
 
-      .quillBox {
-        padding: 44px 0 40px;
-        border-bottom: 1px solid $Gray2;
-        min-height: 1100px;
-        outline: none;
+      // .quillBox {
+      //   padding: 44px 0 40px;
+      //   border-bottom: 1px solid $Gray2;
+      //   min-height: 1100px;
+      //   outline: none;
 
-        .quill {
-          & > div {
-            border: none;
+      //   .quill {
+      //     & > div {
+      //       border: none;
 
-            & > div {
-              min-height: 1100px;
-              padding: 0;
-              font-size: 18px;
+      //       & > div {
+      //         min-height: 1100px;
+      //         padding: 0;
+      //         font-size: 18px;
 
-              &::before {
-                left: 0;
-                font-style: normal;
-              }
+      //         &::before {
+      //           left: 0;
+      //           font-style: normal;
+      //         }
 
-              strong {
-                font-weight: 700;
-              }
+      //         strong {
+      //           font-weight: 700;
+      //         }
 
-              em {
-                font-style: italic;
-              }
+      //         em {
+      //           font-style: italic;
+      //         }
 
-              img {
-                min-width: 90px;
-                border-radius: 12px;
-                cursor: pointer;
-              }
-            }
-          }
-        }
-      }
-      .quillBox:focus-visible {
-        outline: none !important;
-      }
+      //         img {
+      //           min-width: 90px;
+      //           border-radius: 12px;
+      //           cursor: pointer;
+      //         }
+      //       }
+      //     }
+      //   }
+      // }
+      // .quillBox:focus-visible {
+      //   outline: none !important;
+      // }
 
       .tagBar {
         display: flex;

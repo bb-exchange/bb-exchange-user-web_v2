@@ -17,8 +17,7 @@ import Image from "next/image";
 import moment from "moment";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import "moment/locale/ko";
-import { useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
+import { EditorContent } from "@tiptap/react";
 
 import CommonHeader from ".src/components/common/header/commonHeader";
 import styles from "./postScreen.module.scss";
@@ -68,6 +67,7 @@ import { InView } from "react-intersection-observer";
 import { ArticleData } from ".src/api/interface/articles";
 import { PostData } from ".src/api/interface";
 import Head from "next/head";
+import { useMakeEditor } from ".src/hooks/enroll/useMakeEditor";
 
 export default function Post() {
   const hook = UsePost();
@@ -82,10 +82,6 @@ export default function Post() {
   // NOTE tanstack qurey 현재 페이지 공통 키
   const queryKey = [postById.name, { articleId }];
   const queryClient = useQueryClient();
-
-  const editor = useEditor({
-    extensions: [StarterKit],
-  });
 
   // NOTE 현재 로그인한 유저 정보
   const { data: currentUserData } = useQuery({
@@ -105,12 +101,12 @@ export default function Post() {
     enabled: !!articleId,
   });
 
-  // json[0]넣으면 보이는게 맞는지 확인 필요함
+  //NOTE - tiptap 게시글 출력
+  const { editor } = useMakeEditor();
   useEffect(() => {
     if (editor && postData && Object.keys(postData).length) {
       const json = JSON.parse(postData?.articleInfo?.content);
-      // console.log("?", json[0]);
-      editor?.commands.setContent(json[0]);
+      editor?.commands.setContent(json);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [postData]);
@@ -372,8 +368,6 @@ export default function Post() {
     [postData]
   );
 
-  // console.log("postData", JSON.parse(postData?.articleInfo?.content));
-
   return (
     <>
       <Head>
@@ -406,7 +400,6 @@ export default function Post() {
         <main className={styles.postScreen}>
           <section className={styles.contSec}>
             {/* SECTION 타이틀 영역 */}
-            {editor && <EditorContent editor={editor} height={"300px"} />}
             <article className={styles.topBar}>
               <div className={styles.verArea}>
                 <div className={styles.leftCont}>
@@ -535,11 +528,9 @@ export default function Post() {
             {isOwnership ? (
               <>
                 <article className={styles.contArea}>
-                  <ReactQuill
-                    readOnly
-                    value={postData?.articleInfo.content}
-                    modules={{ toolbar: false }}
-                  />
+                  {editor && (
+                    <EditorContent readOnly editor={editor} height={"100%"} />
+                  )}
                 </article>
 
                 {/* NOTE 좋아요 */}
