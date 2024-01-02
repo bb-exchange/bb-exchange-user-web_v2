@@ -228,8 +228,20 @@ export default function Post() {
     },
   });
 
+  // NOTE 댓글/대댓글 유효성 체크
+  const isValidComment = useMemo(
+    () =>
+      commentContent.trim()
+        ? commentMention.current == null
+          ? true
+          : !!commentContent.slice(commentMention.current.length).trim()
+        : false,
+    [commentContent]
+  );
+
   // NOTE 댓글 입력
   const onChangeComment = (value: string) => {
+    // NOTE 대댓글 멘션 손상 시 대댓글 해제 처리
     if (
       commentMention.current != null &&
       !value.startsWith(commentMention.current)
@@ -261,9 +273,10 @@ export default function Post() {
 
   // NOTE 댓글 저장
   const onSubmit = useCallback(() => {
-    if (!commentContent || commentContent == null) return;
+    if (!isValidComment) return;
+
     mutateComment();
-  }, [commentContent, mutateComment]);
+  }, [isValidComment, mutateComment]);
 
   // NOTE 댓글 좋아요 등록/해제
   const { mutate: mutateLikeComment } = useMutation({
@@ -663,7 +676,11 @@ export default function Post() {
                           placeholder="댓글을 입력해주세요"
                         />
 
-                        <button className={styles.enrollBtn} onClick={onSubmit}>
+                        <button
+                          className={styles.enrollBtn}
+                          aria-disabled={!isValidComment}
+                          onClick={onSubmit}
+                        >
                           입력
                         </button>
                       </div>

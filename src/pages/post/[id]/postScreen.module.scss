@@ -355,6 +355,10 @@
           .enrollBtn {
             margin: 0 20px 0 0;
             color: $Primary1;
+
+            &[aria-disabled="true"] {
+              color: $Gray3;
+            }
           }
         }
 
