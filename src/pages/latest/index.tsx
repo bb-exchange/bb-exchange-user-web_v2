@@ -134,7 +134,7 @@ export default function Lastest() {
                           </div>
 
                           <p className={styles.creator}>
-                            ・{nickname}・{moment.utc(updatedAt).fromNow()}
+                            ・{nickname}・{moment(updatedAt).fromNow()}
                           </p>
                         </div>
                       </div>
