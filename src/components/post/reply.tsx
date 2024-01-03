@@ -19,15 +19,18 @@ import { useMemo } from "react";
 
 interface Iprops {
   data: CommentData;
+  isMyComment: boolean;
   nested?: boolean;
   onClickNestedComment: (props: {
     nickname: string;
     commentId: number;
   }) => void;
   onClickLikeComment: (props: { isLike: boolean; commentId: number }) => void;
+  onClickDeleteComment: (commentId: number) => void;
 }
 
 export default function Reply({
+  isMyComment,
   data: {
     isDeleted,
     nickname,
@@ -42,6 +45,7 @@ export default function Reply({
   nested,
   onClickNestedComment,
   onClickLikeComment,
+  onClickDeleteComment,
 }: Iprops) {
   const useReply = UseReply();
 
@@ -93,7 +97,11 @@ export default function Reply({
 
                     {useReply.morePopup && (
                       <>
-                        <ReplyMorePopup useReply={useReply} />
+                        <ReplyMorePopup
+                          useReply={useReply}
+                          isMyComment={isMyComment}
+                          onClickDelete={() => onClickDeleteComment(commentId)}
+                        />
                         <PopupBg off={() => useReply.setMorePopup(false)} />
                       </>
                     )}

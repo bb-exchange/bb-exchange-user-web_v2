@@ -56,18 +56,13 @@ import { currentUserInfo, hideAuthorsPosts } from ".src/api/users/users";
 import ImageComp from ".src/components/Image";
 import { articles } from ".src/api/articles/articles";
 import { useArticlesByUser } from ".src/hooks/posts/useArticlesByUser";
-import {
-  CommentSortByType,
-  Comments,
-  commentsByArticleId,
-  createComment,
-  updateLikeComment,
-} from ".src/api/comments";
+import { CommentSortByType } from ".src/api/comments";
 import { InView } from "react-intersection-observer";
 import { ArticleData } from ".src/api/interface/articles";
 import { PostData } from ".src/api/interface";
 import Head from "next/head";
 import { useMakeEditor } from ".src/hooks/enroll/useMakeEditor";
+import { useComments } from ".src/hooks/post/useComments";
 
 export default function Post() {
   const hook = UsePost();
@@ -178,55 +173,30 @@ export default function Post() {
   // NOTE 댓글 목록 정렬 기준
   const [commentSortBy, setCommentSortBy] =
     useState<CommentSortByType>("POPULAR");
-  // NOTE 댓글 목록 조회
   const {
-    data: comments,
+    // NOTE 댓글 목록 조회
+    comments,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    refetch: refetchComments,
-  } = useInfiniteQuery({
-    enabled: !!articleId,
-    queryKey: [commentsByArticleId.name, { sortBy: commentSortBy }],
-    initialPageParam: 0,
-    queryFn: ({ pageParam }) =>
-      commentsByArticleId({
-        articleId,
-        page: pageParam,
-        sortBy: commentSortBy,
-      }),
-    getNextPageParam: ({ hasNext, pageNumber }) =>
-      hasNext ? pageNumber + 1 : null,
-    placeholderData: keepPreviousData,
-  });
+    refetchComments,
+
+    // NOTE 댓글 추가
+    newComment,
+    // NOTE 댓글 수정
+    editComment,
+    // NOTE 댓글 삭제
+    removeComment,
+
+    // NOTE 댓글 좋아요 등록/해제
+    setLikeComment,
+  } = useComments({ articleId, commentSortBy });
 
   // NOTE 대댓글 입력 시 정보
   const commentMention = useRef<string | null>(null);
   const parentCommentId = useRef<number | null>(null);
-
+  // NOTE 입력창에 입력중인 댓글
   const [commentContent, setCommentContent] = useState<string>("");
-
-  // NOTE 댓글 추가
-  const { mutate: mutateComment } = useMutation({
-    mutationFn: () =>
-      createComment({
-        articleId,
-        parentCommentId: parentCommentId.current,
-        content: commentContent,
-      }),
-    onSuccess: () => {
-      if (parentCommentId.current == null) {
-        setCommentSortBy("LATEST");
-      } else {
-        commentMention.current = null;
-        parentCommentId.current = null;
-
-        refetchComments();
-      }
-
-      setCommentContent("");
-    },
-  });
 
   // NOTE 댓글/대댓글 유효성 체크
   const isValidComment = useMemo(
@@ -275,41 +245,39 @@ export default function Post() {
   const onSubmit = useCallback(() => {
     if (!isValidComment) return;
 
-    mutateComment();
-  }, [isValidComment, mutateComment]);
+    newComment(
+      {
+        articleId,
+        parentCommentId: parentCommentId.current,
+        content: commentContent,
+      },
+      {
+        onSuccess: () => {
+          if (parentCommentId.current == null) {
+            setCommentSortBy("LATEST");
+          } else {
+            commentMention.current = null;
+            parentCommentId.current = null;
+
+            refetchComments();
+          }
+
+          setCommentContent("");
+        },
+      }
+    );
+  }, [articleId, commentContent, isValidComment, newComment, refetchComments]);
+
+  // NOTE 댓글 삭제
+  const onClickDeleteComment = useCallback(
+    (commentId: number) => removeComment(commentId),
+    [removeComment]
+  );
 
   // NOTE 댓글 좋아요 등록/해제
-  const { mutate: mutateLikeComment } = useMutation({
-    mutationFn: updateLikeComment,
-    onSuccess: (_, { isLike, commentId }) =>
-      queryClient.setQueryData<InfiniteData<Comments>>(
-        [commentsByArticleId.name, { sortBy: commentSortBy }],
-        (data) => {
-          if (data != null) {
-            data.pages = data.pages.map((page) => ({
-              ...page,
-              contents: page.contents.map((content) =>
-                content.commentId === commentId
-                  ? {
-                      ...content,
-                      isLike,
-                      likeCounts: isLike
-                        ? (content.likeCounts += 1)
-                        : (content.likeCounts -= 1),
-                    }
-                  : content
-              ),
-            }));
-          }
-          return data;
-        }
-      ),
-  });
-
-  // NOTE 댓글 좋아요 등록/해제 함수
   const onClickLikeComment = useCallback(
-    (props: { isLike: boolean; commentId: number }) => mutateLikeComment(props),
-    [mutateLikeComment]
+    (props: { isLike: boolean; commentId: number }) => setLikeComment(props),
+    [setLikeComment]
   );
 
   // NOTE 유저프로필 클릭 시 유저상세페이지로 연결
@@ -363,9 +331,6 @@ export default function Post() {
   const { mutate: mutateHidePosts } = useMutation({
     mutationFn: hideAuthorsPosts,
     onSuccess: hook.onSuccessHideUserPost,
-    onError: (error) => {
-      //TODO - 에러처리
-    },
   });
 
   // NOTE 다른 글로 이동하는 함수
@@ -373,7 +338,7 @@ export default function Post() {
     router.push(`/post/${articleId}`);
 
   // NOTE 비상장글이거나 구매한 글인지 여부
-  const isOwnership = useMemo(
+  const hasOwnership = useMemo(
     () =>
       postData
         ? !!(!postData.articleInfo.isListed || postData.articleInfo.isPurchased)
@@ -422,7 +387,7 @@ export default function Post() {
                   </h2>
 
                   {/* NOTE 비상장글 이거나 구매한 글일 때 */}
-                  {isOwnership && (
+                  {hasOwnership && (
                     <>
                       <hr />
 
@@ -447,7 +412,7 @@ export default function Post() {
                 {/* NOTE 글 히스토리(이전 버전) */}
                 {/* NOTE 비상장글 이거나 구매한 글일 때 출력 */}
                 {/* <div className={styles.rightCont}>
-                  {isOwnership && (
+                  {hasOwnership && (
                     <button
                       className={styles.otherVerBtn}
                       onClick={() => hook.setPostVerPopup(true)}
@@ -482,7 +447,7 @@ export default function Post() {
                       </p>
                     </div>
 
-                    {isOwnership ? (
+                    {hasOwnership ? (
                       // NOTE 비상장글 이거나 구매한 글일 때 - 조회수
                       <div className={`${styles.creatorBox} ${styles.contBox}`}>
                         <Eye />
@@ -511,9 +476,9 @@ export default function Post() {
                       URL 복사
                     </button>
                     {/* NOTE 로그인 && (비상장 || 구매한 글)인 유저만 볼 수 있는 더보기 메뉴 */}
-                    {isOwnership && (
+                    {hasOwnership && (
                       <div className={styles.btnBox}>
-                        {isLogin && isOwnership && (
+                        {isLogin && hasOwnership && (
                           <button
                             className={styles.moreBtn}
                             onClick={() => hook.setMorePopup(true)}
@@ -538,7 +503,7 @@ export default function Post() {
 
             {/* SECTION 글 내용 영역 */}
             {/* NOTE 비상장글 이거나 구매한 글일 때 */}
-            {isOwnership ? (
+            {hasOwnership ? (
               <>
                 <article className={styles.contArea}>
                   {editor && (
@@ -692,10 +657,14 @@ export default function Post() {
                         page.contents.map((props) => (
                           <li key={props.commentId}>
                             <Reply
+                              isMyComment={
+                                !!(currentUserData?.id === props.userId)
+                              }
                               data={props}
                               nested={!!(props.parentCommentId != null)}
                               onClickNestedComment={onClickNestedComment}
                               onClickLikeComment={onClickLikeComment}
+                              onClickDeleteComment={onClickDeleteComment}
                             />
                           </li>
                         ))
@@ -797,7 +766,7 @@ export default function Post() {
           {/* SECTION 우측 영역 */}
           <aside>
             {/* NOTE 비상장글 이거나 구매글일 때 */}
-            {isOwnership ? (
+            {hasOwnership ? (
               <>
                 <article className={styles.creatorArea}>
                   <div className={styles.profImgBox} onClick={onMoveUserPage}>

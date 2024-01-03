@@ -50,6 +50,30 @@ export const createComment = async (params: {
       throw error.response.data;
     });
 
+// NOTE 댓글 수정
+export const updateComment = async ({
+  commentId,
+  ...params
+}: {
+  commentId: number;
+  content: string;
+}) =>
+  await basicInstance
+    .patch(`/v1/comments/${commentId}`, params)
+    // .then(({ data: { message } }: { data: { message: string } }) => message)
+    .then((data: any) => {
+      console.log("댓글 수정 응답: ", data);
+    })
+    .catch((error) => {
+      throw error.response.data;
+    });
+
+// NOTE 댓글 삭제
+export const deleteComment = async (commentId: number) =>
+  await basicInstance.delete(`/v1/comments/${commentId}`).catch((error) => {
+    throw error.response.data;
+  });
+
 // NOTE 댓글 좋아요 등록/해제
 export const updateLikeComment = async ({
   isLike,
