@@ -5,13 +5,15 @@ import { useCookies } from "react-cookie";
 
 import styles from "./index.module.scss";
 import ContainedBtn from ".src/components/Buttons/ContainedBtn";
-import { basicInstance } from ".src/api/instance";
 import IconRedCaution from "../../../../public/assets/icons/RedCaution.svg";
 import IconBlueCheck from "../../../../public/assets/icons/BlueCheck.svg";
 import PopupBg from ".src/components/common/popupBg";
 import ConfirmPopup from ".src/components/common/popup/confirmPopup";
 import { useSetRecoilState } from "recoil";
 import { isLoginState, userNameState } from ".src/recoil";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { checkNickname } from ".src/api/users/users";
+import { registerNickname, registerUser } from ".src/api/auth/auth";
 interface Inputs {
   nickname: string;
 }
@@ -44,41 +46,66 @@ const Register = () => {
     mode: "onChange",
   });
 
-  //닉네임 중복체크
-  const duplicateCheck = async (data: Inputs) => {
-    const res = await basicInstance.get(
-      `/v1/users/is-exists?nickname=${data.nickname}`
-    );
+  //NOTE - 회원가입 API
+  const mutationRegister = useMutation({
+    mutationFn: registerUser,
+    onSuccess: (data, variables) => {
+      setCookies("accessToken", data.data.accessToken);
+      setCookies("refreshToken", data.data.refreshToken);
+      setIsLoginState(true);
+      setUserNameState(variables.nickname);
+      router.push("/auth/signup-completion");
+    },
+    onError: (error) => {
+      console.log("error", error);
+    },
+  });
 
-    if (res.data.data.isExists === true) {
+  //NOTE - 닉네임 중복체크
+  const { data: isNickNameData, refetch: refetchChackNickname } = useQuery({
+    queryKey: ["checkNickname"],
+    queryFn: () => checkNickname(watch("nickname")),
+    enabled: false,
+  });
+  const duplicateCheck = async () => {
+    refetchChackNickname();
+  };
+  useEffect(() => {
+    if (isNickNameData?.isExists === true) {
       setError("nickname", { message: "이미 사용중인 닉네임입니다" });
     } else {
-      setAvailableNickname(data.nickname);
+      setAvailableNickname(watch("nickname"));
     }
-  };
-  //회원가입
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isNickNameData, watch("nickname")]);
+
+  //NOTE - 닉네임 등록
+  const nicknameRegisterMutation = useMutation({
+    mutationFn: registerNickname,
+    onSuccess: (data, variables, context) => {
+      mutationRegister.mutate({
+        oauthType: cookies.oauthType,
+        oauthId: cookies.oauthId,
+        recommendCode: "TEST0001",
+        nickname: variables.nickname,
+      });
+    },
+  });
+
+  //NOTE - 회원가입 클릭
   const reqRegister = async (data: Inputs) => {
-    const res = await basicInstance.post(`/v1/auth/register`, {
+    await nicknameRegisterMutation.mutate({
       oauthType: cookies.oauthType,
       oauthId: cookies.oauthId,
-      phoneNumber: cookies.phoneNumber,
       nickname: data.nickname,
     });
-
-    if (res.data.data.accessToken) {
-      //가입성공
-      setCookies("accessToken", res.data.data.accessToken);
-      setCookies("refreshToken", res.data.data.refreshToken);
-      setIsLoginState(true);
-      setUserNameState(data.nickname);
-      router.push("/auth/signup-completion");
-    }
   };
 
   useEffect(() => {
     if (watch("nickname") !== availableNickname) {
       setAvailableNickname("");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watch("nickname")]);
 
   //뒤로가기 막기 팝업창 추가

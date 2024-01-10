@@ -18,8 +18,12 @@ import Image from "@tiptap/extension-image";
 import Document from "@tiptap/extension-document";
 import Text from "@tiptap/extension-text";
 
-export const useMakeEditor = () => {
+interface IProps {
+  isEdit: boolean;
+}
+export const useMakeEditor = ({ isEdit }: IProps) => {
   const editor = useEditor({
+    editable: isEdit,
     extensions: [
       //FIXME - 이미지 이동 기능 오류
       Node.create({
@@ -71,7 +75,11 @@ export const useMakeEditor = () => {
       }),
       Image.configure({
         inline: true,
-        allowBase64: true,
+        // allowBase64: true,
+        HTMLAttributes: {
+          id: "t-image",
+          class: "t-image",
+        },
       }),
     ],
     // editorProps: {

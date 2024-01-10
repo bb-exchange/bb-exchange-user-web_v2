@@ -8,7 +8,8 @@ interface IData {
 export const imgPreSignedUrl = async (data: IData) => {
   return await basicInstance
     .post(`/v1/images/presigned`, {
-      ...data,
+      contentType: data.contentType,
+      md5: data.md5,
     })
     .then((res) => res.data);
 };

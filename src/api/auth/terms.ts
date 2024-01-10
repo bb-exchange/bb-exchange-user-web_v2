@@ -1,4 +1,3 @@
-import { useCookies } from "react-cookie";
 import { basicInstance } from "../instance";
 
 export interface ITerms {

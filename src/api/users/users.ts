@@ -49,3 +49,9 @@ export const hideAuthorsPosts = async ({
       params: { currentUserId: userId },
     })
     .then(({ data: { message } }: { data: { message: string } }) => message);
+
+// NOTE 닉네임 존재여부 체크
+export const checkNickname = async (nickname: string) =>
+  await basicInstance
+    .get(`/v1/users/nickname/${nickname}/exists`)
+    .then(({ data: { data } }) => data);

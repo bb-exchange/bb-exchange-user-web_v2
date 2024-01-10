@@ -97,7 +97,7 @@ export default function Post() {
   });
 
   //NOTE - tiptap 게시글 출력
-  const { editor } = useMakeEditor();
+  const { editor } = useMakeEditor({ isEdit: false });
   useEffect(() => {
     if (editor && postData && Object.keys(postData).length) {
       const json = JSON.parse(postData?.articleInfo?.content);

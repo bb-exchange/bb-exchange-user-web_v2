@@ -26,7 +26,7 @@ import { useMakeEditor } from ".src/hooks/enroll/useMakeEditor";
 export default function EnrollScreen() {
   const router = useRouter();
 
-  const { editor } = useMakeEditor();
+  const { editor } = useMakeEditor({ isEdit: true });
   const useEnrollHook = useEnroll(editor ?? null);
   const tagHook = UseRecentTagPopup({ useEnrollHook });
 

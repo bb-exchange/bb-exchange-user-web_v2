@@ -8,7 +8,7 @@ import {
 import { useForm } from "react-hook-form";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { MD5 } from "crypto-js";
+import { MD5, enc } from "crypto-js";
 
 import {
   deleteArticleTemp,
@@ -40,7 +40,16 @@ export default function useEnroll(editor: Editor | null) {
     useState<boolean>(false);
   const [previewImgs, setPrevieImgs] = useState<Set<any>>(new Set());
   const [files, setFiles] = useState<
-    Map<string, { file: File; type: string; url: string }>
+    Map<
+      string,
+      {
+        file: File;
+        type: string;
+        presignedUrl: string;
+        imgPath: string;
+        md5: string;
+      }
+    >
   >(new Map());
   const [tempNum, setTempNum] = useState<number>(0);
   const [tempArticleId, setTempArticleId] = useState<number | null>(null);
@@ -90,21 +99,22 @@ export default function useEnroll(editor: Editor | null) {
     onSuccess: (res) => {
       setSuccessPostPopup(true);
 
+      // 1. 이미지 업로드
       [...files.values()].map((file) => {
+        const formData = new FormData();
         imgUploadMutation.mutate({
-          presignedUrl: file.url,
+          presignedUrl: file.presignedUrl,
           imgType: file.type,
-          file: file.file,
+          file: formData,
+          md5: file.md5,
         });
       });
-      // 1. 이미지 업로드
+
       // 내가 작성한 게시글 페이지로 이동되야 함
-      // 로딩 붙이기
-      // router.push("/");
+      // 로딩 붙이기, id필요
+      // router.push("/post/[id]");
     },
   });
-
-  // console.log("files", files);
 
   //NOTE - [API] Presigned url 발급
   const presignedUrlMutation = useMutation({
@@ -115,7 +125,9 @@ export default function useEnroll(editor: Editor | null) {
         prevState.set(variables.file.name, {
           file: variables.file,
           type: variables.file.type,
-          url: data.data.presignedUrl,
+          presignedUrl: data.data.presignedUrl,
+          imgPath: data.data.imagePath,
+          md5: variables.md5,
         });
         return prevState;
       });
@@ -130,9 +142,11 @@ export default function useEnroll(editor: Editor | null) {
 
     if (!files?.length) return;
 
-    [...files].map((file) => {
+    [...files].map((file: any) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
+
+      const hash = MD5(file).toString();
 
       reader.onload = (e: ProgressEvent<FileReader>) => {
         if (!reader.result) return;
@@ -146,9 +160,14 @@ export default function useEnroll(editor: Editor | null) {
         if (reader.readyState === 2) {
           const binary: any = e?.target?.result;
 
+          const md5 = MD5(binary);
+          const base64 = enc.Base64.stringify(md5);
+
+          console.log("md5", base64);
+
           presignedUrlMutation.mutate({
             contentType: file.type,
-            md5: MD5(binary).toString(),
+            md5: base64,
             file,
           });
         }
@@ -156,7 +175,7 @@ export default function useEnroll(editor: Editor | null) {
     });
   };
 
-  //NOTE - 파일 업로드 시, 이미지 Preview
+  //NOTE - 파일 업로드 시, 이미지 에디터에 Preview
   useEffect(() => {
     if (previewImgs.size) {
       [...previewImgs.keys()].map(
@@ -283,35 +302,64 @@ export default function useEnroll(editor: Editor | null) {
       });
     }
 
+    //NOTE - 이미지 주소 치환 작업
+    const fileImgUrls: string[] = [];
+    if (files.size) {
+      [...files.values()].map((file) => fileImgUrls.push(file.imgPath));
+    }
+
+    let editorJson = editor.getJSON();
+    if (files.size) {
+      editorJson.content?.map((item: any) => {
+        item.content?.map((content: any) => {
+          if (content.type === "image") {
+            editorJson = {
+              ...editorJson,
+              content: editorJson.content?.map((item: any) => {
+                return {
+                  ...item,
+                  content: item.content?.map((content: any, i: number) => {
+                    if (content.type === "image") {
+                      return {
+                        ...content,
+                        attrs: {
+                          ...content.attrs,
+                          src: fileImgUrls[i],
+                          // src: [...files.values()][i].imgPath,
+                        },
+                      };
+                    }
+                    return content;
+                  }),
+                };
+              }),
+            };
+          }
+        });
+      });
+    }
+
     const body = {
       title: watch("title"),
       category: watch("category").category,
-      content: editor ? JSON.stringify({ ...editor.getJSON() }) : ``,
+      content: editor ? JSON.stringify({ ...editorJson }) : ``,
       articleTagList: [],
       thumbnailImage: "",
     };
+
+    console.log("body", editorJson);
+    // console.log("fileImgUrls", fileImgUrls);
 
     if (btnName === "수정하기" && tempArticleId) {
       updateTempMutation.mutate({ articleId: tempArticleId, body });
       return;
     }
 
-    //TODO - 포맷 확인해보고 수정할 것
-    // const editorJson = editor.getJSON();
-    // editorJson.content?.map((item: any) => {
-    //   if (item.content[0]?.type === "image") {
-    //     return {
-    //       ...editorJson,
-    //       content: {
-    //         ...editorJson.content,
-    //         // 이미지의 attrs - src의 주소를 바꿔줘야함..? (확인 필요)
-    //       },
-    //     };
-    //   }
-    // });
-
     enrollPostMutation.mutate(body);
   }
+
+  // console.log("files", files);
+  // console.log("getjson", editor?.getJSON());
 
   //NOTE - 임시저장 클릭 시
   const onClickEnrollTemp = () => {
