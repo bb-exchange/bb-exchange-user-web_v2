@@ -319,15 +319,30 @@
         margin: 20px 0 0;
         border-top: 1px solid $Gray3;
 
-        .countBar {
+        .wrapper {
           display: flex;
           align-items: center;
-          gap: 4px;
-          height: 56px;
-          color: $Black1;
+          justify-content: space-between;
 
-          .key {
-            font-weight: 700;
+          .countBar {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            height: 56px;
+            color: $Black1;
+
+            .key {
+              font-weight: 700;
+            }
+          }
+
+          .sortBy {
+            position: relative;
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            color: $Gray1;
+            cursor: pointer;
           }
         }
 
@@ -662,4 +677,34 @@
 
 .cursor {
   cursor: pointer;
+}
+
+.commentPopup {
+  display: flex;
+  flex-direction: column;
+  width: 160px;
+  background: $White1;
+  box-shadow: 0px 1px 8px 0px #00000014;
+  border-radius: 8px;
+  top: 32px;
+  right: 0;
+  position: absolute;
+  z-index: 60;
+
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 36px;
+
+    &:nth-of-type(n + 2) {
+      border-top: 1px solid $Gray2;
+    }
+
+    p {
+      font-size: 13px;
+      text-align: center;
+      color: $Black2;
+    }
+  }
 }

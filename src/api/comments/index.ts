@@ -16,7 +16,8 @@ export interface CommentData {
 
 export type Comments = PageData & { contents: Array<CommentData> };
 
-export type CommentSortByType = "POPULAR" | "LATEST" | "EARLIEST";
+export type CommentSortByType = "POPULAR" | "LATEST";
+//  | "EARLIEST"
 
 // NOTE 댓글 목록
 export const commentsByArticleId = async ({

@@ -64,6 +64,12 @@ import Head from "next/head";
 import { useMakeEditor } from ".src/hooks/enroll/useMakeEditor";
 import { useComments } from ".src/hooks/post/useComments";
 
+// NOTE 댓글 정렬 라벨
+const commentSortByInfo: { [key in CommentSortByType]: string } = {
+  LATEST: "최신순",
+  POPULAR: "인기순",
+};
+
 export default function Post() {
   const hook = UsePost();
   const router = useRouter();
@@ -173,6 +179,15 @@ export default function Post() {
   // NOTE 댓글 목록 정렬 기준
   const [commentSortBy, setCommentSortBy] =
     useState<CommentSortByType>("POPULAR");
+
+  // NOTE  댓글 정렬 팝업 오픈 여부
+  const [showCommentSortByPopup, setShowCommentSortByPopup] = useState(false);
+
+  const onClickSetCommentSortBy = (sortBy: CommentSortByType) => {
+    setCommentSortBy(sortBy);
+    setShowCommentSortByPopup(false);
+  };
+
   const {
     // NOTE 댓글 목록 조회
     comments,
@@ -611,13 +626,42 @@ export default function Post() {
 
                   {/* NOTE 비상장글/구매한글일 때 댓글 */}
                   <div className={styles.inputCont}>
-                    <div className={styles.countBar}>
-                      <Message />
+                    <div className={styles.wrapper}>
+                      <div className={styles.countBar}>
+                        <Message />
 
-                      <p className={styles.key}>댓글</p>
-                      <p className={styles.value}>
-                        {comments?.pages[0].totalElements ?? 0}
-                      </p>
+                        <p className={styles.key}>댓글</p>
+                        <p className={styles.value}>
+                          {comments?.pages[0].totalElements ?? 0}
+                        </p>
+                      </div>
+
+                      <div
+                        className={styles.sortBy}
+                        onClick={() => setShowCommentSortByPopup(true)}
+                      >
+                        <span>{commentSortByInfo[commentSortBy]}</span>
+                        <ImageComp
+                          src={"/assets/icons/SortAscending.svg"}
+                          alt={"sort"}
+                          width={16}
+                          height={16}
+                        />
+
+                        {showCommentSortByPopup && (
+                          <>
+                            <CommentSortByPopup
+                              onClickSetCommentSortBy={onClickSetCommentSortBy}
+                            />
+                            <PopupBg
+                              off={(e) => {
+                                e.stopPropagation();
+                                setShowCommentSortByPopup(false);
+                              }}
+                            />
+                          </>
+                        )}
+                      </div>
                     </div>
 
                     {/* NOTE 로그인한 유저에게만 댓글 입력창 출력 */}
@@ -1114,3 +1158,24 @@ const ArticleItem = ({
     </li>
   );
 };
+
+// NOTE 댓글 정렬 팝업
+const CommentSortByPopup = ({
+  onClickSetCommentSortBy,
+}: {
+  onClickSetCommentSortBy: (sortBy: CommentSortByType) => void;
+}) => (
+  <section className={styles.commentPopup}>
+    {Object.entries(commentSortByInfo).map(([key, label]) => (
+      <button
+        key={key}
+        onClick={(e) => {
+          e.stopPropagation();
+          onClickSetCommentSortBy(key as CommentSortByType);
+        }}
+      >
+        <p>{label}</p>
+      </button>
+    ))}
+  </section>
+);
