@@ -1,5 +1,5 @@
 import { Editor } from "@tiptap/react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   base64toFile,
   redoBtnHandler,
@@ -91,35 +91,47 @@ export default function useEnroll(editor: Editor | null) {
   });
 
   //NOTE - [API] 발급받은 Presigned url로 이미지 업로드
+  const isSuccessEnroll = useRef<boolean>(false);
   const imgUploadMutation = useMutation({
     mutationFn: uploadImg,
+    onSuccess: (data, variables, context) => {
+      // 내가 작성한 게시글 페이지로 이동되야 함
+      // 로딩 붙이기, id필요
+      // router.push("/post/[id]");
+    },
   });
   const enrollPostMutation = useMutation({
     mutationFn: postArticle,
     onSuccess: (res) => {
       setSuccessPostPopup(true);
 
-      // 1. 이미지 업로드
-      [...files.values()].map((file) => {
-        const formData = new FormData();
-        imgUploadMutation.mutate({
-          presignedUrl: file.presignedUrl,
-          imgType: file.type,
-          file: formData,
-          md5: file.md5,
-        });
-      });
-
-      // 내가 작성한 게시글 페이지로 이동되야 함
-      // 로딩 붙이기, id필요
-      // router.push("/post/[id]");
+      isSuccessEnroll.current = true;
     },
   });
+  useEffect(() => {
+    if (isSuccessEnroll.current) {
+      [...files.values()].map((file) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file.file);
+
+        reader.onload = (e) => {
+          imgUploadMutation.mutate({
+            presignedUrl: file.presignedUrl,
+            imgType: file.type,
+            file: e?.target?.result,
+            md5: file.md5,
+          });
+        };
+      });
+      isSuccessEnroll.current = false;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSuccessEnroll.current, files]);
 
   //NOTE - [API] Presigned url 발급
   const presignedUrlMutation = useMutation({
     mutationFn: imgPreSignedUrl,
-    onSettled: (data, error, variables, context) => {
+    onSuccess: (data, variables) => {
       setFiles((prevState) => {
         prevState = new Map(prevState);
         prevState.set(variables.file.name, {
@@ -146,8 +158,6 @@ export default function useEnroll(editor: Editor | null) {
       const reader = new FileReader();
       reader.readAsDataURL(file);
 
-      const hash = MD5(file).toString();
-
       reader.onload = (e: ProgressEvent<FileReader>) => {
         if (!reader.result) return;
 
@@ -158,16 +168,14 @@ export default function useEnroll(editor: Editor | null) {
         });
 
         if (reader.readyState === 2) {
-          const binary: any = e?.target?.result;
+          var binary: any = e.target?.result;
 
-          const md5 = MD5(binary);
-          const base64 = enc.Base64.stringify(md5);
-
-          console.log("md5", base64);
+          let hash = MD5(binary);
+          const md5 = hash.toString(enc.Base64);
 
           presignedUrlMutation.mutate({
             contentType: file.type,
-            md5: base64,
+            md5: md5,
             file,
           });
         }
@@ -226,11 +234,6 @@ export default function useEnroll(editor: Editor | null) {
     setDelDraftPopup(false);
   };
 
-  // const enrollImagesMutation = useMutation({
-  //   mutationFn: postImages,
-  //   onSuccess: (res) => console.log(res),
-  // });
-
   const beforeUnloadHandler = (e: BeforeUnloadEvent) => {
     return ((e || window.event).returnValue = ""); // Gecko + Webkit, Safari, Chrome etc.
   };
@@ -254,29 +257,8 @@ export default function useEnroll(editor: Editor | null) {
     setErrMsg(_errMsgs[0]!);
   }, [errMsgBusy, formState]);
 
-  // async function uploadImgFile() {
-  //   if (!(contObj && contObj.ops)) return;
-
-  //   let ops = contObj.ops;
-
-  //   let images = await Promise.all(
-  //     ops?.map(async (v: any, i: number) => {
-  //       if (!(v.insert && v.insert.image)) return;
-
-  //       const editorSrc = v.insert.image;
-  //       if (editorSrc.startsWith("data:image/")) {
-  //         const file = await base64toFile(editorSrc, `${i}`);
-  //         return file;
-  //       }
-  //     })
-  //   );
-
-  //   images = images.filter((e) => e);
-  //   await enrollImagesMutation.mutateAsync({ images });
-  // }
-
   //NOTE - 게시하기 클릭 시
-  async function onClickEnrollBtn() {
+  const onClickEnrollBtn = useCallback(() => {
     if (!watch("category.description")) {
       return setError("category", {
         type: "noText",
@@ -308,14 +290,14 @@ export default function useEnroll(editor: Editor | null) {
       [...files.values()].map((file) => fileImgUrls.push(file.imgPath));
     }
 
-    let editorJson = editor.getJSON();
+    let editorJson = editor?.getJSON();
     if (files.size) {
-      editorJson.content?.map((item: any) => {
+      editorJson?.content?.map((item: any) => {
         item.content?.map((content: any) => {
           if (content.type === "image") {
             editorJson = {
               ...editorJson,
-              content: editorJson.content?.map((item: any) => {
+              content: editorJson?.content?.map((item: any) => {
                 return {
                   ...item,
                   content: item.content?.map((content: any, i: number) => {
@@ -325,7 +307,6 @@ export default function useEnroll(editor: Editor | null) {
                         attrs: {
                           ...content.attrs,
                           src: fileImgUrls[i],
-                          // src: [...files.values()][i].imgPath,
                         },
                       };
                     }
@@ -347,8 +328,7 @@ export default function useEnroll(editor: Editor | null) {
       thumbnailImage: "",
     };
 
-    console.log("body", editorJson);
-    // console.log("fileImgUrls", fileImgUrls);
+    // console.log("body", editorJson);
 
     if (btnName === "수정하기" && tempArticleId) {
       updateTempMutation.mutate({ articleId: tempArticleId, body });
@@ -356,10 +336,20 @@ export default function useEnroll(editor: Editor | null) {
     }
 
     enrollPostMutation.mutate(body);
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    btnName,
+    editor,
+    files,
+    setError,
+    tempArticleId,
+    updateTempMutation,
+    watch,
+  ]);
 
-  // console.log("files", files);
-  // console.log("getjson", editor?.getJSON());
+  // async function onClickEnrollBtn() {
+
+  // }
 
   //NOTE - 임시저장 클릭 시
   const onClickEnrollTemp = () => {
@@ -390,7 +380,12 @@ export default function useEnroll(editor: Editor | null) {
   };
 
   const isDisabledBtn =
-    formState.isValid && editor?.getText() && editor?.getText()?.length > 100
+    formState.isValid &&
+    editor?.getText() &&
+    editor?.getText()?.length > 100 &&
+    watch("title") &&
+    watch("title").length < 40 &&
+    watch("category")
       ? false
       : true;
 

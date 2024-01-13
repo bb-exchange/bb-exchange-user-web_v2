@@ -292,7 +292,7 @@ const MobileAuth = () => {
             }}
             msg={
               <>
-                <span>인증 정보가 만료되었습니다.</span>
+                <span>유효 시간이 만료되었습니다.</span>
                 <span>로그인 화면으로 이동합니다.</span>
               </>
             }
