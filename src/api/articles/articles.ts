@@ -47,13 +47,12 @@ interface IArticle {
   articleTagList: string[];
   thumbnailImage: string;
 }
-export const postArticle = async (body: IArticle) => {
-  (await basicInstance.post(`/v1/articles`, body)).data;
-};
+export const postArticle = async (body: IArticle) =>
+  await basicInstance
+    .post(`/v1/articles`, body)
+    .then(({ data: { data: data } }) => data);
 
 export const postImages = async (formData: any) => {
-  console.log(formData);
-
   return basicInstance.post("/v1/images/multi", formData, {
     headers: { "Content-Type": "multipart/form-data" },
   });

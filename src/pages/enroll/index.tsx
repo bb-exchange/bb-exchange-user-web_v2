@@ -22,6 +22,7 @@ import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCategory } from ".src/api/articles/category";
 import { useMakeEditor } from ".src/hooks/enroll/useMakeEditor";
+import LoadingPopup from ".src/components/common/popup/loadingPopup";
 
 export default function EnrollScreen() {
   const router = useRouter();
@@ -264,6 +265,15 @@ export default function EnrollScreen() {
           <PopupBg
             bg
             off={() => useEnrollHook.setSuccessTempUpdatePopup(false)}
+          />
+        </>
+      )}
+      {useEnrollHook.successPostPopup && (
+        <>
+          <LoadingPopup message="게시글 업로드 중입니다." />
+          <PopupBg
+            bg
+            off={() => useEnrollHook.setTempSuccessPostPopup(false)}
           />
         </>
       )}

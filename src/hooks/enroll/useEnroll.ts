@@ -97,17 +97,23 @@ export default function useEnroll(editor: Editor | null) {
     onSuccess: (data, variables, context) => {
       // 내가 작성한 게시글 페이지로 이동되야 함
       // 로딩 붙이기, id필요
+      if (isSuccessEnroll.current) {
+        router.push(`/post/${data.data.articleId}`);
+      }
       // router.push("/post/[id]");
     },
   });
+  //NOTE - [API] 게시글 등록
   const enrollPostMutation = useMutation({
     mutationFn: postArticle,
-    onSuccess: (res) => {
+    onSuccess: (data) => {
       setSuccessPostPopup(true);
-
       isSuccessEnroll.current = true;
+      router.push(`/post/${data.articleId}`);
     },
   });
+
+  //NOTE - 게시글 등록되면 버킷에 이미지 업로드
   useEffect(() => {
     if (isSuccessEnroll.current) {
       [...files.values()].map((file) => {
