@@ -283,6 +283,12 @@ export default function Post() {
     );
   }, [articleId, commentContent, isValidComment, newComment, refetchComments]);
 
+  // NOTE 댓글 수정
+  const onClickUpdateComment = useCallback(
+    (props: { commentId: number; content: string }) => editComment(props),
+    [editComment]
+  );
+
   // NOTE 댓글 삭제
   const onClickDeleteComment = useCallback(
     (commentId: number) => removeComment(commentId),
@@ -415,9 +421,9 @@ export default function Post() {
                         </div>
                         {/* 안되어있음 */}
                         <p className={styles.time}>
-                          {moment(postData?.articleInfo.updatedAt).format(
-                            "YY.MM.DD"
-                          )}
+                          {moment(
+                            postData?.articleInfo.versionCreatedAt
+                          ).format("YY.MM.DD")}
                         </p>
                       </div>
                     </>
@@ -479,7 +485,9 @@ export default function Post() {
                         <p>
                           작성일{" "}
                           {moment(
-                            new Date(postData?.articleInfo.updatedAt || "")
+                            new Date(
+                              postData?.articleInfo.versionCreatedAt || ""
+                            )
                           ).format("YYYY.MM.DD")}
                         </p>
                       </div>
@@ -708,6 +716,7 @@ export default function Post() {
                               nested={!!(props.parentCommentId != null)}
                               onClickNestedComment={onClickNestedComment}
                               onClickLikeComment={onClickLikeComment}
+                              onClickUpdateComment={onClickUpdateComment}
                               onClickDeleteComment={onClickDeleteComment}
                             />
                           </li>
@@ -1093,7 +1102,7 @@ const ReactQuill = dynamic(
 // NOTE 우측 영역 목록 아이템
 const ArticleItem = ({
   boardInfo: { description },
-  articleInfo: { updatedAt, title, thumbnail, listed, articleId },
+  articleInfo: { createdAt, title, thumbnail, listed, articleId },
   priceInfo: { price, changeRate, changeAmount, likeNum },
   onClickMoveToPost,
   getDiffStyle,
@@ -1106,7 +1115,7 @@ const ArticleItem = ({
       <div className={styles.topBar}>
         <p>
           <strong className={styles.category}>{description}</strong>・
-          {moment(updatedAt).fromNow()}
+          {moment(createdAt).fromNow()}
         </p>
       </div>
 

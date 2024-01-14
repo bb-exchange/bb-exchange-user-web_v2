@@ -84,7 +84,7 @@ export default function Lastest() {
                   title,
                   // 댓글 수
                   commentNum,
-                  updatedAt,
+                  createdAt,
                   thumbnail,
                   // 찜
                   interest,
@@ -134,7 +134,7 @@ export default function Lastest() {
                           </div>
 
                           <p className={styles.creator}>
-                            ・{nickname}・{moment(updatedAt).fromNow()}
+                            ・{nickname}・{moment(createdAt).fromNow()}
                           </p>
                         </div>
                       </div>

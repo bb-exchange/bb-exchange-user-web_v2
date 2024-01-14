@@ -90,4 +90,40 @@
       }
     }
   }
+
+  .replyEdit {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 16px;
+    gap: 16px;
+
+    button {
+      padding: 2px 4px;
+      color: $Primary1;
+
+      &.cancel {
+        color: $Gray1;
+      }
+
+      &[aria-disabled="true"] {
+        color: $Gray3;
+        cursor: default;
+      }
+    }
+  }
+
+  textarea {
+    display: flex;
+    align-items: center;
+    height: auto;
+    min-height: 54px;
+    max-height: 200px;
+    border: 1px solid $Gray2;
+    border-radius: 12px;
+    padding: 16px;
+    font-size: 14px;
+    font-family: pretendard;
+    resize: none;
+    background-color: $White1;
+  }
 }

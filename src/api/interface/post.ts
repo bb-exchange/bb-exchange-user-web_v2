@@ -15,7 +15,7 @@ export interface PostData {
     isListed: boolean;
     title: string;
     version: number;
-    updatedAt: string;
+    versionCreatedAt: string;
     totalViewNum: number;
     content: string;
     isPurchased: boolean;

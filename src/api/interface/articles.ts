@@ -13,7 +13,7 @@ export interface ArticleData {
   };
   articleInfo: {
     articleId: number;
-    updatedAt: string;
+    createdAt: string;
     title: string;
     commentNum: number;
     thumbnail: string;

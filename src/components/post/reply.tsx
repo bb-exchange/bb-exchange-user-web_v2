@@ -15,7 +15,7 @@ import ReportReplyPopup from "./reportReplyPopup";
 import { isLoginState } from ".src/recoil";
 import { useRecoilValue } from "recoil";
 import { CommentData } from ".src/api/comments";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 interface Iprops {
   data: CommentData;
@@ -26,6 +26,7 @@ interface Iprops {
     commentId: number;
   }) => void;
   onClickLikeComment: (props: { isLike: boolean; commentId: number }) => void;
+  onClickUpdateComment: (props: { commentId: number; content: string }) => void;
   onClickDeleteComment: (commentId: number) => void;
 }
 
@@ -45,13 +46,25 @@ export default function Reply({
   nested,
   onClickNestedComment,
   onClickLikeComment,
+  onClickUpdateComment,
   onClickDeleteComment,
 }: Iprops) {
   const useReply = UseReply();
 
   const isLogin = useRecoilValue(isLoginState);
 
-  // NOTE 멘션 분리
+  // NOTE 댓글 수정 여부
+  const [isEdit, setIsEdit] = useState<boolean>(false);
+
+  // NOTE 대댓글 추가 여부
+  const [newNested, setNewNested] = useState<boolean>(false);
+
+  // NOTE 편집 모드일 때 멘션 저장
+  // const mentionRef = useRef<string>("@testMention ");
+  // NOTE 수정 댓글
+  const [newComment, setNewComment] = useState<string>("");
+
+  // NOTE 댓글 원본 멘션 분리
   const contentEl = useMemo(() => {
     const defaultObj = { mention: null, content };
 
@@ -66,13 +79,59 @@ export default function Reply({
     return defaultObj;
   }, [content, nested]);
 
+  // NOTE 댓글 유효성 체크
+  const isValidComment = useMemo(
+    () =>
+      newComment.trim()
+        ? newComment === `${contentEl.mention ?? ""}${contentEl.content}`
+          ? false
+          : !!newComment
+              .slice(contentEl.mention ? contentEl.mention.length : 0)
+              .trim()
+        : false,
+    [contentEl.content, contentEl.mention, newComment]
+  );
+
+  // NOTE 댓글 수정 버튼 클릭 시
+  const onClickEdit = () => {
+    setNewComment(`${contentEl.mention ?? ""}${contentEl.content}`);
+    setIsEdit(true);
+  };
+
+  // NOTE 입력받은 댓글
+  const onChangeComment = (value: string) => {
+    // NOTE 멘션있을 때 멘션 제거 방지
+    if (contentEl.mention != null && value.length < contentEl.mention.length) {
+      setNewComment(contentEl.mention);
+      return;
+    }
+
+    setNewComment(value);
+  };
+
+  // NOTE 댓글 작성 취소
+  const onCancel = () => {
+    setNewComment("");
+    setIsEdit(false);
+  };
+
+  // NOTE 댓글 저장
+  const onSubmit = () => {
+    if (!isValidComment) return;
+    onClickUpdateComment({ commentId, content: newComment });
+    setNewComment("");
+    setIsEdit(false);
+  };
+
   return (
     <>
       <div className={`${styles.replyBox} ${nested ? styles.nested : ""}`}>
         {isDeleted ? (
+          // NOTE 삭제된 댓글일 때
           <p className={styles.deleted}>삭제된 댓글입니다.</p>
         ) : (
           <>
+            {/* NOTE 댓글 상단(사용자 정보) 영역 */}
             <div className={styles.replyTopBar}>
               <div className={styles.leftBox}>
                 {/* NOTE 회원 등급 */}
@@ -86,7 +145,8 @@ export default function Reply({
                   {moment(createdAt).format("YYYY.MM.DD")}
                 </p>
 
-                {isLogin ? (
+                {/* NOTE 더보기 팝업 */}
+                {isLogin && (
                   <span className={styles.btnBox}>
                     <button
                       className={styles.moreBtn}
@@ -100,57 +160,98 @@ export default function Reply({
                         <ReplyMorePopup
                           useReply={useReply}
                           isMyComment={isMyComment}
-                          onClickDelete={() => onClickDeleteComment(commentId)}
+                          onClickEdit={() => {
+                            onClickEdit();
+                            useReply.setMorePopup(false);
+                          }}
+                          onClickDelete={() => {
+                            onClickDeleteComment(commentId);
+                            useReply.setMorePopup(false);
+                          }}
                         />
                         <PopupBg off={() => useReply.setMorePopup(false)} />
                       </>
                     )}
                   </span>
-                ) : null}
-              </div>
-            </div>
-
-            <span className={styles.contBox}>
-              {!!contentEl.mention != null && (
-                <strong>{contentEl.mention}</strong>
-              )}
-              {contentEl.content}
-            </span>
-
-            <div className={styles.replyBottomBar}>
-              <div className={styles.leftBox}>
-                <button
-                  className={`${styles.likeBtn} ${isLike ? styles.on : ""}`}
-                  onClick={() =>
-                    isLogin &&
-                    onClickLikeComment({ isLike: !isLike, commentId })
-                  }
-                  style={{ cursor: isLogin ? "pointer" : "default" }}
-                >
-                  {isLike ? <ThumbUpRed /> : <ThumbUpGrey />}
-                  <p className={styles.likeCount}>{likeCounts || 0}</p>
-                </button>
-                {isLogin && (
-                  <>
-                    <p>・</p>
-
-                    <button
-                      className={styles.setReplyBtn}
-                      onClick={() =>
-                        onClickNestedComment({
-                          commentId: nested
-                            ? (parentCommentId as number)
-                            : commentId,
-                          nickname,
-                        })
-                      }
-                    >
-                      댓글달기
-                    </button>
-                  </>
                 )}
               </div>
             </div>
+
+            {/* NOTE 댓글 내용 영역 */}
+            {isEdit ? (
+              // NOTE 편집 모드
+              <textarea
+                ref={(ref) => {
+                  if (ref?.style) {
+                    ref.style.minHeight = "54px";
+                    ref.style.height = "auto";
+                    ref.style.height = `${ref?.scrollHeight}px`;
+                    ref.style.maxHeight = "200px";
+                  }
+                }}
+                value={newComment}
+                onChange={({ target: { value } }) => onChangeComment(value)}
+                rows={1}
+                // placeholder="댓글을 입력해주세요"
+              />
+            ) : (
+              // NOTE 읽기 모드
+              <pre className={styles.contBox}>
+                {!!contentEl.mention != null && (
+                  <strong>{contentEl.mention}</strong>
+                )}
+                {contentEl.content}
+              </pre>
+            )}
+
+            {/* NOTE 댓글 하단 영역 */}
+            {isEdit ? (
+              // NOTE 편집 모드
+              <div className={styles.replyEdit}>
+                <button className={styles.cancel} onClick={onCancel}>
+                  취소
+                </button>
+                <button aria-disabled={!isValidComment} onClick={onSubmit}>
+                  저장
+                </button>
+              </div>
+            ) : (
+              // NOTE 읽기 모드
+              <div className={styles.replyBottomBar}>
+                <div className={styles.leftBox}>
+                  <button
+                    className={`${styles.likeBtn} ${isLike ? styles.on : ""}`}
+                    onClick={() =>
+                      isLogin &&
+                      onClickLikeComment({ isLike: !isLike, commentId })
+                    }
+                    style={{ cursor: isLogin ? "pointer" : "default" }}
+                  >
+                    {isLike ? <ThumbUpRed /> : <ThumbUpGrey />}
+                    <p className={styles.likeCount}>{likeCounts || 0}</p>
+                  </button>
+                  {isLogin && (
+                    <>
+                      <p>・</p>
+
+                      <button
+                        className={styles.setReplyBtn}
+                        onClick={() =>
+                          onClickNestedComment({
+                            commentId: nested
+                              ? (parentCommentId as number)
+                              : commentId,
+                            nickname,
+                          })
+                        }
+                      >
+                        댓글달기
+                      </button>
+                    </>
+                  )}
+                </div>
+              </div>
+            )}
           </>
         )}
       </div>

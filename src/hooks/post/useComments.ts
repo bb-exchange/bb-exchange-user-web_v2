@@ -54,8 +54,26 @@ export const useComments = ({
   // NOTE 댓글 수정
   const { mutate: editComment } = useMutation({
     mutationFn: updateComment,
-    // TODO
-    onSuccess: () => {},
+    onSuccess: (_, props) =>
+      queryClient.setQueryData<InfiniteData<Comments>>(
+        [commentsByArticleId.name, { sortBy: commentSortBy }],
+        (data) => {
+          if (data != null) {
+            data.pages = data.pages.map((page) => ({
+              ...page,
+              contents: page.contents.map((content) =>
+                content.commentId === props.commentId
+                  ? {
+                      ...content,
+                      content: props.content,
+                    }
+                  : content
+              ),
+            }));
+          }
+          return data;
+        }
+      ),
   });
 
   // NOTE 댓글 삭제

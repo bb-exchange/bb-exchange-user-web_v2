@@ -4,19 +4,21 @@ import styles from "./replyMorePopup.module.scss";
 interface Iprops {
   useReply: ReturnType<typeof UseReply>;
   isMyComment: boolean;
+  onClickEdit: () => void;
   onClickDelete: () => void;
 }
 
 export default function ReplyMorePopup({
   useReply,
   isMyComment,
+  onClickEdit,
   onClickDelete,
 }: Iprops) {
   return (
     <section className={styles.replyMorePopup}>
       {isMyComment ? (
         <>
-          <button onClick={() => {}}>
+          <button onClick={onClickEdit}>
             <p>수정하기</p>
           </button>
           <button onClick={onClickDelete}>
