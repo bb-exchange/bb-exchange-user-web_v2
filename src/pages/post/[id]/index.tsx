@@ -207,54 +207,17 @@ export default function Post() {
     setLikeComment,
   } = useComments({ articleId, commentSortBy });
 
-  // NOTE 대댓글 입력 시 정보
-  const commentMention = useRef<string | null>(null);
-  const parentCommentId = useRef<number | null>(null);
   // NOTE 입력창에 입력중인 댓글
   const [commentContent, setCommentContent] = useState<string>("");
 
-  // NOTE 댓글/대댓글 유효성 체크
+  // NOTE 댓글 유효성 체크
   const isValidComment = useMemo(
-    () =>
-      commentContent.trim()
-        ? commentMention.current == null
-          ? true
-          : !!commentContent.slice(commentMention.current.length).trim()
-        : false,
+    () => !!commentContent.trim(),
     [commentContent]
   );
 
   // NOTE 댓글 입력
-  const onChangeComment = (value: string) => {
-    // NOTE 대댓글 멘션 손상 시 대댓글 해제 처리
-    if (
-      commentMention.current != null &&
-      !value.startsWith(commentMention.current)
-    ) {
-      commentMention.current = null;
-      parentCommentId.current = null;
-    }
-
-    setCommentContent(value);
-  };
-
-  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-
-  // NOTE 대댓글 달기 버튼 클릭 시
-  const onClickNestedComment = ({
-    nickname,
-    commentId,
-  }: {
-    nickname: string;
-    commentId: number;
-  }) => {
-    const mention = `@${nickname} `;
-    commentMention.current = mention;
-    parentCommentId.current = commentId;
-    setCommentContent(mention);
-
-    textareaRef.current?.focus();
-  };
+  const onChangeComment = (value: string) => setCommentContent(value);
 
   // NOTE 댓글 저장
   const onSubmit = useCallback(() => {
@@ -263,25 +226,17 @@ export default function Post() {
     newComment(
       {
         articleId,
-        parentCommentId: parentCommentId.current,
+        parentCommentId: null,
         content: commentContent,
       },
       {
         onSuccess: () => {
-          if (parentCommentId.current == null) {
-            setCommentSortBy("LATEST");
-          } else {
-            commentMention.current = null;
-            parentCommentId.current = null;
-
-            refetchComments();
-          }
-
+          setCommentSortBy("LATEST");
           setCommentContent("");
         },
       }
     );
-  }, [articleId, commentContent, isValidComment, newComment, refetchComments]);
+  }, [articleId, commentContent, isValidComment, newComment]);
 
   // NOTE 댓글 수정
   const onClickUpdateComment = useCallback(
@@ -293,6 +248,16 @@ export default function Post() {
   const onClickDeleteComment = useCallback(
     (commentId: number) => removeComment(commentId),
     [removeComment]
+  );
+
+  // NOTE 대댓글 추가
+  const onClickCreateComment = useCallback(
+    (props: { parentCommentId: number; content: string }) =>
+      newComment(
+        { articleId, ...props },
+        { onSuccess: () => refetchComments() }
+      ),
+    [articleId, newComment, refetchComments]
   );
 
   // NOTE 댓글 좋아요 등록/해제
@@ -677,7 +642,6 @@ export default function Post() {
                       <div className={styles.inputBox}>
                         <textarea
                           ref={(ref) => {
-                            textareaRef.current = ref;
                             if (ref?.style) {
                               ref.style.minHeight = "54px";
                               ref.style.height = "auto";
@@ -714,10 +678,10 @@ export default function Post() {
                               }
                               data={props}
                               nested={!!(props.parentCommentId != null)}
-                              onClickNestedComment={onClickNestedComment}
                               onClickLikeComment={onClickLikeComment}
                               onClickUpdateComment={onClickUpdateComment}
                               onClickDeleteComment={onClickDeleteComment}
+                              onClickCreateComment={onClickCreateComment}
                             />
                           </li>
                         ))
