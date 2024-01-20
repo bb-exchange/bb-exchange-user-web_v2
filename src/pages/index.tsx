@@ -1,4 +1,8 @@
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import {
+  GetServerSideProps,
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
+} from "next";
 import {
   DehydratedState,
   HydrationBoundary,
@@ -12,7 +16,13 @@ import Lastest from "./latest";
 
 export const getServerSideProps: GetServerSideProps<{
   dehydratedState: DehydratedState;
-}> = async () => {
+}> = async (context: GetServerSidePropsContext) => {
+  const userAgent = context.req.headers["user-agent"];
+  // console.log({ userAgent });
+  if (userAgent?.includes("Mobile")) {
+    console.log("Mobile!");
+  }
+
   const queryClient = new QueryClient();
 
   const defaultValues = {

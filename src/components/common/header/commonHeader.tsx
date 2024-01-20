@@ -21,7 +21,7 @@ import { getEthicalPledge } from ".src/api/users/users";
 import { useEffect, useRef } from "react";
 
 interface Iprops {
-  commonSort?: "인기" | "최신" | "상장";
+  commonSort?: "인기" | "최신" | "상장" | "서비스 소개" | "이벤트";
 }
 
 export default function CommonHeader({ commonSort }: Iprops) {
