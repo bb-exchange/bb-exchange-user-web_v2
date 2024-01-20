@@ -22,6 +22,7 @@ interface IProps {
   isEdit: boolean;
 }
 export const useMakeEditor = ({ isEdit }: IProps) => {
+  const customThumbnailMarkNode = Node.create({});
   const editor = useEditor({
     editable: isEdit,
     extensions: [
@@ -32,6 +33,7 @@ export const useMakeEditor = ({ isEdit }: IProps) => {
         selectable: true,
         draggable: true,
       }),
+      customThumbnailMarkNode,
       // History,
       StarterKit,
       Document,
@@ -75,13 +77,16 @@ export const useMakeEditor = ({ isEdit }: IProps) => {
       }),
       Image.configure({
         inline: true,
-        // allowBase64: true,
+        allowBase64: true,
         HTMLAttributes: {
           id: "t-image",
           class: "t-image",
         },
       }),
     ],
+    // onFocus({ editor, event }) {
+    //   // The editor is focused.
+    // },
     // editorProps: {
     //   handleDrop: (view, event, slice, moved) => {
     //     if (

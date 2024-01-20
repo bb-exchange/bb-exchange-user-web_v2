@@ -1,14 +1,11 @@
+"use client";
+
 import { Editor } from "@tiptap/react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  base64toFile,
-  redoBtnHandler,
-  undoBtnHandler,
-} from ".src/util/textEditor";
 import { useForm } from "react-hook-form";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { MD5, enc } from "crypto-js";
+import CryptoJS from "crypto-js";
 
 import {
   deleteArticleTemp,
@@ -17,7 +14,6 @@ import {
   patchArticleTemp,
   postArticle,
   postArticleTemp,
-  postImages,
 } from ".src/api/articles/articles";
 import { uploadImg } from ".src/api/images/uploadImg";
 import { imgPreSignedUrl } from ".src/api/images/imgPreSignedUrl";
@@ -38,19 +34,20 @@ export default function useEnroll(editor: Editor | null) {
   const [successPostPopup, setSuccessPostPopup] = useState<boolean>(false);
   const [tempSuccessPostPopup, setTempSuccessPostPopup] =
     useState<boolean>(false);
-  const [previewImgs, setPrevieImgs] = useState<Set<any>>(new Set());
   const [files, setFiles] = useState<
     Map<
       string,
       {
         file: File;
+        fileByte: any;
         type: string;
         presignedUrl: string;
         imgPath: string;
-        md5: string;
+        md5: any;
       }
     >
   >(new Map());
+  const [uploadFiles, setUploadFiles] = useState<FileList | null>(null);
   const [tempNum, setTempNum] = useState<number>(0);
   const [tempArticleId, setTempArticleId] = useState<number | null>(null);
   const [btnName, setBtnName] = useState<string>("게시하기");
@@ -61,7 +58,6 @@ export default function useEnroll(editor: Editor | null) {
     register,
     watch,
     setValue,
-    getValues,
     formState,
     resetField,
     handleSubmit,
@@ -94,14 +90,6 @@ export default function useEnroll(editor: Editor | null) {
   const isSuccessEnroll = useRef<boolean>(false);
   const imgUploadMutation = useMutation({
     mutationFn: uploadImg,
-    onSuccess: (data, variables, context) => {
-      // 내가 작성한 게시글 페이지로 이동되야 함
-      // 로딩 붙이기, id필요
-      if (isSuccessEnroll.current) {
-        router.push(`/post/${data.data.articleId}`);
-      }
-      // router.push("/post/[id]");
-    },
   });
   //NOTE - [API] 게시글 등록
   const enrollPostMutation = useMutation({
@@ -115,24 +103,19 @@ export default function useEnroll(editor: Editor | null) {
 
   //NOTE - 게시글 등록되면 버킷에 이미지 업로드
   useEffect(() => {
-    if (isSuccessEnroll.current) {
+    if (isSuccessEnroll.current && btnName === "게시하기") {
       [...files.values()].map((file) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file.file);
-
-        reader.onload = (e) => {
-          imgUploadMutation.mutate({
-            presignedUrl: file.presignedUrl,
-            imgType: file.type,
-            file: e?.target?.result,
-            md5: file.md5,
-          });
-        };
+        imgUploadMutation.mutate({
+          presignedUrl: file.presignedUrl,
+          imgType: file.type,
+          file: file.fileByte,
+          md5: file.md5,
+        });
       });
       isSuccessEnroll.current = false;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSuccessEnroll.current, files]);
+  }, [isSuccessEnroll.current, files, btnName]);
 
   //NOTE - [API] Presigned url 발급
   const presignedUrlMutation = useMutation({
@@ -146,17 +129,70 @@ export default function useEnroll(editor: Editor | null) {
           presignedUrl: data.data.presignedUrl,
           imgPath: data.data.imagePath,
           md5: variables.md5,
+          fileByte: variables.fileByte,
         });
         return prevState;
       });
     },
   });
 
-  //NOTE - 파일 업로드
-  const handleChangeImg = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPrevieImgs(new Set());
+  //NOTE - 파일 업로드 시, MD5 해시값 생성 & Presigned url 발급
+  useEffect(() => {
+    if (!uploadFiles) return;
+    if (btnName === "게시하기") {
+      [...uploadFiles].map((file) => {
+        const reader = new FileReader();
 
+        reader.onload = (e) => {
+          if (reader.readyState === 2) {
+            const arrayBuffer: any = e.target?.result;
+
+            const wordArray = CryptoJS.lib.WordArray.create(arrayBuffer);
+            const md5 = CryptoJS.MD5(wordArray);
+            const base64Incod = md5.toString(CryptoJS.enc.Base64);
+
+            presignedUrlMutation.mutate({
+              contentType: file.type,
+              md5: base64Incod,
+              file: file,
+              fileByte: arrayBuffer,
+            });
+          }
+        };
+        reader.readAsArrayBuffer(file);
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [uploadFiles, btnName]);
+
+  // const getPresignedUrl = (file: File) => {
+  //   const reader = new FileReader();
+
+  //   reader.onload = (e) => {
+  //     if (reader.readyState === 2) {
+  //       const arrayBuffer: any = e.target?.result;
+
+  //       const wordArray = CryptoJS.lib.WordArray.create(arrayBuffer);
+  //       const md5 = CryptoJS.MD5(wordArray);
+  //       const base64Incod = md5.toString(CryptoJS.enc.Base64);
+
+  //       presignedUrlMutation.mutate({
+  //         contentType: file.type,
+  //         md5: base64Incod,
+  //         file: file,
+  //         fileByte: arrayBuffer,
+  //       });
+  //     }
+  //   };
+  //   reader.readAsArrayBuffer(file);
+  // };
+
+  //NOTE - 파일 업로드
+  // 1. 이미지 프리뷰
+  // 2. 파일 저장
+  const handleChangeImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e?.target?.files;
+    setUploadFiles(files);
 
     if (!files?.length) return;
 
@@ -164,47 +200,27 @@ export default function useEnroll(editor: Editor | null) {
       const reader = new FileReader();
       reader.readAsDataURL(file);
 
+      if (file.size > 5242880) {
+        setErrMsg("5MB 이하의 이미지를 사용해 주세요");
+        return;
+      }
+
       reader.onload = (e: ProgressEvent<FileReader>) => {
         if (!reader.result) return;
 
-        setPrevieImgs((prevState) => {
-          prevState = new Set(prevState);
-          prevState.add(reader.result);
-          return prevState;
-        });
-
-        if (reader.readyState === 2) {
-          var binary: any = e.target?.result;
-
-          let hash = MD5(binary);
-          const md5 = hash.toString(enc.Base64);
-
-          presignedUrlMutation.mutate({
-            contentType: file.type,
-            md5: md5,
-            file,
-          });
-        }
-      };
-    });
-  };
-
-  //NOTE - 파일 업로드 시, 이미지 에디터에 Preview
-  useEffect(() => {
-    if (previewImgs.size) {
-      [...previewImgs.keys()].map(
-        (img) =>
-          editor &&
+        //NOTE - 파일 업로드 시, 이미지 에디터에 Preview
+        editor &&
           editor
             .chain()
             .focus()
             .setImage({
-              src: img,
+              src: reader.result as any,
+              title: file.name,
             })
-            .run()
-      );
-    }
-  }, [editor, previewImgs]);
+            .run();
+      };
+    });
+  };
 
   //NOTE - [API] 임시저장
   const enrollTempPostMutation = useMutation({
@@ -297,6 +313,7 @@ export default function useEnroll(editor: Editor | null) {
     }
 
     let editorJson = editor?.getJSON();
+
     if (files.size) {
       editorJson?.content?.map((item: any) => {
         item.content?.map((content: any) => {
@@ -331,10 +348,8 @@ export default function useEnroll(editor: Editor | null) {
       category: watch("category").category,
       content: editor ? JSON.stringify({ ...editorJson }) : ``,
       articleTagList: [],
-      thumbnailImage: "",
+      thumbnailImage: watch("thumbNail") ?? "",
     };
-
-    // console.log("body", editorJson);
 
     if (btnName === "수정하기" && tempArticleId) {
       updateTempMutation.mutate({ articleId: tempArticleId, body });
@@ -353,10 +368,6 @@ export default function useEnroll(editor: Editor | null) {
     watch,
   ]);
 
-  // async function onClickEnrollBtn() {
-
-  // }
-
   //NOTE - 임시저장 클릭 시
   const onClickEnrollTemp = () => {
     if (!watch("category.description")) {
@@ -367,16 +378,77 @@ export default function useEnroll(editor: Editor | null) {
     }
 
     if (editor) {
+      let editorJson = editor?.getJSON();
+
+      editorJson = {
+        ...editorJson,
+        content: editorJson?.content?.map((item: any) => {
+          return {
+            ...item,
+            content: item.content?.filter(
+              (content: any, i: number) => content.type !== "image"
+            ),
+          };
+        }),
+      };
+
       const body = {
         title: watch("title"),
         category: watch("category").category,
-        content: JSON.stringify({ ...editor.getJSON() }),
+        content: JSON.stringify({ ...editorJson }),
         articleTagList: [],
         thumbnailImage: "",
       };
 
       enrollTempPostMutation.mutate(body);
     }
+  };
+
+  //NOTE - editor 클릭 시 이미지 element추출
+  const onClickEditor = (e: React.MouseEvent) => {
+    let _target: any = e.target;
+
+    if (_target.tagName !== "IMG") return;
+    setSelectImg(_target);
+  };
+
+  //NOTE - 썸네일 지정
+  const onSetThumbnail = () => {
+    if (!selectImg) return;
+
+    const fileName = selectImg.title;
+    const target = files.get(fileName);
+    // console.log(selectImg.setAttribute("thumb", "true"));
+    const thumbBox = document.createElement("em");
+    const mark = document.createElement("div");
+    mark.className = "thumbNailMark";
+
+    thumbBox.className = "thumbBox";
+
+    selectImg.replaceWith(thumbBox);
+
+    // mark.innerText = "대표";
+
+    thumbBox.append(selectImg, mark);
+
+    thumbBox.style.position = "relative";
+
+    target && setValue("thumbNail", target.imgPath);
+    setSelectImg(undefined);
+  };
+
+  //NOTE - 선택된 이미지 삭제
+  const onDeleteImage = () => {
+    if (!selectImg) return;
+
+    // content에서 이미지 삭제
+    editor && editor.commands.deleteSelection();
+
+    // 삭제 이미지가 섬네일일 경우 섬네일 삭제
+    if (watch("thumbNail") === selectImg.src) setValue("thumbNail", "");
+
+    // 선택이미지 비움
+    setSelectImg(undefined);
   };
 
   //NOTE - 임시저장 목록 팝업 오픈
@@ -386,7 +458,6 @@ export default function useEnroll(editor: Editor | null) {
   };
 
   const isDisabledBtn =
-    formState.isValid &&
     editor?.getText() &&
     editor?.getText()?.length > 100 &&
     watch("title") &&
@@ -478,46 +549,15 @@ export default function useEnroll(editor: Editor | null) {
     setValue("tagList", _tagList);
   };
 
-  const handleOnClickQuillImg = (e: React.MouseEvent) => {
-    let _target: any = e.target;
-
-    if (_target.tagName !== "IMG") return;
-    setSelectImg(_target);
-  };
-
-  const handleOnClickSetThumbnailBtn = () => {
-    if (!selectImg) return;
-
-    // console.log(selectImg.setAttribute("thumb", "true"));
-    const thumbBox = document.createElement("em");
-    thumbBox.className = "thumbBox";
-
-    selectImg.replaceWith(thumbBox);
-    thumbBox.appendChild(selectImg);
-
-    setValue("thumbNail", selectImg.src);
-    setSelectImg(undefined);
-  };
-
-  const handleOnClickDelImgBtn = () => {
-    if (!selectImg) return;
-
-    // content에서 이미지 삭제
-    let _imgString = `${selectImg?.outerHTML}`;
-    let _delImg = watch("content").replace(_imgString, "");
-    setValue("content", _delImg);
-
-    // 삭제 이미지가 섬네일일 경우 섬네일 삭제
-    if (watch("thumbNail") === selectImg.src) setValue("thumbNail", "");
-
-    // 선택이미지 비움
-    setSelectImg(undefined);
-  };
+  const handleOnClickSetThumbnailBtn = () => {};
+  const handleOnClickDelImgBtn = () => {};
+  const handleOnClickQuillImg = () => {};
 
   return {
     // modules,
     register,
     watch,
+    onSetThumbnail,
     setValue,
     formState,
     resetField,
@@ -535,8 +575,10 @@ export default function useEnroll(editor: Editor | null) {
     setNewTag,
     handleTagOnChange,
     handleOnClickTagList,
+    onClickEditor,
     handleOnClickQuillImg,
     handleOnClickSetThumbnailBtn,
+    onDeleteImage,
     handleOnClickDelImgBtn,
     mobileView,
     setMobileView,

@@ -118,7 +118,7 @@ export default function EnrollScreen() {
 
             <div
               className={styles.editorBox}
-              onClick={() => editor?.commands.focus()}
+              onClick={(e) => useEnrollHook.onClickEditor(e)}
             >
               {editor && <EditorContent editor={editor} height={"100%"} />}
             </div>
@@ -137,11 +137,16 @@ export default function EnrollScreen() {
                 </ul>
               )}
 
+              {/* TODO 태그 (인스타 방식)
+  #태그1 #태그2 ...
+  입력 시 - 상단 팝업 노출
+  스페이스 감지 - 태그 추가
+  중복일 경우 - 그냥 추가됨
+*/}
               <span className={styles.inputBox}>
                 <input
                   disabled={useEnrollHook.watch("tagList")?.length >= 10}
                   value={tagHook.tagKeyword ?? ""}
-                  // onKeyDown={tagHook.handleKeywordKeyDown}
                   onKeyUp={tagHook.handleKeywordKeyDown}
                   placeholder="# 멘션할 태그를 입력해주세요(최대 10개)"
                   onChange={(e) => tagHook.onChangeTag(e.target.value)}
@@ -173,12 +178,12 @@ export default function EnrollScreen() {
           <PopupBg bg off={() => useEnrollHook.closeErrMsg()} />
         </>
       )}
-      {/* {useEnrollHook.selectImg && (
+      {useEnrollHook.selectImg && (
         <>
           <SelImgPopup useEnrollHook={useEnrollHook} />
           <PopupBg bg off={() => useEnrollHook.setSelectImg(undefined)} />
         </>
-      )} */}
+      )}
       {useEnrollHook.draftsPopup && (
         <>
           <DraftsPopup
@@ -247,7 +252,12 @@ export default function EnrollScreen() {
       {useEnrollHook.tempSuccessPostPopup && (
         <>
           <ErrorMsgPopup
-            msg="임시저장되었습니다."
+            msg={
+              <>
+                <span>임시저장되었습니다.</span>
+                <span>(이미지는 임시저장이 불가합니다.)</span>
+              </>
+            }
             confirmFunc={() => useEnrollHook.setTempSuccessPostPopup(false)}
           />
           <PopupBg
