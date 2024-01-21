@@ -1,0 +1,248 @@
+@import "/src/styles/variable";
+
+.eventPage {
+  height: calc(100% - 130px);
+  margin-top: 130px;
+
+  min-width: 1300px;
+
+  display: flex;
+  flex-direction: column;
+
+  color: #f5f5f5;
+
+  background: radial-gradient(
+    58.38% 31.38% at 65.89% 39.68%,
+    #082057 0%,
+    #1a1b1d 100%
+  );
+
+  .section1 {
+    padding-top: 230px;
+    padding-bottom: 160px;
+
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .section1SubTitle {
+      font-size: 32px;
+      font-weight: 600;
+      line-height: 40px;
+      color: #2a7fff;
+
+      margin-bottom: 30px;
+    }
+
+    .section1Box {
+      width: 473px;
+      padding: 24px 0;
+
+      border-radius: 20px;
+      background: #1e2025cc;
+      box-shadow: 0px 0px 17px 0px #c4d5fe4d;
+      -webkit-border-radius: 20px;
+      -moz-border-radius: 20px;
+      -ms-border-radius: 20px;
+      -o-border-radius: 20px;
+
+      color: #f9f9f9;
+      font-size: 24px;
+      font-weight: 500;
+      line-height: 36px;
+
+      margin-top: 70px;
+      strong {
+        font-weight: 700;
+        color: #2a7fff;
+      }
+    }
+  }
+
+  .section2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding-top: 96px;
+
+    .btn1 {
+      width: 320px;
+      height: 80px;
+    }
+  }
+
+  .section3 {
+    margin-top: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin-bottom: 176px;
+
+    .section3EventTop {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      margin-bottom: 24px;
+
+      :first-child {
+        margin-bottom: 30px;
+      }
+    }
+
+    .promotImg {
+      margin-right: 68px;
+    }
+
+    .btn2 {
+      width: 240px;
+      height: 80px;
+    }
+  }
+
+  .sectionInfo {
+    text-align: center;
+
+    font-size: 36px;
+    font-weight: 500;
+    line-height: 54px;
+
+    margin-top: 40px;
+    margin-bottom: 52px;
+    strong {
+      font-weight: 700;
+      color: #2a7fff;
+    }
+  }
+
+  .eventBox {
+    width: 993px;
+
+    background-color: #82a5ff08;
+    padding: 56px 76px;
+    border-radius: 20px;
+
+    margin-bottom: 72px;
+
+    .eventTop {
+      display: flex;
+      flex-direction: column;
+
+      margin-bottom: 24px;
+
+      :first-child {
+        margin-bottom: 30px;
+      }
+    }
+
+    .box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .title {
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 36px;
+        color: #2a7fff;
+      }
+
+      .subTitle1,
+      .subTitle2 {
+        font-size: 28px;
+        font-weight: 600;
+        line-height: 42px;
+
+        margin-top: 16px;
+        strong {
+          font-weight: 700;
+          color: #2a7fff;
+        }
+      }
+      .subTitle2 strong {
+        color: #f75c48;
+      }
+    }
+  }
+
+  .eventBottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border-top: 1px solid #484848;
+
+    padding-top: 56px;
+
+    .bottomTitle {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 30px;
+      color: #2a7fff;
+    }
+
+    .bottomText {
+      font-size: 24px;
+      font-weight: 500;
+      line-height: 36px;
+
+      margin-top: 16px;
+    }
+  }
+
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: linear-gradient(
+      292.67deg,
+      #2965ff 16.94%,
+      #2972ff 52.54%,
+      #29a5ff 82.09%
+    );
+    box-shadow: 0px 2px 20px 0px #0914244d;
+    border-radius: 8px;
+
+    font-size: 28px;
+    font-weight: 700;
+  }
+
+  .footer {
+    margin: auto;
+
+    text-align: left;
+    color: white;
+
+    margin-bottom: 70px;
+
+    .footerTitle {
+      font-size: 18px;
+      font-weight: 600;
+
+      margin-bottom: 8px;
+    }
+    li {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 27px;
+
+      display: flex;
+      align-items: center;
+
+      opacity: 0.6;
+
+      .listMark {
+        display: inline-block;
+        background-color: white;
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        margin-right: 12px;
+      }
+    }
+  }
+}

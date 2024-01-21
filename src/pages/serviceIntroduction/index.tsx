@@ -1,8 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-
-import CommonHeader from ".src/components/common/header/commonHeader";
-import styles from "./index.module.scss";
+import { useRecoilValue } from "recoil";
 
 import section1 from "../../../public/assets/images/serviceIntroduction/section1.png";
 import section2 from "../../../public/assets/images/serviceIntroduction/section2-1.png";
@@ -16,7 +14,13 @@ import section45 from "../../../public/assets/images/serviceIntroduction/section
 import section5 from "../../../public/assets/images/serviceIntroduction/section5.png";
 import banner from "../../../public/assets/images/serviceIntroduction/banner.png";
 
+import CommonHeader from ".src/components/common/header/commonHeader";
+import styles from "./index.module.scss";
+import { isLoginState } from ".src/recoil";
+
 const ServiceIntroduction = () => {
+  const isSignedIn = useRecoilValue(isLoginState);
+
   return (
     <>
       <CommonHeader />
@@ -27,7 +31,7 @@ const ServiceIntroduction = () => {
               <span>내 글을 주식처럼 거래하는 곳</span>
               <strong>비법거래소</strong>
             </h3>
-            <Link href={"/enroll"}>
+            <Link href={isSignedIn ? "/enroll" : "/auth/signin"}>
               <button className={`${styles.btn} ${styles.section1Btn}`}>
                 수익 창출하러 가기
               </button>
@@ -193,7 +197,7 @@ const ServiceIntroduction = () => {
             <br />
             지금 바로 자산으로 바꿔보세요!
           </h4>
-          <Link href={"/enroll"}>
+          <Link href={isSignedIn ? "/enroll" : "/auth/signin"}>
             <button className={`${styles.btn} ${styles.section6Btn}`}>
               수익 창출하러 가기
             </button>
