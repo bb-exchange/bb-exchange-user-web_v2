@@ -1,0 +1,253 @@
+@import "/src/styles/variable";
+
+.service {
+  height: calc(100% - 130px);
+  margin-top: 130px;
+
+  min-width: 1300px;
+
+  .section1 {
+    height: 720px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #f8faff;
+    gap: 98px;
+
+    h3 {
+      display: flex;
+      flex-direction: column;
+
+      font-weight: 700;
+      margin-bottom: 36px;
+      span {
+        font-size: 40px;
+      }
+      strong {
+        color: #2965ff;
+        font-size: 60px;
+      }
+    }
+
+    .section1Btn {
+      width: 173px;
+      height: 52px;
+    }
+
+    .section1ImgBox {
+      width: 450px;
+    }
+  }
+
+  .section2 {
+    height: 816px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    h3 {
+      color: #555555;
+      font-size: 32px;
+      font-weight: 500;
+
+      text-align: center;
+      div {
+        margin-bottom: 18px;
+      }
+      strong {
+        font-size: 40px;
+        font-weight: 700;
+        color: #111111;
+      }
+    }
+
+    .section2ImgBox {
+      position: relative;
+    }
+  }
+
+  .section3 {
+    padding-top: 240px;
+    padding-bottom: 240px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #f8faff;
+    gap: 220px;
+
+    .section3Box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .section3Box1 {
+        margin-right: 79px;
+      }
+      .section3Box2 {
+        margin-right: 137px;
+      }
+    }
+
+    .infoText {
+      font-size: 32px;
+      font-weight: 500;
+      line-height: 44px;
+
+      margin-top: 18px;
+      strong {
+        font-size: 32px;
+        font-weight: 700;
+        line-height: 44px;
+      }
+    }
+  }
+
+  .section4 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding-top: 240px;
+    padding-bottom: 240px;
+
+    .titleArea {
+      text-align: center;
+      margin-bottom: 140px;
+    }
+
+    ul {
+      :last-child {
+        margin-bottom: 0;
+      }
+    }
+    li {
+      display: flex;
+      align-items: start;
+      gap: 54px;
+
+      margin-bottom: 140px;
+
+      .section4ListBox {
+        display: flex;
+        flex-direction: column;
+
+        .section4ListNum {
+          font-size: 36px;
+          font-weight: 700;
+          color: #2965ff;
+          margin-bottom: 24px;
+        }
+        .section4ListText {
+          font-size: 32px;
+          font-weight: 500;
+          color: #555555;
+        }
+      }
+    }
+  }
+
+  .section5 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #f8faff;
+    padding-top: 240px;
+    padding-bottom: 240px;
+
+    .section5LeftBox {
+      margin-right: 150px;
+
+      .section5Text {
+        font-size: 32px;
+        font-weight: 500;
+        line-height: 44px;
+        color: #555555;
+
+        margin-top: 18px;
+      }
+
+      .section5Btn {
+        width: 196px;
+        height: 44px;
+
+        margin-top: 24px;
+      }
+    }
+  }
+
+  .section6 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+
+    padding-top: 120px;
+    padding-bottom: 120px;
+
+    .section6Btn {
+      width: 173px;
+      height: 52px;
+
+      margin-top: 30px;
+      margin-bottom: 120px;
+    }
+  }
+
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #2965ff;
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+  }
+
+  .btnLine {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #2965ff;
+    font-size: 16px;
+    font-weight: 700;
+
+    border: 1px solid #2965ff;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+  }
+
+  .title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #2965ff;
+
+    margin-bottom: 18px;
+  }
+
+  .subTitle {
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 52px;
+  }
+}
