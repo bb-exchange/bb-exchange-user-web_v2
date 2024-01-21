@@ -1,0 +1,108 @@
+@import "/src/styles/variable";
+
+.container {
+  height: unset;
+  // padding: 168px 0 60px;
+
+  font-family: Pretendard;
+  color: $Black3;
+
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 180px;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    .introArea {
+      height: 560px;
+      min-height: 560px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .desc {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+
+        .title {
+          color: $Primary1;
+          font-size: 24px;
+          font-weight: 700;
+        }
+      }
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      gap: 60px;
+
+      .titleArea {
+        display: flex;
+        gap: 18px;
+
+        .title {
+          color: $Primary1;
+          font-size: 32px;
+          font-weight: 700;
+        }
+      }
+
+      .descArea {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+    }
+
+    .outroArea {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+
+      .desc {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 52px;
+        padding: 0 20px;
+        background: $Primary1;
+        border-radius: 8px;
+
+        font-size: 18px;
+        font-weight: 700;
+        color: $White1;
+      }
+    }
+  }
+
+  .desc {
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  .imageWrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  h1 {
+    font-size: 48px;
+    font-weight: 700;
+  }
+
+  h2 {
+    font-size: 32px;
+    font-weight: 500;
+    color: $Black2;
+  }
+}
