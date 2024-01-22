@@ -1,78 +1,84 @@
 @import "/src/styles/variable";
 
 .service {
-  height: calc(100% - 130px);
-  margin-top: 130px;
-
-  min-width: 1300px;
+  // height: calc(100% - 130px);
+  // margin-top: 130px;
+  font-family: Pretendard;
+  color: #111111;
 
   .section1 {
-    height: 720px;
+    padding: 113px 8px;
 
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 
     background-color: #f8faff;
-    gap: 98px;
+    color: #111111;
 
-    h3 {
-      display: flex;
-      flex-direction: column;
-
+    span {
+      font-size: 20px;
       font-weight: 700;
-      margin-bottom: 36px;
-      span {
-        font-size: 40px;
-      }
-      strong {
-        color: #2965ff;
-        font-size: 60px;
-      }
+      line-height: 24px;
+    }
+    strong {
+      font-family: Pretendard;
+      font-size: 40px;
+      color: #2965ff;
+
+      margin-bottom: 30px;
+    }
+
+    img {
+      width: 100%;
+      height: auto;
     }
 
     .section1Btn {
-      width: 173px;
+      width: 142px;
       height: 52px;
-    }
 
-    .section1ImgBox {
-      width: 450px;
+      margin-top: 52px;
     }
   }
 
   .section2 {
-    height: 816px;
-
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
 
+    padding: 100px 20px;
+
     h3 {
-      color: #555555;
-      font-size: 32px;
+      font-family: Pretendard;
+      font-size: 18px;
       font-weight: 500;
+      line-height: 25px;
+      color: #555555;
 
       text-align: center;
       div {
         margin-bottom: 18px;
       }
       strong {
-        font-size: 40px;
+        font-family: Pretendard;
+        font-size: 28px;
         font-weight: 700;
+        line-height: 40px;
         color: #111111;
       }
     }
 
-    .section2ImgBox {
-      position: relative;
+    .section2Img {
+      width: 100%;
+      height: auto;
     }
   }
 
   .section3 {
-    padding-top: 240px;
-    padding-bottom: 240px;
+    padding: 100px 37px;
 
     display: flex;
     flex-direction: column;
@@ -80,31 +86,29 @@
     justify-content: center;
 
     background-color: #f8faff;
-    gap: 220px;
 
+    gap: 120px;
     .section3Box {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      text-align: center;
+    }
 
-      .section3Box1 {
-        margin-right: 79px;
-      }
-      .section3Box2 {
-        margin-right: 137px;
-      }
+    .section3Img1,
+    .section3Img2 {
+      width: 100%;
+      height: auto;
+
+      margin: 24px 0 28px 0;
     }
 
     .infoText {
-      font-size: 32px;
+      font-size: 18px;
+      line-height: 25px;
       font-weight: 500;
-      line-height: 44px;
+      color: #555555;
 
-      margin-top: 18px;
+      text-align: center;
       strong {
-        font-size: 32px;
         font-weight: 700;
-        line-height: 44px;
       }
     }
   }
@@ -115,12 +119,11 @@
     align-items: center;
     justify-content: center;
 
-    padding-top: 240px;
-    padding-bottom: 240px;
+    padding: 100px 40px;
 
     .titleArea {
       text-align: center;
-      margin-bottom: 140px;
+      margin-bottom: 60px;
     }
 
     ul {
@@ -129,58 +132,62 @@
       }
     }
     li {
-      display: flex;
-      align-items: start;
-      gap: 54px;
+      margin-bottom: 60px;
+      text-align: center;
+      .section4ListNum {
+        font-family: Montserrat;
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 24px;
 
-      margin-bottom: 140px;
+        color: #2965ff;
+        margin-bottom: 4px;
+      }
+      .section4ListText {
+        font-family: Pretendard;
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 25px;
 
-      .section4ListBox {
-        display: flex;
-        flex-direction: column;
-
-        .section4ListNum {
-          font-size: 36px;
-          font-weight: 700;
-          color: #2965ff;
-          margin-bottom: 24px;
-        }
-        .section4ListText {
-          font-size: 32px;
-          font-weight: 500;
-          color: #555555;
-        }
+        color: #555555;
+        margin-bottom: 16px;
+      }
+      img {
+        width: 100%;
+        height: auto;
       }
     }
   }
 
   .section5 {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    text-align: center;
 
     background-color: #f8faff;
-    padding-top: 240px;
-    padding-bottom: 240px;
+    padding: 100px 37px;
 
-    .section5LeftBox {
-      margin-right: 150px;
+    .section5Text {
+      font-family: Pretendard;
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 25px;
 
-      .section5Text {
-        font-size: 32px;
-        font-weight: 500;
-        line-height: 44px;
-        color: #555555;
+      margin-bottom: 16px;
+      color: #555555;
+    }
 
-        margin-top: 18px;
-      }
+    .section5Btn {
+      width: 196px;
+      height: 44px;
 
-      .section5Btn {
-        width: 196px;
-        height: 44px;
+      margin: auto;
+    }
 
-        margin-top: 24px;
-      }
+    img {
+      width: 100%;
+      height: auto;
+
+      margin-top: 24px;
+      margin-bottom: 28px;
     }
   }
 
@@ -191,15 +198,69 @@
     flex-direction: column;
     text-align: center;
 
-    padding-top: 120px;
-    padding-bottom: 120px;
+    padding-top: 100px;
+    margin-bottom: 48px;
 
     .section6Btn {
       width: 173px;
       height: 52px;
 
-      margin-top: 30px;
-      margin-bottom: 120px;
+      margin-top: 20px;
+      margin-bottom: 80px;
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  .moveApp {
+    height: 48px;
+    width: 100%;
+
+    position: fixed;
+    bottom: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background-color: white;
+    padding: 0 16px;
+
+    .moveAppLeft {
+      display: flex;
+      align-items: center;
+    }
+
+    .moveAppText1 {
+      font-family: Pretendard;
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 17px;
+      color: #555555;
+
+      strong {
+        font-weight: 700;
+      }
+    }
+
+    .moveAppText2 {
+      font-family: Pretendard;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 17px;
+      color: #2965ff;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    img {
+      width: 24px;
+      height: auto;
+      border-radius: 5px;
+      margin-right: 8px;
     }
   }
 
@@ -238,16 +299,18 @@
   }
 
   .title {
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 700;
+    line-height: 25px;
+
     color: #2965ff;
 
-    margin-bottom: 18px;
+    margin-bottom: 8px;
   }
 
   .subTitle {
-    font-size: 40px;
+    font-size: 28px;
     font-weight: 700;
-    line-height: 52px;
+    line-height: 39px;
   }
 }
