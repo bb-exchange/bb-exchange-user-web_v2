@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRecoilValue } from "recoil";
 
 import section1 from "../../../public/assets/images/serviceIntroduction/section1.png";
-import section2 from "../../../public/assets/images/serviceIntroduction/section2-1.png";
+import mSection2 from "../../../public/assets/images/serviceIntroduction/m-section2.png";
 import mSection3 from "../../../public/assets/images/serviceIntroduction/m-section3-1.png";
 import section32 from "../../../public/assets/images/serviceIntroduction/section3-2.png";
 import section4 from "../../../public/assets/images/serviceIntroduction/section4-1.png";
@@ -45,12 +45,7 @@ const DesktopPage = () => {
             <strong>비법거래소에서 판매하세요!</strong>
           </h3>
 
-          <Image
-            className={styles.section2Img}
-            src={section2}
-            alt=""
-            width={482}
-          />
+          <Image className={styles.section2Img} src={mSection2} alt="" />
         </section>
 
         <section className={styles.section3}>

@@ -25,10 +25,6 @@
       span {
         font-size: 40px;
       }
-      strong {
-        color: #2965ff;
-        font-size: 60px;
-      }
     }
 
     .section1Btn {
@@ -42,13 +38,12 @@
   }
 
   .section2 {
-    height: 816px;
-
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     flex-direction: column;
 
+    padding-top: 100px;
     h3 {
       color: #555555;
       font-size: 32px;
@@ -63,10 +58,6 @@
         font-weight: 700;
         color: #111111;
       }
-    }
-
-    .section2ImgBox {
-      position: relative;
     }
   }
 

@@ -2,8 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRecoilValue } from "recoil";
 
+import logo from "../../../public/assets/images/serviceIntroduction/logo.png";
 import section1 from "../../../public/assets/images/serviceIntroduction/section1.png";
-import section2 from "../../../public/assets/images/serviceIntroduction/section2-1.png";
+import section2 from "../../../public/assets/images/serviceIntroduction/section2.png";
 import section3 from "../../../public/assets/images/serviceIntroduction/section3-1.png";
 import section32 from "../../../public/assets/images/serviceIntroduction/section3-2.png";
 import section4 from "../../../public/assets/images/serviceIntroduction/section4-1.png";
@@ -29,7 +30,8 @@ const DesktopPage = () => {
           <div>
             <h3>
               <span>내 글을 주식처럼 거래하는 곳</span>
-              <strong>비법거래소</strong>
+              <Image src={logo} alt="" width={326} />
+              {/* <strong>비법거래소</strong> */}
             </h3>
             <Link href={isSignedIn ? "/enroll" : "/auth/signin"}>
               <button className={`${styles.btn} ${styles.section1Btn}`}>
@@ -51,26 +53,12 @@ const DesktopPage = () => {
             <strong>비법거래소에서 판매하세요!</strong>
           </h3>
 
-          <div className={styles.section2ImgBox}>
-            <Image
-              className={styles.section2Img1}
-              src={section2}
-              alt=""
-              width={482}
-            />
-            {/* <Image
-              className={styles.section2Img2}
-              src={section22}
-              alt=""
-              width={340}
-            />
-            <Image
-              className={styles.section2Img3}
-              src={section23}
-              alt=""
-              width={340}
-            /> */}
-          </div>
+          <Image
+            className={styles.section2Img1}
+            src={section2}
+            alt=""
+            width={852}
+          />
         </section>
 
         <section className={styles.section3}>

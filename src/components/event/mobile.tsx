@@ -10,8 +10,8 @@ import enrollImg from "../../../public/assets/images/event/enroll-img.png";
 import likeImg from "../../../public/assets/images/event/like-img.png";
 import codeImg from "../../../public/assets/images/event/code.png";
 import promotionImg from "../../../public/assets/images/event/promotion.png";
+import mLogo from "../../../public/assets/images/serviceIntroduction/m-logo.png";
 
-import CommonHeader from ".src/components/common/header/commonHeader";
 import styles from "./mobile.module.scss";
 import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
 import PopupBg from ".src/components/common/popupBg";
@@ -29,24 +29,26 @@ const Event = () => {
 
   return (
     <>
-      <CommonHeader />
       <main className={styles.eventPage}>
         <section className={styles.section1}>
           <p className={styles.section1SubTitle}>100만원의 주인공은 누구?</p>
-          <Image src={eventText} alt="" width={703} />
-          <div className={styles.section1Box}>
-            이직, 결혼, 육아, 취준 등 묵혀둔
-            <br />
-            나의 꿀팁들을 공유하면 <strong>100만 원</strong>을 드려요!
+          <Image src={eventText} alt="" width={337} />
+          <div className={styles.section1Bg}>
+            <div className={styles.section1Box}>
+              이직, 결혼, 육아, 취준 등<br /> 묵혀둔 나의 꿀팁들을 공유하면
+              <br /> <strong>100만 원</strong>을 드려요!
+            </div>
           </div>
         </section>
+
         <section className={styles.section2}>
-          <Image src={event1} alt="" width={180} />
+          <Image src={event1} alt="" width={122} />
           <p className={styles.sectionInfo}>
             최강 비법 선발전!
             <br />
             출시 기념 <strong>100만 원</strong> 쏩니다
           </p>
+
           <div className={styles.eventBox}>
             <div className={styles.eventTop}>
               <div className={styles.box}>
@@ -54,11 +56,17 @@ const Event = () => {
                   <span className={styles.title}>참여 방법</span>
                   <p className={styles.subTitle1}>
                     비법거래소에 내가 가진
-                    <br /> 궁극의 꿀팁, 경험, 노하우 등의{" "}
+                    <br /> 궁극의 꿀팁, 경험, 노하우 등의
+                    <br />
                     <strong className={styles.blueText}>비법</strong>을 올려요.
                   </p>
                 </div>
-                <Image src={enrollImg} alt="" width={209} />
+                <Image
+                  className={styles.section2Img1}
+                  src={enrollImg}
+                  alt=""
+                  width={175}
+                />
               </div>
 
               <div className={styles.box}>
@@ -73,12 +81,17 @@ const Event = () => {
                     수를 받으면 돼요.
                   </p>
                 </div>
-                <Image src={likeImg} alt="" width={160} />
+                <Image
+                  className={styles.section2Img2}
+                  src={likeImg}
+                  alt=""
+                  width={128}
+                />
               </div>
             </div>
 
             <div className={styles.eventBottom}>
-              <div>
+              <div className={styles.eventBottomBox}>
                 <div className={styles.bottomTitle}>꿀팁 1</div>
                 <p className={styles.bottomText}>
                   내 글을 친구들 혹은 SNS를 통해
@@ -86,7 +99,7 @@ const Event = () => {
                   열심히 홍보해서 좋아요를 늘려도 좋아요.
                 </p>
               </div>
-              <div>
+              <div className={styles.eventBottomBox}>
                 <div className={styles.bottomTitle}>꿀팁 2</div>
                 <p className={styles.bottomText}>
                   어떤 글이 인기 많을지 모르니,
@@ -104,11 +117,12 @@ const Event = () => {
         </section>
 
         <section className={styles.section3}>
-          <Image src={event2} alt="" width={180} />
+          <Image src={event2} alt="" width={126} />
           <p className={styles.sectionInfo}>
             꿀팁 많고, 글 잘 쓰는 <strong>친구 초대하기!</strong>
             <br />
-            친구가 1등 하면, 친구도 나도 100만 원 받아요.
+            친구가 1등 하면,
+            <br /> 친구도 나도 100만 원 받아요.
           </p>
 
           <div className={styles.eventBox}>
@@ -141,7 +155,7 @@ const Event = () => {
                   </div>
                 </div>
               </div>
-              <Image src={codeImg} alt="" width={273} />
+              <Image src={codeImg} alt="" width={200} />
             </div>
 
             <div className={styles.eventBottom}>
@@ -156,7 +170,7 @@ const Event = () => {
               <Image
                 src={promotionImg}
                 alt=""
-                width={163}
+                width={113}
                 className={styles.promotImg}
               />
             </div>
@@ -200,6 +214,16 @@ const Event = () => {
               제세공과금은 비법거래소가 대신 내드려요.
             </li>
           </ul>
+        </div>
+
+        <div className={styles.moveApp}>
+          <div className={styles.moveAppLeft}>
+            <Image src={mLogo} alt="" />
+            <p className={styles.moveAppText1}>
+              <strong>비법거래소</strong>를 앱으로 편리하게 이용하세요!
+            </p>
+          </div>
+          <p className={styles.moveAppText2}>앱으로 이용하기</p>
         </div>
       </main>
 
