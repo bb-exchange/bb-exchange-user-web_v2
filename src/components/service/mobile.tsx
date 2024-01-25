@@ -18,9 +18,34 @@ import mLogo from "../../../public/assets/images/serviceIntroduction/m-logo.png"
 import styles from "./mobile.module.scss";
 import { isLoginState } from ".src/recoil";
 
-const DesktopPage = () => {
+const DesktopPage = ({ isClient }: { isClient: boolean }) => {
   const isSignedIn = useRecoilValue(isLoginState);
 
+  const onClickMoveToHome = () => {
+    // TODO 작성하기 이동
+    if (isClient) {
+      //@ts-ignore
+      BbxClient.postMessage(JSON.stringify({ destination: "home" }));
+      return;
+    }
+  };
+  const onClickMoveToEvent = () => {
+    // TODO 작성하기 이동
+    if (isClient) {
+      //@ts-ignore
+      BbxClient.postMessage(JSON.stringify({ destination: "event" }));
+      return;
+    }
+  };
+
+  const onClickMoveToGuide = () => {
+    // TODO 작성하기 이동
+    if (isClient) {
+      //@ts-ignore
+      BbxClient.postMessage(JSON.stringify({ destination: "guide" }));
+      return;
+    }
+  };
   return (
     <>
       {/* <CommonHeader /> */}
@@ -31,8 +56,11 @@ const DesktopPage = () => {
           <strong>비법거래소</strong>
           <Image src={section1} alt="" />
 
-          <button className={`${styles.btn} ${styles.section1Btn}`}>
-            APP 다운받기
+          <button
+            className={`${styles.btn} ${styles.section1Btn}`}
+            onClick={onClickMoveToHome}
+          >
+            {isClient ? "수익 창출하러 가기" : "APP 다운받기"}
           </button>
         </section>
 
@@ -153,7 +181,10 @@ const DesktopPage = () => {
             <br />
             누군가에게는 꼭 필요한 비법입니다.
           </p>
-          <button className={`${styles.btnLine} ${styles.section5Btn}`}>
+          <button
+            className={`${styles.btnLine} ${styles.section5Btn}`}
+            onClick={onClickMoveToGuide}
+          >
             비법거래소 작성 가이드 {">"}
           </button>
         </section>
@@ -164,23 +195,36 @@ const DesktopPage = () => {
             <br />
             지금 바로 자산으로 바꿔보세요!
           </h4>
-          <Link href={isSignedIn ? "/enroll" : "/auth/signin"}>
-            <button className={`${styles.btn} ${styles.section6Btn}`}>
+          {!isClient ? (
+            <Link href={isSignedIn ? "/enroll" : "/auth/signin"}>
+              <button className={`${styles.btn} ${styles.section6Btn}`}>
+                수익 창출하러 가기
+              </button>
+            </Link>
+          ) : (
+            <button
+              className={`${styles.btn} ${styles.section6Btn}`}
+              onClick={onClickMoveToHome}
+            >
               수익 창출하러 가기
             </button>
-          </Link>
-          <Image src={mBanner} alt="" />
+          )}
+          <button onClick={onClickMoveToEvent}>
+            <Image src={mBanner} alt="" />
+          </button>
         </section>
 
-        <div className={styles.moveApp}>
-          <div className={styles.moveAppLeft}>
-            <Image src={mLogo} alt="" />
-            <p className={styles.moveAppText1}>
-              <strong>비법거래소</strong>를 앱으로 편리하게 이용하세요!
-            </p>
+        {!isClient && (
+          <div className={styles.moveApp}>
+            <div className={styles.moveAppLeft}>
+              <Image src={mLogo} alt="" />
+              <p className={styles.moveAppText1}>
+                <strong>비법거래소</strong>를 앱으로 편리하게 이용하세요!
+              </p>
+            </div>
+            <p className={styles.moveAppText2}>앱으로 이용하기</p>
           </div>
-          <p className={styles.moveAppText2}>앱으로 이용하기</p>
-        </div>
+        )}
       </main>
     </>
   );

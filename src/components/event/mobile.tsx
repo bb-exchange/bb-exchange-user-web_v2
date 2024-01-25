@@ -17,14 +17,26 @@ import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
 import PopupBg from ".src/components/common/popupBg";
 import { isLoginState } from ".src/recoil";
 
-const Event = () => {
+const Event = ({ isClient }: { isClient: boolean }) => {
   const isSignedIn = useRecoilValue(isLoginState);
 
   const [copyPopup, setCopyPopup] = useState<boolean>(false);
 
   const onLinkShare = () => {
+    if (isClient) {
+      //@ts-ignore
+      BbxClient.postMessage(
+        JSON.stringify({ share: "https://stage-bibubex.com/event" })
+      );
+      return;
+    }
     setCopyPopup(true);
     window.navigator.clipboard.writeText("https://stage-bibubex.com/event");
+  };
+
+  const onClickPost = () => {
+    //@ts-ignore
+    BbxClient.postMessage(JSON.stringify({ destination: "post" }));
   };
 
   return (
@@ -109,11 +121,22 @@ const Event = () => {
               </div>
             </div>
           </div>
-          <Link href={isSignedIn ? "/enroll" : "/auth/signin"}>
-            <button className={`${styles.btn} ${styles.btn1}`}>
+
+          {!isClient && (
+            <Link href={isSignedIn ? "/enroll" : "/auth/signin"}>
+              <button className={`${styles.btn} ${styles.btn1}`}>
+                100만원의 주인공 되기
+              </button>
+            </Link>
+          )}
+          {isClient && (
+            <button
+              className={`${styles.btn} ${styles.btn1}`}
+              onClick={onClickPost}
+            >
               100만원의 주인공 되기
             </button>
-          </Link>
+          )}
         </section>
 
         <section className={styles.section3}>
@@ -216,15 +239,17 @@ const Event = () => {
           </ul>
         </div>
 
-        <div className={styles.moveApp}>
-          <div className={styles.moveAppLeft}>
-            <Image src={mLogo} alt="" />
-            <p className={styles.moveAppText1}>
-              <strong>비법거래소</strong>를 앱으로 편리하게 이용하세요!
-            </p>
+        {!isClient && (
+          <div className={styles.moveApp}>
+            <div className={styles.moveAppLeft}>
+              <Image src={mLogo} alt="" />
+              <p className={styles.moveAppText1}>
+                <strong>비법거래소</strong>를 앱으로 편리하게 이용하세요!
+              </p>
+            </div>
+            <p className={styles.moveAppText2}>앱으로 이용하기</p>
           </div>
-          <p className={styles.moveAppText2}>앱으로 이용하기</p>
-        </div>
+        )}
       </main>
 
       {copyPopup && (

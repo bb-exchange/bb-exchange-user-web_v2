@@ -4,11 +4,25 @@ import classNames from "classnames";
 import styles from "./mobile.module.scss";
 import Image from "../Image";
 
-const MobilePage = () => {
+const MobilePage = ({ isClient }: { isClient: boolean }) => {
   const getImgPath = (name: string) => `/assets/images/${name}_mobile.png`;
 
   const onClickMoveToNewPost = () => {
     // TODO 작성하기 이동
+    //@ts-ignore
+    if (typeof BbxClient !== undefined && isClient) {
+      //@ts-ignore
+      BbxClient.postMessage(JSON.stringify({ destination: "post" }));
+    }
+  };
+
+  const onClickMoveToEvent = () => {
+    // TODO 작성하기 이동
+    //@ts-ignore
+    if (typeof BbxClient !== undefined && isClient) {
+      //@ts-ignore
+      BbxClient.postMessage(JSON.stringify({ destination: "event" }));
+    }
   };
 
   const onClickMoveToApp = () => {
@@ -239,33 +253,52 @@ const MobilePage = () => {
             <button onClick={onClickMoveToNewPost}>비법 작성하러 가기</button>
           </article>
 
-          <Link href="/event">
-            <Image
-              src={getImgPath("event_banner")}
-              height={0}
-              width={0}
-              sizes="(width: 375px)"
-              alt="event_banner"
-              priority
-              style={{ width: "375px", height: "auto" }}
-            />
-          </Link>
-          <footer className={styles.footer}>
-            <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+          {!isClient && (
+            <Link href="/event">
               <Image
-                src="/assets/logos/bbx_logo.png"
-                height={24}
-                width={24}
-                alt="bbx_logo"
+                src={getImgPath("event_banner")}
+                height={0}
+                width={0}
+                sizes="(width: 375px)"
+                alt="event_banner"
                 priority
+                style={{ width: "375px", height: "auto" }}
               />
-              <span style={{ fontWeight: 500, color: "#555" }}>
-                <span style={{ fontWeight: 700 }}>비법거래소</span>를 앱으로
-                편리하게 이용하세요!
-              </span>
-            </div>
-            <button onClick={onClickMoveToApp}>앱으로 이용하기</button>
-          </footer>
+            </Link>
+          )}
+          {isClient && (
+            <button onClick={onClickMoveToEvent}>
+              <Image
+                src={getImgPath("event_banner")}
+                height={0}
+                width={0}
+                sizes="(width: 375px)"
+                alt="event_banner"
+                priority
+                style={{ width: "375px", height: "auto" }}
+              />
+            </button>
+          )}
+          {!isClient && (
+            <footer className={styles.footer}>
+              <div
+                style={{ display: "flex", gap: "8px", alignItems: "center" }}
+              >
+                <Image
+                  src="/assets/logos/bbx_logo.png"
+                  height={24}
+                  width={24}
+                  alt="bbx_logo"
+                  priority
+                />
+                <span style={{ fontWeight: 500, color: "#555" }}>
+                  <span style={{ fontWeight: 700 }}>비법거래소</span>를 앱으로
+                  편리하게 이용하세요!
+                </span>
+              </div>
+              <button onClick={onClickMoveToApp}>앱으로 이용하기</button>
+            </footer>
+          )}
         </section>
       </main>
     </>
