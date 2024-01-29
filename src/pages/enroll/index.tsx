@@ -53,6 +53,8 @@ export default function EnrollScreen() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [useEnrollHook.tempArticle]);
 
+  console.log("?", process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI);
+
   return (
     <>
       <EnrollHeader editor={editor} useEnrollHook={useEnrollHook} />
