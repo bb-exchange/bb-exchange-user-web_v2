@@ -26,12 +26,12 @@ const Event = ({ isClient }: { isClient: boolean }) => {
     if (isClient) {
       //@ts-ignore
       BbxClient.postMessage(
-        JSON.stringify({ share: "https://stage-bibubex.com/event" })
+        JSON.stringify({ share: "https://stage-bibeop.com/event" })
       );
       return;
     }
     setCopyPopup(true);
-    window.navigator.clipboard.writeText("https://stage-bibubex.com/event");
+    window.navigator.clipboard.writeText("https://stage-bibeop.com/event");
   };
 
   const onClickPost = () => {

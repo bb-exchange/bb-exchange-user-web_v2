@@ -84,7 +84,7 @@ const GoogleAuth = () => {
             });
             //닉네임 가져오기
             const { data } = await axios.get(
-              `https://api.stage-bibubex.com/v1/users/me`,
+              `https://api.stage-bibeop.com/v1/users/me`,
               {
                 headers: {
                   Authorization: `Bearer ${authLoginData.data.accessToken}`,

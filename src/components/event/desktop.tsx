@@ -24,7 +24,7 @@ const Event = () => {
 
   const onLinkShare = () => {
     setCopyPopup(true);
-    window.navigator.clipboard.writeText("https://stage-bibubex.com/event");
+    window.navigator.clipboard.writeText("https://stage-bibeop.com/event");
   };
 
   return (
