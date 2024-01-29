@@ -2,10 +2,12 @@ import ToggleSwitch from ".src/components/common/toggle/toggleSwitch";
 import styles from "./setting.module.scss";
 import { useState } from "react";
 import ConfirmPopup from ".src/components/common/popup/confirmPopup";
+import ConfirmTitlePopup from ".src/components/common/popup/confirmTitlePopup";
 import PopupBg from ".src/components/common/popupBg";
 import { useSignOut } from ".src/hooks/common/useSignOut";
 import { useRouter } from "next/router";
 import { withdrawal } from ".src/api/users/users";
+import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
 
 export default function Setting() {
   const router = useRouter();
@@ -24,6 +26,11 @@ export default function Setting() {
   const [withdrawPopup, setWithdrawPopup] = useState(
     router.query.withdrawPopup === "true" || false
   );
+  const [inactiveFn, setInactiveFn] = useState(false);
+
+  const openInactivePopup = () => {
+    setInactiveFn(true);
+  };
 
   return (
     <div className={styles.setting}>
@@ -35,7 +42,10 @@ export default function Setting() {
           <div className={styles.box}>
             <h3>알림</h3>
             <ul>
-              <li className={styles.boxAlert}>
+              <li
+                onClick={() => openInactivePopup()}
+                className={styles.boxAlert}
+              >
                 <div>
                   <span>활동알림</span>
                   <span className={styles.smallText}>상장, 댓글 등 알림</span>
@@ -46,7 +56,10 @@ export default function Setting() {
                   setIsChecked={setAlertChecked}
                 />
               </li>
-              <li className={styles.boxAlert}>
+              <li
+                onClick={() => openInactivePopup()}
+                className={styles.boxAlert}
+              >
                 <div>
                   <span>마케팅 알림</span>
                   <span className={styles.smallText}>
@@ -64,9 +77,32 @@ export default function Setting() {
           <div className={styles.box}>
             <h3>고객센터</h3>
             <ul>
-              <li onClick={() => router.push("/board/notice")}>공지사항</li>
-              <li onClick={() => router.push("/board/faq")}>FAQ</li>
-              <li onClick={() => router.push("/board/inquiry/post")}>
+              <li
+                onClick={() => {
+                  window.open(
+                    "https://bbexchange.notion.site/de262be556504eafad04f699c006f5e4"
+                  );
+                  // router.push("/board/notice")
+                }}
+              >
+                공지사항
+              </li>
+              <li
+                onClick={() => {
+                  window.open(
+                    "https://bbexchange.notion.site/af49e261ae3a465a81097d9ad1715fb0"
+                  );
+                  // router.push("/board/faq")
+                }}
+              >
+                FAQ
+              </li>
+              <li
+                onClick={() => {
+                  openInactivePopup();
+                  // router.push("/board/inquiry/post")
+                }}
+              >
                 1:1 문의/내역
               </li>
             </ul>
@@ -74,10 +110,20 @@ export default function Setting() {
           <div className={styles.box}>
             <h3>사용자관리</h3>
             <ul>
-              <li onClick={() => router.push("/user/blocked")}>
+              <li
+                onClick={() => {
+                  openInactivePopup();
+                  // router.push("/user/blocked")
+                }}
+              >
                 차단 사용자 관리
               </li>
-              <li onClick={() => router.push("/user/hidden")}>
+              <li
+                onClick={() => {
+                  openInactivePopup();
+                  // router.push("/user/hidden")
+                }}
+              >
                 숨긴 사용자 관리
               </li>
             </ul>
@@ -114,7 +160,7 @@ export default function Setting() {
           </div>
         </div>
       </div>
-      {alertPopup && (
+      {/* {alertPopup && (
         <>
           <ConfirmPopup
             title="활동 알림을 끄시겠습니까?"
@@ -133,8 +179,8 @@ export default function Setting() {
           />
           <PopupBg bg off={() => setAlertPopup(false)} />
         </>
-      )}
-      {marketingPopup && (
+      )} */}
+      {/* {marketingPopup && (
         <>
           <ConfirmPopup
             title="마케팅 알림을 끄시겠습니까?"
@@ -154,6 +200,19 @@ export default function Setting() {
             }}
           />
           <PopupBg bg off={() => setMarketingPopup(false)} />
+        </>
+      )} */}
+      {inactiveFn && (
+        <>
+          <ConfirmTitlePopup
+            title="앗! 개발중입니다."
+            content={`비법거래소 배타버전에서는 아직 작동하지
+않는 기능입니다. 빨리 준비해볼게요!!`}
+            confirmText="확인"
+            confirmFunc={() => setInactiveFn(false)}
+            zIndex={80}
+          />
+          <PopupBg bg zIndex={70} off={() => setInactiveFn(false)} />
         </>
       )}
       {logOutPopup && (
