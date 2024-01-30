@@ -55,3 +55,9 @@ export const checkNickname = async (nickname: string) =>
   await basicInstance
     .get(`/v1/users/nickname/${nickname}/exists`)
     .then(({ data: { data } }) => data);
+
+//NOTE - 추천인 코드 존재여부 체크
+export const checkRecommendCode = async (recommendCode: string) =>
+  await basicInstance
+    .get(`/v1/users/recommend-code/${recommendCode}/exists`)
+    .then(({ data: { data } }) => data);

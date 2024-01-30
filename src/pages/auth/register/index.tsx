@@ -10,10 +10,11 @@ import IconBlueCheck from "../../../../public/assets/icons/BlueCheck.svg";
 import PopupBg from ".src/components/common/popupBg";
 import ConfirmPopup from ".src/components/common/popup/confirmPopup";
 import { useSetRecoilState } from "recoil";
-import { isLoginState, userNameState } from ".src/recoil";
+import { userNameState } from ".src/recoil";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { checkNickname } from ".src/api/users/users";
-import { registerNickname, registerUser } from ".src/api/auth/auth";
+import { registerNickname } from ".src/api/auth/auth";
+import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
 interface Inputs {
   nickname: string;
 }
@@ -28,13 +29,13 @@ const Register = () => {
     "refreshToken",
   ]);
 
-  const setIsLoginState = useSetRecoilState(isLoginState);
   const setUserNameState = useSetRecoilState(userNameState);
 
   const [availableNickname, setAvailableNickname] = useState<string>("");
   const [openConfirmPopup, setOpenConfirmPopup] = useState(
     router.query.openConfirmPopup === "true" || false
   );
+  const [openErrorPopup, setOpenErrorPopup] = useState(false);
 
   const {
     register,
@@ -44,21 +45,6 @@ const Register = () => {
     formState: { errors },
   } = useForm<Inputs>({
     mode: "onChange",
-  });
-
-  //NOTE - 회원가입 API
-  const mutationRegister = useMutation({
-    mutationFn: registerUser,
-    onSuccess: (data, variables) => {
-      setCookies("accessToken", data.data.accessToken);
-      setCookies("refreshToken", data.data.refreshToken);
-      setIsLoginState(true);
-      setUserNameState(variables.nickname);
-      router.push("/auth/signup-completion");
-    },
-    onError: (error) => {
-      console.log("error", error);
-    },
   });
 
   //NOTE - 닉네임 중복체크
@@ -83,12 +69,11 @@ const Register = () => {
   const nicknameRegisterMutation = useMutation({
     mutationFn: registerNickname,
     onSuccess: (data, variables, context) => {
-      mutationRegister.mutate({
-        oauthType: cookies.oauthType,
-        oauthId: cookies.oauthId,
-        recommendCode: "TEST0001",
-        nickname: variables.nickname,
-      });
+      setUserNameState(watch("nickname"));
+      router.push("/auth/recommend-code");
+    },
+    onError: (error: any) => {
+      setOpenErrorPopup(true);
     },
   });
 
@@ -190,6 +175,23 @@ const Register = () => {
             />
           </form>
         </div>
+        {openErrorPopup && (
+          <>
+            <ErrorMsgPopup
+              confirmFunc={() => {
+                setOpenErrorPopup(false);
+                router.push("/auth/signin");
+              }}
+              msg={
+                <>
+                  <span>유효 시간이 만료되었습니다.</span>
+                  <span>로그인 화면으로 이동합니다.</span>
+                </>
+              }
+            />
+            <PopupBg bg off={() => {}} />
+          </>
+        )}
         {openConfirmPopup && (
           <>
             <ConfirmPopup

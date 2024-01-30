@@ -15,7 +15,7 @@ interface IRegister {
   oauthType: string;
   oauthId: string;
   recommendCode: string;
-  nickname: string;
+  // nickname: string;
 }
 export const registerUser = async (body: IRegister) => {
   return (await basicInstance.post("/v1/auth/register", body)).data;
