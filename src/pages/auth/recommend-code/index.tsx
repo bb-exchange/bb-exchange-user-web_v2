@@ -87,7 +87,7 @@ const RecommendCode = () => {
     mutationRegister.mutate({
       oauthType: cookies.oauthType,
       oauthId: cookies.oauthId,
-      recommendCode: validCode,
+      recommendCode: null,
     });
   };
 
