@@ -8,11 +8,17 @@
   font-family: Pretendard;
   color: $Black3;
 
+  &.web {
+    padding-top: 88px;
+  }
+
   .wrapper {
-    max-width: 375px;
+    // max-width: 375px;
     display: flex;
     flex-direction: column;
     margin: 0 auto;
+
+    padding-bottom: 48px;
 
     .introArea {
       display: flex;
@@ -101,12 +107,17 @@
 
   .footer {
     height: 48px;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 16px;
 
     font-size: 12px;
+
+    position: fixed;
+    bottom: 0;
+    background-color: #fff;
 
     button {
       color: $Primary1;

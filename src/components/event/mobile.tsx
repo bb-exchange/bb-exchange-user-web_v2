@@ -16,6 +16,8 @@ import styles from "./mobile.module.scss";
 import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
 import PopupBg from ".src/components/common/popupBg";
 import { isLoginState } from ".src/recoil";
+import MobileHeader from "../common/header/mobileHeader";
+import classNames from "classnames";
 
 const Event = ({ isClient }: { isClient: boolean }) => {
   const isSignedIn = useRecoilValue(isLoginState);
@@ -41,7 +43,8 @@ const Event = ({ isClient }: { isClient: boolean }) => {
 
   return (
     <>
-      <main className={styles.eventPage}>
+      {!isClient && <MobileHeader />}
+      <main className={classNames(styles.eventPage, !isClient && styles.web)}>
         <section className={styles.section1}>
           <p className={styles.section1SubTitle}>100만원의 주인공은 누구?</p>
           <Image src={eventText} alt="" width={337} />

@@ -1,0 +1,65 @@
+@import "/src/styles/variable";
+
+.headerContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0px;
+  background-color: #fff;
+
+  .logoArea {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+
+    cursor: pointer;
+
+    .beta {
+      color: $Primary2;
+      font-size: 12px;
+      font-weight: 400px;
+      margin-left: 6px;
+      padding: 2px 6px;
+    }
+  }
+
+  .tabContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #f3f3f3;
+
+    .tabItem {
+      height: 40px;
+      width: 112px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+
+      span {
+        color: $Gray1;
+
+        &[aria-selected="true"] {
+          color: $Black1;
+          font-weight: 700;
+        }
+      }
+
+      .divider {
+        visibility: hidden;
+        height: 4px;
+        width: 112px;
+        position: fixed;
+        top: 85px;
+        background-color: #30333a;
+
+        &[aria-selected="true"] {
+          visibility: visible;
+        }
+      }
+    }
+  }
+}

@@ -17,6 +17,8 @@ import mLogo from "../../../public/assets/images/serviceIntroduction/m-logo.png"
 
 import styles from "./mobile.module.scss";
 import { isLoginState } from ".src/recoil";
+import MobileHeader from "../common/header/mobileHeader";
+import classNames from "classnames";
 
 const DesktopPage = ({ isClient }: { isClient: boolean }) => {
   const isSignedIn = useRecoilValue(isLoginState);
@@ -48,9 +50,8 @@ const DesktopPage = ({ isClient }: { isClient: boolean }) => {
   };
   return (
     <>
-      {/* <CommonHeader /> */}
-
-      <main className={styles.service}>
+      {!isClient && <MobileHeader />}
+      <main className={classNames(styles.service, !isClient && styles.web)}>
         <section className={styles.section1}>
           <span>내 글을 주식처럼 거래하는 곳</span>
           <strong>비법거래소</strong>
