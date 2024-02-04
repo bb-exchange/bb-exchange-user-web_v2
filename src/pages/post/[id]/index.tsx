@@ -716,6 +716,24 @@ export default function Post() {
               // NOTE 상장글이면서 비구매 글일 때
               <>
                 <article className={`${styles.contArea} ${styles.limited}`}>
+                  {postData?.articleInfo.content && (
+                    // <article className={styles.contArea}>
+                    //   <ReactQuill
+                    //     readOnly
+                    //     value={postData?.articleInfo.content}
+                    //     modules={{ toolbar: false }}
+                    //   />
+                    // </article>
+                    <article style={{ maxHeight: "500px", overflow: "hidden" }}>
+                      {editor && (
+                        <EditorContent
+                          readOnly
+                          editor={editor}
+                          height={"100%"}
+                        />
+                      )}
+                    </article>
+                  )}
                   <div className={styles.overlayBox}>
                     <button
                       className={`${styles.favBtn} ${
@@ -739,21 +757,6 @@ export default function Post() {
                       전체글을 보려면 구매해주세요.
                     </p>
                   </div>
-
-                  {/* FIXME 임시 */}
-                  {postData?.articleInfo.content ? (
-                    <article className={styles.contArea}>
-                      <ReactQuill
-                        readOnly
-                        value={postData?.articleInfo.content}
-                        modules={{ toolbar: false }}
-                      />
-                    </article>
-                  ) : (
-                    <p>
-                      {`최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요최대열줄까지만보이게하는거어떨까요`}
-                    </p>
-                  )}
                 </article>
 
                 {/* NOTE 비구매글일 때 댓글 */}
