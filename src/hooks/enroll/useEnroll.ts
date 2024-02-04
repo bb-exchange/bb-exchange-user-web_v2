@@ -209,15 +209,12 @@ export default function useEnroll(editor: Editor | null) {
         if (!reader.result) return;
 
         //NOTE - 파일 업로드 시, 이미지 에디터에 Preview
-        editor &&
-          editor
-            .chain()
-            .focus()
-            .setImage({
-              src: reader.result as any,
-              title: file.name,
-            })
-            .run();
+        //@ts-ignore
+        // editor?.commands.setImage({ src: reader.result as string }).run();
+        editor
+          ?.chain()
+          .setImage({ src: reader.result as string })
+          .run();
       };
     });
   };
@@ -315,32 +312,24 @@ export default function useEnroll(editor: Editor | null) {
     let editorJson = editor?.getJSON();
 
     if (files.size) {
-      editorJson?.content?.map((item: any) => {
-        item.content?.map((content: any) => {
-          if (content.type === "image") {
-            editorJson = {
-              ...editorJson,
-              content: editorJson?.content?.map((item: any) => {
-                return {
-                  ...item,
-                  content: item.content?.map((content: any, i: number) => {
-                    if (content.type === "image") {
-                      return {
-                        ...content,
-                        attrs: {
-                          ...content.attrs,
-                          src: fileImgUrls[i],
-                        },
-                      };
-                    }
-                    return content;
-                  }),
-                };
-              }),
+      editorJson = {
+        ...editorJson,
+        content: editorJson?.content?.map((item: any, i: number) => {
+          let chagnedItem = item;
+          if (item.type === "figure") {
+            chagnedItem = {
+              ...item,
+              attrs: {
+                ...item.attrs,
+                src: fileImgUrls[0],
+              },
             };
+            fileImgUrls.shift();
           }
-        });
-      });
+
+          return chagnedItem;
+        }),
+      };
     }
 
     const body = {
@@ -350,6 +339,8 @@ export default function useEnroll(editor: Editor | null) {
       articleTagList: [],
       thumbnailImage: watch("thumbNail") ?? "",
     };
+
+    // console.log("editorJson", editorJson);
 
     if (btnName === "수정하기" && tempArticleId) {
       updateTempMutation.mutate({ articleId: tempArticleId, body });
@@ -368,12 +359,36 @@ export default function useEnroll(editor: Editor | null) {
     watch,
   ]);
 
+  // console.log("getjson", editor?.getJSON());
+  // console.log("file", files);
+  // console.log("태그", watch("tagList"));
+
   //NOTE - 임시저장 클릭 시
   const onClickEnrollTemp = () => {
+    setWriteCancelPopup(false);
+
     if (!watch("category.description")) {
       return setError("category", {
         type: "noText",
         message: "카테고리를 선택해주세요",
+      });
+    }
+    if (!watch("title")) {
+      return setError("title", {
+        type: "noText",
+        message: "제목을 입력해주세요",
+      });
+    }
+    if (!editor?.getText()) {
+      return setError("content", {
+        type: "noText",
+        message: "내용을 입력해주세요",
+      });
+    }
+    if (editor?.getText().length < 100) {
+      return setError("content", {
+        type: "minLength",
+        message: "최소 100글자 이상 입력해주세요",
       });
     }
 
@@ -386,7 +401,7 @@ export default function useEnroll(editor: Editor | null) {
           return {
             ...item,
             content: item.content?.filter(
-              (content: any, i: number) => content.type !== "image"
+              (content: any, i: number) => content.type !== "figure"
             ),
           };
         }),
@@ -416,24 +431,8 @@ export default function useEnroll(editor: Editor | null) {
   const onSetThumbnail = () => {
     if (!selectImg) return;
 
-    const fileName = selectImg.title;
-    const target = files.get(fileName);
-    // console.log(selectImg.setAttribute("thumb", "true"));
-    const thumbBox = document.createElement("em");
-    const mark = document.createElement("div");
-    mark.className = "thumbNailMark";
-
-    thumbBox.className = "thumbBox";
-
-    selectImg.replaceWith(thumbBox);
-
-    // mark.innerText = "대표";
-
-    thumbBox.append(selectImg, mark);
-
-    thumbBox.style.position = "relative";
-
-    target && setValue("thumbNail", target.imgPath);
+    //@ts-ignore
+    editor?.commands.setThumb(selectImg.src);
     setSelectImg(undefined);
   };
 
@@ -442,6 +441,7 @@ export default function useEnroll(editor: Editor | null) {
     if (!selectImg) return;
 
     // content에서 이미지 삭제
+    // editor?.commands.deleteImage();
     editor && editor.commands.deleteSelection();
 
     // 삭제 이미지가 섬네일일 경우 섬네일 삭제
@@ -602,7 +602,6 @@ export default function useEnroll(editor: Editor | null) {
     handleChangeImg,
     openDraftsPopup,
     articleTempList,
-    // ?
     tempNum,
     setTempNum,
     setTempArticleId,

@@ -1,24 +1,26 @@
-import { useCallback, useState } from "react";
-import { BsJustify, BsJustifyLeft, BsJustifyRight } from "react-icons/bs";
-import {
-  BoldIcon,
-  ItalicIcon,
-  UnderlineIcon,
-  QuoteIcon,
-  ListIcon,
-  ListOrderedIcon,
-  Heading1Icon,
-  Heading2Icon,
-  Heading3Icon,
-  Undo2Icon,
-  Redo2Icon,
-  Link,
-  ImageIcon,
-} from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
+import { Undo2Icon, Redo2Icon } from "lucide-react";
+
+import SelectArrow from ".assets/images/tiptap/select-arrow.svg";
+import Quote from ".assets/images/tiptap/quote.svg";
+import Ol from ".assets/images/tiptap/ol.svg";
+import Li from ".assets/images/tiptap/li.svg";
+import Align from ".assets/images/tiptap/center.svg";
+
+import Bold from ".assets/images/tiptap/bold.svg";
+import Italic from ".assets/images/tiptap/italic.svg";
+import Underline from ".assets/images/tiptap/underline.svg";
+import Color from ".assets/images/tiptap/color.svg";
+
+import Link from ".assets/images/tiptap/link.svg";
+import Photo from ".assets/images/tiptap/photo.svg";
 
 import LogoBlue from ".assets/logos/LogoBlue.svg";
 import useEnroll from ".src/hooks/enroll/useEnroll";
 import styles from "./enrollHeader.module.scss";
+
+import HeadingCategoryPopup from "./headingCategoryPopup";
+import PopupBg from "../common/popupBg";
 
 interface Iprops {
   editor: any;
@@ -27,6 +29,12 @@ interface Iprops {
 
 export default function EnrollHeader({ editor, useEnrollHook }: Iprops) {
   const [isLink, setIsLink] = useState<boolean>(true);
+  const [isHeadingSelector, setIsHeadingSelector] = useState<boolean>(false);
+  const [headingValue, setHeadingValue] = useState<string>("본문 1");
+
+  const onToggleHeading = () => {
+    setIsHeadingSelector(!isHeadingSelector);
+  };
 
   const setLink = useCallback(() => {
     const previousUrl = editor.getAttributes("link").href;
@@ -53,6 +61,24 @@ export default function EnrollHeader({ editor, useEnrollHook }: Iprops) {
     editor.chain().focus().unsetLink().run();
     setIsLink(true);
   }, [editor]);
+
+  useEffect(() => {
+    if (!editor) return;
+
+    if (headingValue === "제목 1") {
+      editor.chain().focus().toggleHeading({ level: 1 }).run();
+    } else if (headingValue === "제목 2") {
+      editor.chain().focus().toggleHeading({ level: 2 }).run();
+    } else if (headingValue === "제목 3") {
+      editor.chain().focus().toggleHeading({ level: 3 }).run();
+    } else if (headingValue === "본문 1") {
+      editor.chain().focus().toggleHeading({ level: 4 }).run();
+    } else if (headingValue === "본문 2") {
+      editor.chain().focus().toggleHeading({ level: 5 }).run();
+    } else if (headingValue === "본문 3") {
+      editor.chain().focus().toggleHeading({ level: 6 }).run();
+    }
+  }, [editor, headingValue]);
 
   return (
     <header className={styles.enrollHeader}>
@@ -105,111 +131,115 @@ export default function EnrollHeader({ editor, useEnrollHook }: Iprops) {
       </section>
       <section className={`${styles.toolBar} ${styles.toolBar2}`}>
         {editor && (
-          <>
-            <button
-              onClick={() =>
-                editor.chain().focus().toggleHeading({ level: 1 }).run()
-              }
-            >
-              <Heading1Icon size={18} />
-            </button>
-            <button
-              onClick={() =>
-                editor.chain().focus().toggleHeading({ level: 2 }).run()
-              }
-            >
-              <Heading2Icon size={18} />
-            </button>
-            <button
-              onClick={() =>
-                editor.chain().focus().toggleHeading({ level: 3 }).run()
-              }
-            >
-              <Heading3Icon size={18} />
-            </button>
-            <button
-              onClick={() =>
-                editor.chain().focus().toggleHeading({ level: 4 }).run()
-              }
-            >
-              본문
-            </button>
-            <button onClick={() => editor.chain().focus().toggleBold().run()}>
-              <BoldIcon size={18} />
-            </button>
-            <button onClick={() => editor.chain().focus().toggleItalic().run()}>
-              <ItalicIcon size={18} />
-            </button>
-            <button
-              onClick={() => editor.chain().focus().toggleUnderline().run()}
-            >
-              <UnderlineIcon size={18} />
-            </button>
-            <button
-              onClick={() => editor.chain().focus().toggleBlockquote().run()}
-              className={editor.isActive("blockquote") ? "is-active" : ""}
-            >
-              <QuoteIcon size={18} />
-            </button>
-            <button
-              onClick={() => editor.chain().focus().toggleOrderedList().run()}
-            >
-              <ListOrderedIcon size={18} />
-            </button>
-            <button
-              onClick={() => editor.chain().focus().toggleBulletList().run()}
-            >
-              <ListIcon size={18} />
-            </button>
-            <button
-              onClick={() => editor.chain().focus().setTextAlign("left").run()}
-            >
-              <BsJustifyLeft size={18} />
-            </button>
-            <button
-              onClick={() =>
-                editor.chain().focus().setTextAlign("center").run()
-              }
-            >
-              <BsJustify size={18} />
-            </button>
-            <button
-              onClick={() => editor.chain().focus().setTextAlign("right").run()}
-            >
-              <BsJustifyRight size={18} />
-            </button>
-            <button
-              onClick={() => editor.chain().focus().undo().run()}
-              disabled={!editor.can().undo()}
-            >
-              <Undo2Icon size={20} />
-            </button>
-            <button
-              onClick={() => editor.chain().focus().redo().run()}
-              disabled={!editor.can().redo()}
-            >
-              <Redo2Icon size={20} />
-            </button>
-            <button onClick={isLink ? setLink : unsetLink}>
-              <Link size={16} />
-            </button>
-            <button className={styles.fileButtonArea}>
-              <input
-                type="file"
-                name="file"
-                accept=".png,.jpg,.jpeg"
-                id="upload"
-                multiple={true}
-                onChange={useEnrollHook.handleChangeImg}
-                className={styles.fileInput}
-              />
-              <ImageIcon
-                aria-label="image"
-                size={16}
-                className={styles.fileButtonImg}
-              />
-            </button>
-          </>
+          <div className={styles.toolbarRow}>
+            <div id="heading" className={styles.toolbarLeft}>
+              <div className={styles.selectHeading} onClick={onToggleHeading}>
+                <span id="heading-value" className={styles.selectValue}>
+                  {headingValue}
+                </span>
+                <SelectArrow />
+              </div>
+
+              {isHeadingSelector && (
+                <>
+                  <HeadingCategoryPopup
+                    categoryList={[
+                      "제목 1",
+                      "제목 2",
+                      "제목 3",
+                      "본문 1",
+                      "본문 2",
+                      "본문 3",
+                    ]}
+                    setValue={(v: any) => setHeadingValue(v)}
+                    off={() => setIsHeadingSelector(false)}
+                  />
+                  <PopupBg off={() => setIsHeadingSelector(false)} />
+                </>
+              )}
+
+              <button
+                id="quote"
+                onClick={() => editor.chain().focus().toggleBlockquote().run()}
+                className={editor.isActive("blockquote") ? "is-active" : ""}
+              >
+                <Quote />
+              </button>
+              <button
+                id="ol"
+                onClick={() => editor.chain().focus().toggleOrderedList().run()}
+              >
+                <Ol />
+              </button>
+              <button
+                id="li"
+                onClick={() => editor.chain().focus().toggleBulletList().run()}
+              >
+                <Li />
+              </button>
+              <button
+                id="align"
+                className={styles.alignBtn}
+                onClick={() =>
+                  editor.chain().focus().setTextAlign("left").run()
+                }
+              >
+                <Align />
+              </button>
+              <button
+                id="bold"
+                onClick={() => editor.chain().focus().toggleBold().run()}
+              >
+                <Bold />
+              </button>
+              <button
+                id="italic"
+                onClick={() => editor.chain().focus().toggleItalic().run()}
+              >
+                <Italic />
+              </button>
+              <button
+                id="underline"
+                onClick={() => editor.chain().focus().toggleUnderline().run()}
+              >
+                <Underline />
+              </button>
+              <button id="color" className={styles.colorBtn}>
+                <Color />
+              </button>
+
+              <button onClick={isLink ? setLink : unsetLink}>
+                <Link />
+              </button>
+              <button id="photo" className={styles.fileButtonArea}>
+                <input
+                  type="file"
+                  name="file"
+                  accept=".png,.jpg,.jpeg"
+                  id="upload"
+                  multiple={true}
+                  onChange={useEnrollHook.handleChangeImg}
+                  className={styles.fileInput}
+                />
+                <Photo />
+              </button>
+            </div>
+
+            <div>
+              <button
+                onClick={() => editor.chain().focus().undo().run()}
+                disabled={!editor.can().undo()}
+              >
+                <Undo2Icon size={20} />
+              </button>
+              <button
+                onClick={() => editor.chain().focus().redo().run()}
+                disabled={!editor.can().redo()}
+              >
+                <Redo2Icon size={20} />
+              </button>
+            </div>
+          </div>
         )}
       </section>
     </header>

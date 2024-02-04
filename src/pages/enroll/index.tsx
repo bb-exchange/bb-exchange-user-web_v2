@@ -53,8 +53,6 @@ export default function EnrollScreen() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [useEnrollHook.tempArticle]);
 
-  console.log("?", process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI);
-
   return (
     <>
       <EnrollHeader editor={editor} useEnrollHook={useEnrollHook} />
@@ -138,13 +136,6 @@ export default function EnrollScreen() {
                   ))}
                 </ul>
               )}
-
-              {/* TODO 태그 (인스타 방식)
-  #태그1 #태그2 ...
-  입력 시 - 상단 팝업 노출
-  스페이스 감지 - 태그 추가
-  중복일 경우 - 그냥 추가됨
-*/}
               <span className={styles.inputBox}>
                 <input
                   disabled={useEnrollHook.watch("tagList")?.length >= 10}
@@ -153,7 +144,7 @@ export default function EnrollScreen() {
                   placeholder="# 멘션할 태그를 입력해주세요(최대 10개)"
                   onChange={(e) => tagHook.onChangeTag(e.target.value)}
                 />
-
+                {/* #한글자 입력시 */}
                 {tagHook.tagKeyword && <RecentTagPopup tagHook={tagHook} />}
               </span>
             </div>
@@ -272,7 +263,10 @@ export default function EnrollScreen() {
         <>
           <ErrorMsgPopup
             msg="글 수정이 완료되었습니다."
-            confirmFunc={() => useEnrollHook.setSuccessTempUpdatePopup(false)}
+            confirmFunc={() => {
+              useEnrollHook.setSuccessTempUpdatePopup(false);
+              router.push("/mypage");
+            }}
           />
           <PopupBg
             bg

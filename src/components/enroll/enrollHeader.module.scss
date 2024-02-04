@@ -9,6 +9,42 @@
   position: fixed;
   z-index: 30;
 
+  & .toolbarRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 3rem;
+  }
+
+  .selectHeading {
+    width: 132px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-right: 60px;
+
+    cursor: pointer;
+    .selectValue {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      color: #555555;
+    }
+  }
+
+  .alignBtn,
+  .colorBtn {
+    margin-right: 60px;
+  }
+
+  button {
+    margin-right: 8px;
+  }
+  //
+
   .saveBar {
     display: flex;
     justify-content: space-between;
@@ -44,6 +80,14 @@
     }
   }
 
+  .toolbarRow {
+    width: 100%;
+  }
+  .toolbarLeft {
+    display: flex;
+    align-items: center;
+  }
+
   .enrollBtn {
     width: 140px;
     height: 40px;
@@ -64,6 +108,7 @@
   }
 
   .toolBar.toolBar2 {
+    position: relative;
     display: flex;
     align-items: center;
     height: 80px;
@@ -113,20 +158,19 @@
 
   .fileButtonArea {
     position: relative;
-    .fileButtonImg {
-    }
+
     .fileInput {
       position: absolute;
       top: 0;
       left: 0;
 
+      width: 32px;
+      height: 32px;
+
       // display: block;
       opacity: 0;
       // pointer-events: none;
       // pointer-events: visible;
-
-      width: 16px;
-      height: 16px;
 
       // display: none;
       cursor: pointer;
