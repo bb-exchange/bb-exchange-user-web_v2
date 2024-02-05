@@ -29,7 +29,7 @@ const DesktopPage = () => {
         <section className={styles.section1}>
           <div>
             <h3>
-              <span>내 글을 주식처럼 거래하는 곳</span>
+              <span>글로 돈 버는 초간단 부수입 앱테크</span>
               <Image src={logo} alt="" width={326} />
               {/* <strong>비법거래소</strong> */}
             </h3>
@@ -190,7 +190,9 @@ const DesktopPage = () => {
               수익 창출하러 가기
             </button>
           </Link>
-          <Image src={banner} alt="" width={1200} />
+          <Link href={"/event"}>
+            <Image src={banner} alt="" width={1200} />
+          </Link>
         </section>
       </main>
     </>

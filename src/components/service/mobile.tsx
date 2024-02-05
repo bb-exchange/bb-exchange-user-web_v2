@@ -53,7 +53,7 @@ const DesktopPage = ({ isClient }: { isClient: boolean }) => {
       {!isClient && <MobileHeader />}
       <main className={classNames(styles.service, !isClient && styles.web)}>
         <section className={styles.section1}>
-          <span>내 글을 주식처럼 거래하는 곳</span>
+          <span>글로 돈 버는 초간단 부수입 앱테크</span>
           <strong>비법거래소</strong>
           <Image src={section1} alt="" />
 
@@ -191,7 +191,7 @@ const DesktopPage = ({ isClient }: { isClient: boolean }) => {
         </section>
 
         <section className={styles.section6}>
-          <h4 className={styles.subTitle}>
+          <h4 className={styles.section6Title}>
             당신의 꿀팁,
             <br />
             지금 바로 자산으로 바꿔보세요!
