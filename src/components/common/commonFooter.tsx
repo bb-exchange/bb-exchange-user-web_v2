@@ -21,10 +21,10 @@ export default function CommonFooter() {
               </p>
             </li>
             <li>
-              <p>
+              {/* <p>
                 <strong>통신판매업신고</strong> 2023-서울서초-1234
-              </p>
-              <p className={styles.phone}>
+              </p> */}
+              <p>
                 <strong>대표번호</strong> 1688-8078
               </p>
             </li>
@@ -56,7 +56,7 @@ export default function CommonFooter() {
         <article className={styles.bottomArea}>
           <p className={styles.infoText}>
             비법거래소는 통신판매중개시스템의 제공자로서 통신판매의 당사자가
-            아닙니다. 콘텐츠 생산, 환불 등과 광련한 의무와 책임은 판매자에게
+            아닙니다. 콘텐츠 생산, 환불 등과 관련한 의무와 책임은 판매자에게
             있습니다.
           </p>
           <ul className={styles.categoryList}>

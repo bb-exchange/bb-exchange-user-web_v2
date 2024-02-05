@@ -214,7 +214,7 @@ const Event = ({ isClient }: { isClient: boolean }) => {
           <ul>
             <li>
               <span className={styles.listMark} />
-              2024년 2월 28일 23시 59분 59초 기준 가장 높은 좋아요를 받아 가치를
+              2024년 3월 31일 23시 59분 59초 기준 가장 높은 좋아요를 받아 가치를
               인정받은 글의 소유자분께 100만원의 상금을 드려요.
             </li>
             <li>
