@@ -28,7 +28,7 @@ export default function MypageNavAside() {
               <p className={styles.key}>보유 포인트</p>
 
               <p className={styles.value}>
-                {Intl.NumberFormat().format(profile?.balance)}
+                {Intl.NumberFormat().format(profile?.settlementAmount)}
               </p>
 
               <button

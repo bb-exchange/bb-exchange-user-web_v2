@@ -5,7 +5,6 @@ import ChevronRtBlue from ".assets/icons/ChevronRtBlue.svg";
 import { useRouter } from "next/router";
 import useGetMyProfile from ".src/hooks/common/useGetProfile";
 import IconCopy from ".assets/icons/Copy.svg";
-import { RECOMMENDER_CODE } from ".src/consts/common";
 
 export default function ProfSec() {
   const router = useRouter();
@@ -23,11 +22,11 @@ export default function ProfSec() {
             <div className={styles.codeArea}>
               <span className={styles.textLine} />
               <div>추천인 코드</div>
-              <div>{RECOMMENDER_CODE}</div>
+              <div>{myProfile?.recommendCode}</div>
               <div
-                onClick={() => {
-                  navigator.clipboard.writeText(RECOMMENDER_CODE);
-                }}
+                onClick={() =>
+                  navigator.clipboard.writeText(myProfile?.recommendCode)
+                }
                 className={styles.copyIcon}
               >
                 <IconCopy />
@@ -42,15 +41,15 @@ export default function ProfSec() {
               <p className={styles.key}>보유 포인트</p>
 
               <p className={styles.value}>
-                {Intl.NumberFormat().format(myProfile?.balance)}
+                {Intl.NumberFormat().format(myProfile?.settlementAmount)}
               </p>
 
-              <button
+              {/* <button
                 className={styles.detailBtn}
                 onClick={() => router.push("/mypage/point")}
               >
                 <ChevronRtBlue />
-              </button>
+              </button> */}
             </li>
 
             <hr />
@@ -64,12 +63,12 @@ export default function ProfSec() {
                 )}
               </p>
 
-              <button
+              {/* <button
                 className={styles.detailBtn}
                 onClick={() => router.push("/mypage/asset")}
               >
                 <ChevronRtBlue />
-              </button>
+              </button> */}
             </li>
           </ul>
         </div>

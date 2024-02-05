@@ -11,6 +11,10 @@ interface profile {
   description: string;
   balance: number;
   expectedSettlementAmount: number;
+  gradeType: string;
+  profileImage: string | null;
+  recommendCode: string;
+  settlementAmount: number;
 }
 export default function useGetMyProfile() {
   const isLogin = useRecoilValue(isLoginState);

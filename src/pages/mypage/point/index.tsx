@@ -7,11 +7,13 @@ import PageNav from ".src/components/common/pageNav";
 import ScrollTopBtn from ".src/components/common/scrollTopBtn";
 import { useRouter } from "next/router";
 import { D_mypagePointCategoryList } from ".src/data/mypage/D_mypage";
+import useGetMyProfile from ".src/hooks/common/useGetProfile";
 
 export default function Point() {
   const router = useRouter();
 
   const useMyPoint = UseMyPoint();
+  const myProfile = useGetMyProfile();
 
   const DUMMY_POINT_LIST = [];
 
@@ -33,7 +35,7 @@ export default function Point() {
               <h2 className={styles.key}>보유 포인트 조회</h2>
 
               <h1 className={styles.value}>
-                {Intl.NumberFormat().format(0)} P
+                {Intl.NumberFormat().format(myProfile?.settlementAmount)} P
               </h1>
             </div>
 
