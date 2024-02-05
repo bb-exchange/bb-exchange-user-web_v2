@@ -18,7 +18,9 @@ import { useRecoilValue } from "recoil";
 import { isLoginState, userNameState } from ".src/recoil";
 import { useQuery } from "@tanstack/react-query";
 import { getEthicalPledge } from ".src/api/users/users";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import ConfirmTitlePopup from ".src/components/common/popup/confirmTitlePopup";
+import PopupBg from ".src/components/common/popupBg";
 
 interface Iprops {
   commonSort?: "인기" | "최신" | "상장" | "서비스 소개" | "이벤트";
@@ -29,6 +31,8 @@ export default function CommonHeader({ commonSort }: Iprops) {
 
   const nickname = useRecoilValue(userNameState);
   const isSignedIn = useRecoilValue(isLoginState);
+
+  const [preparePopup, setPreparePopup] = useState<boolean>(false);
 
   const isClickedEnroll = useRef<boolean>(false);
 
@@ -77,15 +81,23 @@ export default function CommonHeader({ commonSort }: Iprops) {
                 <div className={styles.imgWrap}>
                   <div
                     className={styles.shopImgWrap}
-                    onClick={() => router.push("/charge")}
+                    onClick={() => {
+                      setPreparePopup(true);
+                      //NOTE - 임시로 주석처리 (기능 미개발)
+                      // router.push("/charge")
+                    }}
                   >
                     <Shop />
                   </div>
 
-                  <div className={styles.alertImgWrap}>
+                  <div
+                    className={styles.alertImgWrap}
+                    onClick={() => setPreparePopup(true)}
+                  >
                     <Bell />
-                    <AlertCount />
-                    <AlertHoverPopup />
+                    {/* NOTE - 임시로 주석처리 (기능 미개발) */}
+                    {/* <AlertCount />
+                    <AlertHoverPopup /> */}
                   </div>
 
                   <div className={styles.profImgWrap}>
@@ -170,6 +182,19 @@ export default function CommonHeader({ commonSort }: Iprops) {
           </div>
         </article>
       </section>
+      {preparePopup && (
+        <>
+          <ConfirmTitlePopup
+            title="앗! 개발중입니다."
+            content={`비법거래소 배타버전에서는 아직 작동하지
+않는 기능입니다. 빨리 준비해볼게요!!`}
+            confirmText="확인"
+            confirmFunc={() => setPreparePopup(false)}
+            zIndex={80}
+          />
+          <PopupBg bg zIndex={70} off={() => setPreparePopup(false)} />
+        </>
+      )}
     </header>
   );
 }
