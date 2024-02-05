@@ -63,6 +63,7 @@ import { PostData } from ".src/api/interface";
 import Head from "next/head";
 import { useMakeEditor } from ".src/hooks/enroll/useMakeEditor";
 import { useComments } from ".src/hooks/post/useComments";
+import PostEditConfirmPopup from ".src/components/post/postEditConfirmPopup";
 
 // NOTE 댓글 정렬 라벨
 const commentSortByInfo: { [key in CommentSortByType]: string } = {
@@ -91,6 +92,12 @@ export default function Post() {
     enabled: isLogin,
     gcTime: Infinity,
   });
+
+  // NOTE - 내 글 비공개 전환 팝업 오픈 여부
+  const [openConfirmPrivate, setOpenConfirmPrivate] = useState<boolean>(false);
+
+  // NOTE - 내 글 수정하기 확인 팝업 오픈 여부
+  const [openConfirmEdit, setOpenConfirmEdit] = useState<boolean>(false);
 
   // NOTE URL 복사 완료 팝업 오픈 여부
   const [copied, setCopied] = useState<boolean>(false);
@@ -477,7 +484,18 @@ export default function Post() {
 
                         {hook.morePopup && (
                           <>
-                            <PostMorePopup UsePost={hook} />
+                            <PostMorePopup
+                              isMyPost={!!(currentUserData?.id === userId)}
+                              UsePost={hook}
+                              onClickSetPrivate={() => {
+                                hook.setMorePopup(false);
+                                setOpenConfirmPrivate(true);
+                              }}
+                              onClickEdit={() => {
+                                hook.setMorePopup(false);
+                                setOpenConfirmEdit(true);
+                              }}
+                            />
                             <PopupBg off={() => hook.setMorePopup(false)} />
                           </>
                         )}
@@ -717,13 +735,6 @@ export default function Post() {
               <>
                 <article className={`${styles.contArea} ${styles.limited}`}>
                   {postData?.articleInfo.content && (
-                    // <article className={styles.contArea}>
-                    //   <ReactQuill
-                    //     readOnly
-                    //     value={postData?.articleInfo.content}
-                    //     modules={{ toolbar: false }}
-                    //   />
-                    // </article>
                     <article style={{ maxHeight: "500px", overflow: "hidden" }}>
                       {editor && (
                         <EditorContent
@@ -1046,6 +1057,30 @@ export default function Post() {
           />
           <PopupBg bg off={() => setCopied(false)} />
         </>
+      )}
+
+      {/* NOTE - 내 글 비공개 전환 확인 팝업 */}
+      {openConfirmPrivate && (
+        <>
+          <ConfirmPopup
+            title="비공개로 전환하시겠습니까?"
+            content="비공개로 전환시 더 이상 홈에 노출되지 않아 추가 수익이 발생되지 않습니다. 이미 구매한 사용자는 계속 열람할 수 있습니다."
+            // TODO - 비공개/공개 처리
+            confirmFunc={() => {}}
+            cancelFunc={() => setOpenConfirmPrivate(false)}
+          />
+          <PopupBg bg off={() => setOpenConfirmPrivate(false)} />
+        </>
+      )}
+
+      {/* NOTE - 내 글 수정 여부 확인 팝업 */}
+      {openConfirmEdit && (
+        <PostEditConfirmPopup
+          isListed={postData?.articleInfo.isListed ?? false}
+          onClosePopup={() => setOpenConfirmEdit(false)}
+          // TODO - 게시글 수정 화면 전환
+          onConfirmEdit={() => {}}
+        />
       )}
     </>
   );

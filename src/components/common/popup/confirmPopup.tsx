@@ -24,7 +24,11 @@ export default function ConfirmPopup({
       <div className={styles.contentBox}>
         {title && <h1 className={styles.title}>{title}</h1>}
 
-        {content && <p className={styles.content}>{content}</p>}
+        {content && typeof content === "string" ? (
+          <p className={styles.content}>{content}</p>
+        ) : (
+          content
+        )}
       </div>
 
       <div className={styles.btnBar}>
