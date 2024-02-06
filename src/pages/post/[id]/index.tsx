@@ -13,7 +13,6 @@ import {
   updateDislikePost,
   updateLikePost,
 } from ".src/api/post/post";
-import Image from "next/image";
 import moment from "moment";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import "moment/locale/ko";
@@ -53,7 +52,7 @@ import { useRecoilValue } from "recoil";
 import { isLoginState } from ".src/recoil";
 import { currentUserInfo, hideAuthorsPosts } from ".src/api/users/users";
 // import { userArticles } from ".src/api/articles/articles";
-import ImageComp from ".src/components/Image";
+import Image from ".src/components/Image";
 import { articles } from ".src/api/articles/articles";
 import { useArticlesByUser } from ".src/hooks/posts/useArticlesByUser";
 import { CommentSortByType } from ".src/api/comments";
@@ -360,7 +359,7 @@ export default function Post() {
             paddingTop: "130px",
           }}
         >
-          <ImageComp
+          <Image
             src={"/assets/icons/loading/threeDots.gif"}
             alt={"loading dots"}
             width={150}
@@ -527,7 +526,7 @@ export default function Post() {
                       } ${styles.innerCont} ${styles.notListed}`}
                       onClick={() => onClickSetValue({ type: "like" })}
                     >
-                      <ImageComp
+                      <Image
                         src={
                           postData?.priceInfo.isLike
                             ? "/assets/icons/ThumbUpRed.svg"
@@ -632,7 +631,7 @@ export default function Post() {
                         onClick={() => setShowCommentSortByPopup(true)}
                       >
                         <span>{commentSortByInfo[commentSortBy]}</span>
-                        <ImageComp
+                        <Image
                           src={"/assets/icons/SortAscending.svg"}
                           alt={"sort"}
                           width={16}
@@ -718,7 +717,7 @@ export default function Post() {
                               justifyContent: "center",
                             }}
                           >
-                            <ImageComp
+                            <Image
                               src={"/assets/icons/loading/threeDots.gif"}
                               alt={"loading dots"}
                               width={70}
@@ -802,9 +801,10 @@ export default function Post() {
                 <article className={styles.creatorArea}>
                   <div className={styles.profImgBox} onClick={onMoveUserPage}>
                     <Image
+                      src={postData?.userInfo.image || DefaultProfImg.src}
+                      loader
                       width={48}
                       height={48}
-                      src={postData?.userInfo.image || DefaultProfImg.src}
                       alt=""
                     />
                   </div>
@@ -871,7 +871,7 @@ export default function Post() {
                     ) : (
                       <div className={styles.emptyArea}>
                         <div>
-                          <ImageComp
+                          <Image
                             src="/assets/icons/Warn.svg"
                             width={48}
                             height={48}
@@ -881,7 +881,7 @@ export default function Post() {
                           <button onClick={() => router.push("/popular")}>
                             <p>전체 인기글 보러가기</p>
 
-                            <ImageComp
+                            <Image
                               src="/assets/icons/BlackArrowRight.svg"
                               height={20}
                               width={20}
@@ -1130,7 +1130,7 @@ const ArticleItem = ({
 
           <div className={styles.thumbnailBox}>
             {thumbnail && (
-              <ImageComp
+              <Image
                 src={thumbnail}
                 loader
                 priority
