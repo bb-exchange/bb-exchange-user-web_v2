@@ -61,10 +61,10 @@ export default function Popular({
   // const usePopular = UsePopular();
 
   const router = useRouter();
+  const { query } = router;
 
   const searchType = "POPULAR";
   const category = useRecoilValue(categoryState);
-  const [page, setPage] = useState<number>(0);
 
   const isLogin = useRecoilValue(isLoginState);
   const [requestLoginPop, setRequestLoginPop] = useState<boolean>(false);
@@ -76,7 +76,7 @@ export default function Popular({
   } = useArticles({
     searchType,
     category,
-    page,
+    page: Number(query.page ?? 0),
   });
 
   function getDiffStyle(diff: number) {
@@ -110,7 +110,10 @@ export default function Popular({
   };
 
   // NOTE 페이지 변경 함수
-  const onChangePage = (pageIndex: number) => setPage(pageIndex);
+  const onChangePage = (pageIndex: number) =>
+    pageIndex === 0
+      ? router.push(router.pathname)
+      : router.push({ query: { page: pageIndex } });
 
   return (
     <HydrationBoundary state={dehydratedState}>

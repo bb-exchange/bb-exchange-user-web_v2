@@ -23,10 +23,10 @@ export default function Lastest() {
   // const customHook = UseLatest();
 
   const router = useRouter();
+  const { query } = router;
 
   const searchType = "LATEST";
   const category = useRecoilValue(categoryState);
-  const [page, setPage] = useState<number>(0);
 
   const isLogin = useRecoilValue(isLoginState);
 
@@ -39,7 +39,7 @@ export default function Lastest() {
   } = useArticles({
     searchType,
     category,
-    page,
+    page: Number(query.page ?? 0),
   });
 
   function getDiffStyle(diff: number) {
@@ -67,7 +67,10 @@ export default function Lastest() {
   };
 
   // NOTE 페이지 변경 함수
-  const onChangePage = (pageIndex: number) => setPage(pageIndex);
+  const onChangePage = (pageIndex: number) =>
+    pageIndex === 0
+      ? router.push(router.pathname)
+      : router.push({ query: { page: pageIndex } });
 
   return (
     <>

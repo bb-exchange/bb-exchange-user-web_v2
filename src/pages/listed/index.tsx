@@ -58,10 +58,10 @@ export default function Listed({
   // const customHook = useListed();
 
   const router = useRouter();
+  const { query } = router;
 
   const searchType = "LISTED";
   const category = useRecoilValue(categoryState);
-  const [page, setPage] = useState<number>(0);
 
   const isLogin = useRecoilValue(isLoginState);
 
@@ -74,7 +74,7 @@ export default function Listed({
   } = useArticles({
     searchType,
     category,
-    page,
+    page: Number(query.page ?? 0),
   });
 
   function getDiffStyle(diff: number) {
@@ -101,7 +101,10 @@ export default function Listed({
   };
 
   // NOTE 페이지 변경 함수
-  const onChangePage = (pageIndex: number) => setPage(pageIndex);
+  const onChangePage = (pageIndex: number) =>
+    pageIndex === 0
+      ? router.push(router.pathname)
+      : router.push({ query: { page: pageIndex } });
 
   // FIXME BB-337에서 컴포넌트로 분리함 full받고 적용할 것
   const imageLoader = ({
