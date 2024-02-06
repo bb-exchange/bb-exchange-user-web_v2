@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 
 import EnrollHeader from ".src/components/enroll/enrollHeader";
-import styles from "./enrollScreen.module.scss";
+import styles from "./index.module.scss";
 import "react-quill/dist/quill.snow.css";
 
 import { EditorContent } from "@tiptap/react";
@@ -18,11 +18,11 @@ import RecentTagPopup from ".src/components/enroll/recentTagPopup";
 import DraftsPopup from ".src/components/enroll/draftsPopup";
 import ConfirmPopup from ".src/components/common/popup/confirmPopup";
 import UseRecentTagPopup from ".src/hooks/enroll/useRecentTagPopup";
-import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCategory } from ".src/api/articles/category";
 import { useMakeEditor } from ".src/hooks/enroll/useMakeEditor";
 import LoadingPopup from ".src/components/common/popup/loadingPopup";
+import { useEffect } from "react";
 
 export default function EnrollScreen() {
   const router = useRouter();
@@ -31,32 +31,35 @@ export default function EnrollScreen() {
   const useEnrollHook = useEnroll(editor ?? null);
   const tagHook = UseRecentTagPopup({ useEnrollHook });
 
+  useEffect(() => {
+    useEnrollHook?.setBtnName("수정하기");
+  }, [useEnrollHook]);
+
   //NOTE - 카테고리 목록 호출
   const { data: categoryList } = useQuery({
     queryKey: ["articleCategory"],
     queryFn: fetchCategory,
   });
 
-  //NOTE - 임시 저장된 글 불러왔을 때
   useEffect(() => {
-    const article = useEnrollHook.tempArticle;
-    if (article) {
+    const data = useEnrollHook.myArticleData;
+    if (data) {
       const category = categoryList?.filter(
-        (item) => item.category === article.data.category
+        (item) => item.category === data?.boardInfo.category
       )[0];
-      useEnrollHook.setValue("title", article.data.title);
+      useEnrollHook.setValue("title", data.articleInfo.title);
       category && useEnrollHook.setValue("category", category);
 
-      const json = JSON.parse(article.data.content);
+      const json = JSON.parse(data.articleInfo.content);
       editor?.commands.setContent(json);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [useEnrollHook.tempArticle]);
+  }, [useEnrollHook.myArticleData]);
 
   return (
     <>
       <EnrollHeader
-        isEdit={false}
+        isEdit={true}
         editor={editor}
         useEnrollHook={useEnrollHook}
       />
@@ -190,23 +193,38 @@ export default function EnrollScreen() {
           <PopupBg bg off={() => useEnrollHook.setDraftsPopup(false)} />
         </>
       )}
-      {useEnrollHook.delDraftPopup && (
+      {/* 여기부터 사용 >>>  */}
+      {useEnrollHook.editListedPopup && (
         <>
           <ConfirmPopup
-            title="임시저장글을 삭제하시겠습니까?"
-            content={`선택한 임시저장글을 삭제하면
-다시 불러올 수 없습니다.`}
-            cancelFunc={() => useEnrollHook.setDelDraftPopup(false)}
-            confirmFunc={() => useEnrollHook.onDeleteTemp()}
+            title="수정을 완료하시겠습니까?"
+            content={`심사 후 재판매 가능 여부를 알람을 통해 알려
+드리겠습니다. 판매가 개시되면 7일간 글을 
+수정할 수 없습니다.`}
+            cancelFunc={() => useEnrollHook.setEditListedPopup(false)}
+            confirmFunc={() => {}}
             zIndex={80}
           />
           <PopupBg
             bg
             zIndex={70}
-            off={() => useEnrollHook.setDelDraftPopup(false)}
+            off={() => useEnrollHook.setEditListedPopup(false)}
           />
         </>
       )}
+      {useEnrollHook.editPopup && (
+        <>
+          <ErrorMsgPopup
+            msg="글 수정이 완료되었습니다."
+            confirmFunc={() => {
+              useEnrollHook.setEditPopup(false);
+              router.push("/mypage/write");
+            }}
+          />
+          <PopupBg bg off={() => useEnrollHook.setEditPopup(false)} />
+        </>
+      )}
+      {/* 여기까지  */}
       {useEnrollHook.loadDraftPopup && (
         <>
           <ConfirmPopup
@@ -263,21 +281,7 @@ export default function EnrollScreen() {
           />
         </>
       )}
-      {useEnrollHook.successTempUpdatePopup && (
-        <>
-          <ErrorMsgPopup
-            msg="글 수정이 완료되었습니다."
-            confirmFunc={() => {
-              useEnrollHook.setSuccessTempUpdatePopup(false);
-              router.push("/mypage");
-            }}
-          />
-          <PopupBg
-            bg
-            off={() => useEnrollHook.setSuccessTempUpdatePopup(false)}
-          />
-        </>
-      )}
+
       {useEnrollHook.successPostPopup && (
         <>
           <LoadingPopup message="게시글 업로드 중입니다." />

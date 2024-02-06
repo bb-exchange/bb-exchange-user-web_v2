@@ -20,7 +20,6 @@ interface mypageWritePosts {
   state?: postState;
   read?: boolean;
 }
-
 interface IwriteGetStateComp {
   styles: { readonly [key: string]: string };
   state?: postState;

@@ -1,5 +1,8 @@
 module.exports = {
   reactStrictMode: false,
+  images: {
+    domains: ["dm919p0j9c9ch.cloudfront.net"],
+  },
   output: "standalone",
   webpack(config) {
     config.module.rules.push({

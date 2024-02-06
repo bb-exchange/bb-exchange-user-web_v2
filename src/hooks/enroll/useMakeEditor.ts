@@ -129,7 +129,6 @@ export const useMakeEditor = ({ isEdit }: IProps) => {
             if (!images.length) {
               return false;
             }
-
             return commands.forEach(
               images,
               ({ node, pos }: { node: any; pos: any }) => {
@@ -181,10 +180,10 @@ export const useMakeEditor = ({ isEdit }: IProps) => {
             /**
              * 해당 코드를 실행시키면 해당 이미지를 삭제
              */
-            const pos = getPos();
+            // const pos = getPos();
             //@ts-ignore
-            editor.commands.setThumb(pos);
-
+            // editor.commands.setThumb(pos);
+            //
             // console.log("pos", pos);
             // editor.commands?.deleteImage(post);
             // editor.chain().command?.deleteImage(post).run();

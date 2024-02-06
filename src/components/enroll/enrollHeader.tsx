@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from "react";
-import { Undo2Icon, Redo2Icon } from "lucide-react";
 
 import SelectArrow from ".assets/images/tiptap/select-arrow.svg";
 import Quote from ".assets/images/tiptap/quote.svg";
@@ -8,29 +7,43 @@ import Li from ".assets/images/tiptap/li.svg";
 import Align from ".assets/images/tiptap/center.svg";
 
 import Bold from ".assets/images/tiptap/bold.svg";
+import BoldActive from ".assets/images/tiptap/bold-active.svg";
 import Italic from ".assets/images/tiptap/italic.svg";
+import ItalicActive from ".assets/images/tiptap/italic-active.svg";
 import Underline from ".assets/images/tiptap/underline.svg";
+import UnderlineActive from ".assets/images/tiptap/underline-active.svg";
 import Color from ".assets/images/tiptap/color.svg";
 
 import Link from ".assets/images/tiptap/link.svg";
 import Photo from ".assets/images/tiptap/photo.svg";
+
+import Undo from ".assets/images/tiptap/undo.svg";
+import Redo from ".assets/images/tiptap/redo.svg";
 
 import LogoBlue from ".assets/logos/LogoBlue.svg";
 import useEnroll from ".src/hooks/enroll/useEnroll";
 import styles from "./enrollHeader.module.scss";
 
 import HeadingCategoryPopup from "./headingCategoryPopup";
+// import AlignCategoryPopup from "./alignCategoryPopup";
 import PopupBg from "../common/popupBg";
 
 interface Iprops {
   editor: any;
+  isEdit: boolean;
   useEnrollHook: ReturnType<typeof useEnroll>;
 }
 
-export default function EnrollHeader({ editor, useEnrollHook }: Iprops) {
+export default function EnrollHeader({
+  editor,
+  isEdit,
+  useEnrollHook,
+}: Iprops) {
   const [isLink, setIsLink] = useState<boolean>(true);
   const [isHeadingSelector, setIsHeadingSelector] = useState<boolean>(false);
   const [headingValue, setHeadingValue] = useState<string>("본문 1");
+  const [isAlignSelector, setIsAlignSelector] = useState<boolean>(false);
+  const [alignValue, setAlignValue] = useState<string>("left");
 
   const onToggleHeading = () => {
     setIsHeadingSelector(!isHeadingSelector);
@@ -80,6 +93,24 @@ export default function EnrollHeader({ editor, useEnrollHook }: Iprops) {
     }
   }, [editor, headingValue]);
 
+  const onToggleAlignMenu = () => {
+    setAlignValue((prev) =>
+      prev === "left" ? "center" : prev === "center" ? "right" : "left"
+    );
+    // setIsAlignSelector(!isAlignSelector);
+  };
+  useEffect(() => {
+    if (!editor) return;
+
+    if (alignValue === "left") {
+      editor.chain().focus().setTextAlign("left").run();
+    } else if (alignValue === "center") {
+      editor.chain().focus().setTextAlign("center").run();
+    } else if (alignValue === "right") {
+      editor.chain().focus().setTextAlign("right").run();
+    }
+  }, [editor, alignValue]);
+
   return (
     <header className={styles.enrollHeader}>
       <section className={styles.saveBar}>
@@ -109,7 +140,6 @@ export default function EnrollHeader({ editor, useEnrollHook }: Iprops) {
               </button>
             </div>
           ) : null}
-
           {useEnrollHook.isDisabledBtn ? (
             <button
               type="button"
@@ -177,18 +207,26 @@ export default function EnrollHeader({ editor, useEnrollHook }: Iprops) {
               >
                 <Li />
               </button>
-              <button
-                id="align"
-                className={styles.alignBtn}
-                onClick={() =>
-                  editor.chain().focus().setTextAlign("left").run()
-                }
-              >
+              <button onClick={onToggleAlignMenu} className={styles.alignBtn}>
                 <Align />
               </button>
+              {/* NOTE 아이콘이 없어서 클릭 동작으로 변경함 */}
+              {/* {isAlignSelector && (
+                <>
+                  <AlignCategoryPopup
+                    categoryList={["left", "center", "right"]}
+                    setValue={(v: any) => setAlignValue(v)}
+                    off={() => setIsAlignSelector(false)}
+                  />
+                  <PopupBg off={() => setIsAlignSelector(false)} />
+                </>
+              )} */}
               <button
                 id="bold"
-                onClick={() => editor.chain().focus().toggleBold().run()}
+                onClick={() => {
+                  console.log("bold");
+                  editor.chain().focus().toggleBold().run();
+                }}
               >
                 <Bold />
               </button>
@@ -199,14 +237,15 @@ export default function EnrollHeader({ editor, useEnrollHook }: Iprops) {
                 <Italic />
               </button>
               <button
+                className={styles.colorBtn}
                 id="underline"
                 onClick={() => editor.chain().focus().toggleUnderline().run()}
               >
                 <Underline />
               </button>
-              <button id="color" className={styles.colorBtn}>
+              {/* <button id="color" className={styles.colorBtn}>
                 <Color />
-              </button>
+              </button> */}
 
               <button onClick={isLink ? setLink : unsetLink}>
                 <Link />
@@ -230,13 +269,13 @@ export default function EnrollHeader({ editor, useEnrollHook }: Iprops) {
                 onClick={() => editor.chain().focus().undo().run()}
                 disabled={!editor.can().undo()}
               >
-                <Undo2Icon size={20} />
+                <Undo />
               </button>
               <button
                 onClick={() => editor.chain().focus().redo().run()}
                 disabled={!editor.can().redo()}
               >
-                <Redo2Icon size={20} />
+                <Redo />
               </button>
             </div>
           </div>

@@ -1,7 +1,7 @@
 export const D_mypagePostCategoryList: mypageCategory[] = [
-  { url: "write", label: "작성한 글", count: 21 },
-  { url: "buy", label: "구매한 글", count: 21 },
-  { url: "like", label: "찜한 글", count: 21 },
+  { url: "write", label: "작성한 글" },
+  { url: "buy", label: "구매한 글" },
+  { url: "like", label: "찜한 글" },
 ];
 
 export const D_mypageNavList: mypageNavs[] = [

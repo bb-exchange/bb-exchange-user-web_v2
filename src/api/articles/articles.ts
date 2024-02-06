@@ -110,3 +110,29 @@ export const patchArticleTemp = async (data: IPatchAriticleTemp) =>
 // NOTE 임시 게시글 삭제
 export const deleteArticleTemp = async (articleId: number) =>
   (await basicInstance.delete(`/v1/articles/temp/${articleId}`)).data;
+
+//NOTE - 구매한 글 조회
+export const purchaseArticles = async (query: string) =>
+  (await basicInstance.get(`/v1/articles/purchase/${query}`)).data;
+
+//NOTE - 찜한글 조회
+export const interestsArticles = async (query: string) =>
+  (await basicInstance.get(`/v1/articles/interests/${query}`)).data;
+
+//NOTE - 게시글 조회
+export const getArticle = async (articleId: string) =>
+  await basicInstance
+    .get(`/v1/articles/${articleId}`)
+    .then(({ data: { data } }: { data: { data: Articles } }) => data);
+
+//NOTE - 게시글 수정
+interface IUpdateArticle {
+  articleId: string;
+  body: IArticle;
+}
+export const updateArticle = async (data: IUpdateArticle) =>
+  (await basicInstance.patch(`/v1/articles/${data.articleId}`, data.body)).data;
+
+//NOTE - 내 게시글
+export const getMyArticles = async (query: string) =>
+  (await basicInstance.get(`/v1/articles/mine/${query}`)).data;

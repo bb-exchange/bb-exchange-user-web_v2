@@ -1079,7 +1079,10 @@ export default function Post() {
           isListed={postData?.articleInfo.isListed ?? false}
           onClosePopup={() => setOpenConfirmEdit(false)}
           // TODO - 게시글 수정 화면 전환
-          onConfirmEdit={() => {}}
+          onConfirmEdit={() => {
+            // edit화면으로 보내기
+            router.push(`/edit/${articleId}`);
+          }}
         />
       )}
     </>

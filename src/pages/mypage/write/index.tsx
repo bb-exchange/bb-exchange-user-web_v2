@@ -33,7 +33,11 @@ export default function MypageWrite() {
                     onClick={() => useMypageWrite.onClickCategoryBtn(v.url)}
                   >
                     <p>
-                      {v.label} {v.count || 0}
+                      {v.label}
+                      {/* 컴포넌트 구조 이상함... 정보가 겹침 */}
+                      {/* {v.label === "작성한 글"
+                        ? useMypageWrite.postList?.totalElements
+                        : 0} */}
                     </p>
                   </li>
                 ))}
@@ -45,26 +49,30 @@ export default function MypageWrite() {
                 className={`${styles.filterOnSaleBtn} ${styles.utilBtn}`}
                 onClick={useMypageWrite.onClickFilterOnSaleBtn}
               >
-                {useMypageWrite.filterOnSale ? <BtnSqrChkOn /> : <BtnSqrChk />}
+                {useMypageWrite.filterOnSale === "Y" ? (
+                  <BtnSqrChkOn />
+                ) : (
+                  <BtnSqrChk />
+                )}
 
                 <p>상장된 글만 보기</p>
               </button>
-
               <button
                 className={`${styles.sortBtn} ${styles.utilBtn}`}
-                onClick={() => {}}
+                onClick={useMypageWrite.onSortList}
               >
                 <Swap />
-
                 <p>최신순</p>
               </button>
             </div>
           </article>
 
           <ul className={styles.postList}>
-            {useMypageWrite.postList?.map((v: mypageWritePosts, i: number) => (
-              <WritePost data={v} key={i} />
-            ))}
+            {useMypageWrite.postList?.contents.map(
+              (v: mypageWritePosts, i: number) => (
+                <WritePost data={v} key={i} />
+              )
+            )}
           </ul>
 
           <PageNav />

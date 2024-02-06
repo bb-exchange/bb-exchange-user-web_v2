@@ -7,6 +7,9 @@ import PageNav from ".src/components/common/pageNav";
 import UseMyPageRead from ".src/hooks/mypage/useMypageRead";
 import ReadPost from ".src/components/mypage/read/readPost";
 import ScrollTopBtn from ".src/components/common/scrollTopBtn";
+import { useQuery } from "@tanstack/react-query";
+import { purchaseArticles } from ".src/api/articles/articles";
+import { useState } from "react";
 
 export default function MypageWrite() {
   const useMypageRead = UseMyPageRead();
@@ -30,9 +33,7 @@ export default function MypageWrite() {
                     }
                     onClick={() => useMypageRead.onClickCategoryBtn(v.url)}
                   >
-                    <p>
-                      {v.label} {v.count || 0}
-                    </p>
+                    <p>{v.label}</p>
                   </li>
                 ))}
               </ul>
@@ -41,7 +42,7 @@ export default function MypageWrite() {
             <div className={styles.rightCont}>
               <button
                 className={`${styles.sortBtn} ${styles.utilBtn}`}
-                onClick={() => {}}
+                onClick={useMypageRead.onSortList}
               >
                 <Swap />
 
@@ -67,7 +68,7 @@ export default function MypageWrite() {
           </article>
 
           <ul className={styles.postList}>
-            {useMypageRead.postList.map((v, i) => (
+            {useMypageRead?.purchaseList?.contents?.map((v: any, i: number) => (
               <ReadPost
                 data={v}
                 index={i}

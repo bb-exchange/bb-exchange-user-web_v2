@@ -1,46 +1,39 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 
 import { D_mypagePostCategoryList } from ".src/data/mypage/D_mypage";
 import { useQuery } from "@tanstack/react-query";
-import { userArticles } from ".src/api/articles/articles";
-import { queryKeys } from ".src/recoil/query-keys";
+import { getMyArticles, userArticles } from ".src/api/articles/articles";
 import useGetMyProfile from ".src/hooks/common/useGetProfile";
 
 export default function UseMyPageWrite() {
   const router = useRouter();
-  const profile = useGetMyProfile();
 
   const categoryList: mypageCategory[] = D_mypagePostCategoryList;
   const category: mypageCategory = categoryList[0];
 
-  const [filterOnSale, setFilterOnSale] = useState<boolean>(false);
-  // const [postList, setPostList] = useState<mypageWritePosts[]>([]);
-
-  // useQuery(
-  //   queryKeys.articleById("writeByUser"),
-  //   () => userArticles(`${profile?.userId}?sortBy=LATEST&page=0`),
-  //   {
-  //     enabled: !!profile,
-  //     onSuccess: (data) => {
-  //       setPostList(data?.data.data.contents);
-  //     },
-  //     retry: false,
-  //   }
-  // );
+  const [filterOnSale, setFilterOnSale] = useState<string>("N");
+  const [sort, setSort] = useState<string>("LATEST");
 
   const { data: postList } = useQuery({
-    queryKey: queryKeys.articleById("writeByUser"),
-    queryFn: () => userArticles(`${profile?.userId}?sortBy=LATEST&page=0`),
-    enabled: !!profile,
-    select: (res) => res.data.data.contents ?? [],
+    queryKey: ["writeByUser", sort, filterOnSale],
+    queryFn: () =>
+      getMyArticles(
+        `?page=${0}&size=${20}&sortBy=${sort}&listedYn=${filterOnSale}`
+      ),
+    placeholderData: (prev) => prev,
+    select: (res) => res.data,
   });
 
   function onClickCategoryBtn(url: string) {
     router.push(`/mypage/${url}`);
   }
 
-  const onClickFilterOnSaleBtn = () => setFilterOnSale((prev) => !prev);
+  const onClickFilterOnSaleBtn = () =>
+    setFilterOnSale((prev) => (prev === "Y" ? "N" : "Y"));
+
+  const onSortList = () =>
+    setSort((prev) => (prev === "LATEST" ? "PRICE" : "LATEST"));
 
   return {
     categoryList,
@@ -49,5 +42,7 @@ export default function UseMyPageWrite() {
     onClickCategoryBtn,
     onClickFilterOnSaleBtn,
     postList,
+    setSort,
+    onSortList,
   };
 }

@@ -10,8 +10,8 @@ import PageNav from ".src/components/common/pageNav";
 import WritePost from ".src/components/mypage/write/writePost";
 import ScrollTopBtn from ".src/components/common/scrollTopBtn";
 
-export default function Mypage() {
-  let useMypageWrite = UseMyPageWrite();
+export default function MypageWrite() {
+  const useMypageWrite = UseMyPageWrite();
 
   return (
     <>
@@ -45,17 +45,19 @@ export default function Mypage() {
                 className={`${styles.filterOnSaleBtn} ${styles.utilBtn}`}
                 onClick={useMypageWrite.onClickFilterOnSaleBtn}
               >
-                {useMypageWrite.filterOnSale ? <BtnSqrChkOn /> : <BtnSqrChk />}
+                {useMypageWrite.filterOnSale === "Y" ? (
+                  <BtnSqrChkOn />
+                ) : (
+                  <BtnSqrChk />
+                )}
 
                 <p>상장된 글만 보기</p>
               </button>
-
               <button
                 className={`${styles.sortBtn} ${styles.utilBtn}`}
-                onClick={() => {}}
+                onClick={useMypageWrite.onSortList}
               >
                 <Swap />
-
                 <p>최신순</p>
               </button>
             </div>

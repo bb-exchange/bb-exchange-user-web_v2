@@ -1,15 +1,12 @@
-import { userInterestsArticles } from ".src/api/articles/articles";
+import { interestsArticles } from ".src/api/articles/articles";
 import { D_mypagePostCategoryList } from ".src/data/mypage/D_mypage";
-import { D_mypageLikePostList } from ".src/data/mypage/D_mypageLike";
 import { D_filterCategoryList } from ".src/data/mypage/D_mypageRead";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import useGetMyProfile from ".src/hooks/common/useGetProfile";
 
 export default function UseMyPageLike() {
   const router = useRouter();
-  const profile = useGetMyProfile();
 
   const categoryList: mypageCategory[] = D_mypagePostCategoryList;
   const category: mypageCategory = categoryList[2];
@@ -19,18 +16,14 @@ export default function UseMyPageLike() {
   );
   const [editMode, setEditMode] = useState<boolean>(false);
   const [postList, setPostList] = useState<mypageLikePosts[]>([]);
+  const [sort, setSort] = useState<string>("LATEST");
 
-  // useQuery(
-  //   queryKeys.articleById("likeByUser"),
-  //   () => userInterestsArticles(`${profile.userId}?sortBy=LATEST&page=0`),
-  //   {
-  //     enabled: !!profile,
-  //     onSuccess: (data) => {
-  //       setPostList(data?.data.data.contents);
-  //     },
-  //     retry: false,
-  //   }
-  // );
+  const { data: interestsList } = useQuery({
+    queryKey: ["purchaseArticles", sort],
+    queryFn: () => interestsArticles(`?page=${0}&size=${20}&sortBy=${sort}`),
+    placeholderData: (prev) => prev,
+    select: (res) => res.data,
+  });
 
   function onClickCategoryBtn(url: string) {
     router.push(`/mypage/${url}`);
@@ -56,6 +49,9 @@ export default function UseMyPageLike() {
     setPostList([..._postList]);
   }
 
+  const onSortList = () =>
+    setSort((prev) => (prev === "LATEST" ? "PRICE" : "LATEST"));
+
   return {
     categoryList,
     category,
@@ -69,5 +65,7 @@ export default function UseMyPageLike() {
     onClickSelAllBtn,
     onClickDelBtn,
     onClickSelBtn,
+    interestsList,
+    onSortList,
   };
 }

@@ -1,10 +1,11 @@
+import Link from "next/link";
 import UseWritePost from ".src/hooks/mypage/useWritePost";
 import styles from "./writePost.module.scss";
 import moment from "moment";
 import "moment/locale/ko";
 
 interface Iprops {
-  data: mypageWritePosts;
+  data: any;
 }
 
 export default function WritePost({ data }: Iprops) {
@@ -20,20 +21,26 @@ export default function WritePost({ data }: Iprops) {
       <div className={styles.leftCont}>
         <div className={styles.infoCont}>
           <div className={styles.thumbBox}>
-            <div className={styles.titleBar}>
-              <p className={`${styles.title} ${data.read ? styles.read : ""}`}>
-                {data.title}
-              </p>
+            <Link href={`/post/${data.articleInfo.articleId}`}>
+              <div className={styles.titleBar}>
+                <p
+                  className={`${styles.title} ${
+                    data.articleInfo.read ? styles.read : ""
+                  }`}
+                >
+                  {data.articleInfo.title}
+                </p>
 
-              <p className={styles.replyCount}>{`[${
-                (data.replyCount || 0) > 99 ? `+99` : data.replyCount || 0
-              }]`}</p>
-            </div>
+                <p className={styles.replyCount}>{`[${
+                  (data.replyCount || 0) > 99 ? `+99` : data.replyCount || 0
+                }]`}</p>
+              </div>
+            </Link>
 
             <div className={styles.infoBar}>
-              <p className={styles.category}>{data.category}</p>・
+              <p className={styles.category}>{data.boardInfo.description}</p>・
               <p className={styles.createdAt}>
-                {moment(data.createdAt).fromNow()}
+                {moment(data.articleInfo.createdAt).fromNow()}
               </p>
             </div>
           </div>
@@ -42,7 +49,9 @@ export default function WritePost({ data }: Iprops) {
             <li>
               <p className={styles.key}>좋아요</p>&nbsp;
               <p className={styles.value}>
-                {(data.likeCount || 0) > 999999 ? "999,999+" : data.likeCount}
+                {(data.priceInfo.likeNum || 0) > 999999
+                  ? "999,999+"
+                  : data.priceInfo.likeNum}
               </p>
             </li>
 
@@ -56,33 +65,35 @@ export default function WritePost({ data }: Iprops) {
         </div>
 
         <div className={styles.thumbnailImgBox}>
-          {data.thumbnailUrl ? <img src={data.thumbnailUrl} alt="" /> : null}
+          {data.articleInfo.thumbnail ? (
+            <img src={data.articleInfo.thumbnail} alt="" />
+          ) : null}
         </div>
       </div>
 
       <div className={styles.rightCont}>
-        {data.price ? (
+        {data.priceInfo.price ? (
           <div
             className={`${styles.priceBox} ${getDiffStyle(
-              data.percentOfChange || 0
+              data.priceInfo.changeRate || 0
             )}`}
           >
             <div className={styles.diffBox}>
               <p>
-                {`${(data.percentOfChange || 0) > 0 ? "+" : ""}${
-                  data.percentOfChange || 0
-                }% (${data.amountOfChange || 0})`}
+                {`${(data.priceInfo.changeRate || 0) > 0 ? "+" : ""}${
+                  data.priceInfo.changeRate || 0
+                }% (${data.priceInfo.changeAmount || 0})`}
               </p>
             </div>
 
             <h1 className={styles.price}>{`${new Intl.NumberFormat().format(
-              data.price || 0
+              data.priceInfo.price || 0
             )} P`}</h1>
           </div>
         ) : (
           <div className={styles.notListedBox}>
             <div className={styles.likeCountBox}>
-              <p>{`좋아요 ${data.likeCount || 0}개`}</p>
+              <p>{`좋아요 ${data.priceInfo.likeNum || 0}개`}</p>
             </div>
 
             <p className={styles.notListed}>비상장</p>

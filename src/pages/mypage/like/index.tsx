@@ -30,9 +30,7 @@ export default function MypageWrite() {
                     }
                     onClick={() => useMypageLike.onClickCategoryBtn(v.url)}
                   >
-                    <p>
-                      {v.label} {v.count || 0}
-                    </p>
+                    <p>{v.label}</p>
                   </li>
                 ))}
               </ul>
@@ -62,33 +60,36 @@ export default function MypageWrite() {
                 <>
                   <button
                     className={`${styles.sortBtn} ${styles.utilBtn}`}
-                    onClick={() => {}}
+                    onClick={useMypageLike.onSortList}
                   >
                     <Swap />
 
                     <p>최신순</p>
                   </button>
 
-                  <button
+                  {/* NOTE 잠시 기능 막아둠 */}
+                  {/* <button
                     className={styles.editModeBtn}
                     onClick={() => useMypageLike.setEditMode(true)}
                   >
                     편집
-                  </button>
+                  </button> */}
                 </>
               )}
             </div>
           </article>
 
           <ul className={styles.postList}>
-            {useMypageLike.postList.map((v, i) => (
-              <LikePost
-                data={v}
-                index={i}
-                useMypageLike={useMypageLike}
-                key={i}
-              />
-            ))}
+            {useMypageLike?.interestsList?.contents?.map(
+              (v: any, i: number) => (
+                <LikePost
+                  data={v}
+                  index={i}
+                  useMypageLike={useMypageLike}
+                  key={i}
+                />
+              )
+            )}
           </ul>
 
           <PageNav />
