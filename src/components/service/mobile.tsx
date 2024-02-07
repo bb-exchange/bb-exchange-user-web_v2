@@ -1,6 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
-import { useRecoilValue } from "recoil";
+import { useRouter } from "next/router";
 
 import section1 from "../../../public/assets/images/serviceIntroduction/section1.png";
 import mSection2 from "../../../public/assets/images/serviceIntroduction/m-section2.png";
@@ -16,12 +15,17 @@ import mBanner from "../../../public/assets/images/serviceIntroduction/m-banner.
 import mLogo from "../../../public/assets/images/serviceIntroduction/m-logo.png";
 
 import styles from "./mobile.module.scss";
-import { isLoginState } from ".src/recoil";
 import MobileHeader from "../common/header/mobileHeader";
 import classNames from "classnames";
+import ConfirmTitlePopup from ".src/components/common/popup/confirmTitlePopup";
+import PopupBg from ".src/components/common/popupBg";
+import { useEffect, useState } from "react";
 
 const DesktopPage = ({ isClient }: { isClient: boolean }) => {
-  const isSignedIn = useRecoilValue(isLoginState);
+  const router = useRouter();
+
+  const [preparePopup, setPreparePopup] = useState<boolean>(false);
+  const [isAndroid, setIsAndroid] = useState<boolean>(false);
 
   const onClickMoveToHome = () => {
     // TODO 작성하기 이동
@@ -47,7 +51,25 @@ const DesktopPage = ({ isClient }: { isClient: boolean }) => {
       BbxClient.postMessage(JSON.stringify({ destination: "guide" }));
       return;
     }
+    router.push("/guide");
   };
+
+  const onClickAppLink = () => {
+    if (isAndroid) {
+      setPreparePopup(true);
+    } else {
+      //TODO - IOS링크 연결(대기중)
+    }
+  };
+
+  useEffect(() => {
+    const userAgent = window?.navigator.userAgent.toLowerCase();
+
+    if (userAgent.indexOf("android") > -1) {
+      setIsAndroid(true);
+    }
+  }, []);
+
   return (
     <>
       {!isClient && <MobileHeader />}
@@ -61,7 +83,11 @@ const DesktopPage = ({ isClient }: { isClient: boolean }) => {
             className={`${styles.btn} ${styles.section1Btn}`}
             onClick={onClickMoveToHome}
           >
-            {isClient ? "수익 창출하러 가기" : "APP 다운받기"}
+            {isClient ? (
+              "수익 창출하러 가기"
+            ) : (
+              <div onClick={onClickAppLink}>APP 다운받기</div>
+            )}
           </button>
         </section>
 
@@ -197,11 +223,12 @@ const DesktopPage = ({ isClient }: { isClient: boolean }) => {
             지금 바로 자산으로 바꿔보세요!
           </h4>
           {!isClient ? (
-            <Link href={isSignedIn ? "/enroll" : "/auth/signin"}>
-              <button className={`${styles.btn} ${styles.section6Btn}`}>
-                수익 창출하러 가기
-              </button>
-            </Link>
+            <button
+              onClick={onClickAppLink}
+              className={`${styles.btn} ${styles.section6Btn}`}
+            >
+              수익 창출하러 가기
+            </button>
           ) : (
             <button
               className={`${styles.btn} ${styles.section6Btn}`}
@@ -211,7 +238,7 @@ const DesktopPage = ({ isClient }: { isClient: boolean }) => {
             </button>
           )}
           <button onClick={onClickMoveToEvent}>
-            <Image src={mBanner} alt="" />
+            <Image src={mBanner} alt="" onClick={() => router.push("/event")} />
           </button>
         </section>
 
@@ -223,8 +250,23 @@ const DesktopPage = ({ isClient }: { isClient: boolean }) => {
                 <strong>비법거래소</strong>를 앱으로 편리하게 이용하세요!
               </p>
             </div>
-            <p className={styles.moveAppText2}>앱으로 이용하기</p>
+            <p onClick={onClickAppLink} className={styles.moveAppText2}>
+              앱으로 이용하기
+            </p>
           </div>
+        )}
+        {preparePopup && (
+          <>
+            <ConfirmTitlePopup
+              title="안드로이드 앱 심사중!"
+              content={`안드로이드 앱은 아직 심사중입니다.
+PC를 통해 비법거래소를 만나보세요!`}
+              confirmText="확인"
+              confirmFunc={() => setPreparePopup(false)}
+              zIndex={80}
+            />
+            <PopupBg bg zIndex={70} off={() => setPreparePopup(false)} />
+          </>
         )}
       </main>
     </>

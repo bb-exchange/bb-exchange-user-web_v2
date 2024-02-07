@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRecoilValue } from "recoil";
@@ -14,6 +14,7 @@ import mLogo from "../../../public/assets/images/serviceIntroduction/m-logo.png"
 
 import styles from "./mobile.module.scss";
 import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
+import ConfirmTitlePopup from ".src/components/common/popup/confirmTitlePopup";
 import PopupBg from ".src/components/common/popupBg";
 import { isLoginState } from ".src/recoil";
 import MobileHeader from "../common/header/mobileHeader";
@@ -23,6 +24,8 @@ const Event = ({ isClient }: { isClient: boolean }) => {
   const isSignedIn = useRecoilValue(isLoginState);
 
   const [copyPopup, setCopyPopup] = useState<boolean>(false);
+  const [preparePopup, setPreparePopup] = useState<boolean>(false);
+  const [isAndroid, setIsAndroid] = useState<boolean>(false);
 
   const onLinkShare = () => {
     if (isClient) {
@@ -40,6 +43,22 @@ const Event = ({ isClient }: { isClient: boolean }) => {
     //@ts-ignore
     BbxClient.postMessage(JSON.stringify({ destination: "post" }));
   };
+
+  const onClickAppLink = () => {
+    if (isAndroid) {
+      setPreparePopup(true);
+    } else {
+      //TODO - IOS링크 연결(대기중)
+    }
+  };
+
+  useEffect(() => {
+    const userAgent = window?.navigator.userAgent.toLowerCase();
+
+    if (userAgent.indexOf("android") > -1) {
+      setIsAndroid(true);
+    }
+  }, []);
 
   return (
     <>
@@ -127,7 +146,10 @@ const Event = ({ isClient }: { isClient: boolean }) => {
 
           {!isClient && (
             <Link href={isSignedIn ? "/enroll" : "/auth/signin"}>
-              <button className={`${styles.btn} ${styles.btn1}`}>
+              <button
+                onClick={onClickAppLink}
+                className={`${styles.btn} ${styles.btn1}`}
+              >
                 100만원의 주인공 되기
               </button>
             </Link>
@@ -250,10 +272,26 @@ const Event = ({ isClient }: { isClient: boolean }) => {
                 <strong>비법거래소</strong>를 앱으로 편리하게 이용하세요!
               </p>
             </div>
-            <p className={styles.moveAppText2}>앱으로 이용하기</p>
+            <p className={styles.moveAppText2} onClick={onClickAppLink}>
+              앱으로 이용하기
+            </p>
           </div>
         )}
       </main>
+
+      {preparePopup && (
+        <>
+          <ConfirmTitlePopup
+            title="안드로이드 앱 심사중!"
+            content={`안드로이드 앱은 아직 심사중입니다.
+PC를 통해 비법거래소를 만나보세요!`}
+            confirmText="확인"
+            confirmFunc={() => setPreparePopup(false)}
+            zIndex={80}
+          />
+          <PopupBg bg zIndex={70} off={() => setPreparePopup(false)} />
+        </>
+      )}
 
       {copyPopup && (
         <>
