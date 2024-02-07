@@ -40,7 +40,7 @@ const GuidePage = ({
     <>
       <Head>
         <meta property="og:title" content="비법거래소" />
-        <meta property="og:url" content={currentUrl} />
+        <meta property="og:url" content={`${currentUrl}${pathname}`} />
         <meta
           property="og:image"
           content="/assets/images/og_image_guide_kakao.png"
