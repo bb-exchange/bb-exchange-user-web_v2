@@ -6,6 +6,9 @@ import {
 
 import DesktopPage from ".src/components/guide/desktop";
 import MobilePage from ".src/components/guide/mobile";
+import { useEffect, useState } from "react";
+import Head from "next/head";
+import { useRouter } from "next/router";
 
 export const getServerSideProps: GetServerSideProps = async (
   context: GetServerSidePropsContext
@@ -25,7 +28,39 @@ const GuidePage = ({
   isMobile,
   isClient,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  return <>{isMobile ? <MobilePage isClient={isClient} /> : <DesktopPage />}</>;
+  const { pathname } = useRouter();
+  const [currentUrl, setCurrentUrl] = useState<string>();
+  useEffect(() => {
+    if (currentUrl != null) return;
+    const url = window.location.origin;
+    setCurrentUrl(url);
+  }, [currentUrl]);
+
+  return (
+    <>
+      <Head>
+        <meta property="og:title" content="비법거래소" />
+        <meta property="og:url" content={currentUrl} />
+        <meta
+          property="og:image"
+          content="/assets/images/og_image_guide_kakao.png"
+        />
+        <meta property="og:description" content="제2의 월급, 비법거래소에서" />
+
+        <meta name="twitter:card" content="summary" />
+        <meta property="twitter:domain" content={currentUrl} />
+        <meta property="twitter:url" content={`${currentUrl}${pathname}`} />
+        <meta name="twitter:title" content="비법거래소" />
+        <meta name="twitter:description" content="제2의 월급, 비법거래소에서" />
+        <meta
+          name="twitter:image"
+          content="/assets/images/og_image_guide_x.png"
+        />
+      </Head>
+
+      {isMobile ? <MobilePage isClient={isClient} /> : <DesktopPage />}
+    </>
+  );
 };
 
 export default GuidePage;
