@@ -18,7 +18,8 @@ export default function ProfSec() {
         <div className={styles.infoCont}>
           <div className={styles.nicknameBar}>
             <h1 className={styles.nickname}>{myProfile?.nickname}</h1>
-            <Gold />
+            {/* NOTE - 기능 연결전 */}
+            {/* <Gold /> */}
             <div className={styles.codeArea}>
               <span className={styles.textLine} />
               <div>추천인 코드</div>

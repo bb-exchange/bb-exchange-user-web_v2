@@ -7,12 +7,17 @@ import PageNav from ".src/components/common/pageNav";
 import UseMyPageRead from ".src/hooks/mypage/useMypageRead";
 import ReadPost from ".src/components/mypage/read/readPost";
 import ScrollTopBtn from ".src/components/common/scrollTopBtn";
-import { useQuery } from "@tanstack/react-query";
-import { purchaseArticles } from ".src/api/articles/articles";
-import { useState } from "react";
+import { useRouter } from "next/router";
 
 export default function MypageWrite() {
+  const router = useRouter();
   const useMypageRead = UseMyPageRead();
+
+  // NOTE 페이지 변경 함수
+  const onChangePage = (pageIndex: number) =>
+    pageIndex === 0
+      ? router.push(router.pathname)
+      : router.push({ query: { page: pageIndex } });
 
   return (
     <>
@@ -78,7 +83,11 @@ export default function MypageWrite() {
             ))}
           </ul>
 
-          <PageNav />
+          <PageNav
+            totalPages={useMypageRead.purchaseList?.totalPages}
+            currentPage={useMypageRead.purchaseList?.pageNumber}
+            onChangePage={onChangePage}
+          />
         </section>
       </main>
 

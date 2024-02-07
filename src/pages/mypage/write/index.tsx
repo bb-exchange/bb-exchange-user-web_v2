@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import CommonHeader from ".src/components/common/header/commonHeader";
 import styles from "./write.module.scss";
 import CommonFooter from ".src/components/common/commonFooter";
@@ -11,7 +12,14 @@ import WritePost from ".src/components/mypage/write/writePost";
 import ScrollTopBtn from ".src/components/common/scrollTopBtn";
 
 export default function MypageWrite() {
+  const router = useRouter();
   const useMypageWrite = UseMyPageWrite();
+
+  // NOTE 페이지 변경 함수
+  const onChangePage = (pageIndex: number) =>
+    pageIndex === 0
+      ? router.push(router.pathname)
+      : router.push({ query: { page: pageIndex } });
 
   return (
     <>
@@ -75,7 +83,11 @@ export default function MypageWrite() {
             )}
           </ul>
 
-          <PageNav />
+          <PageNav
+            totalPages={useMypageWrite.postList?.totalPages}
+            currentPage={useMypageWrite.postList?.pageNumber}
+            onChangePage={onChangePage}
+          />
         </section>
       </main>
 

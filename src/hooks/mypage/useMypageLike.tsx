@@ -7,6 +7,7 @@ import { useState } from "react";
 
 export default function UseMyPageLike() {
   const router = useRouter();
+  const pageNum = Number(router.query.page ?? 0);
 
   const categoryList: mypageCategory[] = D_mypagePostCategoryList;
   const category: mypageCategory = categoryList[2];
@@ -19,8 +20,9 @@ export default function UseMyPageLike() {
   const [sort, setSort] = useState<string>("LATEST");
 
   const { data: interestsList } = useQuery({
-    queryKey: ["purchaseArticles", sort],
-    queryFn: () => interestsArticles(`?page=${0}&size=${20}&sortBy=${sort}`),
+    queryKey: ["purchaseArticles", sort, pageNum],
+    queryFn: () =>
+      interestsArticles(`?page=${pageNum}&size=${20}&sortBy=${sort}`),
     placeholderData: (prev) => prev,
     select: (res) => res.data,
   });

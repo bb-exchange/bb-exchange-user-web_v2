@@ -3,8 +3,7 @@ import { useRouter } from "next/router";
 
 import { D_mypagePostCategoryList } from ".src/data/mypage/D_mypage";
 import { useQuery } from "@tanstack/react-query";
-import { getMyArticles, userArticles } from ".src/api/articles/articles";
-import useGetMyProfile from ".src/hooks/common/useGetProfile";
+import { getMyArticles } from ".src/api/articles/articles";
 
 export default function UseMyPageWrite() {
   const router = useRouter();
@@ -15,11 +14,12 @@ export default function UseMyPageWrite() {
   const [filterOnSale, setFilterOnSale] = useState<string>("N");
   const [sort, setSort] = useState<string>("LATEST");
 
+  const pageNum = Number(router.query.page ?? 0);
   const { data: postList } = useQuery({
-    queryKey: ["writeByUser", sort, filterOnSale],
+    queryKey: ["writeByUser", sort, filterOnSale, pageNum],
     queryFn: () =>
       getMyArticles(
-        `?page=${0}&size=${20}&sortBy=${sort}&listedYn=${filterOnSale}`
+        `?page=${pageNum}&size=${20}&sortBy=${sort}&listedYn=${filterOnSale}`
       ),
     placeholderData: (prev) => prev,
     select: (res) => res.data,

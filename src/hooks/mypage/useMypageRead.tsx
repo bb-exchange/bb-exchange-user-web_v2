@@ -10,6 +10,7 @@ import { useMemo, useState } from "react";
 
 export default function UseMyPageRead() {
   const router = useRouter();
+  const pageNum = Number(router.query.page ?? 0);
 
   const categoryList: mypageCategory[] = D_mypagePostCategoryList;
   const category: mypageCategory = categoryList[1];
@@ -31,10 +32,10 @@ export default function UseMyPageRead() {
   }, [filterCategroy]);
 
   const { data: purchaseList } = useQuery({
-    queryKey: ["purchaseArticles", search, sort],
+    queryKey: ["purchaseArticles", search, sort, pageNum],
     queryFn: () =>
       purchaseArticles(
-        `?page=${0}&size=${20}&searchType=${search}&sortBy=${sort}`
+        `?page=${pageNum}&size=${20}&searchType=${search}&sortBy=${sort}`
       ),
     placeholderData: (prev) => prev,
     select: (res) => res.data,
