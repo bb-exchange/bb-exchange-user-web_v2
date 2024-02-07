@@ -32,7 +32,7 @@ const GuidePage = ({
   const [currentUrl, setCurrentUrl] = useState<string>();
   useEffect(() => {
     if (currentUrl != null) return;
-    const url = window.location.href;
+    const url = window.location.origin;
     setCurrentUrl(url);
   }, [currentUrl]);
 
@@ -40,7 +40,7 @@ const GuidePage = ({
     <>
       <Head>
         <meta property="og:title" content="비법거래소" />
-        <meta property="og:url" content={`${currentUrl}${pathname}`} />
+        <meta property="og:url" content={pathname} />
         <meta
           property="og:image"
           content="/assets/images/og_image_service_kakao.png"
@@ -49,7 +49,7 @@ const GuidePage = ({
 
         <meta name="twitter:card" content="summary" />
         <meta property="twitter:domain" content={currentUrl} />
-        <meta property="twitter:url" content={`${currentUrl}${pathname}`} />
+        <meta property="twitter:url" content={pathname} />
         <meta name="twitter:title" content="비법거래소" />
         <meta name="twitter:description" content="제2의 월급, 비법거래소에서" />
         <meta
