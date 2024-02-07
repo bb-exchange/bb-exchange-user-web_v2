@@ -1744,10 +1744,10 @@
   resolved "https://registry.npmjs.org/@tiptap/extension-blockquote/-/extension-blockquote-2.1.12.tgz"
   integrity sha512-Qb3YRlCfugx9pw7VgLTb+jY37OY4aBJeZnqHzx4QThSm13edNYjasokbX0nTwL1Up4NPTcY19JUeHt6fVaVVGg==
 
-"@tiptap/extension-bold@^2.1.12":
-  version "2.1.12"
-  resolved "https://registry.npmjs.org/@tiptap/extension-bold/-/extension-bold-2.1.12.tgz"
-  integrity sha512-AZGxIxcGU1/y6V2YEbKsq6BAibL8yQrbRm6EdcBnby41vj1WziewEKswhLGmZx5IKM2r2ldxld03KlfSIlKQZg==
+"@tiptap/extension-bold@^2.1.12", "@tiptap/extension-bold@^2.2.2":
+  version "2.2.2"
+  resolved "https://registry.npmjs.org/@tiptap/extension-bold/-/extension-bold-2.2.2.tgz"
+  integrity sha512-8/KLpPHwO+GXlWsXEION7ppLfFIaSpnw5m2QYXz/LGRK32hzpTavbdXV3rx9+Vu+7Z+0yQF9G/ro1z9dqTQHpw==
 
 "@tiptap/extension-bubble-menu@^2.1.12":
   version "2.1.12"

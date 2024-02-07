@@ -362,7 +362,7 @@ export default function useEnroll(editor: Editor | null) {
       title: watch("title"),
       category: watch("category").category,
       content: editor ? JSON.stringify({ ...editorJson }) : ``,
-      articleTagList: [],
+      articleTagList: watch("tagList"),
       thumbnailImage: watch("thumbNail") ?? "",
     };
 
@@ -388,10 +388,6 @@ export default function useEnroll(editor: Editor | null) {
     updateTempMutation,
     watch,
   ]);
-
-  // console.log("getjson", editor?.getJSON());
-  // console.log("file", files);
-  // console.log("태그", watch("tagList"));
 
   //NOTE - 임시저장 클릭 시
   const onClickEnrollTemp = () => {
@@ -441,7 +437,7 @@ export default function useEnroll(editor: Editor | null) {
         title: watch("title"),
         category: watch("category").category,
         content: JSON.stringify({ ...editorJson }),
-        articleTagList: [],
+        articleTagList: watch("tagList"),
         thumbnailImage: "",
       };
 

@@ -24,11 +24,11 @@ export default function UseRecentTagPopup({ useEnrollHook }: Iprops) {
   const handleKeywordKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (e.code === "Space") {
-        tagKeyword && useEnrollHook?.setNewTag(tagKeyword);
+        tagKeyword && useEnrollHook?.setNewTag(tagKeyword.trim());
         setTagKeyword(null);
       }
       // backspace 클릭 시 태그 삭제
-      if (e.code === "Backspace") {
+      if (!tagKeyword && e.key === "Backspace") {
         setTagKeyword(null);
       }
     },

@@ -223,10 +223,7 @@ export default function EnrollHeader({
               )} */}
               <button
                 id="bold"
-                onClick={() => {
-                  console.log("bold");
-                  editor.chain().focus().toggleBold().run();
-                }}
+                onClick={() => editor.chain().focus().toggleBold().run()}
               >
                 <Bold />
               </button>
