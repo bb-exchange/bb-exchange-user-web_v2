@@ -274,10 +274,11 @@ export default function Post() {
 
   // NOTE 유저프로필 클릭 시 유저상세페이지로 연결
   const onMoveUserPage = () => {
-    router.push({
-      pathname: `/seller/${userId}`,
-      query: { userId },
-    });
+    // TODO - 유저 상세페이지 추후개발
+    // router.push({
+    //   pathname: `/seller/${userId}`,
+    //   query: { userId },
+    // });
   };
 
   // NOTE 좋아요/싫어요 클릭
