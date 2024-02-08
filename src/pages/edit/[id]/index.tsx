@@ -245,16 +245,15 @@ export default function EnrollScreen() {
       {useEnrollHook.writeCancelPopup && (
         <>
           <ConfirmPopup
-            title="글쓰기를 취소하시겠습니까?"
-            content={`임시저장하면 나중에 이어서
-작성할 수 있습니다.`}
-            cancelText="글쓰기 취소"
+            title="수정을 취소하시겠습니까?"
+            content={`수정 작성한 내용이
+게시글에 반영되지 않습니다.`}
+            cancelText="아니요"
             cancelFunc={() => {
               useEnrollHook.setWriteCancelPopup(false);
-              router.push("/");
             }}
-            confirmText="임시저장"
-            confirmFunc={() => useEnrollHook.onClickEnrollTemp()}
+            confirmText="네"
+            confirmFunc={() => router.back()}
             zIndex={80}
           />
           <PopupBg
