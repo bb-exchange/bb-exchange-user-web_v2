@@ -1,0 +1,182 @@
+@import "/src/styles/variable";
+
+.likePost {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  cursor: pointer;
+
+  .leftCont {
+    flex: 1;
+    display: flex;
+    gap: 24px;
+    max-width: 792px;
+    overflow: hidden;
+
+    .infoCont {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+
+      .thumbBox {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        overflow: hidden;
+
+        .titleBar {
+          display: flex;
+          gap: 4px;
+          font-size: 18px;
+          line-height: 26px;
+          font-weight: 700;
+          overflow: hidden;
+
+          .title {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+
+            &.read {
+              color: $Gray1;
+            }
+          }
+
+          .replyCount {
+            color: $Primary1;
+          }
+        }
+
+        .infoBar {
+          display: flex;
+          align-items: center;
+          font-size: 14px;
+          color: $Gray1;
+
+          .category {
+            color: $Black2;
+          }
+        }
+      }
+    }
+
+    .thumbnailImgBox {
+      width: 78px;
+      height: 78px;
+      border-radius: 6px;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+
+  .rightCont {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 48px;
+
+    .priceBox {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+
+      &.up {
+        .diffBox {
+          p {
+            color: $Red1;
+          }
+        }
+
+        .price {
+          color: $Red1;
+        }
+      }
+
+      &.dn {
+        .diffBox {
+          p {
+            color: $Primary1;
+          }
+        }
+
+        .price {
+          color: $Primary1;
+        }
+      }
+
+      .diffBox {
+        color: $PrimaryBG1;
+
+        p {
+          font-size: 14px;
+          line-height: 14px;
+        }
+      }
+
+      .price {
+        font-size: 24px;
+        line-height: 34px;
+        font-weight: 700;
+      }
+    }
+
+    .notListedBox {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      color: $Black2;
+
+      .likeCountBox {
+        p {
+          font-size: 14px;
+          line-height: 14px;
+        }
+      }
+
+      .notListed {
+        font-size: 24px;
+        line-height: 34px;
+        font-weight: 700;
+      }
+    }
+
+    .favBtn {
+      display: flex;
+      align-items: center;
+    }
+
+    .stateBox {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 78px;
+      font-weight: 700;
+      color: $Gray1;
+
+      &.red {
+        color: $Red1;
+      }
+
+      &.blue {
+        .state {
+          color: $Primary1;
+        }
+      }
+
+      .explainBox {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+      }
+    }
+  }
+}

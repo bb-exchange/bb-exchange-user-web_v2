@@ -1,6 +1,8 @@
 @import "reset";
 @import "colors";
 @import "_variable";
+@import "customDatePicker";
+@import "customTiptap";
 
 * {
   box-sizing: border-box;
@@ -9,15 +11,18 @@
 }
 
 body {
-  font-family: Regular;
+  font-family: pretendard;
   font-size: 16px;
   color: $Black1;
   line-height: 1.4;
-  overflow: hidden;
+  // overflow: hidden;
   height: 100%;
+
+  user-select: none;
 }
 
-input {
+input,
+textarea {
   font-size: inherit;
   color: inherit;
   background: unset;
@@ -44,6 +49,10 @@ button {
   background: none;
   border: none;
   cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 }
 
 *::-webkit-outer-spin-button,
@@ -56,87 +65,14 @@ button {
   position: relative;
 }
 
-.react-datepicker {
-  &:first-child {
-    font-family: Regular;
-    border: 1px solid $Primary1;
-    border-radius: 10px;
-  }
-  position: absolute;
-  top: 0;
-  left: 0;
+@font-face {
+  font-family: pretendard;
+  font-weight: 400;
+  src: url("../../public/assets/fonts/Pretendard-Regular.woff2");
+}
 
-  .react-datepicker__header {
-    background-color: transparent;
-    color: $Black1;
-    border-bottom: none;
-    border-radius: 0;
-    padding: 0;
-
-    .react-datepicker__day-names {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      height: 20px;
-      padding: 0px 24px;
-
-      .react-datepicker__day-name {
-        &:first-child {
-          color: $Red1;
-        }
-        color: #999;
-        font-size: 12px;
-        font-family: Bold;
-        width: 35px;
-      }
-    }
-  }
-
-  // 닫기 있을 경우 bottom padding 수정 해야함
-  .react-datepicker__month {
-    padding: 10px 24px;
-
-    .react-datepicker__week {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      .react-datepicker__day {
-        &:hover {
-          border-radius: 50%;
-        }
-
-        &:first-child {
-          color: $Red1;
-        }
-      }
-
-      .react-datepicker__day--selected {
-        background-color: $Primary1;
-        border-radius: 50%;
-        font-weight: Bold;
-        &:first-child {
-          color: $White1;
-        }
-      }
-
-      .react-datepicker__day--keyboard-selected {
-        background-color: transparent;
-        border-radius: 50%;
-
-        &:hover {
-          background-color: #f0f0f0;
-        }
-      }
-
-      .react-datepicker__day--outside-month {
-        cursor: default;
-        visibility: hidden;
-      }
-    }
-  }
-
-  .react-datepicker__triangle {
-    display: none;
-  }
+@font-face {
+  font-family: pretendard;
+  font-weight: 700;
+  src: url("../../public/assets/fonts/Pretendard-Bold.woff2");
 }

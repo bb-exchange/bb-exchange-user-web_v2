@@ -1,0 +1,72 @@
+@import "/src/styles/variable";
+@import "/src/styles/colors.scss";
+.setting {
+  padding: 200px 0 120px;
+  background-color: $Primary5;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+  .contentBox {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+  .titleWrap {
+    display: flex;
+    max-width: 1194px;
+    width: 100%;
+    justify-content: start;
+    h2 {
+      font-weight: 700;
+      font-size: 32px;
+    }
+  }
+
+  .gridBoxWrap {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    .box {
+      width: 587px;
+      background-color: $White1;
+      height: 100%;
+      border-radius: 12px;
+      padding: 40px;
+      display: flex;
+      h3 {
+        font-size: 18px;
+        font-weight: 700;
+      }
+      span {
+        display: block;
+      }
+      .smallText {
+        font-size: 12px;
+        color: $Gray1;
+      }
+      h3,
+      ul {
+        width: 50%;
+      }
+      li {
+        padding: 12px 0;
+        color: $Black2;
+        font-size: 18px;
+      }
+      li:first-of-type {
+        padding-top: 0;
+      }
+      li:not(.boxAlert) {
+        cursor: pointer;
+      }
+
+      .boxAlert {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+  }
+}

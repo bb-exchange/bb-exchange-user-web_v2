@@ -1,0 +1,219 @@
+import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { useRecoilValue } from "recoil";
+
+import eventText from "../../../public/assets/images/event/event-text.png";
+import event1 from "../../../public/assets/images/event/event1.png";
+import event2 from "../../../public/assets/images/event/event2.png";
+import enrollImg from "../../../public/assets/images/event/enroll-img.png";
+import likeImg from "../../../public/assets/images/event/like-img.png";
+import codeImg from "../../../public/assets/images/event/code.png";
+import promotionImg from "../../../public/assets/images/event/promotion.png";
+
+import CommonHeader from ".src/components/common/header/commonHeader";
+import styles from "./desktop.module.scss";
+import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
+import PopupBg from ".src/components/common/popupBg";
+import { isLoginState } from ".src/recoil";
+
+const Event = () => {
+  const isSignedIn = useRecoilValue(isLoginState);
+
+  const [copyPopup, setCopyPopup] = useState<boolean>(false);
+
+  const onLinkShare = () => {
+    setCopyPopup(true);
+    window.navigator.clipboard.writeText("https://stage-bibeop.com/event");
+  };
+
+  return (
+    <>
+      <CommonHeader />
+      <main className={styles.eventPage}>
+        <section className={styles.section1}>
+          <p className={styles.section1SubTitle}>100만원의 주인공은 누구?</p>
+          <Image src={eventText} alt="" width={703} />
+          <div className={styles.section1Box}>
+            이직, 결혼, 육아, 취준 등 묵혀둔
+            <br />
+            나의 꿀팁들을 공유하면 <strong>100만 원</strong>을 드려요!
+          </div>
+        </section>
+        <section className={styles.section2}>
+          <Image src={event1} alt="" width={180} />
+          <p className={styles.sectionInfo}>
+            최강 비법 선발전!
+            <br />
+            출시 기념 <strong>100만 원</strong> 쏩니다
+          </p>
+          <div className={styles.eventBox}>
+            <div className={styles.eventTop}>
+              <div className={styles.box}>
+                <div>
+                  <span className={styles.title}>참여 방법</span>
+                  <p className={styles.subTitle1}>
+                    비법거래소에 내가 가진
+                    <br /> 궁극의 꿀팁, 경험, 노하우 등의{" "}
+                    <strong className={styles.blueText}>비법</strong>을 올려요.
+                  </p>
+                </div>
+                <Image src={enrollImg} alt="" width={209} />
+              </div>
+
+              <div className={styles.box}>
+                <div>
+                  <span className={styles.title}>선정 방법</span>
+                  <p className={styles.subTitle2}>
+                    이벤트 기간 내 비법거래소에서
+                    <br />
+                    <strong className={styles.redText}>
+                      가장 높은 좋아요
+                    </strong>{" "}
+                    수를 받으면 돼요.
+                  </p>
+                </div>
+                <Image src={likeImg} alt="" width={160} />
+              </div>
+            </div>
+
+            <div className={styles.eventBottom}>
+              <div>
+                <div className={styles.bottomTitle}>꿀팁 1</div>
+                <p className={styles.bottomText}>
+                  내 글을 친구들 혹은 SNS를 통해
+                  <br />
+                  열심히 홍보해서 좋아요를 늘려도 좋아요.
+                </p>
+              </div>
+              <div>
+                <div className={styles.bottomTitle}>꿀팁 2</div>
+                <p className={styles.bottomText}>
+                  어떤 글이 인기 많을지 모르니,
+                  <br />
+                  여러 개의 글을 써서 1등 확률을 높이세요.
+                </p>
+              </div>
+            </div>
+          </div>
+          <Link href={isSignedIn ? "/enroll" : "/auth/signin"}>
+            <button className={`${styles.btn} ${styles.btn1}`}>
+              100만원의 주인공 되기
+            </button>
+          </Link>
+        </section>
+
+        <section className={styles.section3}>
+          <Image src={event2} alt="" width={180} />
+          <p className={styles.sectionInfo}>
+            꿀팁 많고, 글 잘 쓰는 <strong>친구 초대하기!</strong>
+            <br />
+            친구가 1등 하면, 친구도 나도 100만 원 받아요.
+          </p>
+
+          <div className={styles.eventBox}>
+            <div className={styles.section3EventTop}>
+              <div>
+                <div className={styles.box}>
+                  <div>
+                    <span className={styles.title}>참여 방법</span>
+                    <p className={styles.subTitle1}>
+                      글 잘쓰는 친구를 초대하고,
+                      <br />
+                      <strong className={styles.redText}>
+                        친구의 글이 1등
+                      </strong>
+                      하길 기도해요.
+                    </p>
+                  </div>
+                </div>
+
+                <div className={styles.box}>
+                  <div>
+                    <span className={styles.title}>선정 방법</span>
+                    <p className={styles.subTitle2}>
+                      친구가 1등하면 친구는 물론
+                      <br />
+                      초대한{" "}
+                      <strong className={styles.blueText}>나도 100만 원</strong>
+                      을 받아요.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <Image src={codeImg} alt="" width={273} />
+            </div>
+
+            <div className={styles.eventBottom}>
+              <div>
+                <div className={styles.bottomTitle}>꿀팁 1</div>
+                <p className={styles.bottomText}>
+                  친구의 글도 SNS를 통해
+                  <br />
+                  열심히 홍보해서 좋아요를 늘려도 좋아요.
+                </p>
+              </div>
+              <Image
+                src={promotionImg}
+                alt=""
+                width={163}
+                className={styles.promotImg}
+              />
+            </div>
+          </div>
+          <button
+            onClick={onLinkShare}
+            className={`${styles.btn} ${styles.btn2}`}
+          >
+            이벤트 공유하기
+          </button>
+        </section>
+
+        <div className={styles.footer}>
+          <div className={styles.footerTitle}>이벤트 유의사항</div>
+          <ul>
+            <li>
+              <span className={styles.listMark} />
+              2024년 3월 31일 23시 59분 59초 기준 가장 높은 좋아요를 받아 가치를
+              인정받은 글의 소유자분께 100만원의 상금을 드려요.
+            </li>
+            <li>
+              <span className={styles.listMark} />
+              EVENT 2는 친구가 가입할 경우, 추천인 코드를 꼭 입력해야해요.
+              추천인 코드는 마이페이지에서 찾을 수 있어요.
+            </li>
+            <li>
+              <span className={styles.listMark} />
+              하나의 계정으로 여러개의 게시글을 작성하여 참여할 수 있어요.
+            </li>
+            <li>
+              <span className={styles.listMark} />
+              비법거래소에서 좋아요를 받은 글만 인정돼요.
+            </li>
+            <li>
+              <span className={styles.listMark} />
+              어뷰징 행위가 확인된 계정들은 영구 이용제한 조치되며, 상금 이벤트
+              대상에서 제외돼요.
+            </li>
+            <li>
+              <span className={styles.listMark} />
+              제세공과금은 비법거래소가 대신 내드려요.
+            </li>
+          </ul>
+        </div>
+      </main>
+
+      {copyPopup && (
+        <>
+          <ErrorMsgPopup
+            msg="URL이 복사되었습니다."
+            confirmFunc={() => setCopyPopup(false)}
+          />
+          <PopupBg bg off={() => setCopyPopup(false)} />
+        </>
+      )}
+    </>
+  );
+};
+
+export default Event;

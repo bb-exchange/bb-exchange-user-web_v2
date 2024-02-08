@@ -1,0 +1,125 @@
+@import "/src/styles/variable";
+
+.profSec {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 24px;
+  background: $Primary4;
+  border-radius: 12px;
+
+  .leftArea {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+
+    .defaultProfImgBox {
+      width: 80px;
+      height: 80px;
+    }
+    .profImgBtn {
+      width: 80px;
+      height: 80px;
+      background: $White1;
+      border: 1px solid $Gray2;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+
+    .infoCont {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 676px;
+
+      .nicknameBar {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        .nickname {
+          font-weight: 700;
+        }
+      }
+
+      .profMsg {
+        font-size: 14px;
+        line-height: 22px;
+      }
+
+      .accountList {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        hr {
+          width: 1px;
+          height: 12px;
+          background: $Gray3;
+        }
+
+        li {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          font-size: 14px;
+          font-weight: 700;
+
+          .key {
+            color: $Black2;
+          }
+
+          .value {
+            color: $Primary1;
+          }
+
+          button {
+            display: flex;
+            align-items: center;
+          }
+        }
+      }
+    }
+  }
+
+  .rightArea {
+    .profBtn {
+      height: 42px;
+      padding: 0 12px;
+      background: $White1;
+      border-radius: 8px;
+
+      p {
+        font-size: 14px;
+        color: $Primary1;
+      }
+    }
+  }
+
+  .codeArea {
+    display: flex;
+    align-items: center;
+
+    color: #9f9f9f;
+    font-size: 14px;
+    font-weight: 700;
+
+    gap: 8px;
+
+    .textLine {
+      width: 1px;
+      height: 12px;
+      background-color: #d9d9d9;
+      margin-left: 8px;
+      margin-right: 4px;
+    }
+
+    .copyIcon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      cursor: pointer;
+    }
+  }
+}

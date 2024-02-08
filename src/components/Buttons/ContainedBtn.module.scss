@@ -1,0 +1,16 @@
+@import "../../styles/colors.scss";
+
+.containedBtn {
+  font-size: 14px;
+  font-weight: 700;
+  background-color: $Primary1;
+  color: $White1;
+  border-radius: 8px;
+  padding: 8px 12px;
+  min-width: 86px;
+  height: 100%;
+  cursor: pointer;
+  &:disabled {
+    background-color: $Gray3;
+  }
+}

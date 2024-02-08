@@ -1,0 +1,28 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": [
+          "SZ42T8W24M.com.teambbx.bibub",
+          "SZ42T8W24M.com.teambbx.bibub.dev"
+        ],
+        "components": [
+          {
+            "#": "no_universal_links",
+            "exclude": true
+          },
+          {
+            "/": "/post",
+            "exclude": true
+          },
+          {
+            "/": "/post/*",
+            "?": {
+              "articleID": "*"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

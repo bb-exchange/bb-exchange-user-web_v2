@@ -1,0 +1,9 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.teambbx.bibub",
+    "sha256_cert_fingerprints":
+    ["D9:A2:7E:BD:D2:7A:C5:8A:C0:70:A2:74:01:66:3B:66:5F:A2:A1:E6:25:FB:BC:23:D1:07:F5:89:30:2F:39:55"]
+  }
+}]

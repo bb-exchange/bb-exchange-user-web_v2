@@ -1,0 +1,54 @@
+@import "/src/styles/variable";
+@import "/src/styles/colors.scss";
+
+#faq {
+  padding: 200px 0 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: $Black3;
+    padding-bottom: 24px;
+  }
+  .faqLists,
+  h2 {
+    max-width: 793px;
+    width: 100%;
+  }
+  h2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .grayText {
+      color: $Gray1;
+      font-size: 16px;
+      font-weight: 400;
+    }
+  }
+
+  .faqLists {
+    margin-bottom: 60px;
+    li {
+      padding: 24px 0;
+      border-top: 1px solid $Gray3;
+      cursor: pointer;
+      p {
+        color: $Black3;
+        font-size: 16px;
+        margin-bottom: 2px;
+      }
+      .blueText {
+        color: $Primary1;
+        font-weight: 700;
+        font-size: 18px;
+      }
+      span {
+        color: $Gray1;
+        font-size: 14px;
+      }
+    }
+  }
+}

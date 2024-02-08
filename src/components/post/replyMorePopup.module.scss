@@ -1,0 +1,31 @@
+@import "/src/styles/variable";
+
+.replyMorePopup {
+  display: flex;
+  flex-direction: column;
+  width: 160px;
+  background: $White1;
+  box-shadow: 0px 1px 8px 0px #00000014;
+  border-radius: 20px;
+  top: 32px;
+  right: 0;
+  position: absolute;
+  z-index: 60;
+
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 36px;
+
+    &:nth-of-type(n + 2) {
+      border-top: 1px solid $Gray2;
+    }
+
+    p {
+      font-size: 13px;
+      text-align: center;
+      color: $Black2;
+    }
+  }
+}

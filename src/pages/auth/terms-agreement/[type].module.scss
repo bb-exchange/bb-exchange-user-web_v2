@@ -1,0 +1,46 @@
+@import "/src/styles/variable";
+
+.termsPopup {
+  .bg {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    background: #000;
+    opacity: 0.4;
+  }
+  .contentBox {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 28px 28px 32px 28px;
+    background: $White1;
+    border-radius: 20px;
+    top: 50%;
+    left: 50%;
+    position: fixed;
+    z-index: 10;
+    transform: translate(-50%, -50%);
+    width: 588px;
+    max-height: 638px;
+    gap: 16px;
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      h2 {
+        font-size: 24px;
+        font-weight: 700;
+      }
+      .iconX {
+        cursor: pointer;
+        margin-top: -6px;
+      }
+    }
+    .notionContent {
+      overflow-y: scroll;
+      margin-right: 5px;
+    }
+  }
+}

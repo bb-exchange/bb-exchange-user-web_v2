@@ -1,0 +1,40 @@
+@import "/src/styles/variable";
+
+.textPopup {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  height: 100%;
+  padding: 25px 20px 25px 25px;
+  background: $White1;
+  border-radius: 20px;
+  top: 50%;
+  left: 50%;
+  position: fixed;
+  z-index: 60;
+  transform: translate(-50%, -50%);
+  width: 588px;
+  max-height: 638px;
+
+  .title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  h2 {
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  .iconX {
+    cursor: pointer;
+  }
+  .content {
+    font-size: 16px;
+
+    color: $Black1;
+
+    overflow-y: scroll;
+  }
+}

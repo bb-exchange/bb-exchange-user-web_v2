@@ -1,0 +1,79 @@
+@import "../../../styles/colors.scss";
+@import "../../../styles/variable.scss";
+
+#termsAgreement {
+  .title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 44px;
+  }
+  .wrapList {
+    width: 363px;
+    margin-bottom: 44px;
+    .division {
+      width: 343px;
+      border-bottom: 1px solid $Gray3;
+    }
+    li {
+      padding: 12px 0px;
+      color: $Black2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .overAge {
+      justify-content: unset;
+      .iconCaution {
+        margin-left: 5px;
+        cursor: pointer;
+      }
+    }
+    .allAgreement {
+      font-weight: 700;
+    }
+    section {
+      .check {
+        display: none;
+      }
+      label {
+        position: relative;
+        padding-left: 28px;
+        cursor: pointer;
+      }
+      label::before {
+        content: "";
+        display: inline-block;
+        position: absolute;
+        left: 0;
+        top: 1px;
+        width: 16px;
+        height: 16px;
+        background: url("/assets/icons/Unchecked.svg") no-repeat;
+        margin-right: 8px;
+      }
+
+      .check:checked + label::before {
+        background: url("/assets/icons/CheckCircleSmall.svg") no-repeat;
+      }
+    }
+    .iconWrap {
+      padding: 0 20px;
+      cursor: pointer;
+    }
+  }
+  ul + button {
+    width: 100%;
+    padding: 14px 16px;
+    background: #d9d9d9;
+    border-radius: 8px;
+    color: $White1;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: unset;
+
+    &.active {
+      background-color: $Primary1;
+      cursor: pointer;
+    }
+  }
+}

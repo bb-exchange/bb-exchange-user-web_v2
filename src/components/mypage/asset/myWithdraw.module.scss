@@ -1,0 +1,88 @@
+@import "/src/styles/variable";
+
+.myWithdraw {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  .topBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .filterCont {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+
+      .key {
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 22px;
+      }
+    }
+
+    .excelBtn {
+      display: flex;
+      align-items: center;
+      height: 44px;
+      padding: 0 16px;
+      border: 1px solid $Gray3;
+      border-radius: 8px;
+    }
+  }
+
+  .dataList {
+    min-height: 200px;
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 26px 0;
+      border-bottom: 1px solid #ededed;
+
+      .leftBox {
+        .creatdAt {
+          font-weight: 700;
+        }
+      }
+
+      .rightBox {
+        display: flex;
+        align-items: center;
+        gap: 26px;
+
+        .status {
+          color: $Gray1;
+
+          &.on {
+            color: $Primary1;
+          }
+        }
+
+        .amount {
+          font-size: 18px;
+          font-weight: 700;
+        }
+      }
+    }
+  }
+}
+
+.dateLayout {
+  display: flex;
+  align-items: center;
+
+  span {
+    display: flex;
+    cursor: pointer;
+  }
+  span:last-child {
+    transform: rotate(180deg);
+  }
+  p {
+    margin-top: 1px;
+    padding: 0 12px;
+  }
+}

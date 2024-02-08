@@ -1,0 +1,48 @@
+@import "/src/styles/variable";
+@import "/src/styles/colors.scss";
+
+#boardDetail {
+  padding: 200px 0 180px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: $Black3;
+    padding-bottom: 24px;
+  }
+  .content,
+  h2 {
+    max-width: 801px;
+    width: 100%;
+  }
+  .content {
+    li {
+      border-top: 1px solid $Gray3;
+    }
+    li:first-of-type {
+      padding: 24px 0px;
+    }
+    li:last-of-type {
+      padding: 40px 0 24px;
+    }
+
+    .title {
+      color: $Black3;
+      font-size: 24px;
+      font-weight: 700;
+      padding-bottom: 8px;
+    }
+    .regDate {
+      color: $Gray1;
+      font-size: 14px;
+    }
+    .description {
+      color: $Black2;
+      font-size: 18px;
+      line-height: 28px;
+    }
+  }
+}
