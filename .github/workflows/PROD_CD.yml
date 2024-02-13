@@ -1,19 +1,18 @@
-name: CD
+name: PROD_CD
 
 on:
   push:
     branches:
       - main
-      - dev
   workflow_dispatch:
 
 env:
   AWS_REGION: ap-northeast-2
-  ECR_REPOSITORY: bb-exchange-user-web
-  ECS_TASK_DEFINITION: bb-exchange-user-web
-  CONTAINER_NAME: bb-exchange-user-web
-  ECS_SERVICE: bb-exchange-user-web
-  ECS_CLUSTER: bb-public
+  ECR_REPOSITORY: prod-bibeop-user-web
+  ECS_TASK_DEFINITION: bibeop-user-web
+  CONTAINER_NAME: bibeop-user-web
+  ECS_SERVICE: bibeop-user-web
+  ECS_CLUSTER: prod-bibeop
 
 permissions:
   id-token: write
@@ -22,7 +21,7 @@ permissions:
 
 jobs:
   build-and-push:
-    if: ${{ github.event.pull_request.merged }} && ${GITHUB_REF##*/ == 'main'}
+    if: ${{ github.event.pull_request.merged }} && ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -31,7 +30,7 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: ${{ secrets.AWS_GITHUB_ACTION_STG_ROLE }}
+          role-to-assume: ${{ secrets.AWS_GITHUB_ACTION_PRD_ROLE }}
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Cache npm and next
@@ -54,7 +53,7 @@ jobs:
 
       - name: Clean Install modules
         run: npm ci
-     
+
       - name: Generate Environment Variables File for Production
         run: |
           touch .env.production
