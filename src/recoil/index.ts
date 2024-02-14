@@ -35,4 +35,9 @@ const userNameState = atom<string | null>({
   effects_UNSTABLE: [persistAtomEffect],
 });
 
-export { categoryState, isLoginState, userNameState };
+const selectedEditorNodeState = atom<number | null>({
+  key: "selectedEditorNodeState",
+  default: null,
+});
+
+export { categoryState, isLoginState, userNameState, selectedEditorNodeState };
