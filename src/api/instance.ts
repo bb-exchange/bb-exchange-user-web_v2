@@ -2,10 +2,7 @@ import axios, { HeadersDefaults } from "axios";
 import jwtDecode, { JwtPayload } from "jwt-decode";
 import { getCookie, setCookie, deleteCookie } from "cookies-next";
 
-const baseURL =
-  process.env.NODE_ENV === "production"
-    ? process.env.NEXT_PUBLIC_PROD_BASE_URL
-    : process.env.NEXT_PUBLIC_BASE_URL;
+const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
 
 let refreshing_token: any = null;
 
