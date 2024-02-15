@@ -41,9 +41,6 @@ const inputRegex = /!\[(.+|:?)]\((\S+)(?:(?:\s+)["'](\S+)["'])?\)/;
 declare module "@tiptap/core" {
   interface Commands<ReturnType> {
     customExtension: {
-      /**
-       * Comments will be added to the autocomplete.
-       */
       setImage: (options: any) => ReturnType;
       setThumb: (nodePos: any) => ReturnType;
       deleteImage: (nodePos: number) => ReturnType;
@@ -55,7 +52,6 @@ interface IProps {
   isEdit: boolean;
 }
 export const useMakeEditor = ({ isEdit }: IProps) => {
-  const useEnrollHook = useEnroll(null);
   const setEditorNodePos = useSetRecoilState(selectedEditorNodeState);
 
   const Figure = Node.create({

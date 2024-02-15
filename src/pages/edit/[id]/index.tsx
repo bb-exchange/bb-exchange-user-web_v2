@@ -41,8 +41,10 @@ export default function EnrollScreen() {
     queryFn: fetchCategory,
   });
 
+  //NOTE - tiptap 게시글 출력
   useEffect(() => {
     const data = useEnrollHook.myArticleData;
+
     if (data) {
       const category = categoryList?.filter(
         (item) => item.category === data?.boardInfo.category
