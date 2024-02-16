@@ -131,22 +131,10 @@ export default function Setting() {
           <div className={styles.box}>
             <h3>약관 및 정책</h3>
             <ul>
-              <li
-                onClick={() =>
-                  router.push({
-                    pathname: "/terms/service",
-                  })
-                }
-              >
+              <li onClick={() => window.open("/terms/service")}>
                 서비스 이용약관
               </li>
-              <li
-                onClick={() =>
-                  router.push({
-                    pathname: "/terms/privacy",
-                  })
-                }
-              >
+              <li onClick={() => window.open("/terms/privacy")}>
                 개인정보 처리방침
               </li>
             </ul>
