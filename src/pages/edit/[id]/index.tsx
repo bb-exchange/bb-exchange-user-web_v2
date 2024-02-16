@@ -6,6 +6,7 @@ import "react-quill/dist/quill.snow.css";
 
 import { EditorContent } from "@tiptap/react";
 
+import EnrollGuid from ".assets/icons/EnrollGuid.svg";
 import useEnroll from ".src/hooks/enroll/useEnroll";
 import ChevronDn from ".assets/icons/ChevronDn.svg";
 import CellPhoneBlue from ".assets/icons/CellPhoneBlue.svg";
@@ -22,7 +23,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchCategory } from ".src/api/articles/category";
 import { useMakeEditor } from ".src/hooks/enroll/useMakeEditor";
 import LoadingPopup from ".src/components/common/popup/loadingPopup";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function EnrollScreen() {
   const router = useRouter();
@@ -30,6 +31,8 @@ export default function EnrollScreen() {
   const { editor } = useMakeEditor({ isEdit: true });
   const useEnrollHook = useEnroll(editor ?? null);
   const tagHook = UseRecentTagPopup({ useEnrollHook });
+
+  const [guideTooltip, setGuideTooltip] = useState(false);
 
   useEffect(() => {
     useEnrollHook?.setBtnName("수정하기");
@@ -159,6 +162,26 @@ export default function EnrollScreen() {
             </div>
           </form>
         </article>
+        <button
+          onMouseOver={() => setGuideTooltip(true)}
+          onMouseLeave={() => setGuideTooltip(false)}
+          className={`${styles.phoneScreenBtn} ${styles.enrollGuideBtn}`}
+          onClick={() => router.push("/serviceIntroduction")}
+        >
+          <p>작성 가이드</p>
+
+          <span className={styles.imgBox}>
+            <EnrollGuid />
+          </span>
+        </button>
+
+        {guideTooltip && (
+          <div className={styles.guideTooltip}>
+            <p>어떤 글을 작성해야할 지 모르겠다면?</p>
+            <span className={styles.tooltipArrow} />
+          </div>
+        )}
+
         <button
           className={styles.phoneScreenBtn}
           onClick={() => useEnrollHook.setMobileView(!useEnrollHook.mobileView)}
