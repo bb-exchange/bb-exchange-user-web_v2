@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import {
+  deletePost,
   postById,
   updateDislikePost,
   updateLikePost,
@@ -43,6 +44,7 @@ import PostMorePopup from ".src/components/post/postMorePopup";
 import ReportPostPopup from ".src/components/post/reportPostPopup";
 import ReportUserPopup from ".src/components/post/reportUserPopup";
 import ConfirmPopup from ".src/components/common/popup/confirmPopup";
+import ConfirmTitlePopup from ".src/components/common/popup/confirmTitlePopup";
 import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
 import HeartRedO from ".assets/icons/HeartRedO.svg";
 import HeartGrey from ".assets/icons/HeartGrey.svg";
@@ -64,6 +66,7 @@ import { useMakeEditor } from ".src/hooks/enroll/useMakeEditor";
 import { useComments } from ".src/hooks/post/useComments";
 import PostEditConfirmPopup from ".src/components/post/postEditConfirmPopup";
 import classNames from "classnames";
+import PostDeleteConfirmPopup from ".src/components/post/PostDeleteConfirmPopup";
 
 // NOTE 댓글 정렬 라벨
 const commentSortByInfo: { [key in CommentSortByType]: string } = {
@@ -99,6 +102,13 @@ export default function Post() {
   // NOTE - 내 글 수정하기 확인 팝업 오픈 여부
   const [openConfirmEdit, setOpenConfirmEdit] = useState<boolean>(false);
 
+  // NOTE - 내 글 삭제하기 확인 팝업 오픈 여부
+  const [openConfirmDelete, setOpenConfirmDelete] = useState<boolean>(false);
+
+  // NOTE - 내 글 삭제 완료 팝업 오픈 여부
+  const [openConfirmDeleteComplete, setOpenConfirmDeleteComplete] =
+    useState<boolean>(false);
+
   // NOTE URL 복사 완료 팝업 오픈 여부
   const [copied, setCopied] = useState<boolean>(false);
 
@@ -120,6 +130,15 @@ export default function Post() {
   }, [postData]);
 
   const userId = postData?.userInfo.userId;
+
+  // NOTE - 글 삭제 fetch 함수
+  const { mutate: deleteThisPost } = useMutation({
+    mutationFn: () => deletePost(articleId),
+    onSuccess: () => setOpenConfirmDeleteComplete(true),
+  });
+
+  // NOTE - 현재 글 삭제
+  const onConfirmDelete = () => deleteThisPost();
 
   // NOTE 좋아요/싫어요 - 등록/해제
   const { mutate: mutateSetValue } = useMutation({
@@ -500,6 +519,7 @@ export default function Post() {
                           <>
                             <PostMorePopup
                               isMyPost={!!(currentUserData?.id === userId)}
+                              isListed={postData?.articleInfo.isListed}
                               UsePost={hook}
                               onClickSetPrivate={() => {
                                 hook.setMorePopup(false);
@@ -508,6 +528,10 @@ export default function Post() {
                               onClickEdit={() => {
                                 hook.setMorePopup(false);
                                 setOpenConfirmEdit(true);
+                              }}
+                              onClickDelete={() => {
+                                hook.setMorePopup(false);
+                                setOpenConfirmDelete(true);
                               }}
                             />
                             <PopupBg off={() => hook.setMorePopup(false)} />
@@ -1106,6 +1130,22 @@ export default function Post() {
             // edit화면으로 보내기
             router.push(`/edit/${articleId}`);
           }}
+        />
+      )}
+
+      {/* NOTE - 내 글 삭제 여부 확인 팝업 */}
+      {openConfirmDelete && (
+        <PostDeleteConfirmPopup
+          onClosePopup={() => setOpenConfirmDelete(false)}
+          onConfirmDelete={onConfirmDelete}
+        />
+      )}
+
+      {/* NOTE - 내 글 삭제 완료 확인 팝업 */}
+      {openConfirmDeleteComplete && (
+        <ConfirmTitlePopup
+          title="글이 삭제되었습니다."
+          confirmFunc={() => router.push(`/mypage/write`)}
         />
       )}
     </>
