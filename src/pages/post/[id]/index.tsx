@@ -53,7 +53,7 @@ import { isLoginState } from ".src/recoil";
 import { currentUserInfo, hideAuthorsPosts } from ".src/api/users/users";
 // import { userArticles } from ".src/api/articles/articles";
 import Image from ".src/components/Image";
-import { articles } from ".src/api/articles/articles";
+import { articles, updateArticleBookmark } from ".src/api/articles/articles";
 import { useArticlesByUser } from ".src/hooks/posts/useArticlesByUser";
 import { CommentSortByType } from ".src/api/comments";
 import { InView } from "react-intersection-observer";
@@ -63,6 +63,7 @@ import Head from "next/head";
 import { useMakeEditor } from ".src/hooks/enroll/useMakeEditor";
 import { useComments } from ".src/hooks/post/useComments";
 import PostEditConfirmPopup from ".src/components/post/postEditConfirmPopup";
+import classNames from "classnames";
 
 // NOTE 댓글 정렬 라벨
 const commentSortByInfo: { [key in CommentSortByType]: string } = {
@@ -158,6 +159,19 @@ export default function Post() {
 
     onError: (error) =>
       error?.message.includes("minutes") && setOneMinOver(true),
+  });
+
+  // NOTE - 상장글 비구매 글 찜하기
+  const { mutate: mutateBookmark } = useMutation({
+    mutationFn: updateArticleBookmark,
+    onSuccess: (_, { bookmarking }) =>
+      queryClient.setQueryData<PostData>(queryKey, (post) => {
+        if (post != null) {
+          const { articleInfo } = post;
+          articleInfo.interest = bookmarking;
+        }
+        return post;
+      }),
   });
 
   // NOTE 유저의 다른 글 조회
@@ -747,15 +761,23 @@ export default function Post() {
                   )}
                   <div className={styles.overlayBox}>
                     <button
-                      className={`${styles.favBtn} ${
-                        !!postData?.priceInfo.isLike ? styles.on : ""
-                      }`}
-                      onClick={() => onClickSetValue({ type: "like" })}
+                      className={classNames(
+                        styles.favBtn,
+                        !!postData?.articleInfo.interest && styles.on
+                      )}
+                      onClick={() =>
+                        mutateBookmark({
+                          articleId: Number(articleId),
+                          bookmarking: !postData?.articleInfo.interest,
+                        })
+                      }
                       data-testid={
-                        !!postData?.priceInfo.isLike ? "thumbRed" : "thumbGrey"
+                        !!postData?.articleInfo.interest
+                          ? "thumbRed"
+                          : "thumbGrey"
                       }
                     >
-                      {!!postData?.priceInfo.isLike ? (
+                      {!!postData?.articleInfo.interest ? (
                         <HeartRedO />
                       ) : (
                         <HeartGrey />
