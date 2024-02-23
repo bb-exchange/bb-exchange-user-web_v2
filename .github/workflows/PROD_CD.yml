@@ -138,6 +138,8 @@ jobs:
       - name: Commit and Push and Create PR
         env:
           GITHUB_TOKEN: ${{ secrets.INFRA_REPO_ACCESS_TOKEN }}
+          GITHUB_ACTOR: ${{ github.actor }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
         working-directory: terraform/root/prod
         run: |
           git config user.name 'bibeop'
@@ -145,7 +147,14 @@ jobs:
           git add prod.tfvars
           git commit -m "deploy: update user web image tag"
           git push origin stage
-          gh pr create --title "Deploy: Update [User Web] Image Tag" --body "Automated PR to update user web image tag" --base main --head stage
+          
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            PR_BODY="Automated PR to deploy [User Web] by update image tag\n\nopen by $PR_URL $GITHUB_ACTOR"
+          elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            PR_BODY="Automated PR to deploy [User Web] by update image tag\n\nopen by workflow_dispatch by $GITHUB_ACTOR"
+          fi
+          echo "$PR_BODY" > pr-body.txt
+          gh pr create --title "User Web 운영 환경 배포" --body-file pr-body.txt --base main --head stage
 
       - name: CD notification to Slack
         uses: 8398a7/action-slack@v3
