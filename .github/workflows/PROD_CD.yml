@@ -149,9 +149,9 @@ jobs:
           git push origin stage
           
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-            PR_BODY="Automated PR to deploy [User Web] by update image tag\n\nopen by $PR_URL $GITHUB_ACTOR"
+            PR_BODY="Automated PR to deploy **[User Web]** by update image tag<br/><br/><br/>open by $PR_URL @$GITHUB_ACTOR"
           elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            PR_BODY="Automated PR to deploy [User Web] by update image tag\n\nopen by workflow_dispatch by $GITHUB_ACTOR"
+            PR_BODY="Automated PR to deploy **[User Web]** by update image tag<br/><br/><br/>open by workflow_dispatch by @$GITHUB_ACTOR"
           fi
           echo "$PR_BODY" > pr-body.txt
           gh pr create --title "User Web 운영 환경 배포" --body-file pr-body.txt --base main --head stage
