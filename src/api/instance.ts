@@ -1,7 +1,8 @@
 import axios, { HeadersDefaults } from "axios";
 import jwtDecode, { JwtPayload } from "jwt-decode";
 import { getCookie, setCookie, deleteCookie } from "cookies-next";
-const baseURL = "https://api.stage-bibeop.com";
+
+const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
 
 let refreshing_token: any = null;
 

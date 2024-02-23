@@ -1,9 +1,11 @@
 name: PROD_CD
 
 on:
-  push:
+  pull_request:
     branches:
       - main
+    types:
+      - closed
   workflow_dispatch:
 
 env:
@@ -13,6 +15,7 @@ env:
   CONTAINER_NAME: bibeop-user-web
   ECS_SERVICE: bibeop-user-web
   ECS_CLUSTER: prod-bibeop
+  IMAGE_TAG_NAME: user_web_image_tag
 
 permissions:
   id-token: write
@@ -21,7 +24,7 @@ permissions:
 
 jobs:
   build-and-push:
-    if: ${{ github.event.pull_request.merged }} && ${{ github.ref == 'refs/heads/main' }}
+    if: ${{ (github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.merged == true)) && github.base_ref == 'main' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -57,6 +60,7 @@ jobs:
       - name: Generate Environment Variables File for Production
         run: |
           touch .env.production
+          echo "NEXT_PUBLIC_BASE_URL=$NEXT_PUBLIC_BASE_URL" >> .env.production
           echo "NEXT_PUBLIC_GOOGLE_CLIENT_ID=$NEXT_PUBLIC_GOOGLE_CLIENT_ID" >> .env.production
           echo "NEXT_PUBLIC_GOOGLE_CLIENT_SECRET=$NEXT_PUBLIC_GOOGLE_CLIENT_SECRET" >> .env.production
           echo "NEXT_PUBLIC_GOOGLE_REDIRECT_URI=$NEXT_PUBLIC_GOOGLE_REDIRECT_URI" >> .env.production
@@ -69,23 +73,21 @@ jobs:
           echo "NEXT_PUBLIC_APPLE_REDIRECT_URI=$NEXT_PUBLIC_APPLE_REDIRECT_URI" >> .env.production
           
           echo "NEXT_PUBLIC_IMPORT_CODE=$NEXT_PUBLIC_IMPORT_CODE" >> .env.production
-          echo "NEXT_PUBLIC_IMPORT_REST_API_KEY=$NEXT_PUBLIC_IMPORT_REST_API_KEY" >> .env.production
-          echo "NEXT_PUBLIC_IMPORT_REST_API_SECRET=$NEXT_PUBLIC_IMPORT_REST_API_SECRET" >> .env.production
         env:
+          NEXT_PUBLIC_BASE_URL: https://api.bibeop.com
+
+          NEXT_PUBLIC_GOOGLE_REDIRECT_URI: https://bibeop.com/auth/google
           NEXT_PUBLIC_GOOGLE_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_GOOGLE_CLIENT_ID }}
           NEXT_PUBLIC_GOOGLE_CLIENT_SECRET: ${{ secrets.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET }}
-          NEXT_PUBLIC_GOOGLE_REDIRECT_URI: ${{ secrets.NEXT_PUBLIC_GOOGLE_REDIRECT_URI }}
           
+          NEXT_PUBLIC_KAKAO_REDIRECT_URI: https://bibeop.com/auth/kakao
           NEXT_PUBLIC_KAKAO_JS_KEY: ${{ secrets.NEXT_PUBLIC_KAKAO_JS_KEY }}
           NEXT_PUBLIC_KAKAO_REST_API_KEY: ${{ secrets.NEXT_PUBLIC_KAKAO_REST_API_KEY }}
-          NEXT_PUBLIC_KAKAO_REDIRECT_URI: ${{ secrets.NEXT_PUBLIC_KAKAO_REDIRECT_URI }}
           
+          NEXT_PUBLIC_APPLE_REDIRECT_URI: https://bibeop.com/auth/apple
           NEXT_PUBLIC_APPLE_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_APPLE_CLIENT_ID }}
-          NEXT_PUBLIC_APPLE_REDIRECT_URI: ${{ secrets.NEXT_PUBLIC_APPLE_REDIRECT_URI }}
-          
+
           NEXT_PUBLIC_IMPORT_CODE: ${{ secrets.NEXT_PUBLIC_IMPORT_CODE }}
-          NEXT_PUBLIC_IMPORT_REST_API_KEY: ${{ secrets.NEXT_PUBLIC_IMPORT_REST_API_KEY }}
-          NEXT_PUBLIC_IMPORT_REST_API_SECRET: ${{ secrets.NEXT_PUBLIC_IMPORT_REST_API_SECRET }}
           
       - name: Run build
         run: npm run build
@@ -115,30 +117,35 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_OUTPUT
 
-      - name: Download Task Definition Template
+      - name: Checkout Infra Repository
+        uses: actions/checkout@v3
+        with:
+          path: terraform
+          repository: 'bb-exchange/bb-exchange-infra'
+          token: ${{ secrets.INFRA_REPO_ACCESS_TOKEN }}
+          ref: stage
+
+      - name: Update Image Tag
+        env:
+          IMAGE_TAG_NAME: ${{ env.IMAGE_TAG_NAME }}
+          IMAGE_TAG: ${{ steps.build-image.outputs.IMAGE_TAG }}
+        working-directory: terraform/root/prod
         run: |
-          aws ecs describe-task-definition \
-            --task-definition ${{ env.ECS_TASK_DEFINITION }} \
-            --query taskDefinition \
-            > task-definition.json
+          sed -i "s/${IMAGE_TAG_NAME} = \".*\"/${IMAGE_TAG_NAME} = \"$IMAGE_TAG\"/" prod.tfvars
 
-      - name: Fill in the new image ID in the Amazon ECS task definition
-        id: task-def
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: task-definition.json
-          container-name: ${{ env.CONTAINER_NAME }}
-          image: ${{ steps.build-image.outputs.image }}
-
-      - name: Deploy Amazon ECS task definition
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        with:
-          task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: ${{ env.ECS_SERVICE }}
-          cluster: ${{ env.ECS_CLUSTER }}
-          wait-for-service-stability: true
+      - name: Commit and Push and Create PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.INFRA_REPO_ACCESS_TOKEN }}
+        working-directory: terraform/root/prod
+        run: |
+          git config user.name 'bibeop'
+          git config user.email 'bibeop@bibeop.com'
+          git add prod.tfvars
+          git commit -m "deploy: update user web image tag"
+          git push origin stage
+          gh pr create --title "Deploy: Update [User Web] Image Tag" --body "Automated PR to update user web image tag" --base main --head stage
 
       - name: CD notification to Slack
         uses: 8398a7/action-slack@v3

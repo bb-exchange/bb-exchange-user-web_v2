@@ -21,6 +21,8 @@ const AppleAuth = () => {
   const setIsLoginState = useSetRecoilState(isLoginState);
   const setUserNameState = useSetRecoilState(userNameState);
 
+  const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
+
   useEffect(() => {
     if (query?.code) {
       (async () => {
@@ -60,14 +62,11 @@ const AppleAuth = () => {
             path: "/",
           });
           //닉네임 가져오기
-          const { data } = await axios.get(
-            `https://api.stage-bibeop.com/v1/users/me`,
-            {
-              headers: {
-                Authorization: `Bearer ${response.data.data.accessToken}`,
-              },
-            }
-          );
+          const { data } = await axios.get(`${baseURL}/v1/users/me`, {
+            headers: {
+              Authorization: `Bearer ${response.data.data.accessToken}`,
+            },
+          });
           setIsLoginState(true);
           setUserNameState(data?.data.nickname);
           push("/");

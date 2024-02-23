@@ -12,18 +12,23 @@
   position: absolute;
   z-index: 60;
 
-
   button {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 36px;
 
+    :hover {
+      color: $Primary2;
+    }
+
     &:nth-of-type(n + 2) {
       border-top: 1px solid $Gray2;
     }
 
     p {
+      // height: 100%;
+      width: 100%;
       font-size: 13px;
       text-align: center;
       color: $Black2;

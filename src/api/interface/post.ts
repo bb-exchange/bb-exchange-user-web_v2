@@ -19,6 +19,7 @@ export interface PostData {
     totalViewNum: number;
     content: string;
     isPurchased: boolean;
+    interest: boolean;
   };
   priceInfo: {
     likeNum: number;

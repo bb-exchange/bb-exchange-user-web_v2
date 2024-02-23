@@ -32,12 +32,28 @@ import Color from "@tiptap/extension-color";
 import TextStyle from "@tiptap/extension-text-style";
 import History from "@tiptap/extension-history";
 
+import useEnroll from ".src/hooks/enroll/useEnroll";
+import { useSetRecoilState } from "recoil";
+import { selectedEditorNodeState } from ".src/recoil";
+
 const inputRegex = /!\[(.+|:?)]\((\S+)(?:(?:\s+)["'](\S+)["'])?\)/;
+
+declare module "@tiptap/core" {
+  interface Commands<ReturnType> {
+    customExtension: {
+      setImage: (options: any) => ReturnType;
+      setThumb: (nodePos: any) => ReturnType;
+      deleteImage: (nodePos: number) => ReturnType;
+    };
+  }
+}
 
 interface IProps {
   isEdit: boolean;
 }
 export const useMakeEditor = ({ isEdit }: IProps) => {
+  const setEditorNodePos = useSetRecoilState(selectedEditorNodeState);
+
   const Figure = Node.create({
     name: "figure",
 
@@ -67,6 +83,13 @@ export const useMakeEditor = ({ isEdit }: IProps) => {
           parseHTML: (element) =>
             element.querySelector("figure")?.getAttribute("data-is-thumb") ??
             false,
+        },
+
+        fileName: {
+          default: null,
+          parseHTML: (element) => {
+            element.querySelector("img")?.getAttribute("fileName");
+          },
         },
       };
     },
@@ -177,23 +200,8 @@ export const useMakeEditor = ({ isEdit }: IProps) => {
 
         img.addEventListener("click", (e) => {
           if (typeof getPos === "function") {
-            /**
-             * 해당 코드를 실행시키면 해당 이미지를 삭제
-             */
-            // const pos = getPos();
-            //@ts-ignore
-            // editor.commands.setThumb(pos);
-            //
-            // console.log("pos", pos);
-            // editor.commands?.deleteImage(post);
-            // editor.chain().command?.deleteImage(post).run();
-            // return;
-            // editor.commands.setTextSelection(pos);
-            // editor.commands.deleteNode(this.type);
-            /**
-             * 썸네일설정
-             */
-            // const pos = getPos();
+            const pos = getPos();
+            setEditorNodePos(pos);
           }
         });
 

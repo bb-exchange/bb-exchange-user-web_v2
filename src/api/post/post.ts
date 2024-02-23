@@ -7,6 +7,15 @@ export const postById = async (articleId?: string) =>
     .get(`/v1/articles/${articleId}`)
     .then(({ data: { data } }: { data: { data: PostData } }) => data);
 
+// NOTE - 게시글 삭제
+export const deletePost = async (articleId?: string) =>
+  await basicInstance
+    .delete(`/v1/articles/${articleId}`)
+    .then(({ data: { message } }: { data: { message: string } }) => message)
+    .catch((error) => {
+      throw error.response.data;
+    });
+
 // NOTE 게시글 좋아요 등록/해제
 export const updateLikePost = async ({
   isLike,

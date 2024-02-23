@@ -19,9 +19,13 @@ import {
 } from ".src/api/articles/articles";
 import { uploadImg } from ".src/api/images/uploadImg";
 import { imgPreSignedUrl } from ".src/api/images/imgPreSignedUrl";
+import { useRecoilValue } from "recoil";
+import { selectedEditorNodeState } from ".src/recoil";
 
 export default function useEnroll(editor: Editor | null) {
   const router = useRouter();
+
+  const selectedEditorNodePos = useRecoilValue(selectedEditorNodeState);
 
   const [contObj, setContObj] = useState<any>();
   const [selectImg, setSelectImg] = useState<HTMLImageElement>();
@@ -108,7 +112,6 @@ export default function useEnroll(editor: Editor | null) {
       } else {
         setEditPopup(true);
       }
-      // 비상장글일 때 팝업
     },
   });
 
@@ -191,28 +194,6 @@ export default function useEnroll(editor: Editor | null) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uploadFiles, btnName]);
 
-  // const getPresignedUrl = (file: File) => {
-  //   const reader = new FileReader();
-
-  //   reader.onload = (e) => {
-  //     if (reader.readyState === 2) {
-  //       const arrayBuffer: any = e.target?.result;
-
-  //       const wordArray = CryptoJS.lib.WordArray.create(arrayBuffer);
-  //       const md5 = CryptoJS.MD5(wordArray);
-  //       const base64Incod = md5.toString(CryptoJS.enc.Base64);
-
-  //       presignedUrlMutation.mutate({
-  //         contentType: file.type,
-  //         md5: base64Incod,
-  //         file: file,
-  //         fileByte: arrayBuffer,
-  //       });
-  //     }
-  //   };
-  //   reader.readAsArrayBuffer(file);
-  // };
-
   //NOTE - 파일 업로드
   // 1. 이미지 프리뷰
   // 2. 파일 저장
@@ -226,6 +207,8 @@ export default function useEnroll(editor: Editor | null) {
       const reader = new FileReader();
       reader.readAsDataURL(file);
 
+      // title 지정
+
       if (file.size > 5242880) {
         setErrMsg("5MB 이하의 이미지를 사용해 주세요");
         return;
@@ -235,12 +218,14 @@ export default function useEnroll(editor: Editor | null) {
         if (!reader.result) return;
 
         //NOTE - 파일 업로드 시, 이미지 에디터에 Preview
-        //@ts-ignore
-        // editor?.commands.setImage({ src: reader.result as string }).run();
-        editor
-          ?.chain()
-          .setImage({ src: reader.result as string, title: file.name })
-          .run();
+        editor?.commands.setImage({
+          src: reader.result as string,
+          fileName: file.name,
+        });
+        // editor
+        //   ?.chain()
+        //   .setImage({ src: reader.result as string, title: file.name })
+        //   .run();
       };
     });
   };
@@ -362,16 +347,16 @@ export default function useEnroll(editor: Editor | null) {
       title: watch("title"),
       category: watch("category").category,
       content: editor ? JSON.stringify({ ...editorJson }) : ``,
-      articleTagList: watch("tagList"),
+      articleTagList: watch("tagList") ?? [],
       thumbnailImage: watch("thumbNail") ?? "",
     };
 
-    // console.log("body", body);
-
+    // 임시저장글 -> 수정하기
     if (btnName === "수정하기" && tempArticleId) {
       updateTempMutation.mutate({ articleId: tempArticleId, body });
       return;
     }
+    // 내글 수정하기
     if (btnName === "수정하기" && !tempArticleId) {
       updateMutation.mutate({ articleId: myArticleId, body });
       return;
@@ -437,8 +422,8 @@ export default function useEnroll(editor: Editor | null) {
         title: watch("title"),
         category: watch("category").category,
         content: JSON.stringify({ ...editorJson }),
-        articleTagList: watch("tagList"),
-        thumbnailImage: "",
+        articleTagList: watch("tagList") ?? [],
+        thumbnailImage: watch("thumbNail") ?? "",
       };
 
       enrollTempPostMutation.mutate(body);
@@ -455,17 +440,10 @@ export default function useEnroll(editor: Editor | null) {
 
   //NOTE - 썸네일 지정
   const onSetThumbnail = () => {
-    // console.log("썸네일", selectImg);
+    editor?.commands.setThumb(selectedEditorNodePos);
 
-    if (!selectImg) return;
-
-    const fileName = selectImg.title;
+    const fileName = selectImg?.getAttribute("filename") as string;
     const target = files.get(fileName);
-
-    //@ts-ignore
-    // editor?.commands.setThumb(selectImg.src);
-    // setSelectImg(undefined);
-    // console.log("target", target);
 
     target && setValue("thumbNail", target.imgPath);
     setSelectImg(undefined);
@@ -475,12 +453,14 @@ export default function useEnroll(editor: Editor | null) {
   const onDeleteImage = () => {
     if (!selectImg) return;
 
-    // content에서 이미지 삭제
-    // editor?.commands.deleteImage();
-    editor && editor.commands.deleteSelection();
+    const fileName = selectImg?.getAttribute("filename") as string;
+    files.delete(fileName);
 
     // 삭제 이미지가 섬네일일 경우 섬네일 삭제
     if (watch("thumbNail") === selectImg.src) setValue("thumbNail", "");
+
+    if (selectedEditorNodePos !== null)
+      editor?.commands.deleteImage(selectedEditorNodePos);
 
     // 선택이미지 비움
     setSelectImg(undefined);
@@ -500,58 +480,6 @@ export default function useEnroll(editor: Editor | null) {
     watch("category")
       ? false
       : true;
-
-  // const imgHandler = (quillRef: any) => {
-  //   const quill = quillRef.current.getEditor();
-  //   let fileInput = quill.root.querySelector("input.ql-image[type=file]");
-
-  //   if (fileInput === null) {
-  //     fileInput = document.createElement("input");
-  //     fileInput.setAttribute("type", "file");
-  //     fileInput.setAttribute("accept", "image/*");
-  //     fileInput.classList.add("ql-image");
-
-  //     fileInput.addEventListener("change", () => {
-  //       const files = fileInput.files;
-  //       const range = quill.getSelection(true);
-
-  //       if (!files || !files.length) {
-  //         console.log("No files selected");
-  //         return;
-  //       }
-
-  //       if (files[0].size > 5242880) {
-  //         setErrMsg("5MB 이하의 이미지를 사용해 주세요");
-  //         return;
-  //       }
-
-  //       let reader = new FileReader();
-  //       reader.readAsDataURL(files[0]);
-  //       reader.onloadend = () => {
-  //         quill.insertEmbed(range.index, "image", reader.result);
-  //         quill.setSelection(range.index + 1);
-  //         fileInput.value = "";
-  //       };
-  //     });
-
-  //     quill.root.appendChild(fileInput);
-  //   }
-  //   fileInput.click();
-  // };
-
-  // const modules = useMemo(
-  //   () => ({
-  //     toolbar: {
-  //       container: "#toolbar",
-  //       handlers: {
-  //         image: () => imgHandler(quillRef),
-  //         undoBtn: () => undoBtnHandler(quillRef),
-  //         redoBtn: () => redoBtnHandler(quillRef),
-  //       },
-  //     },
-  //   }),
-  //   [quillRef]
-  // );
 
   const closeErrMsg = () => {
     setErrMsg("");

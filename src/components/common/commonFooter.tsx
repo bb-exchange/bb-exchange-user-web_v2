@@ -60,23 +60,11 @@ export default function CommonFooter() {
             있습니다.
           </p>
           <ul className={styles.categoryList}>
-            <li
-              onClick={() =>
-                router.push({
-                  pathname: "/terms/service",
-                })
-              }
-            >
+            <li onClick={() => window.open("/terms/service")}>
               <p>이용약관</p>
             </li>
 
-            <li
-              onClick={() =>
-                router.push({
-                  pathname: "/terms/privacy",
-                })
-              }
-            >
+            <li onClick={() => window.open("/terms/privacy")}>
               <strong>개인정보처리방침</strong>
             </li>
 
