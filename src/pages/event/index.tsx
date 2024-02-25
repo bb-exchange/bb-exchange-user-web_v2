@@ -7,7 +7,7 @@ import {
 import DesktopPage from ".src/components/event/desktop";
 import MobilePage from ".src/components/event/mobile";
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 
 export const getServerSideProps: GetServerSideProps<{
@@ -39,6 +39,11 @@ const GuidePage = ({
     setCurrentUrl(url);
   }, [currentUrl]);
 
+  const eventUrl = useMemo(
+    () => `${currentUrl}${pathname}`,
+    [currentUrl, pathname]
+  );
+
   return (
     <>
       <Head>
@@ -61,7 +66,11 @@ const GuidePage = ({
         />
       </Head>
 
-      {isMobile ? <MobilePage {...props} /> : <DesktopPage />}
+      {isMobile ? (
+        <MobilePage eventUrl={eventUrl} {...props} />
+      ) : (
+        <DesktopPage />
+      )}
     </>
   );
 };

@@ -4,6 +4,9 @@ import Google from ".assets/icons/Google.svg";
 import router from "next/router";
 
 export default function CommonFooter() {
+  const onClickOpenKakaoChannel = () =>
+    window.open("http://pf.kakao.com/_xbTmcxj");
+
   return (
     <footer className={styles.commonFooter}>
       <section className={styles.innerSec}>
@@ -68,15 +71,15 @@ export default function CommonFooter() {
               <strong>개인정보처리방침</strong>
             </li>
 
-            <li>
+            <li onClick={onClickOpenKakaoChannel}>
               <p>비법거래소 고객센터</p>
             </li>
 
-            <li>
+            <li onClick={onClickOpenKakaoChannel}>
               <p>카카오톡 1:1 문의</p>
             </li>
 
-            <li>
+            <li onClick={onClickOpenKakaoChannel}>
               <p>제휴제안</p>
             </li>
           </ul>

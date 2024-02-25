@@ -23,9 +23,11 @@ import classNames from "classnames";
 const Event = ({
   isClient,
   isAndroid,
+  eventUrl,
 }: {
   isClient: boolean;
   isAndroid: boolean;
+  eventUrl: string;
 }) => {
   const isSignedIn = useRecoilValue(isLoginState);
 
@@ -35,13 +37,11 @@ const Event = ({
   const onLinkShare = () => {
     if (isClient) {
       //@ts-ignore
-      BbxClient.postMessage(
-        JSON.stringify({ share: "https://stage-bibeop.com/event" })
-      );
+      BbxClient.postMessage(JSON.stringify({ share: eventUrl }));
       return;
     }
     setCopyPopup(true);
-    window.navigator.clipboard.writeText("https://stage-bibeop.com/event");
+    window.navigator.clipboard.writeText(eventUrl);
   };
 
   const onClickPost = () => {
