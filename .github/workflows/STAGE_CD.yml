@@ -54,37 +54,37 @@ jobs:
       - name: Clean Install modules
         run: npm ci
 
-      - name: Generate Environment Variables File for Development
-        run: |
-          touch .env.development
-          echo "NEXT_PUBLIC_BASE_URL=$NEXT_PUBLIC_BASE_URL" >> .env.development
-          echo "NEXT_PUBLIC_GOOGLE_CLIENT_ID=$NEXT_PUBLIC_GOOGLE_CLIENT_ID" >> .env.development
-          echo "NEXT_PUBLIC_GOOGLE_CLIENT_SECRET=$NEXT_PUBLIC_GOOGLE_CLIENT_SECRET" >> .env.development
-          echo "NEXT_PUBLIC_GOOGLE_REDIRECT_URI=$NEXT_PUBLIC_GOOGLE_REDIRECT_URI" >> .env.development
+      # - name: Generate Environment Variables File for Development
+      #   run: |
+      #     touch .env.development
+      #     echo "NEXT_PUBLIC_BASE_URL=$NEXT_PUBLIC_BASE_URL" >> .env.development
+      #     echo "NEXT_PUBLIC_GOOGLE_CLIENT_ID=$NEXT_PUBLIC_GOOGLE_CLIENT_ID" >> .env.development
+      #     echo "NEXT_PUBLIC_GOOGLE_CLIENT_SECRET=$NEXT_PUBLIC_GOOGLE_CLIENT_SECRET" >> .env.development
+      #     echo "NEXT_PUBLIC_GOOGLE_REDIRECT_URI=$NEXT_PUBLIC_GOOGLE_REDIRECT_URI" >> .env.development
           
-          echo "NEXT_PUBLIC_KAKAO_JS_KEY=$NEXT_PUBLIC_KAKAO_JS_KEY" >> .env.development
-          echo "NEXT_PUBLIC_KAKAO_REST_API_KEY=$NEXT_PUBLIC_KAKAO_REST_API_KEY" >> .env.development
-          echo "NEXT_PUBLIC_KAKAO_REDIRECT_URI=$NEXT_PUBLIC_KAKAO_REDIRECT_URI" >> .env.development
+      #     echo "NEXT_PUBLIC_KAKAO_JS_KEY=$NEXT_PUBLIC_KAKAO_JS_KEY" >> .env.development
+      #     echo "NEXT_PUBLIC_KAKAO_REST_API_KEY=$NEXT_PUBLIC_KAKAO_REST_API_KEY" >> .env.development
+      #     echo "NEXT_PUBLIC_KAKAO_REDIRECT_URI=$NEXT_PUBLIC_KAKAO_REDIRECT_URI" >> .env.development
           
-          echo "NEXT_PUBLIC_APPLE_CLIENT_ID=$NEXT_PUBLIC_APPLE_CLIENT_ID" >> .env.development
-          echo "NEXT_PUBLIC_APPLE_REDIRECT_URI=$NEXT_PUBLIC_APPLE_REDIRECT_URI" >> .env.development
+      #     echo "NEXT_PUBLIC_APPLE_CLIENT_ID=$NEXT_PUBLIC_APPLE_CLIENT_ID" >> .env.development
+      #     echo "NEXT_PUBLIC_APPLE_REDIRECT_URI=$NEXT_PUBLIC_APPLE_REDIRECT_URI" >> .env.development
           
-          echo "NEXT_PUBLIC_IMPORT_CODE=$NEXT_PUBLIC_IMPORT_CODE" >> .env.development
-        env:
-          NEXT_PUBLIC_BASE_URL: https://api.stage-bibeop.com
+      #     echo "NEXT_PUBLIC_IMPORT_CODE=$NEXT_PUBLIC_IMPORT_CODE" >> .env.development
+      #   env:
+      #     NEXT_PUBLIC_BASE_URL: https://api.stage-bibeop.com
 
-          NEXT_PUBLIC_GOOGLE_REDIRECT_URI: https://api.stage-bibeop.com/auth/google
-          NEXT_PUBLIC_GOOGLE_CLIENT_ID: ${{ secrets.STG_NEXT_PUBLIC_GOOGLE_CLIENT_ID }}
-          NEXT_PUBLIC_GOOGLE_CLIENT_SECRET: ${{ secrets.STG_NEXT_PUBLIC_GOOGLE_CLIENT_SECRET }}
+      #     NEXT_PUBLIC_GOOGLE_REDIRECT_URI: https://api.stage-bibeop.com/auth/google
+      #     NEXT_PUBLIC_GOOGLE_CLIENT_ID: ${{ secrets.STG_NEXT_PUBLIC_GOOGLE_CLIENT_ID }}
+      #     NEXT_PUBLIC_GOOGLE_CLIENT_SECRET: ${{ secrets.STG_NEXT_PUBLIC_GOOGLE_CLIENT_SECRET }}
           
-          NEXT_PUBLIC_KAKAO_REDIRECT_URI: https://api.stage-bibeop.com/auth/kakao
-          NEXT_PUBLIC_KAKAO_JS_KEY: ${{ secrets.STG_NEXT_PUBLIC_KAKAO_JS_KEY }}
-          NEXT_PUBLIC_KAKAO_REST_API_KEY: ${{ secrets.STG_NEXT_PUBLIC_KAKAO_REST_API_KEY }}
+      #     NEXT_PUBLIC_KAKAO_REDIRECT_URI: https://api.stage-bibeop.com/auth/kakao
+      #     NEXT_PUBLIC_KAKAO_JS_KEY: ${{ secrets.STG_NEXT_PUBLIC_KAKAO_JS_KEY }}
+      #     NEXT_PUBLIC_KAKAO_REST_API_KEY: ${{ secrets.STG_NEXT_PUBLIC_KAKAO_REST_API_KEY }}
           
-          NEXT_PUBLIC_APPLE_REDIRECT_URI: https://api.stage-bibeop.com/auth/apple
-          NEXT_PUBLIC_APPLE_CLIENT_ID: ${{ secrets.STG_NEXT_PUBLIC_APPLE_CLIENT_ID }}
+      #     NEXT_PUBLIC_APPLE_REDIRECT_URI: https://api.stage-bibeop.com/auth/apple
+      #     NEXT_PUBLIC_APPLE_CLIENT_ID: ${{ secrets.STG_NEXT_PUBLIC_APPLE_CLIENT_ID }}
           
-          NEXT_PUBLIC_IMPORT_CODE: ${{ secrets.STG_NEXT_PUBLIC_IMPORT_CODE }}
+      #     NEXT_PUBLIC_IMPORT_CODE: ${{ secrets.STG_NEXT_PUBLIC_IMPORT_CODE }}
           
       - name: Run build
         run: npm run build
