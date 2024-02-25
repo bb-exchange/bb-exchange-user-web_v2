@@ -165,7 +165,9 @@ export default function CommonHeader({ commonSort }: Iprops) {
             <div className={styles.bannerBox}>
               <div
                 className={styles.banner}
-                onClick={() => !isSignedIn && router.push("/auth/signin")}
+                onClick={() =>
+                  !isSignedIn ? router.push("/auth/signin") : onClickEnroll()
+                }
               >
                 <p className={styles.cont}>
                   {!!isSignedIn && (

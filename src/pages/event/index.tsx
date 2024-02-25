@@ -7,18 +7,21 @@ import {
 import DesktopPage from ".src/components/event/desktop";
 import MobilePage from ".src/components/event/mobile";
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 
-export const getServerSideProps: GetServerSideProps = async (
-  context: GetServerSidePropsContext
-) => {
+export const getServerSideProps: GetServerSideProps<{
+  isMobile: boolean;
+  isAndroid: boolean;
+  isClient: boolean;
+}> = async (context: GetServerSidePropsContext) => {
   const userAgent = context.req.headers["user-agent"];
   const isBibeopClient = context.req.headers["bibeop-client"];
 
   return {
     props: {
       isMobile: !!userAgent?.includes("Mobile"),
+      isAndroid: !!userAgent?.includes("Android"),
       isClient: !!isBibeopClient,
     },
   };
@@ -26,7 +29,7 @@ export const getServerSideProps: GetServerSideProps = async (
 
 const GuidePage = ({
   isMobile,
-  isClient,
+  ...props
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { pathname } = useRouter();
   const [currentUrl, setCurrentUrl] = useState<string>();
@@ -35,6 +38,11 @@ const GuidePage = ({
     const url = window.location.origin;
     setCurrentUrl(url);
   }, [currentUrl]);
+
+  const eventUrl = useMemo(
+    () => `${currentUrl}${pathname}`,
+    [currentUrl, pathname]
+  );
 
   return (
     <>
@@ -58,7 +66,11 @@ const GuidePage = ({
         />
       </Head>
 
-      {isMobile ? <MobilePage isClient={isClient} /> : <DesktopPage />}
+      {isMobile ? (
+        <MobilePage eventUrl={eventUrl} {...props} />
+      ) : (
+        <DesktopPage />
+      )}
     </>
   );
 };

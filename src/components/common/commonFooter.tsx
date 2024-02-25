@@ -2,8 +2,21 @@ import styles from "./commonFooter.module.scss";
 import Apple from ".assets/icons/Apple.svg";
 import Google from ".assets/icons/Google.svg";
 import router from "next/router";
+import ConfirmTitlePopup from ".src/components/common/popup/confirmTitlePopup";
+import PopupBg from "./popupBg";
+import { useState } from "react";
+import Image from "../Image";
 
 export default function CommonFooter() {
+  const [androidPopup, setAndroidPopup] = useState<boolean>(false);
+  const [applePopup, setApplePopup] = useState<boolean>(false);
+
+  const onClickOpenKakaoChannel = () =>
+    window.open("http://pf.kakao.com/_xbTmcxj");
+
+  const onClickDownloadAndroid = () => setAndroidPopup(true);
+  const onClickDownloadApple = () => setApplePopup(true);
+
   return (
     <footer className={styles.commonFooter}>
       <section className={styles.innerSec}>
@@ -39,12 +52,15 @@ export default function CommonFooter() {
           <div className={styles.rightArea}>
             <strong className={styles.label}>비법거래소 APP Download</strong>
             <div className={styles.btnBox}>
-              <button>
+              <button onClick={onClickDownloadApple}>
                 <Apple />
                 <strong>APP Store</strong>
               </button>
 
-              <button className={styles.google}>
+              <button
+                className={styles.google}
+                onClick={onClickDownloadAndroid}
+              >
                 <Google />
 
                 <strong>Google Play</strong>
@@ -68,20 +84,65 @@ export default function CommonFooter() {
               <strong>개인정보처리방침</strong>
             </li>
 
-            <li>
+            <li onClick={onClickOpenKakaoChannel}>
               <p>비법거래소 고객센터</p>
             </li>
 
-            <li>
+            <li onClick={onClickOpenKakaoChannel}>
               <p>카카오톡 1:1 문의</p>
             </li>
 
-            <li>
+            <li onClick={onClickOpenKakaoChannel}>
               <p>제휴제안</p>
             </li>
           </ul>
         </article>
       </section>
+
+      {applePopup && (
+        <>
+          <ConfirmTitlePopup
+            title="비법거래소 앱 다운로드"
+            content={
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Image
+                  src={"/assets/images/apple_qr_code.png"}
+                  alt={"apple_app"}
+                  width={200}
+                  height={200}
+                />
+                <span>코드를 카메라로 스캔하여</span>
+                <span>앱스토어로 이동합니다.</span>
+              </div>
+            }
+            confirmText="닫기"
+            confirmFunc={() => setApplePopup(false)}
+            zIndex={80}
+          />
+          <PopupBg bg zIndex={70} off={() => setApplePopup(false)} />
+        </>
+      )}
+
+      {androidPopup && (
+        <>
+          <ConfirmTitlePopup
+            title="안드로이드 앱 심사중!"
+            content={`안드로이드 앱은 아직 심사중입니다.
+PC를 통해 비법거래소를 만나보세요!`}
+            confirmText="확인"
+            confirmFunc={() => setAndroidPopup(false)}
+            zIndex={80}
+          />
+          <PopupBg bg zIndex={70} off={() => setAndroidPopup(false)} />
+        </>
+      )}
     </footer>
   );
 }

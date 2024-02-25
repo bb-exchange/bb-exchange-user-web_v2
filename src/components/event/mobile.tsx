@@ -20,23 +20,28 @@ import { isLoginState } from ".src/recoil";
 import MobileHeader from "../common/header/mobileHeader";
 import classNames from "classnames";
 
-const Event = ({ isClient }: { isClient: boolean }) => {
+const Event = ({
+  isClient,
+  isAndroid,
+  eventUrl,
+}: {
+  isClient: boolean;
+  isAndroid: boolean;
+  eventUrl: string;
+}) => {
   const isSignedIn = useRecoilValue(isLoginState);
 
   const [copyPopup, setCopyPopup] = useState<boolean>(false);
   const [preparePopup, setPreparePopup] = useState<boolean>(false);
-  const [isAndroid, setIsAndroid] = useState<boolean>(false);
 
   const onLinkShare = () => {
     if (isClient) {
       //@ts-ignore
-      BbxClient.postMessage(
-        JSON.stringify({ share: "https://stage-bibeop.com/event" })
-      );
+      BbxClient.postMessage(JSON.stringify({ share: eventUrl }));
       return;
     }
     setCopyPopup(true);
-    window.navigator.clipboard.writeText("https://stage-bibeop.com/event");
+    window.navigator.clipboard.writeText(eventUrl);
   };
 
   const onClickPost = () => {
@@ -47,18 +52,11 @@ const Event = ({ isClient }: { isClient: boolean }) => {
   const onClickAppLink = () => {
     if (isAndroid) {
       setPreparePopup(true);
-    } else {
-      //TODO - IOS링크 연결(대기중)
-    }
+    } else
+      window.location.assign(
+        "https://apps.apple.com/kr/app/%EB%B9%84%EB%B2%95%EA%B1%B0%EB%9E%98%EC%86%8C-%EA%B8%80%EB%A1%9C-%EB%8F%88-%EB%B2%84%EB%8A%94-%EC%B4%88%EA%B0%84%EB%8B%A8-%EB%B6%80%EC%88%98%EC%9E%85-%EC%95%B1%ED%85%8C%ED%81%AC/id6446600331"
+      );
   };
-
-  useEffect(() => {
-    const userAgent = window?.navigator.userAgent.toLowerCase();
-
-    if (userAgent.indexOf("android") > -1) {
-      setIsAndroid(true);
-    }
-  }, []);
 
   return (
     <>
@@ -145,14 +143,14 @@ const Event = ({ isClient }: { isClient: boolean }) => {
           </div>
 
           {!isClient && (
-            <Link href={isSignedIn ? "/enroll" : "/auth/signin"}>
-              <button
-                onClick={onClickAppLink}
-                className={`${styles.btn} ${styles.btn1}`}
-              >
-                100만원의 주인공 되기
-              </button>
-            </Link>
+            // <Link href={isSignedIn ? "/enroll" : "/auth/signin"}>
+            <button
+              onClick={onClickAppLink}
+              className={`${styles.btn} ${styles.btn1}`}
+            >
+              100만원의 주인공 되기
+            </button>
+            // </Link>
           )}
           {isClient && (
             <button

@@ -3,10 +3,24 @@ import classNames from "classnames";
 
 import styles from "./mobile.module.scss";
 import Image from "../Image";
+import ConfirmTitlePopup from ".src/components/common/popup/confirmTitlePopup";
 import MobileHeader from "../common/header/mobileHeader";
+import { useState } from "react";
+import PopupBg from "../common/popupBg";
+import { useRouter } from "next/router";
 
-const MobilePage = ({ isClient }: { isClient: boolean }) => {
+const MobilePage = ({
+  isClient,
+  isAndroid,
+}: {
+  isClient: boolean;
+  isAndroid: boolean;
+}) => {
+  const { push } = useRouter();
+
   const getImgPath = (name: string) => `/assets/images/${name}_mobile.png`;
+
+  const [preparePopup, setPreparePopup] = useState<boolean>(false);
 
   const onClickMoveToNewPost = () => {
     // TODO 작성하기 이동
@@ -14,20 +28,24 @@ const MobilePage = ({ isClient }: { isClient: boolean }) => {
     if (typeof BbxClient !== undefined && isClient) {
       //@ts-ignore
       BbxClient.postMessage(JSON.stringify({ destination: "post" }));
-    }
+    } else onClickMoveToApp();
   };
 
   const onClickMoveToEvent = () => {
-    // TODO 작성하기 이동
     //@ts-ignore
     if (typeof BbxClient !== undefined && isClient) {
       //@ts-ignore
       BbxClient.postMessage(JSON.stringify({ destination: "event" }));
-    }
+    } else push("/event");
   };
 
   const onClickMoveToApp = () => {
-    // TODO 앱 이동
+    if (isAndroid) {
+      setPreparePopup(true);
+    } else
+      window.location.assign(
+        "https://apps.apple.com/kr/app/%EB%B9%84%EB%B2%95%EA%B1%B0%EB%9E%98%EC%86%8C-%EA%B8%80%EB%A1%9C-%EB%8F%88-%EB%B2%84%EB%8A%94-%EC%B4%88%EA%B0%84%EB%8B%A8-%EB%B6%80%EC%88%98%EC%9E%85-%EC%95%B1%ED%85%8C%ED%81%AC/id6446600331"
+      );
   };
 
   return (
@@ -293,6 +311,19 @@ const MobilePage = ({ isClient }: { isClient: boolean }) => {
             </div>
             <button onClick={onClickMoveToApp}>앱으로 이용하기</button>
           </footer>
+        )}
+        {preparePopup && (
+          <>
+            <ConfirmTitlePopup
+              title="안드로이드 앱 심사중!"
+              content={`안드로이드 앱은 아직 심사중입니다.
+PC를 통해 비법거래소를 만나보세요!`}
+              confirmText="확인"
+              confirmFunc={() => setPreparePopup(false)}
+              zIndex={80}
+            />
+            <PopupBg bg zIndex={70} off={() => setPreparePopup(false)} />
+          </>
         )}
       </section>
     </main>
