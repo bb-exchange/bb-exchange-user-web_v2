@@ -87,7 +87,7 @@ jobs:
       #     NEXT_PUBLIC_IMPORT_CODE: ${{ secrets.STG_NEXT_PUBLIC_IMPORT_CODE }}
           
       - name: Run build
-        run: npm run build
+        run: npm run build:dev
 
       - name: Set up docker buildx
         id: buildx
