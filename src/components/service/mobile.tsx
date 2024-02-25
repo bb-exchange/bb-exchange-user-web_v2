@@ -231,7 +231,7 @@ const DesktopPage = ({
             </button>
           )}
           <button onClick={onClickMoveToEvent}>
-            <Image src={mBanner} alt="" onClick={() => router.push("/event")} />
+            <Image src={mBanner} alt="" />
           </button>
         </section>
 

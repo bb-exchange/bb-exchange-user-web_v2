@@ -42,7 +42,7 @@ export default function App({ Component, ...rest }: AppProps) {
 
   // NOTE - amplitude
   useEffect(() => {
-    init(AMPLITUDE_KEY);
+    init(AMPLITUDE_KEY, { defaultTracking: false });
   }, []);
 
   function storePathValues() {
