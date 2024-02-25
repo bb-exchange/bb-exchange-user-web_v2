@@ -16,7 +16,7 @@ const clarityCode = `(function (c, l, a, r, i, t, y) {
 
 export default function Document() {
   return (
-    <Html lang="en">
+    <Html lang="ko">
       <Head>
         <link
           rel="icon"
