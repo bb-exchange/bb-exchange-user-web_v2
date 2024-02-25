@@ -19,13 +19,18 @@ import MobileHeader from "../common/header/mobileHeader";
 import classNames from "classnames";
 import ConfirmTitlePopup from ".src/components/common/popup/confirmTitlePopup";
 import PopupBg from ".src/components/common/popupBg";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-const DesktopPage = ({ isClient }: { isClient: boolean }) => {
+const DesktopPage = ({
+  isClient,
+  isAndroid,
+}: {
+  isClient: boolean;
+  isAndroid: boolean;
+}) => {
   const router = useRouter();
 
   const [preparePopup, setPreparePopup] = useState<boolean>(false);
-  const [isAndroid, setIsAndroid] = useState<boolean>(false);
 
   const onClickMoveToHome = () => {
     // TODO 작성하기 이동
@@ -33,19 +38,16 @@ const DesktopPage = ({ isClient }: { isClient: boolean }) => {
       //@ts-ignore
       BbxClient.postMessage(JSON.stringify({ destination: "home" }));
       return;
-    }
+    } else onClickAppLink();
   };
   const onClickMoveToEvent = () => {
-    // TODO 작성하기 이동
     if (isClient) {
       //@ts-ignore
       BbxClient.postMessage(JSON.stringify({ destination: "event" }));
-      return;
-    }
+    } else router.push("/event");
   };
 
   const onClickMoveToGuide = () => {
-    // TODO 작성하기 이동
     if (isClient) {
       //@ts-ignore
       BbxClient.postMessage(JSON.stringify({ destination: "guide" }));
@@ -57,18 +59,11 @@ const DesktopPage = ({ isClient }: { isClient: boolean }) => {
   const onClickAppLink = () => {
     if (isAndroid) {
       setPreparePopup(true);
-    } else {
-      //TODO - IOS링크 연결(대기중)
-    }
+    } else
+      window.location.assign(
+        "https://apps.apple.com/kr/app/%EB%B9%84%EB%B2%95%EA%B1%B0%EB%9E%98%EC%86%8C-%EA%B8%80%EB%A1%9C-%EB%8F%88-%EB%B2%84%EB%8A%94-%EC%B4%88%EA%B0%84%EB%8B%A8-%EB%B6%80%EC%88%98%EC%9E%85-%EC%95%B1%ED%85%8C%ED%81%AC/id6446600331"
+      );
   };
-
-  useEffect(() => {
-    const userAgent = window?.navigator.userAgent.toLowerCase();
-
-    if (userAgent.indexOf("android") > -1) {
-      setIsAndroid(true);
-    }
-  }, []);
 
   return (
     <>
@@ -83,11 +78,7 @@ const DesktopPage = ({ isClient }: { isClient: boolean }) => {
             className={`${styles.btn} ${styles.section1Btn}`}
             onClick={onClickMoveToHome}
           >
-            {isClient ? (
-              "수익 창출하러 가기"
-            ) : (
-              <div onClick={onClickAppLink}>APP 다운받기</div>
-            )}
+            {isClient ? "수익 창출하러 가기" : "APP 다운받기"}
           </button>
         </section>
 
