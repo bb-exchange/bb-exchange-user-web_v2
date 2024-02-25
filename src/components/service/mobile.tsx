@@ -13,6 +13,7 @@ import section45 from "../../../public/assets/images/serviceIntroduction/section
 import section5 from "../../../public/assets/images/serviceIntroduction/section5.png";
 import mBanner from "../../../public/assets/images/serviceIntroduction/m-banner.png";
 import mLogo from "../../../public/assets/images/serviceIntroduction/m-logo.png";
+import mLogoText from "../../../public/assets/images/serviceIntroduction/m-logo-text.png";
 
 import styles from "./mobile.module.scss";
 import MobileHeader from "../common/header/mobileHeader";
@@ -70,8 +71,9 @@ const DesktopPage = ({
       {!isClient && <MobileHeader />}
       <main className={classNames(styles.service, !isClient && styles.web)}>
         <section className={styles.section1}>
-          <span>글로 돈 버는 초간단 부수입 앱테크</span>
-          <strong>비법거래소</strong>
+          {/* <span>글로 돈 버는 초간단 부수입 앱테크</span>
+          <strong>비법거래소</strong> */}
+          <Image src={mLogoText} alt="" className={styles.logoText} />
           <Image src={section1} alt="" />
 
           <button
