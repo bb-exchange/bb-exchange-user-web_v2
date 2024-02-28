@@ -322,7 +322,14 @@ export default function useEnroll(editor: Editor | null) {
 
     let editorJson = editor?.getJSON();
 
-    if (files.size) {
+    if (btnName === "수정하기" && tempArticleId) {
+      editorJson = {
+        ...editorJson,
+        content: editorJson?.content?.filter(
+          (item: any) => item.type !== "figure"
+        ),
+      };
+    } else if (files.size) {
       editorJson = {
         ...editorJson,
         content: editorJson?.content?.map((item: any, i: number) => {
@@ -406,17 +413,14 @@ export default function useEnroll(editor: Editor | null) {
     if (editor) {
       let editorJson = editor?.getJSON();
 
-      editorJson = {
-        ...editorJson,
-        content: editorJson?.content?.map((item: any) => {
-          return {
-            ...item,
-            content: item.content?.filter(
-              (content: any, i: number) => content.type !== "figure"
-            ),
-          };
-        }),
-      };
+      if (files.size) {
+        editorJson = {
+          ...editorJson,
+          content: editorJson?.content?.filter(
+            (item: any) => item.type !== "figure"
+          ),
+        };
+      }
 
       const body = {
         title: watch("title"),
