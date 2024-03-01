@@ -4,9 +4,8 @@ export const editMyProfile = async (data: any) => {
   return await basicInstance.patch("/v1/users/profile", data);
 };
 
-export const getProfile = async (userId: number) => {
-  return await basicInstance.get(`/v1/users/profile/${userId}`);
-};
+export const getProfile = async (userId: number) =>
+  await basicInstance.get(`/v1/users/profile/${userId}`);
 
 export const deleteBlockUser = async (userId: number) => {
   return await basicInstance.delete(`/v1/users/${userId}/block`);

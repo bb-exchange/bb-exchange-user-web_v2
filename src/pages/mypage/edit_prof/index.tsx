@@ -7,15 +7,10 @@ import CheckCircleBlue from ".assets/icons/CheckCircleBlue.svg";
 import Image from "next/image";
 import useGetMyProfile from ".src/hooks/common/useGetProfile";
 import { useEffect } from "react";
-// import { getImgPreSignedUrl } from ".src/api/img/imgPreSignedUrl";
 
 export default function EditProf() {
   const useEditProf = UseEditProf();
   const myProfile = useGetMyProfile();
-
-  // getImgPreSignedUrl({ contentType: "string", md5: "string" }).then((res) =>
-  //   console.log("11", res)
-  // );
 
   useEffect(() => {
     if (myProfile) {
@@ -38,15 +33,21 @@ export default function EditProf() {
             className={styles.profImgBtn}
             onClick={() => useEditProf.profImgInputRef.current?.click()}
           >
-            {useEditProf.watch("profImg") ? (
+            {useEditProf.watch("profImg") || myProfile?.profileImage ? (
               <Image
                 className={styles.profImg}
-                src={useEditProf.watch("profImg") ?? ""}
+                width={100}
+                height={100}
+                src={
+                  useEditProf.watch("profImg") ??
+                  (myProfile?.profileImage as string)
+                }
                 alt=""
               />
             ) : (
               <PlusGrey />
             )}
+
             <input
               ref={useEditProf.profImgInputRef}
               hidden

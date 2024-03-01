@@ -35,9 +35,32 @@ const userNameState = atom<string | null>({
   effects_UNSTABLE: [persistAtomEffect],
 });
 
+interface Iprofile {
+  userId: number;
+  profileImage: string;
+  nickname: string;
+  description: string;
+}
+const profileState = atom<Iprofile>({
+  key: "profileState",
+  default: {
+    userId: 0,
+    profileImage: "",
+    nickname: "",
+    description: "",
+  },
+  effects_UNSTABLE: [persistAtomEffect],
+});
+
 const selectedEditorNodeState = atom<number | null>({
   key: "selectedEditorNodeState",
   default: null,
 });
 
-export { categoryState, isLoginState, userNameState, selectedEditorNodeState };
+export {
+  categoryState,
+  isLoginState,
+  userNameState,
+  selectedEditorNodeState,
+  profileState,
+};

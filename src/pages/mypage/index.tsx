@@ -64,7 +64,7 @@ export default function MypageWrite() {
           </article>
 
           <ul className={styles.postList}>
-            {useMypageWrite.postList?.map((v: mypageWritePosts, i: number) => (
+            {useMypageWrite.postList?.contents?.map((v: any, i: number) => (
               <WritePost data={v} key={i} />
             ))}
           </ul>

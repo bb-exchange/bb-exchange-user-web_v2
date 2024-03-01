@@ -7,7 +7,7 @@ import { useSetRecoilState } from "recoil";
 
 import { basicInstance } from ".src/api/instance";
 import styles from "../loadingLayout.module.scss";
-import { isLoginState, userNameState } from ".src/recoil";
+import { isLoginState, profileState, userNameState } from ".src/recoil";
 
 const AppleAuth = () => {
   const { query, push } = useRouter();
@@ -20,6 +20,7 @@ const AppleAuth = () => {
 
   const setIsLoginState = useSetRecoilState(isLoginState);
   const setUserNameState = useSetRecoilState(userNameState);
+  const setProfile = useSetRecoilState(profileState);
 
   const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -67,6 +68,17 @@ const AppleAuth = () => {
               Authorization: `Bearer ${response.data.data.accessToken}`,
             },
           });
+          const { data: profileData } = await axios.get(
+            `${baseURL}/v1/users/profile/${data?.data.id}`
+          );
+
+          setProfile({
+            userId: profileData.data.userId,
+            profileImage: profileData.data.profileImage,
+            nickname: profileData.data.nickname,
+            description: profileData.data.description,
+          });
+
           setIsLoginState(true);
           setUserNameState(data?.data.nickname);
           push("/");

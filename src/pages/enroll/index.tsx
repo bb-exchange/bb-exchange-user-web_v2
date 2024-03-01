@@ -57,6 +57,22 @@ export default function EnrollScreen() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [useEnrollHook.tempArticle]);
 
+  // 뒤로가기 클릭 시
+  const preventGoBack = () => {
+    history.pushState(null, "", location.href);
+    useEnrollHook.setWriteCancelPopup(true);
+  };
+  useEffect(() => {
+    (() => {
+      history.pushState(null, "", location.href);
+      window.addEventListener("popstate", preventGoBack);
+    })();
+
+    return () => {
+      window.removeEventListener("popstate", preventGoBack);
+    };
+  }, []);
+
   return (
     <>
       <EnrollHeader

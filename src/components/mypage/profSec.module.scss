@@ -16,6 +16,9 @@
     .defaultProfImgBox {
       width: 80px;
       height: 80px;
+      overflow: hidden;
+      border-radius: 50%;
+      object-fit: cover;
     }
     .profImgBtn {
       width: 80px;
