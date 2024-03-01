@@ -31,6 +31,7 @@ export default function useGetMyProfile() {
     queryKey: ["myProfile"],
     queryFn: () => getProfile(currentUserData?.id ?? 0),
     enabled: !!currentUserData?.id,
+    gcTime: Infinity,
   });
   return data?.data.data as profile;
 }

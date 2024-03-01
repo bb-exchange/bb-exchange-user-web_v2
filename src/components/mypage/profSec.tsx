@@ -1,5 +1,6 @@
+import Image from "next/image";
 import styles from "./profSec.module.scss";
-import Gold from ".assets/icons/tier/Gold.svg";
+// import Gold from ".assets/icons/tier/Gold.svg";
 import Profile from ".assets/images/img_profile.svg";
 import ChevronRtBlue from ".assets/icons/ChevronRtBlue.svg";
 import { useRouter } from "next/router";
@@ -13,7 +14,17 @@ export default function ProfSec() {
   return (
     <section className={styles.profSec}>
       <article className={styles.leftArea}>
-        <Profile className={styles.defaultProfImgBox} />
+        {myProfile?.profileImage ? (
+          <Image
+            src={myProfile?.profileImage}
+            width={80}
+            height={80}
+            alt="profile image"
+            className={styles.defaultProfImgBox}
+          />
+        ) : (
+          <Profile className={styles.defaultProfImgBox} />
+        )}
 
         <div className={styles.infoCont}>
           <div className={styles.nicknameBar}>
