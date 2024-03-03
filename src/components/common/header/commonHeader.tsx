@@ -9,7 +9,7 @@ import ChevronRt from ".assets/icons/ChevronRt.svg";
 import DefaultProfImg from ".assets/example/DefaultProfImg.png";
 import { D_commonHeaderCategoryList } from ".src/data/common/header";
 import PostCategoryPopup from "./postCategoryPopup";
-import Image from "next/image";
+import Image from ".src/components/Image";
 import ProfileHoverPopup from "./profileHoverPopup";
 import AlertHoverPopup from "./alertHoverPopup";
 import AlertCount from "./alertCount";
@@ -114,6 +114,7 @@ export default function CommonHeader({ commonSort }: Iprops) {
                         profileData?.data.data.profileImage || DefaultProfImg
                       }
                       alt="profile image"
+                      loader
                       priority
                       width={29}
                       height={29}

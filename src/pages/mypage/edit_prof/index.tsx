@@ -4,7 +4,7 @@ import CommonHeader from ".src/components/common/header/commonHeader";
 import PlusGrey from ".assets/icons/PlusGrey.svg";
 import CautionRed from ".assets/icons/CautionRed.svg";
 import CheckCircleBlue from ".assets/icons/CheckCircleBlue.svg";
-import Image from "next/image";
+import Image from ".src/components/Image";
 import useGetMyProfile from ".src/hooks/common/useGetProfile";
 import { useEffect } from "react";
 
@@ -38,6 +38,7 @@ export default function EditProf() {
                 className={styles.profImg}
                 width={100}
                 height={100}
+                loader
                 src={
                   useEditProf.watch("profImg") ??
                   (myProfile?.profileImage as string)

@@ -101,7 +101,7 @@ const MobileAuth = () => {
         setOpenExceedPopup(true);
       } else if (error.response?.data.code === "ATH009") {
         setOpenErrorPopup(true);
-      }
+      } 
     }
   };
 
