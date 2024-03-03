@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from ".src/components/Image";
 import styles from "./profSec.module.scss";
 // import Gold from ".assets/icons/tier/Gold.svg";
 import Profile from ".assets/images/img_profile.svg";
@@ -19,6 +19,7 @@ export default function ProfSec() {
             src={myProfile?.profileImage}
             width={80}
             height={80}
+            loader
             alt="profile image"
             className={styles.defaultProfImgBox}
           />
