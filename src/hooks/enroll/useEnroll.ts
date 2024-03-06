@@ -12,7 +12,9 @@ import {
   getArticle,
   getArticleTemp,
   getArticlesTemp,
+  patchArticleTag,
   patchArticleTemp,
+  patchArticleThumbnail,
   postArticle,
   postArticleTemp,
   updateArticle,
@@ -80,6 +82,15 @@ export default function useEnroll(editor: Editor | null) {
     queryFn: () => getArticle(`${myArticleId}`),
     enabled: !!myArticleId,
   });
+  useEffect(() => {
+    if (myArticleData?.tagList.length) {
+      setValue(
+        "tagList",
+        myArticleData.tagList.map((v: any) => v.tagName)
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [myArticleData]);
 
   //NOTE - [API] 임시저장 글 목록
   const { data: articleTempList, refetch: getTempList } = useQuery({
@@ -106,7 +117,8 @@ export default function useEnroll(editor: Editor | null) {
   const updateMutation = useMutation({
     mutationFn: updateArticle,
     onSuccess: () => {
-      // 상장글일 때 팝업
+      isSuccessEnroll.current = true;
+
       if (myArticleData.articleInfo.isListed) {
         setEditListedPopup(true);
       } else {
@@ -130,9 +142,22 @@ export default function useEnroll(editor: Editor | null) {
     },
   });
 
+  //NOTE - [API] 썸네일 업데이트
+  const updateThumbMutation = useMutation({
+    mutationFn: patchArticleThumbnail,
+  });
+
+  //NOTE - [API] 태그 업데이트
+  const updateTagMutation = useMutation({
+    mutationFn: patchArticleTag,
+  });
+
   //NOTE - 게시글 등록되면 버킷에 이미지 업로드
   useEffect(() => {
-    if (isSuccessEnroll.current && btnName === "게시하기") {
+    if (
+      isSuccessEnroll.current &&
+      (btnName === "게시하기" || (btnName === "수정하기" && !tempArticleId))
+    ) {
       [...files.values()].map((file) => {
         imgUploadMutation.mutate({
           presignedUrl: file.presignedUrl,
@@ -144,7 +169,7 @@ export default function useEnroll(editor: Editor | null) {
       isSuccessEnroll.current = false;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSuccessEnroll.current, files, btnName]);
+  }, [isSuccessEnroll.current, files, btnName, tempArticleId]);
 
   //NOTE - [API] Presigned url 발급
   const presignedUrlMutation = useMutation({
@@ -168,7 +193,7 @@ export default function useEnroll(editor: Editor | null) {
   //NOTE - 파일 업로드 시, MD5 해시값 생성 & Presigned url 발급
   useEffect(() => {
     if (!uploadFiles) return;
-    if (btnName === "게시하기") {
+    if (btnName === "게시하기" || (btnName === "수정하기" && !tempArticleId)) {
       [...uploadFiles].map((file) => {
         const reader = new FileReader();
 
@@ -192,7 +217,7 @@ export default function useEnroll(editor: Editor | null) {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [uploadFiles, btnName]);
+  }, [uploadFiles, btnName, tempArticleId]);
 
   //NOTE - 파일 업로드
   // 1. 이미지 프리뷰
@@ -207,8 +232,6 @@ export default function useEnroll(editor: Editor | null) {
       const reader = new FileReader();
       reader.readAsDataURL(file);
 
-      // title 지정
-
       if (file.size > 5242880) {
         setErrMsg("5MB 이하의 이미지를 사용해 주세요");
         return;
@@ -222,10 +245,6 @@ export default function useEnroll(editor: Editor | null) {
           src: reader.result as string,
           fileName: file.name,
         });
-        // editor
-        //   ?.chain()
-        //   .setImage({ src: reader.result as string, title: file.name })
-        //   .run();
       };
     });
   };
@@ -242,7 +261,7 @@ export default function useEnroll(editor: Editor | null) {
   //NOTE - [API] 임시저장 글 삭제
   const deleteTempMutation = useMutation({
     mutationFn: deleteArticleTemp,
-    onSuccess: (data, variables, context) => {
+    onSuccess: () => {
       getTempList();
     },
   });
@@ -264,23 +283,15 @@ export default function useEnroll(editor: Editor | null) {
     setDelDraftPopup(false);
   };
 
-  const beforeUnloadHandler = (e: BeforeUnloadEvent) => {
-    return ((e || window.event).returnValue = ""); // Gecko + Webkit, Safari, Chrome etc.
-  };
-
   useEffect(() => {
     editor?.commands.focus();
   }, [editor]);
 
   useEffect(() => {
-    // if (errMsgBusy) return;
-
     const { errors } = formState;
-    // console.log("1errors", errors);
 
     let _errKeys = Object.values(errors);
     let _errMsgs = _errKeys.map((e) => e.message);
-    // console.log("_errMsgs", _errKeys, _errMsgs);
 
     if (!_errMsgs[0]) return;
 
@@ -329,12 +340,12 @@ export default function useEnroll(editor: Editor | null) {
           (item: any) => item.type !== "figure"
         ),
       };
-    } else if (files.size) {
+    } else {
       editorJson = {
         ...editorJson,
         content: editorJson?.content?.map((item: any, i: number) => {
           let chagnedItem = item;
-          if (item.type === "figure") {
+          if (item.type === "figure" && files.has(item.attrs.fileName)) {
             chagnedItem = {
               ...item,
               attrs: {
@@ -350,13 +361,30 @@ export default function useEnroll(editor: Editor | null) {
       };
     }
 
+    const thumb = editorJson.content?.filter(
+      (item: any) => item.type === "figure" && item.attrs.isThumb
+    );
+
+    let thumbNail = thumb?.length ? thumb[0]?.attrs?.src : "";
+
+    const firstThumb = editorJson.content?.filter(
+      (item: any) => item.type === "figure"
+    );
+
+    if (!thumb?.length && firstThumb?.length) {
+      thumbNail = firstThumb[0]?.attrs?.src;
+    }
+
     const body = {
       title: watch("title"),
       category: watch("category").category,
       content: editor ? JSON.stringify({ ...editorJson }) : ``,
       articleTagList: watch("tagList") ?? [],
-      thumbnailImage: watch("thumbNail") ?? "",
+      thumbnailImage: thumbNail,
     };
+
+    // console.log("body, editorJson", body, editorJson);
+    // console.log("thumbNail", thumbNail, myArticleId);
 
     // 임시저장글 -> 수정하기
     if (btnName === "수정하기" && tempArticleId) {
@@ -365,7 +393,26 @@ export default function useEnroll(editor: Editor | null) {
     }
     // 내글 수정하기
     if (btnName === "수정하기" && !tempArticleId) {
-      updateMutation.mutate({ articleId: myArticleId, body });
+      updateThumbMutation.mutate({
+        articleId: myArticleId,
+        body: {
+          thumbnail: thumbNail,
+        },
+      });
+      updateTagMutation.mutate({
+        articleId: myArticleId,
+        body: {
+          articleTagList: watch("tagList") ?? [],
+        },
+      });
+      updateMutation.mutate({
+        articleId: myArticleId,
+        body: {
+          title: watch("title"),
+          category: watch("category").category,
+          content: editor ? JSON.stringify({ ...editorJson }) : ``,
+        },
+      });
       return;
     }
 
@@ -444,12 +491,10 @@ export default function useEnroll(editor: Editor | null) {
 
   //NOTE - 썸네일 지정
   const onSetThumbnail = () => {
-    editor?.commands.setThumb(selectedEditorNodePos);
+    //@ts-ignore
+    if (selectImg?.isthumb !== "true")
+      editor?.commands.setThumb(selectedEditorNodePos);
 
-    const fileName = selectImg?.getAttribute("filename") as string;
-    const target = files.get(fileName);
-
-    target && setValue("thumbNail", target.imgPath);
     setSelectImg(undefined);
   };
 
@@ -466,7 +511,6 @@ export default function useEnroll(editor: Editor | null) {
     if (selectedEditorNodePos !== null)
       editor?.commands.deleteImage(selectedEditorNodePos);
 
-    // 선택이미지 비움
     setSelectImg(undefined);
   };
 
