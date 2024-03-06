@@ -47,6 +47,7 @@ export default function UseEditProf() {
     fileByte: null,
     md5: "",
   });
+  const [isNotSavedPopup, setIsNotSavedPopup] = useState<boolean>(false);
 
   const handleOnChange = async (e: any) => {
     if (
@@ -97,6 +98,11 @@ export default function UseEditProf() {
     mutationFn: editMyProfile,
     onSuccess: () => {
       isSuccessEdit.current = true;
+    },
+    onError: (error: any) => {
+      if (error.response?.data.code === "USR032") {
+        setIsNotSavedPopup(true);
+      }
     },
   });
 
@@ -217,5 +223,7 @@ export default function UseEditProf() {
     onChangeProfImg,
     setValue,
     isExist,
+    isNotSavedPopup,
+    setIsNotSavedPopup,
   };
 }

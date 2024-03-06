@@ -23,12 +23,15 @@ const MobilePage = ({
   const [preparePopup, setPreparePopup] = useState<boolean>(false);
 
   const onClickMoveToNewPost = () => {
-    // TODO 작성하기 이동
+    if (!isClient) {
+      onClickMoveToApp();
+      return;
+    }
     //@ts-ignore
     if (typeof BbxClient !== undefined && isClient) {
       //@ts-ignore
       BbxClient.postMessage(JSON.stringify({ destination: "post" }));
-    } else onClickMoveToApp();
+    }
   };
 
   const onClickMoveToEvent = () => {

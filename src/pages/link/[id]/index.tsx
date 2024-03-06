@@ -44,6 +44,14 @@ export default function Link({
     [date, articleId]
   );
 
+  const toWeb = () => {
+    if (!isMobile) {
+      router.push(`/post/${articleId}`);
+    } else {
+      router.push("/");
+    }
+  };
+
   useEffect(() => {
     console.log(isMobile, agent);
     if (!mounted) return;
@@ -62,9 +70,7 @@ export default function Link({
             <Image src={LogoIcon} alt="bbx-logo" fill />
           </div>
           <caption>페이지 이동중입니다</caption>
-          <button onClick={() => router.push(`/post/${articleId}`)}>
-            웹으로 보기
-          </button>
+          <button onClick={toWeb}>웹으로 보기</button>
         </div>
       )}
     </>
