@@ -15,11 +15,11 @@ import ".src/styles/globals.scss";
 
 import Layout from ".src/components/layouts/Layout";
 
-const GA_KEY = "G-980G09RM75";
-const GTM_KEY = "GTM-5NB6NLVK";
-const AMPLITUDE_KEY = "e821d993fc12561de9d34f513cdd7df6";
-
 export default function App({ Component, ...rest }: AppProps) {
+  const GA_KEY = `${process.env.NEXT_PUBLIC_GA_KEY}`;
+  const GTM_KEY = `${process.env.NEXT_PUBLIC_GTM_KEY}`;
+  const AMPLITUDE_KEY = `${process.env.NEXT_PUBLIC_AMPLITUDE_KEY}`;
+
   // NOTE - React Query Client 기본 설정
   const [queryClient] = useState(
     () =>
@@ -43,7 +43,7 @@ export default function App({ Component, ...rest }: AppProps) {
 
   // NOTE - amplitude
   useEffect(() => {
-    init(AMPLITUDE_KEY, { defaultTracking: false });
+    init(AMPLITUDE_KEY, { defaultTracking: true });
   }, []);
 
   function storePathValues() {
