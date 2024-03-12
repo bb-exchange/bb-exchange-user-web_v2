@@ -13,6 +13,7 @@ import section45 from "../../../public/assets/images/serviceIntroduction/section
 import section5 from "../../../public/assets/images/serviceIntroduction/section5.png";
 import mBanner from "../../../public/assets/images/serviceIntroduction/m-banner.png";
 import mLogo from "../../../public/assets/images/serviceIntroduction/m-logo.png";
+import mLogoText from "../../../public/assets/images/serviceIntroduction/m-logo-text.png";
 
 import styles from "./mobile.module.scss";
 import MobileHeader from "../common/header/mobileHeader";
@@ -59,10 +60,7 @@ const DesktopPage = ({
   const onClickAppLink = () => {
     if (isAndroid) {
       setPreparePopup(true);
-    } else
-      window.location.assign(
-        "https://apps.apple.com/kr/app/%EB%B9%84%EB%B2%95%EA%B1%B0%EB%9E%98%EC%86%8C-%EA%B8%80%EB%A1%9C-%EB%8F%88-%EB%B2%84%EB%8A%94-%EC%B4%88%EA%B0%84%EB%8B%A8-%EB%B6%80%EC%88%98%EC%9E%85-%EC%95%B1%ED%85%8C%ED%81%AC/id6446600331"
-      );
+    } else window.location.assign(`${process.env.NEXT_PUBLIC_APPLE_APP_STORE}`);
   };
 
   return (
@@ -70,8 +68,9 @@ const DesktopPage = ({
       {!isClient && <MobileHeader />}
       <main className={classNames(styles.service, !isClient && styles.web)}>
         <section className={styles.section1}>
-          <span>글로 돈 버는 초간단 부수입 앱테크</span>
-          <strong>비법거래소</strong>
+          {/* <span>글로 돈 버는 초간단 부수입 앱테크</span>
+          <strong>비법거래소</strong> */}
+          <Image src={mLogoText} alt="" className={styles.logoText} />
           <Image src={section1} alt="" />
 
           <button
@@ -229,7 +228,7 @@ const DesktopPage = ({
             </button>
           )}
           <button onClick={onClickMoveToEvent}>
-            <Image src={mBanner} alt="" onClick={() => router.push("/event")} />
+            <Image src={mBanner} alt="" />
           </button>
         </section>
 

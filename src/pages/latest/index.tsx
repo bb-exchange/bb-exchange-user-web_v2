@@ -115,7 +115,7 @@ export default function Lastest() {
                         }`}
                       >
                         <div className={styles.titleBar}>
-                          <h1 className={styles.title}>{title}</h1>
+                          <h2 className={styles.title}>{title}</h2>
                           <p className={styles.replyCount}>{`[${
                             (commentNum || 0) > 99 ? `+99` : commentNum || 0
                           }]`}</p>

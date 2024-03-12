@@ -20,7 +20,7 @@ export default function ConfirmPopup({
       <div className={styles.contentBox}>
         {title && <h1 className={styles.title}>{title}</h1>}
 
-        {content && <p className={styles.content}>{content}</p>}
+        {content && <div className={styles.content}>{content}</div>}
       </div>
 
       <div className={styles.btnBar}>

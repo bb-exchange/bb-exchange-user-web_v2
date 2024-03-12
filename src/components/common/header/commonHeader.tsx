@@ -9,16 +9,16 @@ import ChevronRt from ".assets/icons/ChevronRt.svg";
 import DefaultProfImg from ".assets/example/DefaultProfImg.png";
 import { D_commonHeaderCategoryList } from ".src/data/common/header";
 import PostCategoryPopup from "./postCategoryPopup";
-import Image from "next/image";
+import Image from ".src/components/Image";
 import ProfileHoverPopup from "./profileHoverPopup";
 import AlertHoverPopup from "./alertHoverPopup";
 import AlertCount from "./alertCount";
 import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
-import { isLoginState, userNameState } from ".src/recoil";
+import { isLoginState, profileState, userNameState } from ".src/recoil";
 import { useQuery } from "@tanstack/react-query";
-import { getEthicalPledge } from ".src/api/users/users";
-import { useEffect, useRef, useState } from "react";
+import { getEthicalPledge, getProfile } from ".src/api/users/users";
+import { useEffect, useMemo, useRef, useState } from "react";
 import ConfirmTitlePopup from ".src/components/common/popup/confirmTitlePopup";
 import PopupBg from ".src/components/common/popupBg";
 
@@ -31,6 +31,7 @@ export default function CommonHeader({ commonSort }: Iprops) {
 
   const nickname = useRecoilValue(userNameState);
   const isSignedIn = useRecoilValue(isLoginState);
+  const profile = useRecoilValue(profileState);
 
   const [preparePopup, setPreparePopup] = useState<boolean>(false);
 
@@ -58,6 +59,12 @@ export default function CommonHeader({ commonSort }: Iprops) {
       isClickedEnroll.current = false;
     }
   }, [ethicalPledgeData, router]);
+
+  const { data: profileData } = useQuery({
+    queryKey: ["myProfile"],
+    queryFn: () => getProfile(profile.userId),
+    enabled: !!profile.userId,
+  });
 
   return (
     <header className={styles.commonHeader}>
@@ -103,8 +110,12 @@ export default function CommonHeader({ commonSort }: Iprops) {
                   <div className={styles.profImgWrap}>
                     <Image
                       className={styles.profile}
-                      src={DefaultProfImg.src}
-                      alt="profile icon"
+                      src={
+                        profileData?.data.data.profileImage || DefaultProfImg
+                      }
+                      alt="profile image"
+                      loader
+                      priority
                       width={29}
                       height={29}
                     />

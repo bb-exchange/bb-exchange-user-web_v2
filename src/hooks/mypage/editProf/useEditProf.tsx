@@ -4,11 +4,23 @@ import { editMyProfile } from ".src/api/users/users";
 import { useRouter } from "next/router";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { MD5 } from "crypto-js";
 import { uploadImg } from ".src/api/images/uploadImg";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import CryptoJS from "crypto-js";
+
+interface IUploadFile {
+  presignedUrl: string;
+  imgPath: string;
+  imgType: string;
+  file: any;
+  md5: string;
+  fileByte: any;
+}
 
 export default function UseEditProf() {
   const router = useRouter();
+  const queryClient = useQueryClient();
+
   const profImgInputRef = useRef<HTMLInputElement>(null);
 
   const nicknameMinLen = 3;
@@ -23,10 +35,19 @@ export default function UseEditProf() {
     handleSubmit,
   } = useForm<IeditProf>({ mode: "onChange" });
 
+  const isSuccessEdit = useRef<boolean>(false);
+
   const [isExist, setIsExist] = useState<boolean>();
-  const [uploadFile, setUploadFile] = useState<any | null>(null);
-  const [imgType, setImgType] = useState<string>("");
-  const [md5, setMd5] = useState<string | null>(null);
+  const [uploadFile, setUploadFile] = useState<FileList | null>(null);
+  const [fileInfo, setFileInfo] = useState<IUploadFile>({
+    presignedUrl: "",
+    imgPath: "",
+    imgType: "",
+    file: null,
+    fileByte: null,
+    md5: "",
+  });
+  const [isNotSavedPopup, setIsNotSavedPopup] = useState<boolean>(false);
 
   const handleOnChange = async (e: any) => {
     if (
@@ -73,57 +94,121 @@ export default function UseEditProf() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watch("nickname")]);
 
-  const onSubmit = async (data: any) => {
-    try {
-      const res = await editMyProfile({
-        nickname: data.nickname,
-        description: data.description,
-      });
+  const editProfileMutation = useMutation({
+    mutationFn: editMyProfile,
+    onSuccess: () => {
+      isSuccessEdit.current = true;
+    },
+    onError: (error: any) => {
+      if (error.response?.data.code === "USR032") {
+        setIsNotSavedPopup(true);
+      }
+    },
+  });
 
-      // if (uploadFile && md5) {
-      //   const { data } = await imgPreSignedUrl({
-      //     contentType: imgType,
-      //     md5,
-      //   });
-
-      //   await uploadImg(data.presignedUrl, uploadFile, md5, imgType);
-      // }
-
-      // if (res?.status === 204) {
-      //   router.push("/mypage");
-      // }
-    } catch (error) {}
+  const onSubmit = (data: any) => {
+    editProfileMutation.mutate({
+      nickname: data.nickname,
+      description: data.description,
+      imagePath: fileInfo.imgPath ?? "",
+    });
   };
 
+  //NOTE - [API] Presigned url 발급
+  const presignedUrlMutation = useMutation({
+    mutationFn: imgPreSignedUrl,
+    onSuccess: (data, variables) => {
+      setFileInfo({
+        presignedUrl: data.data.presignedUrl,
+        imgPath: data.data.imagePath,
+        imgType: variables.contentType,
+        file: variables.file,
+        fileByte: variables.fileByte,
+        md5: variables.md5,
+      });
+    },
+  });
+
+  //NOTE - [API] 발급받은 Presigned url로 이미지 업로드
+  const imgUploadMutation = useMutation({
+    mutationFn: uploadImg,
+    onSuccess: () => {
+      queryClient.setQueryData(["myProfile"], (oldData: any) => {
+        return {
+          ...oldData,
+          data: {
+            ...oldData.data,
+            data: {
+              ...oldData.data.data,
+              profileImage: fileInfo.imgPath,
+            },
+          },
+        };
+      });
+    },
+  });
+
+  //NOTE - 프로필 수정 완료되면 버킷에 이미지 업로드
+  useEffect(() => {
+    if (isSuccessEdit.current && fileInfo) {
+      imgUploadMutation.mutate({
+        presignedUrl: fileInfo.presignedUrl,
+        imgType: fileInfo.imgType,
+        file: fileInfo.fileByte,
+        md5: fileInfo.md5,
+      });
+      isSuccessEdit.current = false;
+      router.push("/mypage/write");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSuccessEdit.current, fileInfo]);
+
+  //NOTE - 파일 업로드 시, MD5 해시값 생성 & Presigned url 발급
+  useEffect(() => {
+    if (!uploadFile) return;
+
+    [...uploadFile].map((file) => {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        if (reader.readyState === 2) {
+          const arrayBuffer: any = e.target?.result;
+
+          const wordArray = CryptoJS.lib.WordArray.create(arrayBuffer);
+          const md5 = CryptoJS.MD5(wordArray);
+          const base64Incod = md5.toString(CryptoJS.enc.Base64);
+
+          presignedUrlMutation.mutate({
+            contentType: file.type,
+            md5: base64Incod,
+            file: file,
+            fileByte: arrayBuffer,
+          });
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [uploadFile]);
+
   function onChangeProfImg(e: ChangeEvent<HTMLInputElement>) {
-    e.preventDefault();
+    const files = e?.target?.files;
+    setUploadFile(files);
 
-    if (!e.target.files) return;
+    if (!files?.length) return;
 
-    const file = e.target.files[0];
-    setImgType(file.type);
+    [...files].map((file: any) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
 
-    const formData = new FormData();
-    formData.append("file", file);
-    setUploadFile(formData);
+      reader.onload = (ev: ProgressEvent<FileReader>) => {
+        if (!reader.result) return;
 
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-
-    // if (file) {
-    // reader.readAsBinaryString(file);
-    // }
-    reader.onload = (ev: ProgressEvent<FileReader>) => {
-      if (!reader.result) return;
-
-      if (reader.readyState === 2) {
-        const binary: any = ev?.target?.result;
-        const md5 = MD5(binary).toString();
-        setMd5(md5);
-
-        setValue("profImg", `${reader.result}`);
-      }
-    };
+        if (reader.readyState === 2) {
+          setValue("profImg", `${reader.result}`);
+        }
+      };
+    });
   }
 
   return {
@@ -138,5 +223,7 @@ export default function UseEditProf() {
     onChangeProfImg,
     setValue,
     isExist,
+    isNotSavedPopup,
+    setIsNotSavedPopup,
   };
 }

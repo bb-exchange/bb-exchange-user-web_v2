@@ -31,7 +31,6 @@ const DesktopPage = () => {
             <h3>
               <span>글로 돈 버는 초간단 부수입 앱테크</span>
               <Image src={logo} alt="" width={326} />
-              {/* <strong>비법거래소</strong> */}
             </h3>
             <Link href={isSignedIn ? "/enroll" : "/auth/signin"}>
               <button className={`${styles.btn} ${styles.section1Btn}`}>

@@ -23,12 +23,15 @@ const MobilePage = ({
   const [preparePopup, setPreparePopup] = useState<boolean>(false);
 
   const onClickMoveToNewPost = () => {
-    // TODO 작성하기 이동
+    if (!isClient) {
+      onClickMoveToApp();
+      return;
+    }
     //@ts-ignore
     if (typeof BbxClient !== undefined && isClient) {
       //@ts-ignore
       BbxClient.postMessage(JSON.stringify({ destination: "post" }));
-    } else onClickMoveToApp();
+    }
   };
 
   const onClickMoveToEvent = () => {
@@ -42,10 +45,7 @@ const MobilePage = ({
   const onClickMoveToApp = () => {
     if (isAndroid) {
       setPreparePopup(true);
-    } else
-      window.location.assign(
-        "https://apps.apple.com/kr/app/%EB%B9%84%EB%B2%95%EA%B1%B0%EB%9E%98%EC%86%8C-%EA%B8%80%EB%A1%9C-%EB%8F%88-%EB%B2%84%EB%8A%94-%EC%B4%88%EA%B0%84%EB%8B%A8-%EB%B6%80%EC%88%98%EC%9E%85-%EC%95%B1%ED%85%8C%ED%81%AC/id6446600331"
-      );
+    } else window.location.assign(`${process.env.NEXT_PUBLIC_APPLE_APP_STORE}`);
   };
 
   return (

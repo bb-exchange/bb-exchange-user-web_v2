@@ -128,7 +128,11 @@ export const getArticle = async (articleId: string) =>
 //NOTE - 게시글 수정
 interface IUpdateArticle {
   articleId: string;
-  body: IArticle;
+  body: {
+    title: string;
+    category: string;
+    content: any;
+  };
 }
 export const updateArticle = async (data: IUpdateArticle) =>
   (await basicInstance.patch(`/v1/articles/${data.articleId}`, data.body)).data;
@@ -136,3 +140,21 @@ export const updateArticle = async (data: IUpdateArticle) =>
 //NOTE - 내 게시글
 export const getMyArticles = async (query: string) =>
   (await basicInstance.get(`/v1/articles/mine/${query}`)).data;
+
+//NOTE - 게시글의 썸네일 업데이트
+export const patchArticleThumbnail = async ({
+  articleId,
+  body,
+}: {
+  articleId: string;
+  body: any;
+}) => await basicInstance.patch(`/v1/articles/${articleId}/thumbnail`, body);
+
+//NOTE - 게시글의 태그 업데이트
+export const patchArticleTag = async ({
+  articleId,
+  body,
+}: {
+  articleId: string;
+  body: any;
+}) => await basicInstance.patch(`/v1/articles/${articleId}/tag`, body);

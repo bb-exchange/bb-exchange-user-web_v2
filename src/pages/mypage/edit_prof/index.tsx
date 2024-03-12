@@ -4,24 +4,22 @@ import CommonHeader from ".src/components/common/header/commonHeader";
 import PlusGrey from ".assets/icons/PlusGrey.svg";
 import CautionRed from ".assets/icons/CautionRed.svg";
 import CheckCircleBlue from ".assets/icons/CheckCircleBlue.svg";
-import Image from "next/image";
+import Image from ".src/components/Image";
 import useGetMyProfile from ".src/hooks/common/useGetProfile";
 import { useEffect } from "react";
-// import { getImgPreSignedUrl } from ".src/api/img/imgPreSignedUrl";
+import ConfirmTitlePopup from ".src/components/common/popup/confirmTitlePopup";
+import PopupBg from ".src/components/common/popupBg";
 
 export default function EditProf() {
   const useEditProf = UseEditProf();
   const myProfile = useGetMyProfile();
-
-  // getImgPreSignedUrl({ contentType: "string", md5: "string" }).then((res) =>
-  //   console.log("11", res)
-  // );
 
   useEffect(() => {
     if (myProfile) {
       useEditProf.setValue("nickname", myProfile.nickname);
       useEditProf.setValue("description", myProfile.description);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [myProfile]);
 
   return (
@@ -38,15 +36,22 @@ export default function EditProf() {
             className={styles.profImgBtn}
             onClick={() => useEditProf.profImgInputRef.current?.click()}
           >
-            {useEditProf.watch("profImg") ? (
+            {useEditProf.watch("profImg") || myProfile?.profileImage ? (
               <Image
                 className={styles.profImg}
-                src={useEditProf.watch("profImg") ?? ""}
+                width={100}
+                height={100}
+                loader
+                src={
+                  useEditProf.watch("profImg") ??
+                  (myProfile?.profileImage as string)
+                }
                 alt=""
               />
             ) : (
               <PlusGrey />
             )}
+
             <input
               ref={useEditProf.profImgInputRef}
               hidden
@@ -158,6 +163,22 @@ export default function EditProf() {
           </button>
         </section>
       </footer>
+
+      {useEditProf.isNotSavedPopup && (
+        <>
+          <ConfirmTitlePopup
+            content={`닉네임 변경은 1개월에 1회만 변경 가능해요.`}
+            confirmText="확인"
+            confirmFunc={() => useEditProf.setIsNotSavedPopup(false)}
+            zIndex={80}
+          />
+          <PopupBg
+            bg
+            zIndex={70}
+            off={() => useEditProf.setIsNotSavedPopup(false)}
+          />
+        </>
+      )}
     </>
   );
 }

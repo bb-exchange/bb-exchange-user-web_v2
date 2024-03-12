@@ -7,7 +7,7 @@ import { useSetRecoilState } from "recoil";
 
 import { basicInstance } from ".src/api/instance";
 import styles from "../loadingLayout.module.scss";
-import { isLoginState, userNameState } from ".src/recoil";
+import { isLoginState, profileState, userNameState } from ".src/recoil";
 //(비회원인 경우)
 //카카오 인증 성공 -> 서비스 이용동의 -> 바로 닉네임 설정 페이지로 이동 (휴대폰 인증 단계 X) (중도 이탈 시 맨 처음부터 시작)
 //구글, 애플 인증 성공 -> -> 서비스 이용동의-> 휴대폰 인증 페이지로 이동 -> 닉네임 설정 페이지로 이동 (중도 이탈 시 맨 처음부터 시작)
@@ -26,6 +26,7 @@ const GoogleAuth = () => {
 
   const setIsLoginState = useSetRecoilState(isLoginState);
   const setUserNameState = useSetRecoilState(userNameState);
+  const setProfile = useSetRecoilState(profileState);
 
   const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -90,6 +91,17 @@ const GoogleAuth = () => {
                 Authorization: `Bearer ${authLoginData.data.accessToken}`,
               },
             });
+            const { data: profileData } = await axios.get(
+              `${baseURL}/v1/users/profile/${data?.data.id}`
+            );
+
+            setProfile({
+              userId: profileData.data.userId,
+              profileImage: profileData.data.profileImage,
+              nickname: profileData.data.nickname,
+              description: profileData.data.description,
+            });
+
             setIsLoginState(true);
             setUserNameState(data?.data.nickname);
             push("/");
