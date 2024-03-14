@@ -1,6 +1,11 @@
 name: STAGE_CD
 
 on:
+  pull_request:
+    branches:
+      - dev
+    types:
+      - closed
   push:
     branches:
       - dev
@@ -8,11 +13,12 @@ on:
 
 env:
   AWS_REGION: ap-northeast-2
-  ECR_REPOSITORY: bb-exchange-user-web
-  ECS_TASK_DEFINITION: bb-exchange-user-web
-  CONTAINER_NAME: bb-exchange-user-web
-  ECS_SERVICE: bb-exchange-user-web
-  ECS_CLUSTER: bb-public
+  ECR_REPOSITORY: stage-bibeop-user-web
+  ECS_TASK_DEFINITION: bibeop-user-web
+  CONTAINER_NAME: bibeop-user-web
+  ECS_SERVICE: bibeop-user-web
+  ECS_CLUSTER: stage-bibeop
+  IMAGE_TAG_NAME: user_web_image_tag
 
 permissions:
   id-token: write
@@ -21,11 +27,11 @@ permissions:
 
 jobs:
   build-and-push:
-    if: ${{ github.event.pull_request.merged }} && ${{ github.ref == 'refs/heads/dev' }}
+    if: ${{ (github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.merged == true)) && github.ref == 'refs/heads/dev' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
@@ -114,30 +120,47 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_OUTPUT
 
-      - name: Download Task Definition Template
+      - name: Checkout Infra Repository
+        uses: actions/checkout@v4
+        with:
+          path: terraform
+          repository: 'bb-exchange/bb-exchange-infra'
+          token: ${{ secrets.INFRA_REPO_ACCESS_TOKEN }}
+          ref: stage
+
+      - name: Update Image Tag
+        env:
+          IMAGE_TAG_NAME: ${{ env.IMAGE_TAG_NAME }}
+          IMAGE_TAG: ${{ steps.build-image.outputs.IMAGE_TAG }}
+        working-directory: terraform/root/stage
         run: |
-          aws ecs describe-task-definition \
-            --task-definition ${{ env.ECS_TASK_DEFINITION }} \
-            --query taskDefinition \
-            > task-definition.json
+          sed -i "s/${IMAGE_TAG_NAME} = \".*\"/${IMAGE_TAG_NAME} = \"$IMAGE_TAG\"/" stage.tfvars
 
-      - name: Fill in the new image ID in the Amazon ECS task definition
-        id: task-def
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: task-definition.json
-          container-name: ${{ env.CONTAINER_NAME }}
-          image: ${{ steps.build-image.outputs.image }}
+      - name: Commit and Push and Merge PR
+        env:
+          IMAGE_TAG: ${{ steps.build-image.outputs.IMAGE_TAG }}
+          GITHUB_TOKEN: ${{ secrets.INFRA_REPO_ACCESS_TOKEN }}
+          GITHUB_ACTOR: ${{ github.actor }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        working-directory: terraform/root/stage
+        run: |
+          git config user.name 'bibeop'
+          git config user.email 'bibeop@bibeop.com'
+          git checkout -b deploy/$IMAGE_TAG
+          git add stage.tfvars
+          git commit -m "deploy: update user web image tag"
+          git push origin deploy/$IMAGE_TAG
 
-      - name: Deploy Amazon ECS task definition
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        with:
-          task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: ${{ env.ECS_SERVICE }}
-          cluster: ${{ env.ECS_CLUSTER }}
-          wait-for-service-stability: true
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            PR_BODY="Automated PR to deploy **[User Web]** by update image tag<br/><br/><br/>open by $PR_URL @$GITHUB_ACTOR"
+          elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            PR_BODY="Automated PR to deploy **[User Web]** by update image tag<br/><br/><br/>open by workflow_dispatch @$GITHUB_ACTOR"
+          fi
+          echo "$PR_BODY" > pr-body.txt
+          PR_URL=$(gh pr create --title "User Web 개발 환경 배포" --body-file pr-body.txt --base stage --head deploy/$IMAGE_TAG)
+          gh pr merge $PR_URL --merge
 
       - name: CD notification to Slack
         uses: 8398a7/action-slack@v3
