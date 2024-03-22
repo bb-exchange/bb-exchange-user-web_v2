@@ -273,7 +273,7 @@ export default function useEnroll(editor: Editor | null) {
 
     if (tempArticleId) {
       refetch();
-      setBtnName("수정하기");
+      setBtnName("작성하기");
     }
   };
 
@@ -387,12 +387,14 @@ export default function useEnroll(editor: Editor | null) {
     // console.log("thumbNail", thumbNail, myArticleId);
 
     // 임시저장글 -> 수정하기
-    if (btnName === "수정하기" && tempArticleId) {
-      updateTempMutation.mutate({ articleId: tempArticleId, body });
+    if (btnName === "작성하기" && tempArticleId) {
+      enrollPostMutation.mutate(body);
+      onDeleteTemp();
       return;
     }
     // 내글 수정하기
     if (btnName === "수정하기" && !tempArticleId) {
+      console.log(`tempArticleId ${tempArticleId}`);
       updateThumbMutation.mutate({
         articleId: myArticleId,
         body: {
@@ -415,7 +417,7 @@ export default function useEnroll(editor: Editor | null) {
       });
       return;
     }
-
+    
     enrollPostMutation.mutate(body);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
