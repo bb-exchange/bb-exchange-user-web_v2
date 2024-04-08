@@ -171,9 +171,11 @@ const DesktopPage = () => {
               <br />
               누군가에게는 꼭 필요한 비법입니다.
             </p>
-            <button className={`${styles.btnLine} ${styles.section5Btn}`}>
-              비법거래소 작성 가이드 {">"}
-            </button>
+            <Link href={isSignedIn ? "/guide" : "/auth/signin"}>
+              <button className={`${styles.btnLine} ${styles.section5Btn}`}>
+                비법거래소 작성 가이드 {">"}
+              </button>
+            </Link>
           </div>
           <Image src={section5} alt="" width={368} />
         </section>
@@ -189,9 +191,9 @@ const DesktopPage = () => {
               수익 창출하러 가기
             </button>
           </Link>
-          <Link href={"/event"}>
+          {/* <Link href={"/event"}>
             <Image src={banner} alt="" width={1200} />
-          </Link>
+          </Link> */}
         </section>
       </main>
     </>

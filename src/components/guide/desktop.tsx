@@ -257,14 +257,14 @@ const DesktopPage = () => {
           </article>
 
           <div className={styles.imageWrapper}>
-            <Link href="/event">
+            {/* <Link href="/event">
               <Image
                 src={getImgPath("event_banner")}
                 height={274}
                 width={1200}
                 alt="event_banner"
               />
-            </Link>
+            </Link> */}
           </div>
         </section>
       </main>
