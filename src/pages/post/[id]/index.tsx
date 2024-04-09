@@ -379,6 +379,11 @@ export default function Post() {
           비법거래소
           {postData?.articleInfo.title && ` • ${postData?.articleInfo.title}`}
         </title>
+
+        <meta property="og:title" content={postData?.articleInfo.title} />
+        <meta property="og:url" content={router.pathname} />
+        <meta property="og:image" content={postData?.articleInfo.thumbnail} />
+        <meta property="og:description" content="제2의 월급, 비법거래소에서" />
       </Head>
 
       <CommonHeader />
