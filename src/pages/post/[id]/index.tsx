@@ -381,7 +381,7 @@ export default function Post() {
         </title>
 
         <meta property="og:title" content={postData?.articleInfo.title} />
-        <meta property="og:url" content={router.pathname} />
+        <meta property="og:url" content={router.asPath} />
         <meta property="og:image" content={postData?.articleInfo.thumbnail} />
         <meta property="og:description" content="제2의 월급, 비법거래소에서" />
       </Head>
