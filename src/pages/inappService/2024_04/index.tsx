@@ -10,7 +10,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     },
   };
 };
-export default function Event202403({
+export default function Event202404({
   isBibeopClient,
   ...props
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
@@ -42,7 +42,7 @@ export default function Event202403({
     <>
       <div style={{ position: "relative", width: "100%", height: "100%" }}>
         <Image
-          src={getImgPath("inappEvent")}
+          src={getImgPath("inappEvent04")}
           height={471}
           width={335}
           quality={100}
@@ -54,7 +54,7 @@ export default function Event202403({
           onClick={onClickToEvent}
           style={{
             position: "absolute",
-            bottom: "17%",
+            bottom: "15%",
             left: "50%",
             transform: "translateX(-50%)",
             zIndex: 100,
@@ -63,7 +63,7 @@ export default function Event202403({
           }}
         >
           <Image
-            src={getImgPath("eventBtn")}
+            src={getImgPath("eventBtn04")}
             height={52}
             width={190}
             quality={100}
