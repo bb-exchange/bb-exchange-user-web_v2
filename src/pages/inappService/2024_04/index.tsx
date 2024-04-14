@@ -3,7 +3,7 @@ import Image from "../../../components/Image";
 import { useEffect } from "react";
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
-  const isBibeopClient = ctx.req.headers["bibeop-client"] || true;
+  const isBibeopClient = ctx.req.headers["bibeop-client"];
   return {
     props: {
       isBibeopClient: !!isBibeopClient,
