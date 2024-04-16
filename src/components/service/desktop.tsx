@@ -24,7 +24,7 @@ const DesktopPage = () => {
 
   return (
     <>
-      <CommonHeader />
+      <CommonHeader commonSort="서비스 소개" />
       <main className={styles.service}>
         <section className={styles.section1}>
           <div>
