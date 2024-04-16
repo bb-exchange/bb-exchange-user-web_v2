@@ -42,7 +42,7 @@ export default function Event202404({
     <>
       <div style={{ position: "relative", width: "100%", height: "100%" }}>
         <Image
-          src={getImgPath("inappEvent04")}
+          src={getImgPath("inappEvent04fix")}
           height={471}
           width={335}
           quality={100}
