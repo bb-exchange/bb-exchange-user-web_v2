@@ -8,6 +8,7 @@ import MobileHeader from "../common/header/mobileHeader";
 import { useState } from "react";
 import PopupBg from "../common/popupBg";
 import { useRouter } from "next/router";
+import event_banner from "../../../public/assets/images/event_banner_mobile.png";
 
 const MobilePage = ({
   isClient,
@@ -271,7 +272,7 @@ const MobilePage = ({
         {!isClient && (
           <Link href="/event">
             <Image
-              src={getImgPath("event_banner")}
+              src={event_banner}
               height={0}
               width={0}
               sizes="(width: 100%)"

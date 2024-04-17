@@ -35,7 +35,7 @@ const Event = ({
       {!isClient && <MobileHeader />}
       <main className={classNames(styles.eventPage, !isClient && styles.web)}>
         <section className={styles.section1}>
-          <p className={styles.title1}>정칙 출시 기념</p>
+          <p className={styles.title1}>정식 출시 기념</p>
           <p className={styles.title2}>로켓상장 이벤트</p>
           <p className={styles.title3}>
             정식 출시 기념으로 크리에이터 분들의 글을
