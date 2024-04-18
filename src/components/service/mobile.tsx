@@ -227,7 +227,7 @@ const DesktopPage = ({
               수익 창출하러 가기
             </button>
           )}
-          <button onClick={onClickMoveToEvent}>
+          <button className={styles.banner} onClick={onClickMoveToEvent}>
             <Image src={mBanner} alt="" />
           </button>
         </section>
