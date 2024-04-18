@@ -17,11 +17,9 @@ const Event = () => {
           <p className={styles.title1}>정식 출시 기념</p>
           <p className={styles.title2}>로켓상장 이벤트</p>
           <p className={styles.title3}>
-            정식 출시 기념으로 크리에이터분들의 더 빠른 상장을 위해 조기 상장해
-            드립니다.
-            <br />
-            100개의 좋아요를 모아야만 상장이 되었다면, 단 100분은 50개에 바로
-            수익화에 돌입할 수 있습니다.
+            정식 출시 기념 기념으로 크리에이터 분들의 글을 <br />
+            <span className={styles.bold}>더 빨리, 더 많이</span> 팔 수 있도록
+            지원해요!
           </p>
         </section>
 
