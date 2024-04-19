@@ -382,7 +382,10 @@ export default function Post({
         <meta property="og:title" content={postData?.articleInfo.title} />
         <meta property="og:url" content={router.asPath} />
         <meta property="og:image" content={postData?.articleInfo.thumbnail} />
-        <meta property="og:description" content="제2의 월급, 비법거래소에서" />
+        <meta
+          property="og:description"
+          content="검증된 꿀팁 모음, 비법거래소"
+        />
       </Head>
 
       <CommonHeader />

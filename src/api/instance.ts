@@ -49,7 +49,7 @@ basicInstance.interceptors.response.use(
 
               let res: any = await refreshing_token;
               refreshing_token = null;
-              console.log(res);
+
               if (res) {
                 const newAccessToken = res.data.data.accessToken;
 
@@ -65,14 +65,15 @@ basicInstance.interceptors.response.use(
                 return basicInstance(error.config);
               }
             } catch (err: any) {
-              // deleteCookie("accessToken", {
-              //   path: "/",
-              //   domain: window.location.origin,
-              // });
-              // deleteCookie("refreshToken", {
-              //   path: "/",
-              //   domain: window.location.origin,
-              // });
+              deleteCookie("accessToken", {
+                path: "/",
+                domain: window.location.origin,
+              });
+              deleteCookie("refreshToken", {
+                path: "/",
+                domain: window.location.origin,
+              });
+              window.location.href = "/auth/signin";
             }
           })();
         }
