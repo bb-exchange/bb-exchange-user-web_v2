@@ -14,7 +14,7 @@ const ProfileHoverPopup = () => {
   const nickname = useRecoilValue(userNameState);
 
   const [logOut] = useSignOut();
-  const myProfile = useGetMyProfile();
+  const { profile: myProfile } = useGetMyProfile();
 
   return (
     <section className={styles.hoverArea}>

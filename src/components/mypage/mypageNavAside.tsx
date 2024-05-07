@@ -9,7 +9,7 @@ import useGetMyProfile from ".src/hooks/common/useGetProfile";
 export default function MypageNavAside() {
   const router = useRouter();
   const useMypageNavAside = UseMypageNavAside();
-  const profile = useGetMyProfile();
+  const { profile } = useGetMyProfile();
 
   return (
     <aside className={styles.mypageNavAside}>
