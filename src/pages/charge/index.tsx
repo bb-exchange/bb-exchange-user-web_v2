@@ -46,8 +46,6 @@ export default function Charge() {
     response: RequestPayResponse
   ) => {
     const { imp_uid, merchant_uid, error_msg } = response;
-    console.log(response);
-    console.log(paymentTxId);
 
     let request: ConfirmPaymentsRequest = {
       store: "PORTONE",

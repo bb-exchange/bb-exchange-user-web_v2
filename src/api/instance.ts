@@ -100,7 +100,6 @@ const newRefreshToken = async () => {
       withCredentials: true,
     }
   );
-  console.log(res);
   return res;
 };
 
