@@ -63,6 +63,7 @@ import {
 } from "next";
 import { basicInstance } from ".src/api/instance";
 
+
 export const getServerSideProps: GetServerSideProps<{
   postData: PostData;
 }> = async (context: GetServerSidePropsContext) => {
