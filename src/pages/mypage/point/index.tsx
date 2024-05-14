@@ -13,7 +13,7 @@ export default function Point() {
   const router = useRouter();
 
   const useMyPoint = UseMyPoint();
-  const myProfile = useGetMyProfile();
+  const { profile: myProfile } = useGetMyProfile();
 
   const DUMMY_POINT_LIST = [];
 

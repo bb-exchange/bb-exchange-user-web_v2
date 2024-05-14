@@ -1,15 +1,13 @@
 import Image from ".src/components/Image";
 import styles from "./profSec.module.scss";
-// import Gold from ".assets/icons/tier/Gold.svg";
 import Profile from ".assets/images/img_profile.svg";
-import ChevronRtBlue from ".assets/icons/ChevronRtBlue.svg";
 import { useRouter } from "next/router";
 import useGetMyProfile from ".src/hooks/common/useGetProfile";
 import IconCopy from ".assets/icons/Copy.svg";
 
 export default function ProfSec() {
   const router = useRouter();
-  const myProfile = useGetMyProfile();
+  const { profile: myProfile } = useGetMyProfile();
 
   return (
     <section className={styles.profSec}>
@@ -54,7 +52,7 @@ export default function ProfSec() {
               <p className={styles.key}>보유 포인트</p>
 
               <p className={styles.value}>
-                {Intl.NumberFormat().format(myProfile?.settlementAmount)}
+                {Intl.NumberFormat().format(myProfile?.balance)}
               </p>
 
               {/* <button

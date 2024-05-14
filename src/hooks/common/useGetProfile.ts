@@ -27,11 +27,15 @@ export default function useGetMyProfile() {
     gcTime: Infinity,
   });
 
-  const { data }: any = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ["myProfile"],
     queryFn: () => getProfile(currentUserData?.id ?? 0),
     enabled: !!currentUserData?.id,
     gcTime: Infinity,
   });
-  return data?.data.data as profile;
+
+  return {
+    profile: data?.data.data as profile,
+    refetch,
+  };
 }

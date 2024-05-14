@@ -12,7 +12,7 @@ import PopupBg from ".src/components/common/popupBg";
 
 export default function EditProf() {
   const useEditProf = UseEditProf();
-  const myProfile = useGetMyProfile();
+  const { profile: myProfile } = useGetMyProfile();
 
   useEffect(() => {
     if (myProfile) {

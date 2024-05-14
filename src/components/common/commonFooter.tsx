@@ -133,10 +133,27 @@ export default function CommonFooter() {
       {androidPopup && (
         <>
           <ConfirmTitlePopup
-            title="안드로이드 앱 심사중!"
-            content={`안드로이드 앱은 아직 심사중입니다.
-PC를 통해 비법거래소를 만나보세요!`}
-            confirmText="확인"
+            title="비법거래소 앱 다운로드"
+            content={
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Image
+                  src={"/assets/images/android_qr_code.png"}
+                  alt={"apple_app"}
+                  width={200}
+                  height={200}
+                />
+                <span>코드를 카메라로 스캔하여</span>
+                <span>구글 플레이 스토어로 이동합니다.</span>
+              </div>
+            }
+            confirmText="닫기"
             confirmFunc={() => setAndroidPopup(false)}
             zIndex={80}
           />

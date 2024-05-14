@@ -61,10 +61,18 @@ import {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
 } from "next";
+import { basicInstance } from ".src/api/instance";
+
 
 export const getServerSideProps: GetServerSideProps<{
   postData: PostData;
 }> = async (context: GetServerSidePropsContext) => {
+  const accessToken = context.req.cookies.accessToken;
+
+  if (accessToken) {
+    basicInstance.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+  }
+
   const articleId = context.query.id as string;
   const postData = await postById(articleId);
 
@@ -82,7 +90,7 @@ const commentSortByInfo: { [key in CommentSortByType]: string } = {
 };
 
 export default function Post({
-  postData,
+  postData: _postData,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const hook = UsePost();
   const router = useRouter();
@@ -120,6 +128,12 @@ export default function Post({
 
   // NOTE URL 복사 완료 팝업 오픈 여부
   const [copied, setCopied] = useState<boolean>(false);
+
+  const { data: postData } = useQuery({
+    queryKey,
+    queryFn: () => postById(articleId),
+    initialData: _postData,
+  });
 
   //NOTE - tiptap 게시글 출력
   const { editor } = useMakeEditor({ isEdit: false });
@@ -382,7 +396,10 @@ export default function Post({
         <meta property="og:title" content={postData?.articleInfo.title} />
         <meta property="og:url" content={router.asPath} />
         <meta property="og:image" content={postData?.articleInfo.thumbnail} />
-        <meta property="og:description" content="제2의 월급, 비법거래소에서" />
+        <meta
+          property="og:description"
+          content="검증된 꿀팁 모음, 비법거래소"
+        />
       </Head>
 
       <CommonHeader />

@@ -89,9 +89,7 @@ export default function CommonHeader({ commonSort }: Iprops) {
                   <div
                     className={styles.shopImgWrap}
                     onClick={() => {
-                      setPreparePopup(true);
-                      //NOTE - 임시로 주석처리 (기능 미개발)
-                      // router.push("/charge")
+                      router.push("/charge");
                     }}
                   >
                     <Shop />

@@ -5,10 +5,80 @@ import UseCharge from ".src/hooks/charge/useCharge";
 import PcircleBlue from ".assets/icons/PcircleBlue.svg";
 import usePayment from ".src/hooks/payment/usePayment";
 import { D_chargeNoticeList } from ".src/data/charge/D_charge";
+import { useMutation } from "@tanstack/react-query";
+import {
+  ConfirmPaymentsRequest,
+  confirmPayments,
+  preparePayments,
+} from ".src/api/point";
+import useGetMyProfile from ".src/hooks/common/useGetProfile";
+import { RequestPayResponse } from ".src/types/imp";
 
 export default function Charge() {
   const useCharge = UseCharge();
   const { requestPayment } = usePayment();
+  const { profile, refetch } = useGetMyProfile();
+
+  const { mutateAsync: postConfirmPayments } = useMutation({
+    mutationFn: confirmPayments,
+  });
+
+  const { mutateAsync: postPreparePayment } = useMutation({
+    mutationFn: preparePayments,
+  });
+
+  const preparePayment = async (price: number) => {
+    // 결제 사전 준비
+    const { paymentTxId } = await postPreparePayment({
+      currentUserId: profile.userId,
+      store: "PORTONE",
+      amount: price,
+    });
+
+    // IMPORT 결제 모듈 호출
+    requestPayment(paymentTxId, price, (response: RequestPayResponse) =>
+      successCallback(paymentTxId, response)
+    );
+  };
+
+  const successCallback = async (
+    paymentTxId: string,
+    response: RequestPayResponse
+  ) => {
+    const { imp_uid, merchant_uid, error_msg } = response;
+
+    let request: ConfirmPaymentsRequest = {
+      store: "PORTONE",
+      paymentTxId, // prepare 단계에서 채번한 내부 거래 번호
+      isSuccess: false,
+      appleFailReason: "",
+    };
+
+    if (!!imp_uid) {
+      request = {
+        ...request,
+        storeTxId: imp_uid,
+        isSuccess: true,
+      };
+    } else {
+      request = {
+        ...request,
+        isSuccess: false,
+        appleFailReason: error_msg,
+      };
+
+      alert(error_msg);
+    }
+
+    const { status } = await postConfirmPayments({
+      currentUserId: profile.userId,
+      request,
+    });
+
+    if (status === "SUCCESS") {
+      refetch();
+    }
+  };
 
   return (
     <>
@@ -23,7 +93,7 @@ export default function Charge() {
               <p className={styles.key}>현재 보유 포인트</p>
 
               <h2 className={styles.value}>
-                {Intl.NumberFormat().format(999999)} P
+                {profile ? Intl.NumberFormat().format(profile.balance) : 0} P
               </h2>
             </div>
           </div>
@@ -41,7 +111,7 @@ export default function Charge() {
                 <div className={styles.rightBox}>
                   <button
                     className={styles.chargeBtn}
-                    onClick={() => requestPayment(v)}
+                    onClick={() => preparePayment(v)}
                   >
                     <p>{Intl.NumberFormat().format(v)}원</p>
                   </button>
