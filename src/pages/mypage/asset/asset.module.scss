@@ -34,6 +34,15 @@
 
           .key {
             color: $Black2;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            svg path {
+              fill: $Black2;
+            }
+            svg rect {
+              fill: $Black2;
+            }
           }
 
           .value {
