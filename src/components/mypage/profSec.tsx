@@ -4,6 +4,7 @@ import Profile from ".assets/images/img_profile.svg";
 import { useRouter } from "next/router";
 import useGetMyProfile from ".src/hooks/common/useGetProfile";
 import IconCopy from ".assets/icons/Copy.svg";
+import ChevronRtBlue from ".assets/icons/ChevronRtBlue.svg";
 
 export default function ProfSec() {
   const router = useRouter();
@@ -73,6 +74,8 @@ export default function ProfSec() {
                   myProfile?.expectedSettlementAmount
                 )}
               </p>
+              <ChevronRtBlue />
+
 
               {/* <button
                 className={styles.detailBtn}
