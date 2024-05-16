@@ -75,7 +75,7 @@ export default function ProfSec() {
                 )}
               </p>
               <ChevronRtBlue />
-
+                test
 
               {/* <button
                 className={styles.detailBtn}
