@@ -49,7 +49,7 @@ export default function ProfSec() {
 
           <ul className={styles.accountList}>
             <li>
-              <p className={styles.key}>보유 포인트</p>
+              <p className={styles.key}>포인트</p>
 
               <p className={styles.value}>
                 {Intl.NumberFormat().format(myProfile?.balance)}
@@ -66,7 +66,7 @@ export default function ProfSec() {
             <hr />
 
             <li>
-              <p className={styles.key}>예상 정산금</p>
+              <p className={styles.key}>수익금</p>
 
               <p className={styles.value}>
                 {Intl.NumberFormat().format(
