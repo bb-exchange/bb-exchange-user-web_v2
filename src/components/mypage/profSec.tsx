@@ -68,20 +68,17 @@ export default function ProfSec() {
 
             <li>
               <p className={styles.key}>수익금</p>
-
               <p className={styles.value}>
                 {Intl.NumberFormat().format(
-                  myProfile?.expectedSettlementAmount
+                  myProfile?.expectedSettlementAmount,
                 )}
               </p>
-              <ChevronRtBlue />
-
-              {/* <button
+              <button
                 className={styles.detailBtn}
                 onClick={() => router.push("/mypage/asset")}
               >
                 <ChevronRtBlue />
-              </button> */}
+              </button>
             </li>
           </ul>
         </div>

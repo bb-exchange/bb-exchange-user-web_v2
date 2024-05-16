@@ -1,4 +1,5 @@
 import styles from "./asset.module.scss";
+import { Tooltip } from "react-tooltip";
 import CommonFooter from ".src/components/common/commonFooter";
 import CommonHeader from ".src/components/common/header/commonHeader";
 import MypageNavAside from ".src/components/mypage/mypageNavAside";
@@ -14,6 +15,7 @@ import WithdrawPopup from ".src/components/mypage/asset/withdrawPopup";
 import WithdrawInfoPopup from ".src/components/mypage/asset/withdrawInfoPopup";
 import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
 import UseMyTermIncome from ".src/hooks/mypage/asset/useMytermIncome";
+import RedCaution from ".assets/icons/RedCaution.svg";
 
 export default function Asset() {
   const useMypageAsset = UseMypageAsset();
@@ -31,7 +33,17 @@ export default function Asset() {
           <article className={styles.thumbArea}>
             <ul className={styles.assetList}>
               <li>
-                <p className={styles.key}>출금 가능 수익금</p>
+                <p className={styles.key}>
+                  출금 가능 수익금
+                  <a id="tooltip-anchor">
+                    <RedCaution />
+                  </a>
+                  <Tooltip
+                    anchorSelect="#tooltip-anchor"
+                    content={`Hello world from the }!`}
+                    place={"top-start"}
+                  />
+                </p>
                 <p className={styles.value}>
                   {Intl.NumberFormat().format(useMyTermIncome.totalPoint)}원
                 </p>
@@ -122,7 +134,7 @@ export default function Asset() {
         <>
           <ErrorMsgPopup
             msg={`${Intl.NumberFormat().format(
-              useWithdrawPopup.watch("amount")
+              useWithdrawPopup.watch("amount"),
             )}원 출금 예정`}
             subMsg={
               <>
