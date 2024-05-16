@@ -28,13 +28,14 @@ export const useArticles = (props: {
   const articlesData = useMemo(
     () =>
       data == null
-        ? { totalPages: 1, pageNumber: 0, contents: [] }
+        ? { totalPages: 1, pageNumber: 0, contents: [], size: 0 }
         : {
             totalPages: data.totalPages,
             pageNumber: data.pageNumber,
             contents: data.contents,
+            size: data.size,
           },
-    [data]
+    [data],
   );
 
   // NOTE 글 목록 수정
