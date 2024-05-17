@@ -79,7 +79,7 @@ export default function Reply({
 
   const mention = useMemo(
     () => (newNested ? `@${nickname}`.concat(" ") : contentEl.mention),
-    [contentEl.mention, newNested, nickname]
+    [contentEl.mention, newNested, nickname],
   );
 
   // NOTE 댓글 유효성 체크
@@ -90,7 +90,7 @@ export default function Reply({
           ? false
           : !!newComment.slice(mention ? mention.length : 0).trim()
         : false,
-    [contentEl.content, mention, newComment, newNested]
+    [contentEl.content, mention, newComment, newNested],
   );
 
   // NOTE 댓글 수정 버튼 클릭 시
@@ -213,12 +213,12 @@ export default function Reply({
               />
             ) : (
               // NOTE 읽기 모드
-              <pre className={styles.contBox}>
+              <div className={styles.contBox}>
                 {!!contentEl.mention != null && (
                   <strong>{contentEl.mention}</strong>
                 )}
                 {contentEl.content}
-              </pre>
+              </div>
             )}
 
             {/* NOTE 댓글 하단 영역 */}

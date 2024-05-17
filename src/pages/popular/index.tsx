@@ -71,7 +71,7 @@ export default function Popular({
 
   // NOTE 글 목록 관련 hooks
   const {
-    articlesData: { totalPages, pageNumber, contents },
+    articlesData: { totalPages, pageNumber, contents, size },
     mutateArticle,
   } = useArticles({
     searchType,
@@ -100,7 +100,7 @@ export default function Popular({
   }) => {
     if (isLogin) {
       const index = contents.findIndex(
-        (content) => content.articleInfo.articleId === articleId
+        (content) => content.articleInfo.articleId === articleId,
       );
 
       mutateArticle({ index, articleId, bookmarking: !interest });
@@ -147,7 +147,7 @@ export default function Popular({
                     changeRate,
                   },
                 },
-                idx
+                idx,
               ) => (
                 <li
                   key={articleId}
@@ -155,7 +155,9 @@ export default function Popular({
                 >
                   <div className={styles.leftArea}>
                     <div className={styles.rankCont}>
-                      <h2 className={styles.rank}>{idx + 1}</h2>
+                      <h2 className={styles.rank}>
+                        {pageNumber * size + (idx + 1)}
+                      </h2>
 
                       {/* FIXME 응답 API에 랭킹 정보 없음 추후 기능 추가되면 수정 필요 */}
                       {/* <div
@@ -225,7 +227,7 @@ export default function Popular({
                     {price ? (
                       <div
                         className={`${styles.priceCont} ${getDiffStyle(
-                          changeRate || 0
+                          changeRate || 0,
                         )} ${read ? styles.read : ""}`}
                       >
                         <div className={styles.diffBox}>
@@ -239,7 +241,7 @@ export default function Popular({
                         <h1
                           className={styles.price}
                         >{`${new Intl.NumberFormat().format(
-                          price || 0
+                          price || 0,
                         )} P`}</h1>
                       </div>
                     ) : (
@@ -268,7 +270,7 @@ export default function Popular({
                     </button>
                   </article>
                 </li>
-              )
+              ),
             )}
           </ul>
 
