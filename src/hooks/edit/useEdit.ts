@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { redoBtnHandler, undoBtnHandler } from ".src/util/textEditor";
+import { redoBtnHandler, undoBtnHandler } from ".src/utils/textEditor";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 

@@ -2,7 +2,7 @@ import styles from "./editScreen.module.scss";
 import "react-quill/dist/quill.snow.css";
 import React from "react";
 import dynamic from "next/dynamic";
-import { quillFormats } from ".src/util/textEditor";
+import { quillFormats } from ".src/utils/textEditor";
 import ChevronDn from ".assets/icons/ChevronDn.svg";
 import CellPhoneBlue from ".assets/icons/CellPhoneBlue.svg";
 import PcBlue from ".assets/icons/PcBlue.svg";

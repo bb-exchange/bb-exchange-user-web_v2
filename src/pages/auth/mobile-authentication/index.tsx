@@ -11,7 +11,7 @@ import OutlinedBtn from ".src/components/Buttons/OutlinedBtn";
 import IconCheck from "../../../../public/assets/icons/AuthCheck.svg";
 import PopupBg from ".src/components/common/popupBg";
 import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
-import LocalStorage from ".src/util/localStorage";
+import LocalStorage from ".src/utils/localStorage";
 
 interface Inputs {
   phoneNumber: string;

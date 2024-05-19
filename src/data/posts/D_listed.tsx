@@ -1,4 +1,4 @@
-import { hourToSec } from ".src/util/dateTime";
+import { hourToSec } from ".src/utils/dateTime";
 import thumb1 from ".assets/example/popular/thumb1.png";
 import thumb2 from ".assets/example/popular/thumb2.png";
 import thumb3 from ".assets/example/popular/thumb3.png";

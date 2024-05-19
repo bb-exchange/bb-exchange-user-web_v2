@@ -1,4 +1,4 @@
-import { hourToSec } from ".src/util/dateTime";
+import { hourToSec } from ".src/utils/dateTime";
 
 export const D_myContentIncomeList: myContentIncomes[] = [
   {
