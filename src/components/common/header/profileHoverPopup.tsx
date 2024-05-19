@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import styles from "./profileHoverPopup.module.scss";
 import { useSignOut } from ".src/hooks/common/useSignOut";
 import { userNameState } from ".src/recoil";
-import { RECOMMENDER_CODE } from ".src/consts/common";
 import IconCopy from ".assets/icons/Copy.svg";
 import useGetMyProfile from ".src/hooks/common/useGetProfile";
 
