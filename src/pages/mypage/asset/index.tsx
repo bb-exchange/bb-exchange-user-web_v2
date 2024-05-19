@@ -39,9 +39,16 @@ export default function Asset() {
                     <RedCaution />
                   </a>
                   <Tooltip
+                    className={styles.tooltip}
                     anchorSelect="#tooltip-anchor"
-                    content={`Hello world from the }!`}
-                    place={"top-start"}
+                    render={() => (
+                      <div className={styles.tooltipContent}>
+                        판매 대금 확정 여부에 따라 ‘수익금’과
+                        <br />
+                        ‘출금 가능 수익금’에 차이가 있을 수 있어요.
+                      </div>
+                    )}
+                    place="top-start"
                   />
                 </p>
                 <p className={styles.value}>
@@ -104,6 +111,7 @@ export default function Asset() {
             ))}
           </ul>
 
+          {useMypageAsset.category === "이벤트 수익금" && <TermIncome />}
           {useMypageAsset.category === "월별 수익금" && <TermIncome />}
           {useMypageAsset.category === "콘텐츠별 수익금" && <ContentIncome />}
           {useMypageAsset.category === "출금내역" && <MyWithdraw />}

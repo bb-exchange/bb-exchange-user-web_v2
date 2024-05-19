@@ -43,6 +43,20 @@
             svg rect {
               fill: $Black2;
             }
+            a {
+              display: flex;
+            }
+          }
+          .tooltip {
+            background-color: $Black2;
+            border-radius: 4px;
+          }
+          .tooltipContent {
+            text-align: center;
+            font-size: 12px;
+            line-height: 19px;
+            font-weight: 400;
+            color: $White1;
           }
 
           .value {
