@@ -104,10 +104,11 @@ const newRefreshToken = async () => {
 };
 
 //Check refreshToken expiry
-const validateTimeRefreshToken = () => {
-  const decodeRefreshToken: JwtPayload = jwtDecode(
-    String(getCookie("refreshToken"))
-  );
+export const validateTimeRefreshToken = () => {
+  const refreshToken = getCookie("refreshToken");
+  if (!refreshToken) return false;
+
+  const decodeRefreshToken: JwtPayload = jwtDecode(String(refreshToken));
   let exp = Number(decodeRefreshToken.exp);
   let timestamp = new Date().getTime();
   let currentTime: number = timestamp / 1000;
