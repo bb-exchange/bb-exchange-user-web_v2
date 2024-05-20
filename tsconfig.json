@@ -14,9 +14,25 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    /* 경로 설정 */
+    "baseUrl": ".",
     "paths": {
+      "@assets/*": ["./public/assets/*"],
+      "@api/*": ["./src/api/*"],
+      "@components/*": ["./src/components/*"],
+      "@const/*": ["./src/const/*"],
+      "@data/*": ["./src/data/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@lib/*": ["./src/lib/*"],
+      "@pages/*": ["./src/pages/*"],
+      "@recoil/*": ["./src/recoil/*"],
+      "@styles/*": ["./src/styles/*"],
+      "@types/*": ["./src/types/*"],
+      "@utils/*": ["./src/utils/*"],
+
       ".src/*": ["./src/*"],
-      ".assets/*": ["./public/assets/*"]
+      ".assets/*": ["./public/assets/*"],
+      "@src/*": ["./src/*"]
     }
   },
   "include": [
