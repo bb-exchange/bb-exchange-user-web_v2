@@ -1,68 +1,60 @@
-import dynamic from "next/dynamic";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/router";
-import {
-  deletePost,
-  postById,
-  updateDislikePost,
-  updateLikePost,
-} from ".src/api/post/post";
-import moment from "moment";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import "moment/locale/ko";
-import { EditorContent } from "@tiptap/react";
-
-import CommonHeader from ".src/components/common/header/commonHeader";
 import styles from "./postScreen.module.scss";
-import CommonFooter from ".src/components/common/commonFooter";
+
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { InView } from "react-intersection-observer";
+
+import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import dynamic from "next/dynamic";
+import Head from "next/head";
+import { useRouter } from "next/router";
+
 import DefaultProfImg from ".assets/example/DefaultProfImg.png";
-import Gold from ".assets/icons/tier/Gold.svg";
-import Silver from ".assets/icons/tier/Silver.svg";
 import Dot3 from ".assets/icons/Dot3.svg";
 import Eye from ".assets/icons/Eye.svg";
-import ThumbDnGrey from ".assets/icons/ThumbDnGrey.svg";
+import HeartGrey from ".assets/icons/HeartGrey.svg";
+import HeartRedO from ".assets/icons/HeartRedO.svg";
+import Message from ".assets/icons/Message.svg";
+import NoticeCircleGrey from ".assets/icons/NoticeCircleGrey.svg";
 import ThumbDnBlue from ".assets/icons/ThumbDnBlue.svg";
+import ThumbDnGrey from ".assets/icons/ThumbDnGrey.svg";
 import ThumbUpGrey from ".assets/icons/ThumbUpGrey.svg";
 import ThumbUpRed from ".assets/icons/ThumbUpRed.svg";
-import NoticeCircleGrey from ".assets/icons/NoticeCircleGrey.svg";
-import Message from ".assets/icons/Message.svg";
-import UsePost from ".src/hooks/post/usePost";
-import Reply from ".src/components/post/reply";
-import PopupBg from ".src/components/common/popupBg";
-import PostVerPopup from ".src/components/post/postVerPopup";
-import PostImgPopup from ".src/components/post/postImgPopup";
-import PostMorePopup from ".src/components/post/postMorePopup";
-import ReportPostPopup from ".src/components/post/reportPostPopup";
-import ReportUserPopup from ".src/components/post/reportUserPopup";
+import Gold from ".assets/icons/tier/Gold.svg";
+import Silver from ".assets/icons/tier/Silver.svg";
+import { articles, updateArticleBookmark } from ".src/api/articles/articles";
+import { CommentSortByType } from ".src/api/comments";
+import { basicInstance } from ".src/api/instance";
+import { PostData } from ".src/api/interface";
+import { ArticleData } from ".src/api/interface/articles";
+import { deletePost, postById, updateDislikePost, updateLikePost } from ".src/api/post/post";
+import { currentUserInfo, hideAuthorsPosts } from ".src/api/users/users";
+import CommonFooter from ".src/components/common/commonFooter";
+import CommonHeader from ".src/components/common/header/commonHeader";
 import ConfirmPopup from ".src/components/common/popup/confirmPopup";
 import ConfirmTitlePopup from ".src/components/common/popup/confirmTitlePopup";
 import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
-import HeartRedO from ".assets/icons/HeartRedO.svg";
-import HeartGrey from ".assets/icons/HeartGrey.svg";
-import CompPayPopup from ".src/components/post/compPayPopup";
-import { useRecoilValue } from "recoil";
-import { isLoginState } from ".src/recoil";
-import { currentUserInfo, hideAuthorsPosts } from ".src/api/users/users";
+import PopupBg from ".src/components/common/popupBg";
 import Image from ".src/components/Image";
-import { articles, updateArticleBookmark } from ".src/api/articles/articles";
-import { useArticlesByUser } from ".src/hooks/posts/useArticlesByUser";
-import { CommentSortByType } from ".src/api/comments";
-import { InView } from "react-intersection-observer";
-import { ArticleData } from ".src/api/interface/articles";
-import { PostData } from ".src/api/interface";
-import Head from "next/head";
+import CompPayPopup from ".src/components/post/compPayPopup";
+import PostDeleteConfirmPopup from ".src/components/post/PostDeleteConfirmPopup";
+import PostEditConfirmPopup from ".src/components/post/postEditConfirmPopup";
+import PostImgPopup from ".src/components/post/postImgPopup";
+import PostMorePopup from ".src/components/post/postMorePopup";
+import PostVerPopup from ".src/components/post/postVerPopup";
+import Reply from ".src/components/post/reply";
+import ReportPostPopup from ".src/components/post/reportPostPopup";
+import ReportUserPopup from ".src/components/post/reportUserPopup";
 import { useMakeEditor } from ".src/hooks/enroll/useMakeEditor";
 import { useComments } from ".src/hooks/post/useComments";
-import PostEditConfirmPopup from ".src/components/post/postEditConfirmPopup";
+import UsePost from ".src/hooks/post/usePost";
+import { useArticlesByUser } from ".src/hooks/posts/useArticlesByUser";
+import { isLoginState } from ".src/recoil";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { EditorContent } from "@tiptap/react";
 import classNames from "classnames";
-import PostDeleteConfirmPopup from ".src/components/post/PostDeleteConfirmPopup";
-import {
-  GetServerSideProps,
-  GetServerSidePropsContext,
-  InferGetServerSidePropsType,
-} from "next";
-import { basicInstance } from ".src/api/instance";
-
+import moment from "moment";
+import "moment/locale/ko";
+import { useRecoilValue } from "recoil";
 
 export const getServerSideProps: GetServerSideProps<{
   postData: PostData;
@@ -123,8 +115,7 @@ export default function Post({
   const [openConfirmDelete, setOpenConfirmDelete] = useState<boolean>(false);
 
   // NOTE - 내 글 삭제 완료 팝업 오픈 여부
-  const [openConfirmDeleteComplete, setOpenConfirmDeleteComplete] =
-    useState<boolean>(false);
+  const [openConfirmDeleteComplete, setOpenConfirmDeleteComplete] = useState<boolean>(false);
 
   // NOTE URL 복사 완료 팝업 오픈 여부
   const [copied, setCopied] = useState<boolean>(false);
@@ -158,13 +149,7 @@ export default function Post({
 
   // NOTE 좋아요/싫어요 - 등록/해제
   const { mutate: mutateSetValue } = useMutation({
-    mutationFn: async ({
-      isTrue,
-      type,
-    }: {
-      isTrue: boolean;
-      type: "like" | "dislike";
-    }) =>
+    mutationFn: async ({ isTrue, type }: { isTrue: boolean; type: "like" | "dislike" }) =>
       type === "like"
         ? await updateLikePost({
             articleId,
@@ -192,8 +177,7 @@ export default function Post({
         return post;
       }),
 
-    onError: (error) =>
-      error?.message.includes("minutes") && setOneMinOver(true),
+    onError: (error) => error?.message.includes("minutes") && setOneMinOver(true),
   });
 
   // NOTE - 상장글 비구매 글 찜하기
@@ -224,7 +208,7 @@ export default function Post({
       }),
     select: ({ contents }) => {
       const list = contents.filter(
-        ({ articleInfo: { articleId: id } }) => id !== Number(articleId)
+        ({ articleInfo: { articleId: id } }) => id !== Number(articleId),
       );
 
       return list.length > 3 ? list.slice(0, 3) : list;
@@ -232,8 +216,7 @@ export default function Post({
   });
 
   // NOTE 댓글 목록 정렬 기준
-  const [commentSortBy, setCommentSortBy] =
-    useState<CommentSortByType>("POPULAR");
+  const [commentSortBy, setCommentSortBy] = useState<CommentSortByType>("POPULAR");
 
   // NOTE  댓글 정렬 팝업 오픈 여부
   const [showCommentSortByPopup, setShowCommentSortByPopup] = useState(false);
@@ -266,10 +249,7 @@ export default function Post({
   const [commentContent, setCommentContent] = useState<string>("");
 
   // NOTE 댓글 유효성 체크
-  const isValidComment = useMemo(
-    () => !!commentContent.trim(),
-    [commentContent]
-  );
+  const isValidComment = useMemo(() => !!commentContent.trim(), [commentContent]);
 
   // NOTE 댓글 입력
   const onChangeComment = (value: string) => setCommentContent(value);
@@ -289,36 +269,33 @@ export default function Post({
           setCommentSortBy("LATEST");
           setCommentContent("");
         },
-      }
+      },
     );
   }, [articleId, commentContent, isValidComment, newComment]);
 
   // NOTE 댓글 수정
   const onClickUpdateComment = useCallback(
     (props: { commentId: number; content: string }) => editComment(props),
-    [editComment]
+    [editComment],
   );
 
   // NOTE 댓글 삭제
   const onClickDeleteComment = useCallback(
     (commentId: number) => removeComment(commentId),
-    [removeComment]
+    [removeComment],
   );
 
   // NOTE 대댓글 추가
   const onClickCreateComment = useCallback(
     (props: { parentCommentId: number; content: string }) =>
-      newComment(
-        { articleId, ...props },
-        { onSuccess: () => refetchComments() }
-      ),
-    [articleId, newComment, refetchComments]
+      newComment({ articleId, ...props }, { onSuccess: () => refetchComments() }),
+    [articleId, newComment, refetchComments],
   );
 
   // NOTE 댓글 좋아요 등록/해제
   const onClickLikeComment = useCallback(
     (props: { isLike: boolean; commentId: number }) => setLikeComment(props),
-    [setLikeComment]
+    [setLikeComment],
   );
 
   // NOTE 유저프로필 클릭 시 유저상세페이지로 연결
@@ -338,8 +315,7 @@ export default function Post({
       else {
         const { isLike, isDislike } = postData.priceInfo;
 
-        if (!isLike && !isDislike)
-          return mutateSetValue({ type, isTrue: true });
+        if (!isLike && !isDislike) return mutateSetValue({ type, isTrue: true });
         else if (type === "like" && isDislike)
           return mutateSetValue({ type: "dislike", isTrue: false });
         else if (type === "dislike" && isLike)
@@ -348,7 +324,7 @@ export default function Post({
         return mutateSetValue({ type, isTrue: false });
       }
     },
-    [isLogin, mutateSetValue, postData, router]
+    [isLogin, mutateSetValue, postData, router],
   );
 
   function getDiffStyle(diff: number) {
@@ -376,16 +352,13 @@ export default function Post({
   });
 
   // NOTE 다른 글로 이동하는 함수
-  const onClickMoveToPost = (articleId: number) =>
-    router.push(`/post/${articleId}`);
+  const onClickMoveToPost = (articleId: number) => router.push(`/post/${articleId}`);
 
   // NOTE 비상장글이거나 구매한 글인지 여부
   const hasOwnership = useMemo(
     () =>
-      postData
-        ? !!(!postData.articleInfo.isListed || postData.articleInfo.isPurchased)
-        : false,
-    [postData]
+      postData ? !!(!postData.articleInfo.isListed || postData.articleInfo.isPurchased) : false,
+    [postData],
   );
 
   return (
@@ -396,10 +369,7 @@ export default function Post({
         <meta property="og:title" content={postData?.articleInfo.title} />
         <meta property="og:url" content={router.asPath} />
         <meta property="og:image" content={postData?.articleInfo.thumbnail} />
-        <meta
-          property="og:description"
-          content="검증된 꿀팁 모음, 비법거래소"
-        />
+        <meta property="og:description" content="검증된 꿀팁 모음, 비법거래소" />
       </Head>
 
       <CommonHeader />
@@ -411,9 +381,7 @@ export default function Post({
             <div className={styles.verArea}>
               <div className={styles.leftCont}>
                 {/* NOTE 현재 글 카테고리 */}
-                <h2 className={styles.category}>
-                  {postData?.boardInfo.description}
-                </h2>
+                <h2 className={styles.category}>{postData?.boardInfo.description}</h2>
 
                 {/* NOTE 비상장글 이거나 구매한 글일 때 */}
                 {hasOwnership && (
@@ -429,9 +397,7 @@ export default function Post({
                       </div>
                       {/* 안되어있음 */}
                       <p className={styles.time}>
-                        {moment(postData?.articleInfo.versionCreatedAt).format(
-                          "YY.MM.DD"
-                        )}
+                        {moment(postData?.articleInfo.versionCreatedAt).format("YY.MM.DD")}
                       </p>
                     </div>
                   </>
@@ -463,12 +429,8 @@ export default function Post({
                   {/* NOTE 작성자 */}
                   <div className={`${styles.creatorBox} ${styles.contBox}`}>
                     <>
-                      {!!(postData?.userInfo.gradeType === "MASTER") && (
-                        <Gold />
-                      )}
-                      {!!(postData?.userInfo.gradeType === "SEMI") && (
-                        <Silver />
-                      )}
+                      {!!(postData?.userInfo.gradeType === "MASTER") && <Gold />}
+                      {!!(postData?.userInfo.gradeType === "SEMI") && <Silver />}
                     </>
 
                     <p onClick={onMoveUserPage} className={styles.cursor}>
@@ -482,9 +444,7 @@ export default function Post({
                       <Eye />
 
                       <p>
-                        {new Intl.NumberFormat().format(
-                          postData?.articleInfo.totalViewNum || 0
-                        )}
+                        {new Intl.NumberFormat().format(postData?.articleInfo.totalViewNum || 0)}
                       </p>
                     </div>
                   ) : (
@@ -492,9 +452,9 @@ export default function Post({
                     <div className={`${styles.creatorBox} ${styles.contBox}`}>
                       <p>
                         작성일{" "}
-                        {moment(
-                          new Date(postData?.articleInfo.versionCreatedAt || "")
-                        ).format("YYYY.MM.DD")}
+                        {moment(new Date(postData?.articleInfo.versionCreatedAt || "")).format(
+                          "YYYY.MM.DD",
+                        )}
                       </p>
                     </div>
                   )}
@@ -508,10 +468,7 @@ export default function Post({
                   {hasOwnership && (
                     <div className={styles.btnBox}>
                       {isLogin && hasOwnership && (
-                        <button
-                          className={styles.moreBtn}
-                          onClick={() => hook.setMorePopup(true)}
-                        >
+                        <button className={styles.moreBtn} onClick={() => hook.setMorePopup(true)}>
                           <Dot3 />
                         </button>
                       )}
@@ -551,9 +508,7 @@ export default function Post({
           {hasOwnership ? (
             <>
               <article className={styles.contArea}>
-                {editor && (
-                  <EditorContent readOnly editor={editor} height={"100%"} />
-                )}
+                {editor && <EditorContent readOnly editor={editor} height={"100%"} />}
               </article>
 
               {/* NOTE 좋아요 */}
@@ -582,13 +537,7 @@ export default function Post({
                         postData?.priceInfo.isLike ? styles.like : ""
                       }`}
                     >
-                      <p
-                        className={`${
-                          postData?.priceInfo.isLike ? styles.like : ""
-                        }`}
-                      >
-                        좋아요
-                      </p>
+                      <p className={`${postData?.priceInfo.isLike ? styles.like : ""}`}>좋아요</p>
                       <h2
                         className={`${styles.price} ${
                           postData?.priceInfo.isLike ? styles.like : ""
@@ -603,43 +552,29 @@ export default function Post({
                   <div
                     className={`${
                       postData?.priceInfo.isLike ? styles.up : ""
-                    } ${postData?.priceInfo.isDislike ? styles.dn : ""} ${
-                      styles.innerCont
-                    }`}
+                    } ${postData?.priceInfo.isDislike ? styles.dn : ""} ${styles.innerCont}`}
                   >
                     <button
                       className={styles.likeBtn}
                       onClick={() => onClickSetValue({ type: "like" })}
                     >
-                      {postData?.priceInfo.isLike ? (
-                        <ThumbUpRed />
-                      ) : (
-                        <ThumbUpGrey />
-                      )}
+                      {postData?.priceInfo.isLike ? <ThumbUpRed /> : <ThumbUpGrey />}
                       <p>+1P</p>
                     </button>
 
                     <div className={styles.currentBox}>
                       <p>현재가</p>
-                      <h2
-                        className={styles.price}
-                      >{`${new Intl.NumberFormat().format(
-                        Number(postData?.priceInfo.price)
+                      <h2 className={styles.price}>{`${new Intl.NumberFormat().format(
+                        Number(postData?.priceInfo.price),
                       )}P`}</h2>
-                      <p className={styles.percent}>
-                        {postData?.priceInfo.changeRate || 0}%
-                      </p>
+                      <p className={styles.percent}>{postData?.priceInfo.changeRate || 0}%</p>
                     </div>
 
                     <button
                       className={styles.likeBtn}
                       onClick={() => onClickSetValue({ type: "dislike" })}
                     >
-                      {postData?.priceInfo.isDislike ? (
-                        <ThumbDnBlue />
-                      ) : (
-                        <ThumbDnGrey />
-                      )}
+                      {postData?.priceInfo.isDislike ? <ThumbDnBlue /> : <ThumbDnGrey />}
                       <p>-1P</p>
                     </button>
                   </div>
@@ -649,9 +584,7 @@ export default function Post({
               {/* NOTE 태그 영역 */}
               <article className={styles.replyArea}>
                 <ul className={styles.tagList}>
-                  {postData?.tagList.map(({ tagName, tagId }) => (
-                    <li key={tagId}>{tagName}</li>
-                  ))}
+                  {postData?.tagList.map(({ tagName, tagId }) => <li key={tagId}>{tagName}</li>)}
                 </ul>
 
                 {/* NOTE 비상장글/구매한글일 때 댓글 */}
@@ -661,15 +594,10 @@ export default function Post({
                       <Message />
 
                       <p className={styles.key}>댓글</p>
-                      <p className={styles.value}>
-                        {comments?.pages[0].totalElements ?? 0}
-                      </p>
+                      <p className={styles.value}>{comments?.pages[0].totalElements ?? 0}</p>
                     </div>
 
-                    <div
-                      className={styles.sortBy}
-                      onClick={() => setShowCommentSortByPopup(true)}
-                    >
+                    <div className={styles.sortBy} onClick={() => setShowCommentSortByPopup(true)}>
                       <span>{commentSortByInfo[commentSortBy]}</span>
                       <Image
                         src={"/assets/icons/SortAscending.svg"}
@@ -680,9 +608,7 @@ export default function Post({
 
                       {showCommentSortByPopup && (
                         <>
-                          <CommentSortByPopup
-                            onClickSetCommentSortBy={onClickSetCommentSortBy}
-                          />
+                          <CommentSortByPopup onClickSetCommentSortBy={onClickSetCommentSortBy} />
                           <PopupBg
                             off={(e) => {
                               e.stopPropagation();
@@ -708,9 +634,7 @@ export default function Post({
                         }}
                         rows={1}
                         value={commentContent}
-                        onChange={({ target: { value } }) =>
-                          onChangeComment(value)
-                        }
+                        onChange={({ target: { value } }) => onChangeComment(value)}
                         placeholder="댓글을 입력해주세요"
                       />
 
@@ -730,9 +654,7 @@ export default function Post({
                       page.contents.map((props) => (
                         <li key={props.commentId}>
                           <Reply
-                            isMyComment={
-                              !!(currentUserData?.id === props.userId)
-                            }
+                            isMyComment={!!(currentUserData?.id === props.userId)}
                             data={props}
                             nested={!!(props.parentCommentId != null)}
                             onClickLikeComment={onClickLikeComment}
@@ -741,15 +663,11 @@ export default function Post({
                             onClickCreateComment={onClickCreateComment}
                           />
                         </li>
-                      ))
+                      )),
                     )}
                     {!!comments?.pages[0].contents.length &&
                       (!isFetchingNextPage ? (
-                        <InView
-                          onChange={(inView) =>
-                            inView && hasNextPage && fetchNextPage()
-                          }
-                        />
+                        <InView onChange={(inView) => inView && hasNextPage && fetchNextPage()} />
                       ) : (
                         <div
                           style={{
@@ -775,16 +693,14 @@ export default function Post({
               <article className={`${styles.contArea} ${styles.limited}`}>
                 {postData?.articleInfo.content && (
                   <article style={{ maxHeight: "500px", overflow: "hidden" }}>
-                    {editor && (
-                      <EditorContent readOnly editor={editor} height={"100%"} />
-                    )}
+                    {editor && <EditorContent readOnly editor={editor} height={"100%"} />}
                   </article>
                 )}
                 <div className={styles.overlayBox}>
                   <button
                     className={classNames(
                       styles.favBtn,
-                      !!postData?.articleInfo.interest && styles.on
+                      !!postData?.articleInfo.interest && styles.on,
                     )}
                     onClick={() =>
                       mutateBookmark({
@@ -792,17 +708,9 @@ export default function Post({
                         bookmarking: !postData?.articleInfo.interest,
                       })
                     }
-                    data-testid={
-                      !!postData?.articleInfo.interest
-                        ? "thumbRed"
-                        : "thumbGrey"
-                    }
+                    data-testid={!!postData?.articleInfo.interest ? "thumbRed" : "thumbGrey"}
                   >
-                    {!!postData?.articleInfo.interest ? (
-                      <HeartRedO />
-                    ) : (
-                      <HeartGrey />
-                    )}
+                    {!!postData?.articleInfo.interest ? <HeartRedO /> : <HeartGrey />}
 
                     <p>찜하기</p>
                   </button>
@@ -852,28 +760,20 @@ export default function Post({
                 </div>
 
                 <div className={styles.nicknameBar} onClick={onMoveUserPage}>
-                  <h1 className={styles.nickname}>
-                    {postData?.userInfo.nickname}
-                  </h1>
+                  <h1 className={styles.nickname}>{postData?.userInfo.nickname}</h1>
                   <>
                     {!!(postData?.userInfo.gradeType === "MASTER") && <Gold />}
                     {!!(postData?.userInfo.gradeType === "SEMI") && <Silver />}
                   </>
                 </div>
 
-                <p className={styles.profMsg}>
-                  {postData?.userInfo.description}
-                </p>
+                <p className={styles.profMsg}>{postData?.userInfo.description}</p>
               </article>
 
               {/* NOTE 작성자의 다른 글 목록 */}
               {!!articlesByUser.length && (
-                <article
-                  className={`${styles.otherPostArea} ${styles.postListArea}`}
-                >
-                  <p className={styles.areaTitle}>
-                    {postData?.userInfo.nickname}님의 다른 글
-                  </p>
+                <article className={`${styles.otherPostArea} ${styles.postListArea}`}>
+                  <p className={styles.areaTitle}>{postData?.userInfo.nickname}님의 다른 글</p>
 
                   <ul className={styles.postList}>
                     {articlesByUser.map((props) => (
@@ -889,12 +789,8 @@ export default function Post({
               )}
 
               {/* NOTE 현재 카테고리 인기글 목록 */}
-              <article
-                className={`${styles.categoryPopularPostList} ${styles.postListArea}`}
-              >
-                <p className={styles.areaTitle}>
-                  {postData?.boardInfo.description}의 인기글
-                </p>
+              <article className={`${styles.categoryPopularPostList} ${styles.postListArea}`}>
+                <p className={styles.areaTitle}>{postData?.boardInfo.description}의 인기글</p>
 
                 <ul className={styles.postList}>
                   {popularArticles?.length ? (
@@ -909,12 +805,7 @@ export default function Post({
                   ) : (
                     <div className={styles.emptyArea}>
                       <div>
-                        <Image
-                          src="/assets/icons/Warn.svg"
-                          width={48}
-                          height={48}
-                          alt=""
-                        />
+                        <Image src="/assets/icons/Warn.svg" width={48} height={48} alt="" />
                         <p className={styles.emptyDesc}>인기글이 없습니다</p>
                         <button onClick={() => router.push("/popular")}>
                           <p>전체 인기글 보러가기</p>
@@ -953,10 +844,7 @@ export default function Post({
                   <div className={`${styles.priceBox} ${getDiffStyle(1 || 0)}`}>
                     <p className={styles.key}>현재가</p>
                     <p className={styles.value}>
-                      {Intl.NumberFormat().format(
-                        postData?.priceInfo.price || 0
-                      )}{" "}
-                      P
+                      {Intl.NumberFormat().format(postData?.priceInfo.price || 0)} P
                     </p>
                   </div>
 
@@ -1028,9 +916,7 @@ export default function Post({
           <ConfirmPopup
             title="이 사용자의 글을 숨기시겠어요?"
             content={`이미 구매한 글을 제외하고 ${postData?.userInfo.nickname}님의 게시글을 더는 보이지 않아요.`}
-            confirmFunc={() =>
-              mutateHidePosts({ author: userId, userId: currentUserData.id })
-            }
+            confirmFunc={() => mutateHidePosts({ author: userId, userId: currentUserData.id })}
             cancelFunc={() => hook.setHideUserPostPopup(false)}
           />
           <PopupBg bg off={() => hook.setHideUserPostPopup(false)} />
@@ -1074,20 +960,14 @@ export default function Post({
 
       {hook.compPayPopup && (
         <>
-          <CompPayPopup
-            usePost={hook}
-            off={() => hook.setCompPayPopup(false)}
-          />
+          <CompPayPopup usePost={hook} off={() => hook.setCompPayPopup(false)} />
           <PopupBg bg off={() => hook.setCompPayPopup(false)} />
         </>
       )}
 
       {copied && (
         <>
-          <ErrorMsgPopup
-            msg="URL이 복사되었습니다. "
-            confirmFunc={() => setCopied(false)}
-          />
+          <ErrorMsgPopup msg="URL이 복사되었습니다. " confirmFunc={() => setCopied(false)} />
           <PopupBg bg off={() => setCopied(false)} />
         </>
       )}
@@ -1142,15 +1022,13 @@ const ReactQuill = dynamic(
   async () => {
     const { default: RQ } = await import("react-quill");
 
-    const reactQuill = ({ forwardedRef, ...props }: any) => (
-      <RQ ref={forwardedRef} {...props} />
-    );
+    const reactQuill = ({ forwardedRef, ...props }: any) => <RQ ref={forwardedRef} {...props} />;
 
     return reactQuill;
   },
   {
     ssr: false,
-  }
+  },
 );
 
 // NOTE 우측 영역 목록 아이템
@@ -1168,15 +1046,11 @@ const ArticleItem = ({
     <li>
       <div className={styles.topBar}>
         <p>
-          <strong className={styles.category}>{description}</strong>・
-          {moment(createdAt).fromNow()}
+          <strong className={styles.category}>{description}</strong>・{moment(createdAt).fromNow()}
         </p>
       </div>
 
-      <div
-        className={styles.contBar}
-        onClick={() => onClickMoveToPost(articleId)}
-      >
+      <div className={styles.contBar} onClick={() => onClickMoveToPost(articleId)}>
         <div className={styles.leftCont}>
           <p className={styles.title}>{title}</p>
 
@@ -1196,18 +1070,12 @@ const ArticleItem = ({
         </div>
 
         {listed ? (
-          <div
-            className={`${styles.rightCont} ${getDiffStyle(changeRate || 0)}`}
-          >
+          <div className={`${styles.rightCont} ${getDiffStyle(changeRate || 0)}`}>
             <p className={styles.diff}>
-              {`${(changeRate || 0) > 0 ? "+" : ""}${changeRate || 0}% (${
-                changeAmount || 0
-              })`}
+              {`${(changeRate || 0) > 0 ? "+" : ""}${changeRate || 0}% (${changeAmount || 0})`}
             </p>
 
-            <p className={styles.price}>{`${new Intl.NumberFormat().format(
-              price || 0
-            )} 원`}</p>
+            <p className={styles.price}>{`${new Intl.NumberFormat().format(price || 0)} 원`}</p>
           </div>
         ) : (
           <div className={`${styles.rightCont} ${styles.notListed}`}>

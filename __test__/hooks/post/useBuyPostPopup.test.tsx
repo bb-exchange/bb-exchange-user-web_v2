@@ -1,9 +1,10 @@
-import { expect } from "@jest/globals";
-import { fireEvent, render } from "@testing-library/react";
 import UseBuyPostPopup from "../../../src/hooks/post/useBuyPostPopup";
 import UsePost from "../../../src/hooks/post/usePost";
 import mockNextRouter from "../../__mocks__/nextRouter";
 import mockReactQuery from "../../__mocks__/reactQuery";
+
+import { expect } from "@jest/globals";
+import { fireEvent, render } from "@testing-library/react";
 
 describe("useBuyPostPopup", () => {
   mockNextRouter({});
@@ -17,10 +18,7 @@ describe("useBuyPostPopup", () => {
     };
 
     const TestBtn = () => (
-      <button
-        data-testid={"testBtn"}
-        onClick={useBuyPostPopup.onClickAgreeTermBtn}
-      />
+      <button data-testid={"testBtn"} onClick={useBuyPostPopup.onClickAgreeTermBtn} />
     );
 
     const { container } = render(
@@ -31,7 +29,7 @@ describe("useBuyPostPopup", () => {
             <TestBtn />
           </>
         ),
-      })
+      }),
     );
 
     const testBtn = container.querySelector('[data-testid="testBtn"]');
@@ -54,10 +52,7 @@ describe("useBuyPostPopup", () => {
     };
 
     const TestBtn = () => (
-      <button
-        data-testid={"testBtn"}
-        onClick={useBuyPostPopup.onClickConfirmBtn}
-      />
+      <button data-testid={"testBtn"} onClick={useBuyPostPopup.onClickConfirmBtn} />
     );
 
     const { container } = render(
@@ -68,7 +63,7 @@ describe("useBuyPostPopup", () => {
             <TestBtn />
           </>
         ),
-      })
+      }),
     );
 
     const testBtn = container.querySelector('[data-testid="testBtn"]');

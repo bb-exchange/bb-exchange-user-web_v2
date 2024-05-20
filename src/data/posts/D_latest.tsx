@@ -1,4 +1,8 @@
-import { hourToSec } from ".src/utils/dateTime";
+import business from ".assets/example/category/business.png";
+import date from ".assets/example/category/date.png";
+import etc from ".assets/example/category/etc.png";
+import hobby from ".assets/example/category/hobby.png";
+import invest from ".assets/example/category/invest.png";
 import thumb1 from ".assets/example/latest/thumb1.png";
 import thumb2 from ".assets/example/latest/thumb2.png";
 import thumb3 from ".assets/example/latest/thumb3.png";
@@ -9,11 +13,7 @@ import thumb7 from ".assets/example/latest/thumb7.png";
 import thumb8 from ".assets/example/latest/thumb8.png";
 import thumb9 from ".assets/example/latest/thumb9.png";
 import thumb10 from ".assets/example/latest/thumb10.png";
-import business from ".assets/example/category/business.png";
-import hobby from ".assets/example/category/hobby.png";
-import etc from ".assets/example/category/etc.png";
-import invest from ".assets/example/category/invest.png";
-import date from ".assets/example/category/date.png";
+import { hourToSec } from ".src/utils/dateTime";
 
 export const D_latestPostList: any[] = [
   {
@@ -177,8 +177,7 @@ export const D_latestPostList: any[] = [
   {
     id: 3,
     replyCount: 3,
-    title:
-      "결혼 준비 체크리스트, 웨딩홀부터 스드메까지(스드메 추천, 준비 비용)",
+    title: "결혼 준비 체크리스트, 웨딩홀부터 스드메까지(스드메 추천, 준비 비용)",
     thumbnailUrl: thumb8,
     categoryImg: date,
     category: "연애/결혼/육아",

@@ -1,7 +1,8 @@
-import UsePost from ".src/hooks/post/usePost";
 import styles from "./compPayPopup.module.scss";
+
 import X from ".assets/icons/X.svg";
 import UseCompPayPopup from ".src/hooks/post/useCompPayPopup";
+import UsePost from ".src/hooks/post/usePost";
 
 interface Iprops {
   usePost: ReturnType<typeof UsePost>;
@@ -29,10 +30,7 @@ export default function CompPayPopup({ usePost, off }: Iprops) {
           <p className={styles.cont}>구매한 글을 지금 확인해보세요!</p>
         </div>
 
-        <button
-          className={styles.confirmBtn}
-          onClick={useCompPayPopup.onClickSeeNowBtn}
-        >
+        <button className={styles.confirmBtn} onClick={useCompPayPopup.onClickSeeNowBtn}>
           지금 볼래요!
         </button>
       </article>

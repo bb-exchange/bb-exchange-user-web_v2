@@ -64,10 +64,7 @@ export type RequestPayResponseCallback = (response: RequestPayResponse) => void;
 
 export interface Iamport {
   init: (accountID: any) => void;
-  request_pay: (
-    params: RequestPayParams,
-    callback?: RequestPayResponseCallback
-  ) => void;
+  request_pay: (params: RequestPayParams, callback?: RequestPayResponseCallback) => void;
 }
 
 declare global {

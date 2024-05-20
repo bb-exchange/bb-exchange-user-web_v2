@@ -1,20 +1,22 @@
-import { useForm } from "react-hook-form";
-import { useRouter } from "next/router";
-
-import ContainedBtn from ".src/components/Buttons/ContainedBtn";
-import IconRedCaution from "../../../../public/assets/icons/RedCaution.svg";
 import IconBlueCheck from "../../../../public/assets/icons/BlueCheck.svg";
+import IconRedCaution from "../../../../public/assets/icons/RedCaution.svg";
 
 import styles from "./index.module.scss";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { checkRecommendCode } from ".src/api/users/users";
+
 import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
+import { useForm } from "react-hook-form";
+
+import { useRouter } from "next/router";
+
+import { registerUser } from ".src/api/auth/auth";
+import { checkRecommendCode } from ".src/api/users/users";
+import ContainedBtn from ".src/components/Buttons/ContainedBtn";
 import ConfirmPopup from ".src/components/common/popup/confirmPopup";
 import PopupBg from ".src/components/common/popupBg";
-import { registerUser } from ".src/api/auth/auth";
-import { useCookies } from "react-cookie";
-import { useSetRecoilState } from "recoil";
 import { isLoginState } from ".src/recoil";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useSetRecoilState } from "recoil";
 
 interface IInputs {
   recommendCode: string;
@@ -66,8 +68,7 @@ const RecommendCode = () => {
       form.setError("recommendCode", {
         message: "추천코드를 확인할 수 없습니다",
       });
-    else if (isSuccess && isRecommendData?.isExists)
-      setValidCode(form.watch("recommendCode"));
+    else if (isSuccess && isRecommendData?.isExists) setValidCode(form.watch("recommendCode"));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isError, isSuccess, form.watch("recommendCode")]);
 
@@ -108,13 +109,9 @@ const RecommendCode = () => {
   }, []);
 
   const isAvailable =
-    form.watch("recommendCode") && form.watch("recommendCode") === validCode
-      ? true
-      : false;
+    form.watch("recommendCode") && form.watch("recommendCode") === validCode ? true : false;
   const isDisable =
-    form.watch("recommendCode") && !Object.keys(form.formState.errors).length
-      ? false
-      : true;
+    form.watch("recommendCode") && !Object.keys(form.formState.errors).length ? false : true;
 
   return (
     <div id={styles.recommendCode} className={styles.container}>
@@ -132,8 +129,7 @@ const RecommendCode = () => {
                 {...form.register("recommendCode", {
                   required: false,
                   validate: {
-                    noSpaceCheck: (v) =>
-                      v.includes(" ") ? "띄어쓰기를 사용할 수 없습니다" : true,
+                    noSpaceCheck: (v) => (v.includes(" ") ? "띄어쓰기를 사용할 수 없습니다" : true),
                   },
                 })}
               />
@@ -176,9 +172,7 @@ const RecommendCode = () => {
             }}
             content={
               <>
-                <span className={styles.boldText}>
-                  회원가입이 완료되지 않았습니다!
-                </span>
+                <span className={styles.boldText}>회원가입이 완료되지 않았습니다!</span>
                 <span>처음 화면으로 돌아가시겠습니까?</span>
               </>
             }

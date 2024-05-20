@@ -1,8 +1,10 @@
+import { useState } from "react";
+
+import { Router, useRouter } from "next/router";
+
 import { fetchArticles } from ".src/api/articles/articles";
 import { D_listedPostList } from ".src/data/posts/D_listed";
 import { useQuery } from "@tanstack/react-query";
-import { Router, useRouter } from "next/router";
-import { useState } from "react";
 
 export default function useListed() {
   const router = useRouter();

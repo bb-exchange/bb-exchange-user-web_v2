@@ -1,6 +1,6 @@
 import Careful from ".assets/icons/term/Careful.svg";
-import Trade from ".assets/icons/term/Trade.svg";
 import Profit from ".assets/icons/term/Profit.svg";
+import Trade from ".assets/icons/term/Trade.svg";
 
 export const D_termList: Iterm[] = [
   {

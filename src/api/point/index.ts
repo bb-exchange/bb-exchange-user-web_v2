@@ -39,11 +39,7 @@ type ConfirmPaymentsResponse = {
   };
 };
 
-export const preparePayments = async ({
-  currentUserId,
-  store,
-  amount,
-}: PreparePaymentsParams) => {
+export const preparePayments = async ({ currentUserId, store, amount }: PreparePaymentsParams) => {
   return basicInstance
     .post(
       "/v1/payments/prepare",
@@ -55,15 +51,12 @@ export const preparePayments = async ({
         params: {
           currentUserId,
         },
-      }
+      },
     )
     .then(({ data: { data } }: PreparePaymentsResponse) => data);
 };
 
-export const confirmPayments = async ({
-  currentUserId,
-  request,
-}: ConfirmPaymentsParams) => {
+export const confirmPayments = async ({ currentUserId, request }: ConfirmPaymentsParams) => {
   return basicInstance
     .post("/v1/payments/confirm", request, {
       params: {

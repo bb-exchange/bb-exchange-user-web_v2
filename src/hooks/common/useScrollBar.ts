@@ -10,8 +10,7 @@ export default function UseScrollBar() {
 
     const _maxScroll = scrollHeight - clientHeight;
     const _scrollPos =
-      (scrollTop * (clientHeight - scrollBarRef.current?.clientHeight!)) /
-      _maxScroll;
+      (scrollTop * (clientHeight - scrollBarRef.current?.clientHeight!)) / _maxScroll;
 
     setScrollTop(_scrollPos);
   }

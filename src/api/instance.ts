@@ -1,6 +1,6 @@
 import axios, { HeadersDefaults } from "axios";
+import { deleteCookie, getCookie, setCookie } from "cookies-next";
 import jwtDecode, { JwtPayload } from "jwt-decode";
-import { getCookie, setCookie, deleteCookie } from "cookies-next";
 
 const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -25,7 +25,7 @@ basicInstance.interceptors.request.use(
   },
   function (error) {
     return Promise.reject(error);
-  }
+  },
 );
 
 basicInstance.interceptors.response.use(
@@ -43,9 +43,7 @@ basicInstance.interceptors.response.use(
         if (isRefreshTokenValid) {
           return (async () => {
             try {
-              refreshing_token = refreshing_token
-                ? refreshing_token
-                : newRefreshToken();
+              refreshing_token = refreshing_token ? refreshing_token : newRefreshToken();
 
               let res: any = await refreshing_token;
               refreshing_token = null;
@@ -86,7 +84,7 @@ basicInstance.interceptors.response.use(
       //   location.href = "/";
       // }
     }
-  }
+  },
 );
 
 //Return new token
@@ -98,7 +96,7 @@ const newRefreshToken = async () => {
     },
     {
       withCredentials: true,
-    }
+    },
   );
   return res;
 };

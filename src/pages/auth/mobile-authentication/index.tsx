@@ -1,17 +1,20 @@
-import { useEffect, useRef, useState } from "react";
-import { useCookies } from "react-cookie";
-import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
-import FingerprintJS from "@fingerprintjs/fingerprintjs";
+import IconCheck from "../../../../public/assets/icons/AuthCheck.svg";
 
 import styles from "./index.module.scss";
-import ContainedBtn from ".src/components/Buttons/ContainedBtn";
+
+import { useEffect, useRef, useState } from "react";
+import { useCookies } from "react-cookie";
+import { useForm } from "react-hook-form";
+
+import { useRouter } from "next/router";
+
 import { basicInstance } from ".src/api/instance";
+import ContainedBtn from ".src/components/Buttons/ContainedBtn";
 import OutlinedBtn from ".src/components/Buttons/OutlinedBtn";
-import IconCheck from "../../../../public/assets/icons/AuthCheck.svg";
-import PopupBg from ".src/components/common/popupBg";
 import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
+import PopupBg from ".src/components/common/popupBg";
 import LocalStorage from ".src/utils/localStorage";
+import FingerprintJS from "@fingerprintjs/fingerprintjs";
 
 interface Inputs {
   phoneNumber: string;
@@ -27,14 +30,13 @@ const MobileAuth = () => {
   const [seconds, setSeconds] = useState<number>(0);
   const [timeText, setTimeText] = useState<string>("");
   const [openExceedPopup, setOpenExceedPopup] = useState<boolean>(
-    query?.openExceedPopup === "true" || false
+    query?.openExceedPopup === "true" || false,
   ); //일일인증횟수초과
   const [leftCount, setLeftCount] = useState<number>();
   const [openErrSecretPopup, setOpenErrSecretPopup] = useState<boolean>(
-    query?.openErrSecretPopup === "true" || false
+    query?.openErrSecretPopup === "true" || false,
   ); //인증번호 에러
-  const [openExpiredKeyPopup, setOpenExpiredKeyPopup] =
-    useState<boolean>(false); //인증키 만료
+  const [openExpiredKeyPopup, setOpenExpiredKeyPopup] = useState<boolean>(false); //인증키 만료
   const [openErrorPopup, setOpenErrorPopup] = useState<boolean>(false);
   const [openTryKeyErrPopup, setOpenTryKeyErrPopup] = useState<boolean>(false);
   const [isTryKeyErr, setIsTryKeyErr] = useState<boolean>(false);
@@ -55,9 +57,7 @@ const MobileAuth = () => {
   const isErrorRef = useRef<boolean>(false);
   const phoneValidRef = useRef<boolean>(true);
   phoneValidRef.current =
-    watch("phoneNumber")?.match(/^[0-9]{11}$/i) && !isErrorRef.current
-      ? false
-      : true;
+    watch("phoneNumber")?.match(/^[0-9]{11}$/i) && !isErrorRef.current ? false : true;
 
   //남은 인증 회수 더미데이터
   let leftTimes = 1;
@@ -101,7 +101,7 @@ const MobileAuth = () => {
         setOpenExceedPopup(true);
       } else if (error.response?.data.code === "ATH009") {
         setOpenErrorPopup(true);
-      } 
+      }
     }
   };
 
@@ -180,9 +180,7 @@ const MobileAuth = () => {
   }, [minutes, seconds]);
 
   isNextBtnDisabled.current =
-    showResendBtn && getValues("secret")?.length === 6 && !isTryKeyErr
-      ? false
-      : true;
+    showResendBtn && getValues("secret")?.length === 6 && !isTryKeyErr ? false : true;
 
   return (
     <div id={styles.mobileAuth} className={styles.container}>
@@ -203,11 +201,7 @@ const MobileAuth = () => {
                 />
               </div>
               {showResendBtn ? (
-                <OutlinedBtn
-                  text={"재전송"}
-                  type="gray"
-                  onClick={handleSubmit(sendSecretCode)}
-                />
+                <OutlinedBtn text={"재전송"} type="gray" onClick={handleSubmit(sendSecretCode)} />
               ) : (
                 <ContainedBtn
                   text={"인증요청"}

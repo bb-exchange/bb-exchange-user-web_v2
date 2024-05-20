@@ -1,11 +1,12 @@
-import { useRecoilValue } from "recoil";
+import styles from "./profileHoverPopup.module.scss";
+
 import { useRouter } from "next/router";
 
-import styles from "./profileHoverPopup.module.scss";
-import { useSignOut } from ".src/hooks/common/useSignOut";
-import { userNameState } from ".src/recoil";
 import IconCopy from ".assets/icons/Copy.svg";
 import useGetMyProfile from ".src/hooks/common/useGetProfile";
+import { useSignOut } from ".src/hooks/common/useSignOut";
+import { userNameState } from ".src/recoil";
+import { useRecoilValue } from "recoil";
 
 const ProfileHoverPopup = () => {
   const router = useRouter();

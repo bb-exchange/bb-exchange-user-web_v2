@@ -1,25 +1,28 @@
 import styles from "./editScreen.module.scss";
 import "react-quill/dist/quill.snow.css";
+
 import React from "react";
+
 import dynamic from "next/dynamic";
-import { quillFormats } from ".src/utils/textEditor";
-import ChevronDn from ".assets/icons/ChevronDn.svg";
+import { useRouter } from "next/router";
+
 import CellPhoneBlue from ".assets/icons/CellPhoneBlue.svg";
+import ChevronDn from ".assets/icons/ChevronDn.svg";
 import PcBlue from ".assets/icons/PcBlue.svg";
-import PopupBg from ".src/components/common/popupBg";
-import SelCategoryPopup from ".src/components/enroll/selCategoryPopup";
+import { fetchCategory } from ".src/api/articles/category";
+import ConfirmPopup from ".src/components/common/popup/confirmPopup";
 import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
 import SelImgPopup from ".src/components/common/popup/selImgPopup";
-import RecentTagPopup from ".src/components/enroll/recentTagPopup";
-import DraftsPopup from ".src/components/enroll/draftsPopup";
-import ConfirmPopup from ".src/components/common/popup/confirmPopup";
+import PopupBg from ".src/components/common/popupBg";
 import EditHeader from ".src/components/edit/editHeader";
+import DraftsPopup from ".src/components/enroll/draftsPopup";
+import RecentTagPopup from ".src/components/enroll/recentTagPopup";
+import SelCategoryPopup from ".src/components/enroll/selCategoryPopup";
 import useEdit from ".src/hooks/edit/useEdit";
-import { useRouter } from "next/router";
 import useEnroll from ".src/hooks/enroll/useEnroll";
 import UseRecentTagPopup from ".src/hooks/enroll/useRecentTagPopup";
+import { quillFormats } from ".src/utils/textEditor";
 import { useQuery } from "@tanstack/react-query";
-import { fetchCategory } from ".src/api/articles/category";
 
 export default function EditScreen() {
   const router = useRouter();
@@ -44,11 +47,7 @@ export default function EditScreen() {
       <EditHeader useEditHook={useEditHook} />
 
       <section className={styles.innerSec}>
-        <article
-          className={`${styles.contArea} ${
-            useEditHook.mobileView ? styles.mobile : ""
-          }`}
-        >
+        <article className={`${styles.contArea} ${useEditHook.mobileView ? styles.mobile : ""}`}>
           <form id="enrollForm" onSubmit={useEditHook.handleSubmit(onSubmit)}>
             <div className={styles.topBar}>
               <div className={styles.categoryBox}>
@@ -73,14 +72,10 @@ export default function EditScreen() {
                   <>
                     <SelCategoryPopup
                       categoryList={categoryList ?? []}
-                      setValue={(v: IpostCategories) =>
-                        useEditHook.setValue("category", v)
-                      }
+                      setValue={(v: IpostCategories) => useEditHook.setValue("category", v)}
                       off={() => useEditHook.setSelCategoryPopup(false)}
                     />
-                    <PopupBg
-                      off={() => useEditHook.setSelCategoryPopup(false)}
-                    />
+                    <PopupBg off={() => useEditHook.setSelCategoryPopup(false)} />
                   </>
                 )}
               </div>
@@ -96,10 +91,7 @@ export default function EditScreen() {
               </div>
             </div>
 
-            <div
-              className={styles.quillBox}
-              onClick={useEditHook.handleOnClickQuillImg}
-            >
+            <div className={styles.quillBox} onClick={useEditHook.handleOnClickQuillImg}>
               <ReactQuill
                 className={`${styles.quill}`}
                 theme="snow"
@@ -116,10 +108,7 @@ export default function EditScreen() {
               {useEditHook.watch("tagList")?.length > 0 && (
                 <ul className={styles.tagList}>
                   {useEditHook.watch("tagList").map((v, i) => (
-                    <li
-                      key={i}
-                      onClick={() => useEditHook.handleOnClickTagList(v)}
-                    >
+                    <li key={i} onClick={() => useEditHook.handleOnClickTagList(v)}>
                       <p>#{v}</p>
                     </li>
                   ))}
@@ -155,10 +144,7 @@ export default function EditScreen() {
 
       {useEditHook.errMsg && (
         <>
-          <ErrorMsgPopup
-            msg={useEditHook.errMsg}
-            confirmFunc={() => useEditHook.closeErrMsg()}
-          />
+          <ErrorMsgPopup msg={useEditHook.errMsg} confirmFunc={() => useEditHook.closeErrMsg()} />
           <PopupBg bg off={() => useEditHook.closeErrMsg()} />
         </>
       )}
@@ -190,11 +176,7 @@ export default function EditScreen() {
             confirmFunc={() => useEditHook.setDelDraftPopup(false)}
             zIndex={80}
           />
-          <PopupBg
-            bg
-            zIndex={70}
-            off={() => useEditHook.setDelDraftPopup(false)}
-          />
+          <PopupBg bg zIndex={70} off={() => useEditHook.setDelDraftPopup(false)} />
         </>
       )}
 
@@ -211,11 +193,7 @@ export default function EditScreen() {
             }}
             zIndex={80}
           />
-          <PopupBg
-            bg
-            zIndex={70}
-            off={() => useEditHook.setLoadDraftPopup(false)}
-          />
+          <PopupBg bg zIndex={70} off={() => useEditHook.setLoadDraftPopup(false)} />
         </>
       )}
 
@@ -260,13 +238,11 @@ const ReactQuill = dynamic(
   async () => {
     const { default: RQ } = await import("react-quill");
 
-    const reactQuill = ({ forwardedRef, ...props }: any) => (
-      <RQ ref={forwardedRef} {...props} />
-    );
+    const reactQuill = ({ forwardedRef, ...props }: any) => <RQ ref={forwardedRef} {...props} />;
 
     return reactQuill;
   },
   {
     ssr: false,
-  }
+  },
 );

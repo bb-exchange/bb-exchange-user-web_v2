@@ -1,7 +1,9 @@
+import { useMemo, useRef, useState } from "react";
+
+import { useRouter } from "next/router";
+
 import { D_otherPostList, D_replyList } from ".src/data/post/D_post";
 import { useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/router";
-import { useMemo, useRef, useState } from "react";
 
 export default function UsePost() {
   const router = useRouter();
@@ -18,13 +20,10 @@ export default function UsePost() {
   const [reportUserPopup, setReportUserPopup] = useState<boolean>(false);
   const [hideUserPostPopup, setHideUserPostPopup] = useState<boolean>(false);
   const [compReportPopup, setCompReportPopup] = useState<boolean>(false);
-  const [compHideUserPostPopup, setCompHideUserPostPopup] =
-    useState<boolean>(false);
-  const [buyPopup, setBuyPopup] = useState<boolean>(
-    router.query.buyPopup === "true" || false
-  );
+  const [compHideUserPostPopup, setCompHideUserPostPopup] = useState<boolean>(false);
+  const [buyPopup, setBuyPopup] = useState<boolean>(router.query.buyPopup === "true" || false);
   const [compPayPopup, setCompPayPopup] = useState<boolean>(
-    router.query.compPayPopup === "true" || false
+    router.query.compPayPopup === "true" || false,
   );
 
   function onClickLikeBtn(int: -1 | 0 | 1) {

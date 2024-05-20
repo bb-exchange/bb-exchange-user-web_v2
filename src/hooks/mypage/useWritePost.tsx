@@ -1,9 +1,11 @@
+import { useState } from "react";
+
+import { useRouter } from "next/router";
+
 import QuestionCircleRed from ".assets/icons/QuestionCircleRed.svg";
 import ConfirmPopup from ".src/components/common/popup/confirmPopup";
 import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
 import PopupBg from ".src/components/common/popupBg";
-import { useRouter } from "next/router";
-import { useState } from "react";
 
 export default function UseWritePost() {
   const router = useRouter();
@@ -40,10 +42,7 @@ export default function UseWritePost() {
           <>
             <div className={`${styles.red} ${styles.stateBox}`}>
               <p className={styles.state}>판매중지</p>
-              <button
-                className={styles.explainBox}
-                onClick={onClickTempBlockBtn}
-              >
+              <button className={styles.explainBox} onClick={onClickTempBlockBtn}>
                 <p>일시</p>
                 <QuestionCircleRed />
               </button>
@@ -75,10 +74,7 @@ export default function UseWritePost() {
           <>
             <div className={`${styles.red} ${styles.stateBox}`}>
               <p className={styles.state}>판매중지</p>
-              <button
-                className={styles.explainBox}
-                onClick={onClickConstBlockBtn}
-              >
+              <button className={styles.explainBox} onClick={onClickConstBlockBtn}>
                 <p>영구</p>
                 <QuestionCircleRed />
               </button>

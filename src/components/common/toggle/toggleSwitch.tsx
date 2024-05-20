@@ -1,5 +1,7 @@
-import { Dispatch, SetStateAction, useRef, useState } from "react";
 import styles from "./toggleSwitch.module.scss";
+
+import { Dispatch, SetStateAction, useRef, useState } from "react";
+
 interface toggle {
   isChecked: boolean;
   setIsChecked: Dispatch<SetStateAction<boolean>>;

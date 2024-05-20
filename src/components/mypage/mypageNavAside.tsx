@@ -1,10 +1,12 @@
 import styles from "./mypageNavAside.module.scss";
+
+import { useRouter } from "next/router";
+
+import ChevronRtBlue from ".assets/icons/ChevronRtBlue.svg";
 import Gold from ".assets/icons/tier/Gold.svg";
 import Profile from ".assets/images/img_profile.svg";
-import ChevronRtBlue from ".assets/icons/ChevronRtBlue.svg";
-import { useRouter } from "next/router";
-import UseMypageNavAside from ".src/hooks/mypage/useMypageNavAside";
 import useGetMyProfile from ".src/hooks/common/useGetProfile";
+import UseMypageNavAside from ".src/hooks/mypage/useMypageNavAside";
 
 export default function MypageNavAside() {
   const router = useRouter();
@@ -31,10 +33,7 @@ export default function MypageNavAside() {
                 {Intl.NumberFormat().format(profile?.settlementAmount)}
               </p>
 
-              <button
-                className={styles.detailBtn}
-                onClick={() => router.push("/mypage/point")}
-              >
+              <button className={styles.detailBtn} onClick={() => router.push("/mypage/point")}>
                 <ChevronRtBlue />
               </button>
             </li>
@@ -42,10 +41,7 @@ export default function MypageNavAside() {
         </article>
 
         <article className={styles.actionBar}>
-          <button
-            className={styles.editBtn}
-            onClick={() => router.push("/mypage/edit_prof")}
-          >
+          <button className={styles.editBtn} onClick={() => router.push("/mypage/edit_prof")}>
             <p>프로필 수정</p>
           </button>
         </article>

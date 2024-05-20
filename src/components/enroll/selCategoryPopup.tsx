@@ -6,11 +6,7 @@ interface Iprops {
   categoryList: { category: string; description: string }[];
 }
 
-export default function SelCategoryPopup({
-  off,
-  setValue,
-  categoryList,
-}: Iprops) {
+export default function SelCategoryPopup({ off, setValue, categoryList }: Iprops) {
   function handleClickCategory(v: IpostCategories) {
     setValue(v);
     off();
@@ -20,10 +16,7 @@ export default function SelCategoryPopup({
     <section className={styles.selCategoryPopup}>
       <ul className={styles.dataList}>
         {categoryList?.map(({ category, description }) => (
-          <li
-            key={category}
-            onClick={() => handleClickCategory({ category, description })}
-          >
+          <li key={category} onClick={() => handleClickCategory({ category, description })}>
             {description}
           </li>
         ))}

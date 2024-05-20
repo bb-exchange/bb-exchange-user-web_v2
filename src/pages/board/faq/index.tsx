@@ -1,5 +1,7 @@
-import { useRouter } from "next/router";
 import styles from "./faq.module.scss";
+
+import { useRouter } from "next/router";
+
 import PageNav from ".src/components/common/pageNav";
 import { D_FAQ_LIST } from ".src/data/board/D_faqList";
 

@@ -1,13 +1,15 @@
-import CommonHeader from ".src/components/common/header/commonHeader";
 import styles from "./buy.module.scss";
-import CommonFooter from ".src/components/common/commonFooter";
-import ProfSec from ".src/components/mypage/profSec";
-import Swap from ".assets/icons/Swap.svg";
-import PageNav from ".src/components/common/pageNav";
-import UseMyPageRead from ".src/hooks/mypage/useMypageRead";
-import ReadPost from ".src/components/mypage/read/readPost";
-import ScrollTopBtn from ".src/components/common/scrollTopBtn";
+
 import { useRouter } from "next/router";
+
+import Swap from ".assets/icons/Swap.svg";
+import CommonFooter from ".src/components/common/commonFooter";
+import CommonHeader from ".src/components/common/header/commonHeader";
+import PageNav from ".src/components/common/pageNav";
+import ScrollTopBtn from ".src/components/common/scrollTopBtn";
+import ProfSec from ".src/components/mypage/profSec";
+import ReadPost from ".src/components/mypage/read/readPost";
+import UseMyPageRead from ".src/hooks/mypage/useMypageRead";
 
 export default function MypageWrite() {
   const router = useRouter();
@@ -15,9 +17,7 @@ export default function MypageWrite() {
 
   // NOTE 페이지 변경 함수
   const onChangePage = (pageIndex: number) =>
-    pageIndex === 0
-      ? router.push(router.pathname)
-      : router.push({ query: { page: pageIndex } });
+    pageIndex === 0 ? router.push(router.pathname) : router.push({ query: { page: pageIndex } });
 
   return (
     <>
@@ -33,9 +33,7 @@ export default function MypageWrite() {
                 {useMypageRead.categoryList.map((v, i) => (
                   <li
                     key={i}
-                    className={
-                      v.label === useMypageRead.category.label ? styles.on : ""
-                    }
+                    className={v.label === useMypageRead.category.label ? styles.on : ""}
                     onClick={() => useMypageRead.onClickCategoryBtn(v.url)}
                   >
                     <p>{v.label}</p>
@@ -61,9 +59,7 @@ export default function MypageWrite() {
               {useMypageRead.filterCategoryList.map((v, i) => (
                 <li
                   key={i}
-                  className={
-                    v === useMypageRead.filterCategroy ? styles.on : ""
-                  }
+                  className={v === useMypageRead.filterCategroy ? styles.on : ""}
                   onClick={() => useMypageRead.setFilterCategory(v)}
                 >
                   <p>{v}</p>
@@ -74,12 +70,7 @@ export default function MypageWrite() {
 
           <ul className={styles.postList}>
             {useMypageRead?.purchaseList?.contents?.map((v: any, i: number) => (
-              <ReadPost
-                data={v}
-                index={i}
-                useMypageRead={useMypageRead}
-                key={i}
-              />
+              <ReadPost data={v} index={i} useMypageRead={useMypageRead} key={i} />
             ))}
           </ul>
 

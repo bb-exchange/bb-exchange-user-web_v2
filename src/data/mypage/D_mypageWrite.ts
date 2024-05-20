@@ -2,8 +2,7 @@ import { hourToSec } from ".src/utils/dateTime";
 
 export const D_mypageWritePostList: mypageWritePosts[] = [
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     category: "주식/투자",
     createdAt: new Date(new Date().getTime() - 13 * hourToSec),
@@ -52,8 +51,7 @@ export const D_mypageWritePostList: mypageWritePosts[] = [
     state: "영구판매중지",
   },
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     category: "주식/투자",
     createdAt: new Date(new Date().getTime() - 13 * hourToSec),
@@ -77,8 +75,7 @@ export const D_mypageWritePostList: mypageWritePosts[] = [
     read: true,
   },
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     category: "주식/투자",
     createdAt: new Date(new Date().getTime() - 13 * hourToSec),
@@ -91,8 +88,7 @@ export const D_mypageWritePostList: mypageWritePosts[] = [
     state: "판매중",
   },
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     category: "주식/투자",
     createdAt: new Date(new Date().getTime() - 13 * hourToSec),
@@ -105,8 +101,7 @@ export const D_mypageWritePostList: mypageWritePosts[] = [
     state: "판매중",
   },
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     category: "주식/투자",
     createdAt: new Date(new Date().getTime() - 13 * hourToSec),
@@ -119,8 +114,7 @@ export const D_mypageWritePostList: mypageWritePosts[] = [
     state: "판매중",
   },
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     category: "주식/투자",
     createdAt: new Date(new Date().getTime() - 13 * hourToSec),
@@ -133,8 +127,7 @@ export const D_mypageWritePostList: mypageWritePosts[] = [
     state: "판매중",
   },
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     category: "주식/투자",
     createdAt: new Date(new Date().getTime() - 13 * hourToSec),
@@ -147,8 +140,7 @@ export const D_mypageWritePostList: mypageWritePosts[] = [
     state: "판매중",
   },
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     category: "주식/투자",
     createdAt: new Date(new Date().getTime() - 13 * hourToSec),
@@ -161,8 +153,7 @@ export const D_mypageWritePostList: mypageWritePosts[] = [
     state: "판매중",
   },
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     category: "주식/투자",
     createdAt: new Date(new Date().getTime() - 13 * hourToSec),
@@ -175,8 +166,7 @@ export const D_mypageWritePostList: mypageWritePosts[] = [
     state: "판매중",
   },
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     category: "주식/투자",
     createdAt: new Date(new Date().getTime() - 13 * hourToSec),
@@ -189,8 +179,7 @@ export const D_mypageWritePostList: mypageWritePosts[] = [
     state: "판매중",
   },
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     category: "주식/투자",
     createdAt: new Date(new Date().getTime() - 13 * hourToSec),
@@ -203,8 +192,7 @@ export const D_mypageWritePostList: mypageWritePosts[] = [
     state: "판매중",
   },
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     category: "주식/투자",
     createdAt: new Date(new Date().getTime() - 13 * hourToSec),
@@ -217,8 +205,7 @@ export const D_mypageWritePostList: mypageWritePosts[] = [
     state: "판매중",
   },
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     category: "주식/투자",
     createdAt: new Date(new Date().getTime() - 13 * hourToSec),
@@ -231,8 +218,7 @@ export const D_mypageWritePostList: mypageWritePosts[] = [
     state: "판매중",
   },
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     category: "주식/투자",
     createdAt: new Date(new Date().getTime() - 13 * hourToSec),
@@ -245,8 +231,7 @@ export const D_mypageWritePostList: mypageWritePosts[] = [
     state: "판매중",
   },
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     category: "주식/투자",
     createdAt: new Date(new Date().getTime() - 13 * hourToSec),
@@ -259,8 +244,7 @@ export const D_mypageWritePostList: mypageWritePosts[] = [
     state: "판매중",
   },
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     category: "주식/투자",
     createdAt: new Date(new Date().getTime() - 13 * hourToSec),

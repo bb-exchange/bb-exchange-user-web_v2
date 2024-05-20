@@ -1,13 +1,18 @@
-import InquiryLayout from ".src/components/inquiry/InquiryLayout";
-import { useRouter } from "next/router";
-import styles from "./postInquiry.module.scss";
-import ContainedBtn from ".src/components/Buttons/ContainedBtn";
-import { useState } from "react";
-import usePostInquiry from ".src/hooks/board/usePostInquiry";
 import IconRedCaution from "../../../../../public/assets/icons/RedCaution.svg";
+
+import styles from "./postInquiry.module.scss";
+
+import { useState } from "react";
+
+import { useRouter } from "next/router";
+
+import ContainedBtn from ".src/components/Buttons/ContainedBtn";
+import ConfirmPopup from ".src/components/common/popup/confirmPopup";
 import LinkPopup from ".src/components/common/popup/linkPopup";
 import PopupBg from ".src/components/common/popupBg";
-import ConfirmPopup from ".src/components/common/popup/confirmPopup";
+import InquiryLayout from ".src/components/inquiry/InquiryLayout";
+import usePostInquiry from ".src/hooks/board/usePostInquiry";
+
 const PostInquiry = () => {
   const router = useRouter();
 
@@ -44,9 +49,7 @@ const PostInquiry = () => {
               <span>{errors?.title?.message}</span>
             </p>
           )}
-          <span className={styles.numOfChar}>
-            {watch("title")?.length ?? 0}자 / 최대 40자
-          </span>
+          <span className={styles.numOfChar}>{watch("title")?.length ?? 0}자 / 최대 40자</span>
           <h3>내용을 입력해주세요</h3>
           <textarea
             placeholder="문의 내용을 최소 10자 이상 입력해주세요."
@@ -89,9 +92,7 @@ const PostInquiry = () => {
             }}
             content={
               <>
-                <span className={styles.boldText}>
-                  1:1문의를 그만두시겠습니까?
-                </span>
+                <span className={styles.boldText}>1:1문의를 그만두시겠습니까?</span>
                 <span>
                   1:1문의를 그만둘 시<br />
                   작성했던 내용은 저장되지 않습니다

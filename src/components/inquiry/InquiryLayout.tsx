@@ -1,5 +1,6 @@
-import { useRouter } from "next/router";
 import styles from "./InquiryLayout.module.scss";
+
+import { useRouter } from "next/router";
 
 const InquiryLayout = (props: any) => {
   const { pathname, push, replace } = useRouter();

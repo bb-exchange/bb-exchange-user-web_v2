@@ -1,8 +1,9 @@
 import styles from "./draftsPopup.module.scss";
-import X from ".assets/icons/X.svg";
+
 import CircleBangBlue from ".assets/bg/enroll/CircleBangBlue.svg";
-import moment from "moment";
+import X from ".assets/icons/X.svg";
 import useEnroll from ".src/hooks/enroll/useEnroll";
+import moment from "moment";
 
 interface Iprops {
   useEnrollHook: ReturnType<typeof useEnroll>;
@@ -15,9 +16,7 @@ export default function DraftsPopup({ useEnrollHook, off }: Iprops) {
       <article className={styles.topBar}>
         <h1 className={styles.popupTitle}>
           임시저장 글{" "}
-          <span className={styles.count}>
-            {useEnrollHook.articleTempList?.data.length}
-          </span>
+          <span className={styles.count}>{useEnrollHook.articleTempList?.data.length}</span>
         </h1>
 
         <button className={styles.closeBtn} onClick={() => off()}>
@@ -35,9 +34,7 @@ export default function DraftsPopup({ useEnrollHook, off }: Iprops) {
                 useEnrollHook.setLoadDraftPopup(true);
               }}
             >
-              <p className={styles.createdAt}>
-                {moment(v.createdAt).format("YYYY.MM.DD")}
-              </p>
+              <p className={styles.createdAt}>{moment(v.createdAt).format("YYYY.MM.DD")}</p>
 
               <div className={styles.contBox}>
                 <p className={styles.title}>{v.title}</p>

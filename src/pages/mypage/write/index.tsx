@@ -1,15 +1,19 @@
-import { useRouter } from "next/router";
-import CommonHeader from ".src/components/common/header/commonHeader";
 import styles from "./write.module.scss";
-import CommonFooter from ".src/components/common/commonFooter";
-import ProfSec from ".src/components/mypage/profSec";
-import UseMyPageWrite from ".src/hooks/mypage/useMypageWrite";
-import BtnSqrChk from ".assets/icons/BtnSqrChk.svg";
-import BtnSqrChkOn from ".assets/icons/BtnSqrChkOn.svg";
-import Swap from ".assets/icons/Swap.svg";
-import PageNav from ".src/components/common/pageNav";
-import WritePost from ".src/components/mypage/write/writePost";
-import ScrollTopBtn from ".src/components/common/scrollTopBtn";
+
+import { useRouter } from "next/router";
+
+import BtnSqrChk from "@assets/icons/BtnSqrChk.svg";
+import BtnSqrChkOn from "@assets/icons/BtnSqrChkOn.svg";
+import Swap from "@assets/icons/Swap.svg";
+
+import CommonFooter from "@components/common/commonFooter";
+import CommonHeader from "@components/common/header/commonHeader";
+import PageNav from "@components/common/pageNav";
+import ScrollTopBtn from "@components/common/scrollTopBtn";
+import ProfSec from "@components/mypage/profSec";
+import WritePost from "@components/mypage/write/writePost";
+
+import UseMyPageWrite from "@hooks/mypage/useMypageWrite";
 
 export default function MypageWrite() {
   const router = useRouter();
@@ -19,7 +23,9 @@ export default function MypageWrite() {
   const onChangePage = (pageIndex: number) =>
     pageIndex === 0
       ? router.push(router.pathname)
-      : router.push({ query: { page: pageIndex } });
+      : router.push({
+          query: { page: pageIndex },
+        });
 
   return (
     <>
@@ -35,9 +41,7 @@ export default function MypageWrite() {
                 {useMypageWrite.categoryList.map((v, i) => (
                   <li
                     key={i}
-                    className={
-                      v.label === useMypageWrite.category.label ? styles.on : ""
-                    }
+                    className={v.label === useMypageWrite.category.label ? styles.on : ""}
                     onClick={() => useMypageWrite.onClickCategoryBtn(v.url)}
                   >
                     <p>
@@ -57,11 +61,7 @@ export default function MypageWrite() {
                 className={`${styles.filterOnSaleBtn} ${styles.utilBtn}`}
                 onClick={useMypageWrite.onClickFilterOnSaleBtn}
               >
-                {useMypageWrite.filterOnSale === "Y" ? (
-                  <BtnSqrChkOn />
-                ) : (
-                  <BtnSqrChk />
-                )}
+                {useMypageWrite.filterOnSale === "Y" ? <BtnSqrChkOn /> : <BtnSqrChk />}
 
                 <p>상장된 글만 보기</p>
               </button>
@@ -76,11 +76,9 @@ export default function MypageWrite() {
           </article>
 
           <ul className={styles.postList}>
-            {useMypageWrite.postList?.contents.map(
-              (v: mypageWritePosts, i: number) => (
-                <WritePost data={v} key={i} />
-              )
-            )}
+            {useMypageWrite.postList?.contents.map((v: mypageWritePosts, i: number) => (
+              <WritePost data={v} key={i} />
+            ))}
           </ul>
 
           <PageNav

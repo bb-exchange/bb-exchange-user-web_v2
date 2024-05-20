@@ -1,14 +1,15 @@
-import CommonHeader from ".src/components/common/header/commonHeader";
 import styles from "./mypage.module.scss";
-import CommonFooter from ".src/components/common/commonFooter";
-import ProfSec from ".src/components/mypage/profSec";
-import UseMyPageWrite from ".src/hooks/mypage/useMypageWrite";
+
 import BtnSqrChk from ".assets/icons/BtnSqrChk.svg";
 import BtnSqrChkOn from ".assets/icons/BtnSqrChkOn.svg";
 import Swap from ".assets/icons/Swap.svg";
+import CommonFooter from ".src/components/common/commonFooter";
+import CommonHeader from ".src/components/common/header/commonHeader";
 import PageNav from ".src/components/common/pageNav";
-import WritePost from ".src/components/mypage/write/writePost";
 import ScrollTopBtn from ".src/components/common/scrollTopBtn";
+import ProfSec from ".src/components/mypage/profSec";
+import WritePost from ".src/components/mypage/write/writePost";
+import UseMyPageWrite from ".src/hooks/mypage/useMypageWrite";
 
 export default function MypageWrite() {
   const useMypageWrite = UseMyPageWrite();
@@ -27,9 +28,7 @@ export default function MypageWrite() {
                 {useMypageWrite.categoryList.map((v, i) => (
                   <li
                     key={i}
-                    className={
-                      v.label === useMypageWrite.category.label ? styles.on : ""
-                    }
+                    className={v.label === useMypageWrite.category.label ? styles.on : ""}
                     onClick={() => useMypageWrite.onClickCategoryBtn(v.url)}
                   >
                     <p>
@@ -45,11 +44,7 @@ export default function MypageWrite() {
                 className={`${styles.filterOnSaleBtn} ${styles.utilBtn}`}
                 onClick={useMypageWrite.onClickFilterOnSaleBtn}
               >
-                {useMypageWrite.filterOnSale === "Y" ? (
-                  <BtnSqrChkOn />
-                ) : (
-                  <BtnSqrChk />
-                )}
+                {useMypageWrite.filterOnSale === "Y" ? <BtnSqrChkOn /> : <BtnSqrChk />}
 
                 <p>상장된 글만 보기</p>
               </button>

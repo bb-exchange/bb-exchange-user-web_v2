@@ -2,8 +2,7 @@ import { hourToSec } from ".src/utils/dateTime";
 
 export const D_mypageLikePostList: mypageReadPosts[] = [
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     fee: true,
     category: "주식/투자",
@@ -18,8 +17,7 @@ export const D_mypageLikePostList: mypageReadPosts[] = [
     price: 302,
   },
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     category: "주식/투자",
     creatorNickname: "치은짱짱맨",
@@ -33,8 +31,7 @@ export const D_mypageLikePostList: mypageReadPosts[] = [
     price: 302,
   },
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     category: "주식/투자",
     creatorNickname: "치은짱짱맨",
@@ -48,8 +45,7 @@ export const D_mypageLikePostList: mypageReadPosts[] = [
     price: 302,
   },
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     category: "주식/투자",
     creatorNickname: "치은짱짱맨",
@@ -63,8 +59,7 @@ export const D_mypageLikePostList: mypageReadPosts[] = [
     price: 302,
   },
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     category: "주식/투자",
     creatorNickname: "치은짱짱맨",
@@ -78,8 +73,7 @@ export const D_mypageLikePostList: mypageReadPosts[] = [
     price: 302,
   },
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     category: "주식/투자",
     creatorNickname: "치은짱짱맨",
@@ -93,8 +87,7 @@ export const D_mypageLikePostList: mypageReadPosts[] = [
     price: 302,
   },
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     category: "주식/투자",
     creatorNickname: "치은짱짱맨",
@@ -108,8 +101,7 @@ export const D_mypageLikePostList: mypageReadPosts[] = [
     price: 302,
   },
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     category: "주식/투자",
     creatorNickname: "치은짱짱맨",
@@ -123,8 +115,7 @@ export const D_mypageLikePostList: mypageReadPosts[] = [
     price: 302,
   },
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     category: "주식/투자",
     creatorNickname: "치은짱짱맨",
@@ -138,8 +129,7 @@ export const D_mypageLikePostList: mypageReadPosts[] = [
     price: 302,
   },
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     category: "주식/투자",
     creatorNickname: "치은짱짱맨",
@@ -153,8 +143,7 @@ export const D_mypageLikePostList: mypageReadPosts[] = [
     price: 302,
   },
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     category: "주식/투자",
     creatorNickname: "치은짱짱맨",
@@ -168,8 +157,7 @@ export const D_mypageLikePostList: mypageReadPosts[] = [
     price: 302,
   },
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     category: "주식/투자",
     creatorNickname: "치은짱짱맨",
@@ -183,8 +171,7 @@ export const D_mypageLikePostList: mypageReadPosts[] = [
     price: 302,
   },
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     category: "주식/투자",
     creatorNickname: "치은짱짱맨",
@@ -198,8 +185,7 @@ export const D_mypageLikePostList: mypageReadPosts[] = [
     price: 302,
   },
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     category: "주식/투자",
     creatorNickname: "치은짱짱맨",
@@ -213,8 +199,7 @@ export const D_mypageLikePostList: mypageReadPosts[] = [
     price: 302,
   },
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     category: "주식/투자",
     creatorNickname: "치은짱짱맨",
@@ -228,8 +213,7 @@ export const D_mypageLikePostList: mypageReadPosts[] = [
     price: 302,
   },
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     category: "주식/투자",
     creatorNickname: "치은짱짱맨",
@@ -243,8 +227,7 @@ export const D_mypageLikePostList: mypageReadPosts[] = [
     price: 302,
   },
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     category: "주식/투자",
     creatorNickname: "치은짱짱맨",
@@ -258,8 +241,7 @@ export const D_mypageLikePostList: mypageReadPosts[] = [
     price: 302,
   },
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     category: "주식/투자",
     creatorNickname: "치은짱짱맨",
@@ -273,8 +255,7 @@ export const D_mypageLikePostList: mypageReadPosts[] = [
     price: 302,
   },
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     category: "주식/투자",
     creatorNickname: "치은짱짱맨",
@@ -288,8 +269,7 @@ export const D_mypageLikePostList: mypageReadPosts[] = [
     price: 302,
   },
   {
-    title:
-      "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
+    title: "게시물의 제목이에요 웹에서는 줄여 쓰지 않아요 제목이에요 제목이에요",
     replyCount: 12,
     category: "주식/투자",
     creatorNickname: "치은짱짱맨",

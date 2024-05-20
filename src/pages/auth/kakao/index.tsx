@@ -1,22 +1,19 @@
-import axios from "axios";
-import { useRouter } from "next/router";
-import Image from "next/image";
-import { useCookies } from "react-cookie";
+import styles from "../loadingLayout.module.scss";
+
 import { useEffect } from "react";
-import { useSetRecoilState } from "recoil";
+import { useCookies } from "react-cookie";
+
+import Image from "next/image";
+import { useRouter } from "next/router";
 
 import { basicInstance } from ".src/api/instance";
-import styles from "../loadingLayout.module.scss";
 import { isLoginState, profileState, userNameState } from ".src/recoil";
+import axios from "axios";
+import { useSetRecoilState } from "recoil";
 
 const KakaoAuth = () => {
   const { query, push } = useRouter();
-  const [cookie, setCookie] = useCookies([
-    "oauthId",
-    "oauthType",
-    "accessToken",
-    "refreshToken",
-  ]);
+  const [cookie, setCookie] = useCookies(["oauthId", "oauthType", "accessToken", "refreshToken"]);
   const setIsLoginState = useSetRecoilState(isLoginState);
   const setUserNameState = useSetRecoilState(userNameState);
   const setProfile = useSetRecoilState(profileState);
@@ -39,7 +36,7 @@ const KakaoAuth = () => {
             headers: {
               "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
             },
-          }
+          },
         );
         //send kakaoToken to server
         if (data) {
@@ -80,10 +77,7 @@ const KakaoAuth = () => {
               });
               push("/auth/duplicate-social-account");
             }
-          } else if (
-            response.data.data.accessToken &&
-            response.data.data.refreshToken
-          ) {
+          } else if (response.data.data.accessToken && response.data.data.refreshToken) {
             //정상 로그인 처리
             setCookie("accessToken", response.data.data.accessToken, {
               path: "/",
@@ -98,7 +92,7 @@ const KakaoAuth = () => {
               },
             });
             const { data: profileData } = await axios.get(
-              `${baseURL}/v1/users/profile/${data?.data.id}`
+              `${baseURL}/v1/users/profile/${data?.data.id}`,
             );
 
             setProfile({

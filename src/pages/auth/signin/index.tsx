@@ -1,28 +1,23 @@
-import { useEffect } from "react";
-import { useCookies } from "react-cookie";
-import { useSetRecoilState } from "recoil";
-import { isLoginState, userNameState } from ".src/recoil";
+import Apple from "../../../../public/assets/images/apple_logo.svg";
+import Google from "../../../../public/assets/images/google_logo.svg";
+import Kakao from "../../../../public/assets/images/kakao_login.svg";
 
 import styles from "./index.module.scss";
-import Kakao from "../../../../public/assets/images/kakao_login.svg";
-import Google from "../../../../public/assets/images/google_logo.svg";
-import Apple from "../../../../public/assets/images/apple_logo.svg";
+
+import { useEffect } from "react";
+import { useCookies } from "react-cookie";
+
 import Image from "next/image";
-import {
-  APPLE_AUTH_URL,
-  GOOGLE_AUTH_URL,
-  KAKAO_AUTH_URL,
-} from ".src/data/signin/D_authUrl";
+
+import { APPLE_AUTH_URL, GOOGLE_AUTH_URL, KAKAO_AUTH_URL } from ".src/data/signin/D_authUrl";
+import { isLoginState, userNameState } from ".src/recoil";
+import { useSetRecoilState } from "recoil";
 
 const SignIn = () => {
   const setIsLoginState = useSetRecoilState(isLoginState);
   const setUserNameState = useSetRecoilState(userNameState);
 
-  const [, , removeCookie] = useCookies([
-    "accessToken",
-    "refreshToken",
-    "authKey",
-  ]);
+  const [, , removeCookie] = useCookies(["accessToken", "refreshToken", "authKey"]);
 
   useEffect(() => {
     //로그인 화면 진입 시 쿠키에 저장된 토큰 전부 삭제 및 로그아웃 처리

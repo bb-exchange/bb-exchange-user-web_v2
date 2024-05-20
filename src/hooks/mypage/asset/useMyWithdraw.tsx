@@ -1,5 +1,6 @@
-import { D_myWithdrawList } from ".src/data/mypage/asset/D_myWithdraw";
 import { useState } from "react";
+
+import { D_myWithdrawList } from ".src/data/mypage/asset/D_myWithdraw";
 
 export default function UseMyWithdraw() {
   const [dateText, setDateText] = useState<Date>(new Date());
@@ -21,9 +22,7 @@ export default function UseMyWithdraw() {
   };
 
   const options: any = { year: "numeric", month: "numeric" };
-  const selectedDate = dateText
-    .toLocaleDateString("ko-KR", options)
-    .slice(0, -1);
+  const selectedDate = dateText.toLocaleDateString("ko-KR", options).slice(0, -1);
 
   return {
     selectedDate,

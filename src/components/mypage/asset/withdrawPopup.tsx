@@ -1,6 +1,7 @@
 import styles from "./withdrawPopup.module.scss";
-import X from ".assets/icons/X.svg";
+
 import ChevronDn from ".assets/icons/ChevronDn.svg";
+import X from ".assets/icons/X.svg";
 import UseWithdrawPopup from ".src/hooks/mypage/asset/useWithdrawPopup";
 
 interface Iprops {
@@ -37,9 +38,7 @@ export default function WithdrawPopup({ useWithdrawPopup, off }: Iprops) {
 
               <div className={styles.valueBox}>
                 <div className={styles.inputBox}>
-                  <p className={styles.value}>
-                    {useWithdrawPopup.getRegistNumStr()}
-                  </p>
+                  <p className={styles.value}>{useWithdrawPopup.getRegistNumStr()}</p>
                 </div>
               </div>
             </li>
@@ -49,9 +48,7 @@ export default function WithdrawPopup({ useWithdrawPopup, off }: Iprops) {
 
               <div className={styles.valueBox}>
                 <button className={styles.selBox}>
-                  <p className={styles.value}>
-                    {useWithdrawPopup.watch("bank")}
-                  </p>
+                  <p className={styles.value}>{useWithdrawPopup.watch("bank")}</p>
 
                   <ChevronDn />
                 </button>
@@ -63,9 +60,7 @@ export default function WithdrawPopup({ useWithdrawPopup, off }: Iprops) {
 
               <div className={styles.valueBox}>
                 <div className={styles.inputBox}>
-                  <p className={styles.value}>
-                    {useWithdrawPopup.getAccountNumber()}
-                  </p>
+                  <p className={styles.value}>{useWithdrawPopup.getAccountNumber()}</p>
                 </div>
               </div>
             </li>
@@ -79,10 +74,7 @@ export default function WithdrawPopup({ useWithdrawPopup, off }: Iprops) {
                   onClick={() => useWithdrawPopup.setFocus("amount")}
                 >
                   <p className={styles.value}>
-                    {Intl.NumberFormat().format(
-                      useWithdrawPopup.watch("amount") || 0
-                    )}
-                    원
+                    {Intl.NumberFormat().format(useWithdrawPopup.watch("amount") || 0)}원
                   </p>
 
                   <input
