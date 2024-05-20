@@ -16,11 +16,19 @@ import WithdrawInfoPopup from ".src/components/mypage/asset/withdrawInfoPopup";
 import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
 import UseMyTermIncome from ".src/hooks/mypage/asset/useMytermIncome";
 import RedCaution from ".assets/icons/RedCaution.svg";
+import { useState } from "react";
+import Popup from ".src/components/Popup";
 
 export default function Asset() {
   const useMypageAsset = UseMypageAsset();
   const useWithdrawPopup = UseWithdrawPopup();
   const useMyTermIncome = UseMyTermIncome();
+
+  const [isOpen, setIsOpen] = useState(false);
+  const onOpenPointPopup = () => {
+    console.log("tufgld");
+    setIsOpen((prev) => !prev);
+  };
 
   return (
     <>
@@ -51,15 +59,18 @@ export default function Asset() {
                     place="top-start"
                   />
                 </p>
-                <p className={styles.value}>
-                  {Intl.NumberFormat().format(useMyTermIncome.totalPoint)}원
-                </p>
+                <div className={styles.value}>
+                  {Intl.NumberFormat().format(useMyTermIncome.totalPoint)} 원
+                  <div className={styles.subText} onClick={onOpenPointPopup}>
+                    포인트로 전환 <ChevronRt />
+                  </div>
+                </div>
               </li>
 
               <li>
                 <p className={styles.key}>총 출금 완료 금액</p>
                 <p className={styles.value}>
-                  {Intl.NumberFormat().format(0)}원
+                  {Intl.NumberFormat().format(0)} 원
                 </p>
               </li>
             </ul>
@@ -175,6 +186,7 @@ export default function Asset() {
           <PopupBg bg off={() => useMyTermIncome.setNoDrawPopup(false)} />
         </>
       )}
+      {isOpen && <Popup visible={isOpen}>gogogo</Popup>}
     </>
   );
 }

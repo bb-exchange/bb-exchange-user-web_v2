@@ -1,3 +1,5 @@
+import { getActual } from ".src/api/mypage/settlement";
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
 export default function UseMyTermIncome() {
@@ -25,13 +27,19 @@ export default function UseMyTermIncome() {
     .toLocaleDateString("ko-KR", options)
     .slice(0, -1);
 
+  const { data: actualData } = useQuery({
+    queryKey: ["getActual"],
+    queryFn: () => getActual(),
+  });
+
   // 더미데이타
+
   const revenueList = [
     { date: "2023.10.11", point: 1000 },
     { date: "2023.11.12", point: 2000 },
     // { date: "2023.11.13", point: 12000 },
   ];
-  const totalPoint = revenueList.reduce((acc, cur) => acc + cur.point, 0);
+  const totalPoint = actualData?.data.data;
 
   // NOTE 출금신청 버튼 클릭 시
   const onClickDraw = () => {
