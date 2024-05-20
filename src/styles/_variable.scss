@@ -1,5 +1,6 @@
 /* 공통으로 사용되는 스타일 정의 */
 @import "./colors.scss";
+@import "./_typography.scss";
 
 .blueText {
   color: $Primary1;
