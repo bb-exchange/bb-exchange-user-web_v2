@@ -1,7 +1,4 @@
-import Image from "next/image";
-import Link from "next/link";
-import { useRecoilValue } from "recoil";
-
+import banner from "../../../public/assets/images/serviceIntroduction/banner.png";
 import logo from "../../../public/assets/images/serviceIntroduction/logo.png";
 import section1 from "../../../public/assets/images/serviceIntroduction/section1.png";
 import section2 from "../../../public/assets/images/serviceIntroduction/section2.png";
@@ -13,11 +10,15 @@ import section43 from "../../../public/assets/images/serviceIntroduction/section
 import section44 from "../../../public/assets/images/serviceIntroduction/section4-4.png";
 import section45 from "../../../public/assets/images/serviceIntroduction/section4-5.png";
 import section5 from "../../../public/assets/images/serviceIntroduction/section5.png";
-import banner from "../../../public/assets/images/serviceIntroduction/banner.png";
+
+import styles from "./desktop.module.scss";
+
+import Image from "next/image";
+import Link from "next/link";
 
 import CommonHeader from ".src/components/common/header/commonHeader";
-import styles from "./desktop.module.scss";
 import { isLoginState } from ".src/recoil";
+import { useRecoilValue } from "recoil";
 
 const DesktopPage = () => {
   const isSignedIn = useRecoilValue(isLoginState);
@@ -33,9 +34,7 @@ const DesktopPage = () => {
               <Image src={logo} alt="" width={326} />
             </h3>
             <Link href={isSignedIn ? "/enroll" : "/auth/signin"}>
-              <button className={`${styles.btn} ${styles.section1Btn}`}>
-                수익 창출하러 가기
-              </button>
+              <button className={`${styles.btn} ${styles.section1Btn}`}>수익 창출하러 가기</button>
             </Link>
           </div>
           <div className={styles.section1ImgBox}>
@@ -52,12 +51,7 @@ const DesktopPage = () => {
             <strong>비법거래소에서 판매하세요!</strong>
           </h3>
 
-          <Image
-            className={styles.section2Img1}
-            src={section2}
-            alt=""
-            width={852}
-          />
+          <Image className={styles.section2Img1} src={section2} alt="" width={852} />
         </section>
 
         <section className={styles.section3}>
@@ -187,9 +181,7 @@ const DesktopPage = () => {
             지금 바로 자산으로 바꿔보세요!
           </h4>
           <Link href={isSignedIn ? "/enroll" : "/auth/signin"}>
-            <button className={`${styles.btn} ${styles.section6Btn}`}>
-              수익 창출하러 가기
-            </button>
+            <button className={`${styles.btn} ${styles.section6Btn}`}>수익 창출하러 가기</button>
           </Link>
           {/* <Link href={"/event"}>
             <Image src={banner} alt="" width={1200} />

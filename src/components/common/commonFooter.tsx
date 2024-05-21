@@ -1,18 +1,21 @@
+import Image from "../Image";
+import PopupBg from "./popupBg";
+
 import styles from "./commonFooter.module.scss";
+
+import { useState } from "react";
+
+import router from "next/router";
+
 import Apple from ".assets/icons/Apple.svg";
 import Google from ".assets/icons/Google.svg";
-import router from "next/router";
 import ConfirmTitlePopup from ".src/components/common/popup/confirmTitlePopup";
-import PopupBg from "./popupBg";
-import { useState } from "react";
-import Image from "../Image";
 
 export default function CommonFooter() {
   const [androidPopup, setAndroidPopup] = useState<boolean>(false);
   const [applePopup, setApplePopup] = useState<boolean>(false);
 
-  const onClickOpenKakaoChannel = () =>
-    window.open("http://pf.kakao.com/_xbTmcxj");
+  const onClickOpenKakaoChannel = () => window.open("http://pf.kakao.com/_xbTmcxj");
 
   const onClickDownloadAndroid = () => setAndroidPopup(true);
   const onClickDownloadApple = () => setApplePopup(true);
@@ -43,8 +46,7 @@ export default function CommonFooter() {
             </li>
             <li>
               <p>
-                <strong>주소</strong> 경기도 용인시 수지구 현암로 148,
-                602호(비법거래소)
+                <strong>주소</strong> 경기도 용인시 수지구 현암로 148, 602호(비법거래소)
               </p>
             </li>
           </ul>
@@ -57,10 +59,7 @@ export default function CommonFooter() {
                 <strong>APP Store</strong>
               </button>
 
-              <button
-                className={styles.google}
-                onClick={onClickDownloadAndroid}
-              >
+              <button className={styles.google} onClick={onClickDownloadAndroid}>
                 <Google />
 
                 <strong>Google Play</strong>
@@ -71,9 +70,8 @@ export default function CommonFooter() {
 
         <article className={styles.bottomArea}>
           <p className={styles.infoText}>
-            비법거래소는 통신판매중개시스템의 제공자로서 통신판매의 당사자가
-            아닙니다. 콘텐츠 생산, 환불 등과 관련한 의무와 책임은 판매자에게
-            있습니다.
+            비법거래소는 통신판매중개시스템의 제공자로서 통신판매의 당사자가 아닙니다. 콘텐츠 생산,
+            환불 등과 관련한 의무와 책임은 판매자에게 있습니다.
           </p>
           <ul className={styles.categoryList}>
             <li onClick={() => window.open("/terms/service")}>

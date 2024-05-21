@@ -1,6 +1,5 @@
 import { basicInstance } from "../instance";
-
-import { ArticleSearchType, ArticleSortBy, Articles } from "../interface";
+import { Articles, ArticleSearchType, ArticleSortBy } from "../interface";
 
 export const fetchArticles = async ({ queryKey }: { queryKey: any[] }) => {
   const [sortBy, page]: string[] = queryKey;
@@ -48,9 +47,7 @@ interface IArticle {
   thumbnailImage: string;
 }
 export const postArticle = async (body: IArticle) =>
-  await basicInstance
-    .post(`/v1/articles`, body)
-    .then(({ data: { data: data } }) => data);
+  await basicInstance.post(`/v1/articles`, body).then(({ data: { data: data } }) => data);
 
 export const postImages = async (formData: any) => {
   return basicInstance.post("/v1/images/multi", formData, {
@@ -91,8 +88,7 @@ export const postArticleTemp = async (body: IArticle) => {
 };
 
 // NOTE 임시 게시글 목록
-export const getArticlesTemp = async () =>
-  (await basicInstance.get(`/v1/articles/temp`)).data;
+export const getArticlesTemp = async () => (await basicInstance.get(`/v1/articles/temp`)).data;
 
 // NOTE 임시 게시글 조회
 export const getArticleTemp = async (articleId: number) =>
@@ -104,8 +100,7 @@ interface IPatchAriticleTemp {
   body: IArticle;
 }
 export const patchArticleTemp = async (data: IPatchAriticleTemp) =>
-  (await basicInstance.patch(`/v1/articles/temp/${data.articleId}`, data.body))
-    .data;
+  (await basicInstance.patch(`/v1/articles/temp/${data.articleId}`, data.body)).data;
 
 // NOTE 임시 게시글 삭제
 export const deleteArticleTemp = async (articleId: number) =>
@@ -151,10 +146,5 @@ export const patchArticleThumbnail = async ({
 }) => await basicInstance.patch(`/v1/articles/${articleId}/thumbnail`, body);
 
 //NOTE - 게시글의 태그 업데이트
-export const patchArticleTag = async ({
-  articleId,
-  body,
-}: {
-  articleId: string;
-  body: any;
-}) => await basicInstance.patch(`/v1/articles/${articleId}/tag`, body);
+export const patchArticleTag = async ({ articleId, body }: { articleId: string; body: any }) =>
+  await basicInstance.patch(`/v1/articles/${articleId}/tag`, body);

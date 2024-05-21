@@ -1,7 +1,9 @@
+import useEnroll from "./useEnroll";
+
+import { useCallback, useEffect, useState } from "react";
+
 import { fetchTagList } from ".src/api/articles/tags";
 import { useQuery } from "@tanstack/react-query";
-import { useCallback, useEffect, useState } from "react";
-import useEnroll from "./useEnroll";
 
 interface Iprops {
   useEnrollHook?: ReturnType<typeof useEnroll>;
@@ -32,7 +34,7 @@ export default function UseRecentTagPopup({ useEnrollHook }: Iprops) {
         setTagKeyword(null);
       }
     },
-    [tagKeyword, useEnrollHook]
+    [tagKeyword, useEnrollHook],
   );
 
   function handleClickCategory(v: string) {

@@ -1,23 +1,18 @@
-import Link from "next/link";
 import styles from "./OutlinedBtn.module.scss";
+
+import Link from "next/link";
+
 interface Props {
   text: string;
   type?: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-const OutlinedBtn = ({
-  text,
-  type = "blue",
-  onClick = () => undefined,
-}: Props) => {
+const OutlinedBtn = ({ text, type = "blue", onClick = () => undefined }: Props) => {
   return (
     <>
       {type === "gray" ? (
-        <button
-          className={`${styles.outlinedBtn} ${styles.outlinedBtn_gray}`}
-          onClick={onClick}
-        >
+        <button className={`${styles.outlinedBtn} ${styles.outlinedBtn_gray}`} onClick={onClick}>
           {text}
         </button>
       ) : (

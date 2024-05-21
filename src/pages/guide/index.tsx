@@ -1,14 +1,11 @@
-import {
-  GetServerSideProps,
-  GetServerSidePropsContext,
-  InferGetServerSidePropsType,
-} from "next";
+import { useEffect, useState } from "react";
+
+import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import Head from "next/head";
+import { useRouter } from "next/router";
 
 import DesktopPage from ".src/components/guide/desktop";
 import MobilePage from ".src/components/guide/mobile";
-import { useEffect, useState } from "react";
-import Head from "next/head";
-import { useRouter } from "next/router";
 
 export const getServerSideProps: GetServerSideProps<{
   isMobile: boolean;
@@ -44,10 +41,7 @@ const GuidePage = ({
       <Head>
         <meta property="og:title" content="비법거래소" />
         <meta property="og:url" content={pathname} />
-        <meta
-          property="og:image"
-          content="/assets/images/og_image_guide_kakao.png"
-        />
+        <meta property="og:image" content="/assets/images/og_image_guide_kakao.png" />
         <meta property="og:description" content="제2의 월급, 비법거래소에서" />
 
         <meta name="twitter:card" content="summary" />
@@ -55,10 +49,7 @@ const GuidePage = ({
         <meta property="twitter:url" content={pathname} />
         <meta name="twitter:title" content="비법거래소" />
         <meta name="twitter:description" content="제2의 월급, 비법거래소에서" />
-        <meta
-          name="twitter:image"
-          content="/assets/images/og_image_guide_x.png"
-        />
+        <meta name="twitter:image" content="/assets/images/og_image_guide_x.png" />
       </Head>
 
       {isMobile ? <MobilePage {...props} /> : <DesktopPage />}

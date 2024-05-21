@@ -1,26 +1,30 @@
-import styles from "./commonHeader.module.scss";
-import LogoBlue from ".assets/logos/LogoBlue.svg";
-import WriteWhite from ".assets/icons/WriteWhite.svg";
-import Shop from ".assets/icons/Shop.svg";
-import Bell from ".assets/icons/Bell.svg";
-import Hamburger from ".assets/icons/Hamburger.svg";
-import TriangleDn from ".assets/icons/TriangleDn.svg";
-import ChevronRt from ".assets/icons/ChevronRt.svg";
-import DefaultProfImg from ".assets/example/DefaultProfImg.png";
-import { D_commonHeaderCategoryList } from ".src/data/common/header";
-import PostCategoryPopup from "./postCategoryPopup";
-import Image from ".src/components/Image";
-import ProfileHoverPopup from "./profileHoverPopup";
-import AlertHoverPopup from "./alertHoverPopup";
 import AlertCount from "./alertCount";
-import { useRouter } from "next/router";
-import { useRecoilValue } from "recoil";
-import { isLoginState, profileState, userNameState } from ".src/recoil";
-import { useQuery } from "@tanstack/react-query";
-import { getEthicalPledge, getProfile } from ".src/api/users/users";
+import AlertHoverPopup from "./alertHoverPopup";
+import PostCategoryPopup from "./postCategoryPopup";
+import ProfileHoverPopup from "./profileHoverPopup";
+
+import styles from "./commonHeader.module.scss";
+
 import { useEffect, useMemo, useRef, useState } from "react";
+
+import { useRouter } from "next/router";
+
+import DefaultProfImg from ".assets/example/DefaultProfImg.png";
+import Bell from ".assets/icons/Bell.svg";
+import ChevronRt from ".assets/icons/ChevronRt.svg";
+import Hamburger from ".assets/icons/Hamburger.svg";
+import Shop from ".assets/icons/Shop.svg";
+import TriangleDn from ".assets/icons/TriangleDn.svg";
+import WriteWhite from ".assets/icons/WriteWhite.svg";
+import LogoBlue from ".assets/logos/LogoBlue.svg";
+import { getEthicalPledge, getProfile } from ".src/api/users/users";
 import ConfirmTitlePopup from ".src/components/common/popup/confirmTitlePopup";
 import PopupBg from ".src/components/common/popupBg";
+import Image from ".src/components/Image";
+import { D_commonHeaderCategoryList } from ".src/data/common/header";
+import { isLoginState, profileState, userNameState } from ".src/recoil";
+import { useQuery } from "@tanstack/react-query";
+import { useRecoilValue } from "recoil";
 
 interface Iprops {
   commonSort?: "인기" | "최신" | "상장" | "서비스 소개" | "이벤트";
@@ -95,10 +99,7 @@ export default function CommonHeader({ commonSort }: Iprops) {
                     <Shop />
                   </div>
 
-                  <div
-                    className={styles.alertImgWrap}
-                    onClick={() => setPreparePopup(true)}
-                  >
+                  <div className={styles.alertImgWrap} onClick={() => setPreparePopup(true)}>
                     <Bell />
                     {/* NOTE - 임시로 주석처리 (기능 미개발) */}
                     {/* <AlertCount />
@@ -108,9 +109,7 @@ export default function CommonHeader({ commonSort }: Iprops) {
                   <div className={styles.profImgWrap}>
                     <Image
                       className={styles.profile}
-                      src={
-                        profileData?.data.data.profileImage || DefaultProfImg
-                      }
+                      src={profileData?.data.data.profileImage || DefaultProfImg}
                       alt="profile image"
                       loader
                       priority
@@ -123,18 +122,12 @@ export default function CommonHeader({ commonSort }: Iprops) {
               </>
             ) : (
               <>
-                <button
-                  className={styles.writeBtn}
-                  onClick={() => router.push("/auth/signin")}
-                >
+                <button className={styles.writeBtn} onClick={() => router.push("/auth/signin")}>
                   <WriteWhite />
                   <p>작성하기</p>
                 </button>
 
-                <button
-                  className={styles.authBtn}
-                  onClick={() => router.push("/auth/signin")}
-                >
+                <button className={styles.authBtn} onClick={() => router.push("/auth/signin")}>
                   <p>로그인/회원가입</p>
                 </button>
               </>
@@ -174,9 +167,7 @@ export default function CommonHeader({ commonSort }: Iprops) {
             <div className={styles.bannerBox}>
               <div
                 className={styles.banner}
-                onClick={() =>
-                  !isSignedIn ? router.push("/auth/signin") : onClickEnroll()
-                }
+                onClick={() => (!isSignedIn ? router.push("/auth/signin") : onClickEnroll())}
               >
                 <p className={styles.cont}>
                   {!!isSignedIn && (

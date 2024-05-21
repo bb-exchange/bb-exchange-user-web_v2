@@ -1,21 +1,24 @@
-import styles from "./reply.module.scss";
-import Gold from ".assets/icons/tier/Gold.svg";
-import Silver from ".assets/icons/tier/Silver.svg";
-import Dot3 from ".assets/icons/Dot3.svg";
-import moment from "moment";
-import ThumbUpRed from ".assets/icons/ThumbUpRed.svg";
-import ThumbUpGrey from ".assets/icons/ThumbUpGrey.svg";
-import UseReply from ".src/hooks/post/useReply";
-import PopupBg from "../common/popupBg";
-import ReplyMorePopup from "./replyMorePopup";
 import ConfirmPopup from "../common/popup/confirmPopup";
 import ErrorMsgPopup from "../common/popup/errorMsgPopup";
-import ReportUserPopup from "./reportUserPopup";
+import PopupBg from "../common/popupBg";
+import ReplyMorePopup from "./replyMorePopup";
 import ReportReplyPopup from "./reportReplyPopup";
-import { isLoginState } from ".src/recoil";
-import { useRecoilValue } from "recoil";
-import { CommentData } from ".src/api/comments";
+import ReportUserPopup from "./reportUserPopup";
+
+import styles from "./reply.module.scss";
+
 import { useMemo, useState } from "react";
+
+import Dot3 from ".assets/icons/Dot3.svg";
+import ThumbUpGrey from ".assets/icons/ThumbUpGrey.svg";
+import ThumbUpRed from ".assets/icons/ThumbUpRed.svg";
+import Gold from ".assets/icons/tier/Gold.svg";
+import Silver from ".assets/icons/tier/Silver.svg";
+import { CommentData } from ".src/api/comments";
+import UseReply from ".src/hooks/post/useReply";
+import { isLoginState } from ".src/recoil";
+import moment from "moment";
+import { useRecoilValue } from "recoil";
 
 interface Iprops {
   data: CommentData;
@@ -24,10 +27,7 @@ interface Iprops {
   onClickLikeComment: (props: { isLike: boolean; commentId: number }) => void;
   onClickUpdateComment: (props: { commentId: number; content: string }) => void;
   onClickDeleteComment: (commentId: number) => void;
-  onClickCreateComment: (props: {
-    parentCommentId: number;
-    content: string;
-  }) => void;
+  onClickCreateComment: (props: { parentCommentId: number; content: string }) => void;
 }
 
 export default function Reply({
@@ -158,17 +158,12 @@ export default function Reply({
               </div>
 
               <div className={styles.rightBox}>
-                <p className={styles.time}>
-                  {moment(createdAt).format("YYYY.MM.DD")}
-                </p>
+                <p className={styles.time}>{moment(createdAt).format("YYYY.MM.DD")}</p>
 
                 {/* NOTE 더보기 팝업 */}
                 {isLogin && !newNested && !isEdit && (
                   <span className={styles.btnBox}>
-                    <button
-                      className={styles.moreBtn}
-                      onClick={() => useReply.setMorePopup(true)}
-                    >
+                    <button className={styles.moreBtn} onClick={() => useReply.setMorePopup(true)}>
                       <Dot3 />
                     </button>
 
@@ -214,9 +209,7 @@ export default function Reply({
             ) : (
               // NOTE 읽기 모드
               <div className={styles.contBox}>
-                {!!contentEl.mention != null && (
-                  <strong>{contentEl.mention}</strong>
-                )}
+                {!!contentEl.mention != null && <strong>{contentEl.mention}</strong>}
                 {contentEl.content}
               </div>
             )}
@@ -238,10 +231,7 @@ export default function Reply({
                 <div className={styles.leftBox}>
                   <button
                     className={`${styles.likeBtn} ${isLike ? styles.on : ""}`}
-                    onClick={() =>
-                      isLogin &&
-                      onClickLikeComment({ isLike: !isLike, commentId })
-                    }
+                    onClick={() => isLogin && onClickLikeComment({ isLike: !isLike, commentId })}
                     style={{ cursor: isLogin ? "pointer" : "default" }}
                   >
                     {isLike ? <ThumbUpRed /> : <ThumbUpGrey />}
@@ -251,10 +241,7 @@ export default function Reply({
                     <>
                       <p>・</p>
 
-                      <button
-                        className={styles.setReplyBtn}
-                        onClick={onClickAddNestedComment}
-                      >
+                      <button className={styles.setReplyBtn} onClick={onClickAddNestedComment}>
                         댓글달기
                       </button>
                     </>

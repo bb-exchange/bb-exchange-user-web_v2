@@ -1,25 +1,26 @@
-import CommonHeader from ".src/components/common/header/commonHeader";
-import CommonFooter from ".src/components/common/commonFooter";
 import styles from "./seller.module.scss";
-import UseSeller from ".src/hooks/seller/useSeller";
-import PopupBg from ".src/components/common/popupBg";
-import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
+
 import { useRouter } from "next/router";
 
-import Profile from ".assets/images/img_profile.svg";
-import Gold from ".assets/icons/tier/Gold.svg";
 import BtnSqrChk from ".assets/icons/BtnSqrChk.svg";
 import BtnSqrChkOn from ".assets/icons/BtnSqrChkOn.svg";
-import Swap from ".assets/icons/Swap.svg";
 import Dot3 from ".assets/icons/Dot3.svg";
-import ReportSellerPopup from ".src/components/seller/reportSellerPopup";
-import ConfirmPopup from ".src/components/common/popup/confirmPopup";
-import ScrollTopBtn from ".src/components/common/scrollTopBtn";
-import PageNav from ".src/components/common/pageNav";
-import WritePost from ".src/components/mypage/write/writePost";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from ".src/recoil/query-keys";
+import Swap from ".assets/icons/Swap.svg";
+import Gold from ".assets/icons/tier/Gold.svg";
+import Profile from ".assets/images/img_profile.svg";
 import { getProfile } from ".src/api/users/users";
+import CommonFooter from ".src/components/common/commonFooter";
+import CommonHeader from ".src/components/common/header/commonHeader";
+import PageNav from ".src/components/common/pageNav";
+import ConfirmPopup from ".src/components/common/popup/confirmPopup";
+import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
+import PopupBg from ".src/components/common/popupBg";
+import ScrollTopBtn from ".src/components/common/scrollTopBtn";
+import WritePost from ".src/components/mypage/write/writePost";
+import ReportSellerPopup from ".src/components/seller/reportSellerPopup";
+import UseSeller from ".src/hooks/seller/useSeller";
+import { queryKeys } from ".src/recoil/query-keys";
+import { useQuery } from "@tanstack/react-query";
 
 const Seller = () => {
   const hook = UseSeller();
@@ -48,16 +49,13 @@ const Seller = () => {
                 </div>
               </h1>
               <p>
-                재테크, 투자, 자동차 전문가입니다. 12년간 7개의 은행, 증권사,
-                투자은행을 다닌 경험이 있으며, 시드 2000천으로 현재 자산 58억
-                달성한 모든 비법을 공유합니다. 다들 따라오세요!!! 가보자구욧~!~!
+                재테크, 투자, 자동차 전문가입니다. 12년간 7개의 은행, 증권사, 투자은행을 다닌 경험이
+                있으며, 시드 2000천으로 현재 자산 58억 달성한 모든 비법을 공유합니다. 다들
+                따라오세요!!! 가보자구욧~!~!
               </p>
             </div>
           </div>
-          <button
-            className={styles.pointer}
-            onClick={() => hook.setMoreMenu(true)}
-          >
+          <button className={styles.pointer} onClick={() => hook.setMoreMenu(true)}>
             {hook.showMore && <Dot3 />}
           </button>
           {hook.moreMenu && (
@@ -85,10 +83,7 @@ const Seller = () => {
               <p>상장된 글만 보기</p>
             </button>
 
-            <button
-              className={`${styles.sortBtn} ${styles.utilBtn}`}
-              onClick={() => {}}
-            >
+            <button className={`${styles.sortBtn} ${styles.utilBtn}`} onClick={() => {}}>
               <Swap />
 
               <p>최신순</p>
@@ -109,9 +104,7 @@ const Seller = () => {
           ) : (
             <>
               <ul className={styles.postList}>
-                {hook.list?.map((v: mypageWritePosts, i: number) => (
-                  <WritePost data={v} key={i} />
-                ))}
+                {hook.list?.map((v: mypageWritePosts, i: number) => <WritePost data={v} key={i} />)}
               </ul>
 
               <PageNav />
@@ -145,9 +138,8 @@ const Seller = () => {
             title="이 사용자를 차단하시겠어요?"
             content={
               <>
-                더 이상 wooAng님의 모든 글을 볼 수 없습니다. wooAng님은
-                치은짱짱님의 모든 글에 대한 접근, 댓글 작성, 프로필 접근
-                불가능합니다. 구매한 글이 있다면 열람만 가능합니다.
+                더 이상 wooAng님의 모든 글을 볼 수 없습니다. wooAng님은 치은짱짱님의 모든 글에 대한
+                접근, 댓글 작성, 프로필 접근 불가능합니다. 구매한 글이 있다면 열람만 가능합니다.
               </>
             }
             cancelText="아니요"
@@ -173,8 +165,8 @@ const Seller = () => {
             title="이 사용자를 차단 해제하시겠어요?"
             content={
               <>
-                이 회원님이 회원님의 게시물을 보고, 회원님의 글에 댓글을 달 수
-                있습니다. 회원님이 차단을 해제했다는 정보를 알리지 않습니다.
+                이 회원님이 회원님의 게시물을 보고, 회원님의 글에 댓글을 달 수 있습니다. 회원님이
+                차단을 해제했다는 정보를 알리지 않습니다.
               </>
             }
             cancelText="아니요"
@@ -200,8 +192,7 @@ const Seller = () => {
             title="이 사용자를 게시글을 숨기시겠어요?"
             content={
               <>
-                게시글 목록에서 이 사용자의 게시글이 더는 보이지 않아요. 숨긴
-                사용자 관리는
+                게시글 목록에서 이 사용자의 게시글이 더는 보이지 않아요. 숨긴 사용자 관리는
                 {"[설정 > 숨긴 사용자 관리]"}에서 할 수 있어요
               </>
             }

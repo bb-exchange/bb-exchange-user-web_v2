@@ -1,10 +1,11 @@
 import styles from "./likePost.module.scss";
-import moment from "moment";
-import "moment/locale/ko";
-import HeartRedO from ".assets/icons/HeartRedO.svg";
+
 import BtnSqrChk from ".assets/icons/BtnSqrChk.svg";
 import BtnSqrChkOn from ".assets/icons/BtnSqrChkOn.svg";
+import HeartRedO from ".assets/icons/HeartRedO.svg";
 import UseMyPageLike from ".src/hooks/mypage/useMypageLike";
+import moment from "moment";
+import "moment/locale/ko";
 
 interface Iprops {
   data: any;
@@ -27,36 +28,26 @@ export default function LikePost({ data, index, useMypageLike }: Iprops) {
               <p className={styles.title}>{data.articleInfo.title}</p>
 
               <p className={styles.replyCount}>{`[${
-                (data.articleInfo.commentNum || 0) > 99
-                  ? `+99`
-                  : data.articleInfo.commentNum || 0
+                (data.articleInfo.commentNum || 0) > 99 ? `+99` : data.articleInfo.commentNum || 0
               }]`}</p>
             </div>
 
             <div className={styles.infoBar}>
               <p className={styles.category}>{data.boardInfo.description}</p>・
               <p className={styles.creator}>{data.userInfo.nickname}</p>・
-              <p className={styles.createdAt}>
-                {moment(data.articleInfo.createdAt).fromNow()}
-              </p>
+              <p className={styles.createdAt}>{moment(data.articleInfo.createdAt).fromNow()}</p>
             </div>
           </div>
         </div>
 
         <div className={styles.thumbnailImgBox}>
-          {data.articleInfo.thumbnail ? (
-            <img src={data.articleInfo.thumbnail} alt="" />
-          ) : null}
+          {data.articleInfo.thumbnail ? <img src={data.articleInfo.thumbnail} alt="" /> : null}
         </div>
       </div>
 
       <div className={styles.rightCont}>
         {data.priceInfo.price ? (
-          <div
-            className={`${styles.priceBox} ${getDiffStyle(
-              data.priceInfo.changeRate || 0
-            )}`}
-          >
+          <div className={`${styles.priceBox} ${getDiffStyle(data.priceInfo.changeRate || 0)}`}>
             <div className={styles.diffBox}>
               <p>
                 {`${(data.priceInfo.changeRate || 0) > 0 ? "+" : ""}${
@@ -66,7 +57,7 @@ export default function LikePost({ data, index, useMypageLike }: Iprops) {
             </div>
 
             <h1 className={styles.price}>{`${new Intl.NumberFormat().format(
-              data.priceInfo.price || 0
+              data.priceInfo.price || 0,
             )} P`}</h1>
           </div>
         ) : (

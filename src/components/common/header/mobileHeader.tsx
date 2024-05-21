@@ -1,9 +1,10 @@
-import { useRouter } from "next/router";
 import styles from "./mobileHeader.module.scss";
+
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 import Image from ".src/components/Image";
 import classNames from "classnames";
-import Link from "next/link";
 
 const MobileHeader = () => {
   const { push, pathname } = useRouter();
@@ -42,10 +43,7 @@ const MobileHeader = () => {
           <Link key={path} href={path}>
             <div className={styles.tabItem}>
               <span aria-selected={pathname.includes(path)}>{name}</span>
-              <div
-                className={classNames(styles.divider)}
-                aria-selected={pathname.includes(path)}
-              />
+              <div className={classNames(styles.divider)} aria-selected={pathname.includes(path)} />
             </div>
           </Link>
         ))}

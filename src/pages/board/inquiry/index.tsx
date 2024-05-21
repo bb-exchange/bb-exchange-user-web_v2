@@ -1,14 +1,19 @@
-import InquiryLayout from ".src/components/inquiry/InquiryLayout";
-import styles from "./inquiry.module.scss";
-import { useRouter } from "next/router";
-import { D_INQUIRY_LIST } from ".src/data/board/D_inquiryList";
-import PageNav from ".src/components/common/pageNav";
 import ImageAttention from "../../../../public/assets/images/attention.svg";
-import usePostInquiry from ".src/hooks/board/usePostInquiry";
+
+import styles from "./inquiry.module.scss";
+
+import { useEffect } from "react";
+
+import { useRouter } from "next/router";
+
+import PageNav from ".src/components/common/pageNav";
 import ConfirmPopup from ".src/components/common/popup/confirmPopup";
 import PopupBg from ".src/components/common/popupBg";
-import { useEffect } from "react";
+import InquiryLayout from ".src/components/inquiry/InquiryLayout";
+import { D_INQUIRY_LIST } from ".src/data/board/D_inquiryList";
+import usePostInquiry from ".src/hooks/board/usePostInquiry";
 import usePopstate from ".src/hooks/common/usePopstate";
+
 interface inquiryList {
   title: string;
   regDate: string;
@@ -39,30 +44,20 @@ const Inquiry = () => {
         {data.length > 0 ? (
           <>
             <ul>
-              {data.map(
-                (
-                  { title, regDate, boardId, reply, read }: inquiryList,
-                  idx: number
-                ) => (
-                  <li
-                    key={idx}
-                    className={read && reply ? `${styles.isRead}` : ""}
-                  >
-                    <div
-                      onClick={() => router.push(`/board/inquiry/${boardId}`)}
-                    >
-                      <p>
-                        <span className={styles.q}>Q.</span>
-                        {title}
-                      </p>
-                      <section>
-                        <span className={styles.regDate}>{regDate}</span>
-                        {returnBtn(reply, read)}
-                      </section>
-                    </div>
-                  </li>
-                )
-              )}
+              {data.map(({ title, regDate, boardId, reply, read }: inquiryList, idx: number) => (
+                <li key={idx} className={read && reply ? `${styles.isRead}` : ""}>
+                  <div onClick={() => router.push(`/board/inquiry/${boardId}`)}>
+                    <p>
+                      <span className={styles.q}>Q.</span>
+                      {title}
+                    </p>
+                    <section>
+                      <span className={styles.regDate}>{regDate}</span>
+                      {returnBtn(reply, read)}
+                    </section>
+                  </div>
+                </li>
+              ))}
             </ul>
             <PageNav />
           </>

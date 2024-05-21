@@ -6,8 +6,7 @@ export default function UseReply() {
   const [reportUserPopup, setReportUserPopup] = useState<boolean>(false);
   const [hideUserPostPopup, setHideUserPostPopup] = useState<boolean>(false);
   const [compReportPopup, setCompReportPopup] = useState<boolean>(false);
-  const [compHideUserPostPopup, setCompHideUserPostPopup] =
-    useState<boolean>(false);
+  const [compHideUserPostPopup, setCompHideUserPostPopup] = useState<boolean>(false);
 
   function onClickReportReplyBtn() {
     setMorePopup(false);

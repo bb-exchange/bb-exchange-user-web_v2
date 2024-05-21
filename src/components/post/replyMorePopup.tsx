@@ -1,5 +1,6 @@
-import UseReply from ".src/hooks/post/useReply";
 import styles from "./replyMorePopup.module.scss";
+
+import UseReply from ".src/hooks/post/useReply";
 
 interface Iprops {
   useReply: ReturnType<typeof UseReply>;

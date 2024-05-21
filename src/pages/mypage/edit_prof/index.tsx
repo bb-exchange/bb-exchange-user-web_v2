@@ -1,14 +1,16 @@
-import UseEditProf from ".src/hooks/mypage/editProf/useEditProf";
 import styles from "./editProf.module.scss";
-import CommonHeader from ".src/components/common/header/commonHeader";
-import PlusGrey from ".assets/icons/PlusGrey.svg";
+
+import { useEffect } from "react";
+
 import CautionRed from ".assets/icons/CautionRed.svg";
 import CheckCircleBlue from ".assets/icons/CheckCircleBlue.svg";
-import Image from ".src/components/Image";
-import useGetMyProfile from ".src/hooks/common/useGetProfile";
-import { useEffect } from "react";
+import PlusGrey from ".assets/icons/PlusGrey.svg";
+import CommonHeader from ".src/components/common/header/commonHeader";
 import ConfirmTitlePopup from ".src/components/common/popup/confirmTitlePopup";
 import PopupBg from ".src/components/common/popupBg";
+import Image from ".src/components/Image";
+import useGetMyProfile from ".src/hooks/common/useGetProfile";
+import UseEditProf from ".src/hooks/mypage/editProf/useEditProf";
 
 export default function EditProf() {
   const useEditProf = UseEditProf();
@@ -27,10 +29,7 @@ export default function EditProf() {
       <CommonHeader />
 
       <main className={styles.editProf}>
-        <form
-          id="Form"
-          onSubmit={useEditProf.handleSubmit(useEditProf.onSubmit)}
-        >
+        <form id="Form" onSubmit={useEditProf.handleSubmit(useEditProf.onSubmit)}>
           <button
             type="button"
             className={styles.profImgBtn}
@@ -42,10 +41,7 @@ export default function EditProf() {
                 width={100}
                 height={100}
                 loader
-                src={
-                  useEditProf.watch("profImg") ??
-                  (myProfile?.profileImage as string)
-                }
+                src={useEditProf.watch("profImg") ?? (myProfile?.profileImage as string)}
                 alt=""
               />
             ) : (
@@ -73,14 +69,12 @@ export default function EditProf() {
                   <CautionRed />
                   <p>{useEditProf.errors.nickname.message}</p>
                 </div>
-              ) : useEditProf?.isExist &&
-                myProfile?.nickname !== useEditProf.watch("nickname") ? (
+              ) : useEditProf?.isExist && myProfile?.nickname !== useEditProf.watch("nickname") ? (
                 <div className={`${styles.validBox}  ${styles.err}`}>
                   <CautionRed />
                   <p>이미 사용중인 닉네임입니다.</p>
                 </div>
-              ) : !useEditProf?.isExist &&
-                myProfile?.nickname !== useEditProf.watch("nickname") ? (
+              ) : !useEditProf?.isExist && myProfile?.nickname !== useEditProf.watch("nickname") ? (
                 <div className={`${styles.validBox}`}>
                   <CheckCircleBlue />
                   <p>가능한 닉네임 입니다.</p>
@@ -116,9 +110,7 @@ export default function EditProf() {
 
             <div className={styles.statusBar}>
               <div
-                className={`${styles.validBox} ${
-                  useEditProf.errors.description ? styles.err : ""
-                }`}
+                className={`${styles.validBox} ${useEditProf.errors.description ? styles.err : ""}`}
               >
                 {useEditProf.errors.description ? (
                   <>
@@ -153,8 +145,7 @@ export default function EditProf() {
               useEditProf.errors.nickname?.type === "maxLength" ||
               useEditProf.errors.nickname ||
               useEditProf.errors.description?.type === "maxLength" ||
-              (useEditProf?.isExist &&
-                myProfile?.nickname !== useEditProf.watch("nickname"))
+              (useEditProf?.isExist && myProfile?.nickname !== useEditProf.watch("nickname"))
                 ? true
                 : false
             }
@@ -172,11 +163,7 @@ export default function EditProf() {
             confirmFunc={() => useEditProf.setIsNotSavedPopup(false)}
             zIndex={80}
           />
-          <PopupBg
-            bg
-            zIndex={70}
-            off={() => useEditProf.setIsNotSavedPopup(false)}
-          />
+          <PopupBg bg zIndex={70} off={() => useEditProf.setIsNotSavedPopup(false)} />
         </>
       )}
     </>

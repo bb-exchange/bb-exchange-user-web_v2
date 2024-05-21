@@ -1,26 +1,21 @@
-import { useRouter } from "next/router";
 import styles from "./index.module.scss";
+
+import { useRouter } from "next/router";
 
 export default function Index() {
   const { push } = useRouter();
 
   return (
     <ul className={styles.index}>
-      <li onClick={() => push({ pathname: "/auth/apple" })}>
-        apple 소셜 로그인 로딩화면
-      </li>
+      <li onClick={() => push({ pathname: "/auth/apple" })}>apple 소셜 로그인 로딩화면</li>
 
       <li onClick={() => push({ pathname: "/auth/duplicate-social-account" })}>
         이미 가입한 계정이 있어요
       </li>
 
-      <li onClick={() => push({ pathname: "/auth/google" })}>
-        google 소셜 로그인 로딩화면
-      </li>
+      <li onClick={() => push({ pathname: "/auth/google" })}>google 소셜 로그인 로딩화면</li>
 
-      <li onClick={() => push({ pathname: "/auth/kakao" })}>
-        kakao 소셜 로그인 로딩화면
-      </li>
+      <li onClick={() => push({ pathname: "/auth/kakao" })}>kakao 소셜 로그인 로딩화면</li>
 
       <li onClick={() => push({ pathname: "/auth/mobile-authentication" })}>
         휴대폰 인증을 해주세요
@@ -52,9 +47,7 @@ export default function Index() {
         휴대폰 인증을 해주세요 / 인증문자 횟수 초과
       </li>
 
-      <li onClick={() => push({ pathname: "/auth/register" })}>
-        사용할 닉네임을 입력해주세요
-      </li>
+      <li onClick={() => push({ pathname: "/auth/register" })}>사용할 닉네임을 입력해주세요</li>
 
       <li
         onClick={() =>
@@ -75,9 +68,7 @@ export default function Index() {
         서비스 가입을 축하드려요!
       </li>
 
-      <li onClick={() => push({ pathname: "/auth/terms-agreement" })}>
-        서비스 이용동의
-      </li>
+      <li onClick={() => push({ pathname: "/auth/terms-agreement" })}>서비스 이용동의</li>
 
       <li
         onClick={() =>
@@ -124,9 +115,7 @@ export default function Index() {
 
       <li onClick={() => push({ pathname: "/board/inquiry" })}>1:1 문의</li>
 
-      <li onClick={() => push({ pathname: "/board/inquiry/post" })}>
-        1:1 문의 등록
-      </li>
+      <li onClick={() => push({ pathname: "/board/inquiry/post" })}>1:1 문의 등록</li>
 
       <li
         onClick={() =>
@@ -150,15 +139,11 @@ export default function Index() {
         1:1 문의 등록 / 1:1문의를 그만두시겠습니까?
       </li>
 
-      <li onClick={() => push({ pathname: "/board/inquiry" })}>
-        1:1 문의 상세
-      </li>
+      <li onClick={() => push({ pathname: "/board/inquiry" })}>1:1 문의 상세</li>
 
       <li onClick={() => push({ pathname: "/board/notice" })}>공지사항</li>
 
-      <li onClick={() => push({ pathname: "/board/notice/0" })}>
-        공지사항 상세
-      </li>
+      <li onClick={() => push({ pathname: "/board/notice/0" })}>공지사항 상세</li>
 
       <li onClick={() => push({ pathname: "/charge" })}>포인트 충전</li>
 

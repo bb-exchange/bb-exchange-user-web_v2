@@ -1,9 +1,12 @@
-import { useRouter } from "next/router";
-import Image from "next/image";
-import LogoIcon from ".assets/logos/LogoIcon.png";
 import styles from "./linkScreen.module.scss";
+
 import { useCallback, useEffect, useMemo, useState } from "react";
+
 import { NextPageContext } from "next";
+import Image from "next/image";
+import { useRouter } from "next/router";
+
+import LogoIcon from ".assets/logos/LogoIcon.png";
 
 enum MobileType {
   iOS,
@@ -11,13 +14,7 @@ enum MobileType {
   Unknown,
 }
 
-export default function Link({
-  isMobile,
-  agent,
-}: {
-  isMobile: boolean;
-  agent: MobileType;
-}) {
+export default function Link({ isMobile, agent }: { isMobile: boolean; agent: MobileType }) {
   const router = useRouter();
   const [mounted, setMounted] = useState<Boolean>(false);
   const { id: articleId } = router.query as { id: string };
@@ -41,7 +38,7 @@ export default function Link({
         location.href = `bibeop://post?articleId=${articleId}`;
       }
     },
-    [date, articleId]
+    [date, articleId],
   );
 
   const toWeb = () => {
@@ -79,8 +76,7 @@ export default function Link({
 
 Link.getInitialProps = async (ctx: NextPageContext) => {
   const isServer = !!ctx.req;
-  const userAgent =
-    (isServer ? ctx.req?.headers["user-agent"] : navigator.userAgent) ?? "";
+  const userAgent = (isServer ? ctx.req?.headers["user-agent"] : navigator.userAgent) ?? "";
   const isMobile = /(iPad|iPhone|Android|Mobile)/i.test(userAgent) || false;
 
   let agent: MobileType = MobileType.Unknown;

@@ -1,6 +1,7 @@
-import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+
+import { useRouter } from "next/router";
 
 export default function UseWithdrawPopup() {
   const router = useRouter();
@@ -10,27 +11,18 @@ export default function UseWithdrawPopup() {
   // const [withdrawPopup, setWithdrawPopup] = useState<boolean>(
   //   router.query.withdrawPopup === "true" || false
   // );
-  const [compPopup, setCompPopup] = useState<boolean>(
-    router.query.compPopup === "true" || false
-  );
+  const [compPopup, setCompPopup] = useState<boolean>(router.query.compPopup === "true" || false);
 
-  const {
-    register,
-    watch,
-    setValue,
-    formState,
-    setFocus,
-    reset,
-    handleSubmit,
-  } = useForm<IorderWithdraw>({
-    defaultValues: {
-      name: "",
-      registNumber: 0,
-      bank: "",
-      accountNumber: 0,
-      amount: 0,
-    },
-  });
+  const { register, watch, setValue, formState, setFocus, reset, handleSubmit } =
+    useForm<IorderWithdraw>({
+      defaultValues: {
+        name: "",
+        registNumber: 0,
+        bank: "",
+        accountNumber: 0,
+        amount: 0,
+      },
+    });
 
   useEffect(() => {
     register("amount", { min: { value: 1, message: "" } });
@@ -38,9 +30,7 @@ export default function UseWithdrawPopup() {
 
   function getRegistNumStr() {
     const _registNum: number = watch("registNumber");
-    return `${_registNum?.toString().slice(0, 6)}-${
-      _registNum?.toString()[6]
-    }******`;
+    return `${_registNum?.toString().slice(0, 6)}-${_registNum?.toString()[6]}******`;
   }
 
   function getAccountNumber() {

@@ -1,10 +1,10 @@
-import Link from "next/link";
-import { useRecoilValue } from "recoil";
-
-import CommonHeader from ".src/components/common/header/commonHeader";
 import styles from "./desktop.module.scss";
 
+import Link from "next/link";
+
+import CommonHeader from ".src/components/common/header/commonHeader";
 import { isLoginState } from ".src/recoil";
+import { useRecoilValue } from "recoil";
 
 const Event = () => {
   const isSignedIn = useRecoilValue(isLoginState);
@@ -18,8 +18,7 @@ const Event = () => {
           <p className={styles.title2}>로켓상장 이벤트</p>
           <p className={styles.title3}>
             정식 출시 기념 기념으로 크리에이터 분들의 글을 <br />
-            <span className={styles.bold}>더 빨리, 더 많이</span> 팔 수 있도록
-            지원해요!
+            <span className={styles.bold}>더 빨리, 더 많이</span> 팔 수 있도록 지원해요!
           </p>
         </section>
 
@@ -76,17 +75,15 @@ const Event = () => {
         </section>
 
         <div className={styles.footer}>
-          <div className={styles.footerTitle}>
-            하단 유의사항을 꼭 읽어주세요
-          </div>
+          <div className={styles.footerTitle}>하단 유의사항을 꼭 읽어주세요</div>
           <ul>
             <li>
               <span className={styles.listMark} />
               이벤트 진행 일정 : 2024.3.25 (월) 11:00 ~ 선착순 100명 마감시까지
             </li>
             <li>
-              <span className={styles.listMark} />본 이벤트는 당사 사정에 따라
-              사전 고지 없이 변경, 종료될 수 있습니다.
+              <span className={styles.listMark} />본 이벤트는 당사 사정에 따라 사전 고지 없이 변경,
+              종료될 수 있습니다.
             </li>
             <li>
               <span className={styles.listMark} />

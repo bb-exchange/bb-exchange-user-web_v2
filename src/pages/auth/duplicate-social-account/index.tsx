@@ -1,14 +1,13 @@
-import styles from "./index.module.scss";
-import OutlinedBtn from ".src/components/Buttons/OutlinedBtn";
-import LogoKakao from "../../../../public/assets/images/kakao_logo.svg";
-import LogoGoogle from "../../../../public/assets/images/google_logo.svg";
 import LogoApple from "../../../../public/assets/images/apple_logo_v2.svg";
-import {
-  APPLE_AUTH_URL,
-  GOOGLE_AUTH_URL,
-  KAKAO_AUTH_URL,
-} from ".src/data/signin/D_authUrl";
+import LogoGoogle from "../../../../public/assets/images/google_logo.svg";
+import LogoKakao from "../../../../public/assets/images/kakao_logo.svg";
+
+import styles from "./index.module.scss";
+
 import { useCookies } from "react-cookie";
+
+import OutlinedBtn from ".src/components/Buttons/OutlinedBtn";
+import { APPLE_AUTH_URL, GOOGLE_AUTH_URL, KAKAO_AUTH_URL } from ".src/data/signin/D_authUrl";
 
 const DuplicateSocialAccount = () => {
   const [cookie, setCookie] = useCookies(["oauthId", "oauthType"]);

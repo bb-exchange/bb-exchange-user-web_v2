@@ -1,16 +1,18 @@
-import { useState } from "react";
-import Image from "next/image";
-import { useRecoilValue } from "recoil";
-
 import mLogo from "../../../public/assets/images/serviceIntroduction/m-logo.png";
+import MobileHeader from "../common/header/mobileHeader";
 
 import styles from "./mobile.module.scss";
-import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
+
+import { useState } from "react";
+
+import Image from "next/image";
+
 import ConfirmTitlePopup from ".src/components/common/popup/confirmTitlePopup";
+import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
 import PopupBg from ".src/components/common/popupBg";
 import { isLoginState } from ".src/recoil";
-import MobileHeader from "../common/header/mobileHeader";
 import classNames from "classnames";
+import { useRecoilValue } from "recoil";
 
 const Event = ({
   isClient,
@@ -49,10 +51,7 @@ const Event = ({
           <p className={styles.title2}>
             선착순 100개의 글을
             <br />
-            좋아요 50개에 <span className={styles.highlight}>
-              조기상장
-            </span>{" "}
-            시켜드려요!
+            좋아요 50개에 <span className={styles.highlight}>조기상장</span> 시켜드려요!
           </p>
 
           <div className={styles.cardArea}>
@@ -68,8 +67,7 @@ const Event = ({
             <div className={styles.card}>
               <p className={styles.title}>STEP 2</p>
               <span className={styles.content}>
-                내 글이 <span className={styles.highlight}>좋아요 50개</span>가
-                되어
+                내 글이 <span className={styles.highlight}>좋아요 50개</span>가 되어
                 <br /> 상장되도록 열심히
                 <br /> 친구들에게 홍보한다.
               </span>
@@ -103,17 +101,15 @@ const Event = ({
         </section>
 
         <div className={styles.footer}>
-          <div className={styles.footerTitle}>
-            하단 유의사항을 꼭 읽어주세요
-          </div>
+          <div className={styles.footerTitle}>하단 유의사항을 꼭 읽어주세요</div>
           <ul>
             <li>
               <span className={styles.listMark} />
               이벤트 진행 일정 : 2024.3.25 (월) 11:00 ~ 선착순 100명 마감시까지
             </li>
             <li>
-              <span className={styles.listMark} />본 이벤트는 당사 사정에 따라
-              사전 고지 없이 변경, 종료될 수 있습니다.
+              <span className={styles.listMark} />본 이벤트는 당사 사정에 따라 사전 고지 없이 변경,
+              종료될 수 있습니다.
             </li>
             <li>
               <span className={styles.listMark} />
@@ -169,10 +165,7 @@ PC를 통해 비법거래소를 만나보세요!`}
 
       {copyPopup && (
         <>
-          <ErrorMsgPopup
-            msg="URL이 복사되었습니다."
-            confirmFunc={() => setCopyPopup(false)}
-          />
+          <ErrorMsgPopup msg="URL이 복사되었습니다." confirmFunc={() => setCopyPopup(false)} />
           <PopupBg bg off={() => setCopyPopup(false)} />
         </>
       )}
