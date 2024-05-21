@@ -63,24 +63,40 @@ import {
 } from "next";
 import { basicInstance } from ".src/api/instance";
 
-
 export const getServerSideProps: GetServerSideProps<{
-  postData: PostData;
+  postData: PostData | undefined;
 }> = async (context: GetServerSidePropsContext) => {
   const accessToken = context.req.cookies.accessToken;
+  const refreshToken = context.req.cookies.refreshToken;
 
   if (accessToken) {
     basicInstance.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
   }
 
-  const articleId = context.query.id as string;
-  const postData = await postById(articleId);
+  if (refreshToken) {
+    basicInstance.defaults.headers.common.refreshToken = refreshToken;
+  }
 
-  return {
-    props: {
-      postData,
-    },
-  };
+  const articleId = context.query.id as string;
+
+  try {
+    const postData = await postById(articleId);
+
+    return {
+      props: {
+        postData,
+      },
+    };
+  } catch (e) {
+    return {
+      props: {
+        postData: undefined,
+      },
+      redirect: {
+        destination: "/auth/signin",
+      },
+    };
+  }
 };
 
 // NOTE 댓글 정렬 라벨

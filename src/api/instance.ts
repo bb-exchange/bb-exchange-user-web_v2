@@ -38,14 +38,16 @@ basicInstance.interceptors.response.use(
       // Access Token was expired
       if (error.response?.status === 401 && !originalConfig._retry) {
         originalConfig._retry = true;
-        const isRefreshTokenValid = validateTimeRefreshToken();
+        const refreshToken =
+          error.config.headers.refreshToken || getCookie("refreshToken");
+        const isRefreshTokenValid = validateTimeRefreshToken(refreshToken);
 
         if (isRefreshTokenValid) {
           return (async () => {
             try {
               refreshing_token = refreshing_token
                 ? refreshing_token
-                : newRefreshToken();
+                : newRefreshToken(refreshToken);
 
               let res: any = await refreshing_token;
               refreshing_token = null;
@@ -53,27 +55,32 @@ basicInstance.interceptors.response.use(
               if (res) {
                 const newAccessToken = res.data.data.accessToken;
 
-                setCookie("accessToken", res.data.data.accessToken, {
-                  path: "/",
-                });
-                setCookie("refreshToken", res.data.data.refreshToken, {
-                  path: "/",
-                });
-
+                if (typeof window !== "undefined") {
+                  setCookie("accessToken", res.data.data.accessToken, {
+                    path: "/",
+                  });
+                  setCookie("refreshToken", res.data.data.refreshToken, {
+                    path: "/",
+                  });
+                }
                 error.config.headers.Authorization = "Bearer " + newAccessToken;
 
                 return basicInstance(error.config);
               }
             } catch (err: any) {
-              deleteCookie("accessToken", {
-                path: "/",
-                domain: window.location.origin,
-              });
-              deleteCookie("refreshToken", {
-                path: "/",
-                domain: window.location.origin,
-              });
-              window.location.href = "/auth/signin";
+              if (typeof window !== "undefined") {
+                // Perform localStorage action
+
+                deleteCookie("accessToken", {
+                  path: "/",
+                  domain: window.location.origin,
+                });
+                deleteCookie("refreshToken", {
+                  path: "/",
+                  domain: window.location.origin,
+                });
+                window.location.href = "/auth/signin";
+              }
             }
           })();
         }
@@ -90,11 +97,11 @@ basicInstance.interceptors.response.use(
 );
 
 //Return new token
-const newRefreshToken = async () => {
+const newRefreshToken = async (refreshToken: string) => {
   const res: any = await axios.post(
     baseURL + `/v1/auth/reissue`,
     {
-      refreshToken: getCookie("refreshToken"),
+      refreshToken,
     },
     {
       withCredentials: true,
@@ -104,8 +111,7 @@ const newRefreshToken = async () => {
 };
 
 //Check refreshToken expiry
-export const validateTimeRefreshToken = () => {
-  const refreshToken = getCookie("refreshToken");
+export const validateTimeRefreshToken = (refreshToken: string) => {
   if (!refreshToken) return false;
 
   const decodeRefreshToken: JwtPayload = jwtDecode(String(refreshToken));
