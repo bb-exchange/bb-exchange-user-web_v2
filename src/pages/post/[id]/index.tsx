@@ -28,15 +28,15 @@ import { PostData } from ".src/api/interface";
 import { ArticleData } from ".src/api/interface/articles";
 import { deletePost, postById, updateDislikePost, updateLikePost } from ".src/api/post/post";
 import { currentUserInfo, hideAuthorsPosts } from ".src/api/users/users";
+import Image from ".src/components/Image";
 import CommonFooter from ".src/components/common/commonFooter";
 import CommonHeader from ".src/components/common/header/commonHeader";
 import ConfirmPopup from ".src/components/common/popup/confirmPopup";
 import ConfirmTitlePopup from ".src/components/common/popup/confirmTitlePopup";
 import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
 import PopupBg from ".src/components/common/popupBg";
-import Image from ".src/components/Image";
-import CompPayPopup from ".src/components/post/compPayPopup";
 import PostDeleteConfirmPopup from ".src/components/post/PostDeleteConfirmPopup";
+import CompPayPopup from ".src/components/post/compPayPopup";
 import PostEditConfirmPopup from ".src/components/post/postEditConfirmPopup";
 import PostImgPopup from ".src/components/post/postImgPopup";
 import PostMorePopup from ".src/components/post/postMorePopup";
@@ -52,27 +52,41 @@ import { isLoginState } from ".src/recoil";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { EditorContent } from "@tiptap/react";
 import classNames from "classnames";
-import moment from "moment";
-import "moment/locale/ko";
-import { useRecoilValue } from "recoil";
 
 export const getServerSideProps: GetServerSideProps<{
-  postData: PostData;
+  postData: PostData | undefined;
 }> = async (context: GetServerSidePropsContext) => {
   const accessToken = context.req.cookies.accessToken;
+  const refreshToken = context.req.cookies.refreshToken;
 
   if (accessToken) {
     basicInstance.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
   }
 
-  const articleId = context.query.id as string;
-  const postData = await postById(articleId);
+  if (refreshToken) {
+    basicInstance.defaults.headers.common.refreshToken = refreshToken;
+  }
 
-  return {
-    props: {
-      postData,
-    },
-  };
+  const articleId = context.query.id as string;
+
+  try {
+    const postData = await postById(articleId);
+
+    return {
+      props: {
+        postData,
+      },
+    };
+  } catch (e) {
+    return {
+      props: {
+        postData: undefined,
+      },
+      redirect: {
+        destination: "/auth/signin",
+      },
+    };
+  }
 };
 
 // NOTE 댓글 정렬 라벨
