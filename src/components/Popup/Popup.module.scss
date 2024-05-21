@@ -21,6 +21,33 @@
   position: absolute;
   transform: translate(-50%, -50%);
   animation: fadeIn 0.3s ease-in-out;
+
+  display: flex;
+  flex-direction: column;
+
+  // TODO: 임시
+  padding: 32px;
+
+  .header { 
+    display: flex;  
+    align-items: center;
+    justify-content: space-between;
+
+    h3 {
+      width: 100%;
+      color: #111213;
+      text-align: center;
+      font-size: 25.518px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 120%; /* 30.622px */
+    }
+    
+    svg {
+      min-width: 24px;
+      height: 24px;
+    }
+  }
 }
 
 @keyframes fadeIn {

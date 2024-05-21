@@ -1,5 +1,6 @@
 import styles from "./Popup.module.scss";
 import { PropsWithChildren, useEffect, useState } from "react";
+import X from '.assets/icons/X.svg'
 
 type PopupProps = {
   title?: String;
@@ -39,7 +40,10 @@ export default function Popup({
   return (
     <div className={styles.overlay}>
       <div className={styles.popup}>
-        title
+        <div className={styles.header}>
+          <h3>{title}</h3>
+          <X />
+        </div>
         {children}
       </div>
     </div>
