@@ -1,4 +1,4 @@
-import { AtomEffect, atom, useSetRecoilState } from "recoil";
+import { atom, AtomEffect, useSetRecoilState } from "recoil";
 import { recoilPersist } from "recoil-persist";
 
 const { persistAtom } = recoilPersist();
@@ -57,10 +57,4 @@ const selectedEditorNodeState = atom<number | null>({
   default: null,
 });
 
-export {
-  categoryState,
-  isLoginState,
-  userNameState,
-  selectedEditorNodeState,
-  profileState,
-};
+export { categoryState, isLoginState, userNameState, selectedEditorNodeState, profileState };

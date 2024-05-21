@@ -1,6 +1,8 @@
-import { D_alertList } from ".src/data/common/alert";
-import styles from "./alertHoverPopup.module.scss";
 import ArrowRight from "../../../../public/assets/icons/BlackArrowRight.svg";
+
+import styles from "./alertHoverPopup.module.scss";
+
+import { D_alertList } from ".src/data/common/alert";
 
 const AlertHoverPopup = () => {
   return (

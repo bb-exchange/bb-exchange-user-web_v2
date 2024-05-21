@@ -1,5 +1,6 @@
-import { D_mypageAssetCategoryList } from ".src/data/mypage/asset/D_mypageAsset";
 import { useState } from "react";
+
+import { D_mypageAssetCategoryList } from ".src/data/mypage/asset/D_mypageAsset";
 
 export default function UseMypageAsset() {
   const categoryList: string[] = D_mypageAssetCategoryList;

@@ -1,9 +1,10 @@
-import { describe, expect } from "@jest/globals";
-import { fireEvent, render } from "@testing-library/react";
+import Post from "../../src/pages/post/[id]";
 import mockNextRouter from "../__mocks__/nextRouter";
 import mockReactQuery from "../__mocks__/reactQuery";
-import Post from "../../src/pages/post/[id]";
 import mockReactRedux from "../__mocks__/reactRedux";
+
+import { describe, expect } from "@jest/globals";
+import { fireEvent, render } from "@testing-library/react";
 
 describe("postScreen", () => {
   mockNextRouter({});
@@ -21,7 +22,7 @@ describe("postScreen", () => {
         children: mockReactQuery({
           children: <Post />,
         }),
-      })
+      }),
     );
 
     const thumbGrey = container.querySelector('[data-testid="thumbGrey"]');

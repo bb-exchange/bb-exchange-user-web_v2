@@ -1,10 +1,12 @@
-import { useRouter } from "next/router";
-import { NotionRenderer } from "react-notion-x";
-import { ExtendedRecordMap } from "notion-types";
-
-import notion from ".src/lib/notion";
 import styles from "./[type].module.scss";
+
+import { NotionRenderer } from "react-notion-x";
+
+import { useRouter } from "next/router";
+
 import IconX from ".assets/icons/X.svg";
+import notion from ".src/lib/notion";
+import { ExtendedRecordMap } from "notion-types";
 
 const TermsPopup = ({ recordMap }: { recordMap: ExtendedRecordMap }) => {
   const router = useRouter();
@@ -18,11 +20,7 @@ const TermsPopup = ({ recordMap }: { recordMap: ExtendedRecordMap }) => {
           <IconX className={styles.iconX} onClick={() => router.back()} />
         </div>
         <div className={styles.notionContent}>
-          <NotionRenderer
-            recordMap={recordMap}
-            fullPage={true}
-            darkMode={false}
-          />
+          <NotionRenderer recordMap={recordMap} fullPage={true} darkMode={false} />
         </div>
       </section>
     </div>

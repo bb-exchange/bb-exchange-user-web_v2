@@ -1,22 +1,22 @@
+import styles from "./latest.module.scss";
+
 import { useState } from "react";
+
 import { useRouter } from "next/router";
-import { useRecoilValue } from "recoil";
-import moment from "moment";
-import "moment/locale/ko";
 
-// import UseLatest from ".src/hooks/posts/useLatest";
-import { categoryState, isLoginState } from ".src/recoil";
-import { useArticles } from ".src/hooks/posts/useArticles";
-
+import HeartGrey from ".assets/icons/HeartGrey.svg";
+import HeartRedO from ".assets/icons/HeartRedO.svg";
 import PageNav from ".src/components/common/pageNav";
+import ConfirmPopup from ".src/components/common/popup/confirmPopup";
+import PopupBg from ".src/components/common/popupBg";
 import ScrollTopBtn from ".src/components/common/scrollTopBtn";
 import Image from ".src/components/Image";
-import PopupBg from ".src/components/common/popupBg";
-import ConfirmPopup from ".src/components/common/popup/confirmPopup";
-
-import HeartRedO from ".assets/icons/HeartRedO.svg";
-import HeartGrey from ".assets/icons/HeartGrey.svg";
-import styles from "./latest.module.scss";
+import { useArticles } from ".src/hooks/posts/useArticles";
+// import UseLatest from ".src/hooks/posts/useLatest";
+import { categoryState, isLoginState } from ".src/recoil";
+import moment from "moment";
+import "moment/locale/ko";
+import { useRecoilValue } from "recoil";
 
 export default function Lastest() {
   // FIXME - API 연동끝나면 관련 코드 일괄 정리
@@ -48,17 +48,9 @@ export default function Lastest() {
   }
 
   // NOTE 찜하기 버튼 클릭
-  const onClickFavBtn = ({
-    articleId,
-    interest,
-  }: {
-    articleId: number;
-    interest: boolean;
-  }) => {
+  const onClickFavBtn = ({ articleId, interest }: { articleId: number; interest: boolean }) => {
     if (isLogin) {
-      const index = contents.findIndex(
-        (content) => content.articleInfo.articleId === articleId
-      );
+      const index = contents.findIndex((content) => content.articleInfo.articleId === articleId);
 
       mutateArticle({ index, articleId, bookmarking: !interest });
     } else {
@@ -68,9 +60,7 @@ export default function Lastest() {
 
   // NOTE 페이지 변경 함수
   const onChangePage = (pageIndex: number) =>
-    pageIndex === 0
-      ? router.push(router.pathname)
-      : router.push({ query: { page: pageIndex } });
+    pageIndex === 0 ? router.push(router.pathname) : router.push({ query: { page: pageIndex } });
 
   return (
     <>
@@ -104,16 +94,9 @@ export default function Lastest() {
                 },
               }) => {
                 return (
-                  <li
-                    key={articleId}
-                    onClick={() => router.push(`/post/${articleId}`)}
-                  >
+                  <li key={articleId} onClick={() => router.push(`/post/${articleId}`)}>
                     <div className={styles.leftArea}>
-                      <div
-                        className={`${styles.infoCont} ${
-                          read ? styles.read : ""
-                        }`}
-                      >
+                      <div className={`${styles.infoCont} ${read ? styles.read : ""}`}>
                         <div className={styles.titleBar}>
                           <h2 className={styles.title}>{title}</h2>
                           <p className={styles.replyCount}>{`[${
@@ -142,11 +125,7 @@ export default function Lastest() {
                         </div>
                       </div>
 
-                      <div
-                        className={`${styles.thumbnailImgBox} ${
-                          read ? styles.read : ""
-                        }`}
-                      >
+                      <div className={`${styles.thumbnailImgBox} ${read ? styles.read : ""}`}>
                         {thumbnail && (
                           <Image
                             src={thumbnail}
@@ -165,7 +144,7 @@ export default function Lastest() {
                       {price ? (
                         <div
                           className={`${styles.priceCont} ${getDiffStyle(
-                            changeRate || 0
+                            changeRate || 0,
                           )} ${read ? styles.read : ""}`}
                         >
                           <div className={styles.diffBox}>
@@ -176,18 +155,12 @@ export default function Lastest() {
                             </p>
                           </div>
 
-                          <h1
-                            className={styles.price}
-                          >{`${new Intl.NumberFormat().format(
-                            price || 0
+                          <h1 className={styles.price}>{`${new Intl.NumberFormat().format(
+                            price || 0,
                           )} P`}</h1>
                         </div>
                       ) : (
-                        <div
-                          className={`${styles.notListedCont} ${
-                            read ? styles.read : ""
-                          }`}
-                        >
+                        <div className={`${styles.notListedCont} ${read ? styles.read : ""}`}>
                           <div className={styles.likeCountBox}>
                             <p>{`좋아요 ${likeNum || 0}개`}</p>
                           </div>
@@ -209,15 +182,11 @@ export default function Lastest() {
                     </article>
                   </li>
                 );
-              }
+              },
             )}
           </ul>
 
-          <PageNav
-            totalPages={totalPages}
-            currentPage={pageNumber}
-            onChangePage={onChangePage}
-          />
+          <PageNav totalPages={totalPages} currentPage={pageNumber} onChangePage={onChangePage} />
         </section>
       </main>
       {requestLoginPop && (

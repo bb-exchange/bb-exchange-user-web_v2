@@ -1,16 +1,17 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useQuery } from "@tanstack/react-query";
-import { useRecoilValue } from "recoil";
-
-import styles from "./desktop.module.scss";
-import { isLoginState } from ".src/recoil";
-import { getEthicalPledge } from ".src/api/users/users";
-
-import Navbar from "../layouts/Navbar";
 import CommonFooter from "../common/commonFooter";
 import CommonHeader from "../common/header/commonHeader";
 import Image from "../Image";
+import Navbar from "../layouts/Navbar";
+
+import styles from "./desktop.module.scss";
+
+import Link from "next/link";
+import { useRouter } from "next/router";
+
+import { getEthicalPledge } from ".src/api/users/users";
+import { isLoginState } from ".src/recoil";
+import { useQuery } from "@tanstack/react-query";
+import { useRecoilValue } from "recoil";
 
 const DesktopPage = () => {
   const { push } = useRouter();
@@ -28,8 +29,8 @@ const DesktopPage = () => {
     !isSignedIn
       ? push("/auth/signin")
       : ethicalPledgeData?.data.agreeToEthicalPledge
-      ? push("/enroll")
-      : push("/enroll/term");
+        ? push("/enroll")
+        : push("/enroll/term");
 
   return (
     <>
@@ -63,13 +64,10 @@ const DesktopPage = () => {
             <div className={styles.descArea}>
               <div className={styles.desc}>
                 <p>
-                  비법거래소에는 총 13개의 카테고리가 있어요. 카테고리를 보고
-                  주제를 떠올려보는 것도 좋아요.
+                  비법거래소에는 총 13개의 카테고리가 있어요. 카테고리를 보고 주제를 떠올려보는 것도
+                  좋아요.
                 </p>
-                <p>
-                  카테고리는 트렌드나 글의 수요에 따라 유동적으로 운영될 수
-                  있어요!
-                </p>
+                <p>카테고리는 트렌드나 글의 수요에 따라 유동적으로 운영될 수 있어요!</p>
               </div>
 
               <div className={styles.imageWrapper}>
@@ -95,12 +93,10 @@ const DesktopPage = () => {
             <div className={styles.content}>
               <div className={styles.descArea}>
                 <div className={styles.desc}>
+                  <p>매력적인 제목은 곧 글이 팔리는 가격 형성에 영향을 미쳐요.</p>
                   <p>
-                    매력적인 제목은 곧 글이 팔리는 가격 형성에 영향을 미쳐요.
-                  </p>
-                  <p>
-                    최대 40자 이내로 글의 내용을 잘 이해할 수 있는 키워드를
-                    포함해 제목을 작성해보세요.
+                    최대 40자 이내로 글의 내용을 잘 이해할 수 있는 키워드를 포함해 제목을
+                    작성해보세요.
                   </p>
                 </div>
 
@@ -113,12 +109,7 @@ const DesktopPage = () => {
                     gap: "32px",
                   }}
                 >
-                  <Image
-                    src={getImgPath("titles_1")}
-                    height={248}
-                    width={780}
-                    alt="titles_1"
-                  />
+                  <Image src={getImgPath("titles_1")} height={248} width={780} alt="titles_1" />
                   <p
                     style={{
                       width: "780px",
@@ -127,8 +118,8 @@ const DesktopPage = () => {
                       fontWeight: 600,
                     }}
                   >
-                    연봉협상, 겨울 등 시즌 내용이 들어가거나 사람들이 관심있어할
-                    키워드를 포함해 보는 것도 좋아요.
+                    연봉협상, 겨울 등 시즌 내용이 들어가거나 사람들이 관심있어할 키워드를 포함해
+                    보는 것도 좋아요.
                   </p>
                 </div>
               </div>
@@ -136,24 +127,15 @@ const DesktopPage = () => {
               <div className={styles.descArea}>
                 <div className={styles.desc}>
                   <p>
-                    비법거래소 팀에서 사업 계획을 하며 사전 리서치를 했던 자료
-                    중, 상위 랭크된 글들의 제목을 공유드릴게요!
+                    비법거래소 팀에서 사업 계획을 하며 사전 리서치를 했던 자료 중, 상위 랭크된
+                    글들의 제목을 공유드릴게요!
                   </p>
                   <p>
-                    (이 글들이 꼭 정답은 아니니, 참고하여 나만의 경험이 담긴
-                    글을 구성해보세요.)
+                    (이 글들이 꼭 정답은 아니니, 참고하여 나만의 경험이 담긴 글을 구성해보세요.)
                   </p>
                 </div>
-                <div
-                  className={styles.imageWrapper}
-                  style={{ padding: "26px 0" }}
-                >
-                  <Image
-                    src={getImgPath("titles_2")}
-                    height={282}
-                    width={1065}
-                    alt="titles_2"
-                  />
+                <div className={styles.imageWrapper} style={{ padding: "26px 0" }}>
+                  <Image src={getImgPath("titles_2")} height={282} width={1065} alt="titles_2" />
                 </div>
               </div>
             </div>
@@ -170,16 +152,8 @@ const DesktopPage = () => {
                 <p>제목과 서문은 글 구매 욕구를 자극하는 중요한 역할을 해요.</p>
               </div>
 
-              <div
-                className={styles.imageWrapper}
-                style={{ paddingTop: "45px" }}
-              >
-                <Image
-                  src={getImgPath("intro")}
-                  height={397}
-                  width={950}
-                  alt="intro"
-                />
+              <div className={styles.imageWrapper} style={{ paddingTop: "45px" }}>
+                <Image src={getImgPath("intro")} height={397} width={950} alt="intro" />
               </div>
             </div>
           </article>
@@ -192,26 +166,12 @@ const DesktopPage = () => {
 
             <div className={styles.descArea}>
               <div className={styles.desc}>
-                <p>
-                  초안이라도 좋아요. 미리 저장해두고 조금씩 보완해서 올리면
-                  돼요.
-                </p>
-                <p>
-                  누구나 처음부터 좋은 글을 쓰기 어려워 하니, 고민보다 일단
-                  시작부터!
-                </p>
+                <p>초안이라도 좋아요. 미리 저장해두고 조금씩 보완해서 올리면 돼요.</p>
+                <p>누구나 처음부터 좋은 글을 쓰기 어려워 하니, 고민보다 일단 시작부터!</p>
               </div>
 
-              <div
-                className={styles.imageWrapper}
-                style={{ paddingTop: "45px" }}
-              >
-                <Image
-                  src={getImgPath("draft")}
-                  height={370}
-                  width={1014}
-                  alt="draft"
-                />
+              <div className={styles.imageWrapper} style={{ paddingTop: "45px" }}>
+                <Image src={getImgPath("draft")} height={370} width={1014} alt="draft" />
               </div>
             </div>
           </article>
@@ -219,37 +179,24 @@ const DesktopPage = () => {
           <article className={styles.content}>
             <h2 className={styles.titleArea}>
               <span className={styles.title}>Q.</span>
-              <span className={styles.title}>
-                비법글을 쓰면 어떻게 부수익이 창출되나요?
-              </span>
+              <span className={styles.title}>비법글을 쓰면 어떻게 부수익이 창출되나요?</span>
             </h2>
 
             <div className={styles.descArea}>
               <div className={styles.desc}>
-                <p>
-                  내 글이 좋아요 100개를 받으면, 상장이 됨과 동시에 부수익을
-                  얻을 수 있어요.
-                </p>
+                <p>내 글이 좋아요 100개를 받으면, 상장이 됨과 동시에 부수익을 얻을 수 있어요.</p>
                 <p>좋은 글을 써서 좋은 평가를 받을수록 수익은 배가 돼요.</p>
               </div>
 
               <div className={styles.imageWrapper}>
-                <Image
-                  src={getImgPath("profit")}
-                  height={415}
-                  width={1200}
-                  alt="profit"
-                />
+                <Image src={getImgPath("profit")} height={415} width={1200} alt="profit" />
               </div>
             </div>
           </article>
 
           <article className={styles.outroArea}>
             <div className={styles.desc}>
-              <p>
-                이번 글은 플랫폼 개발 전, 사전 리서치에서 발견된 인사이트와
-                팁이었습니다! 🙃
-              </p>
+              <p>이번 글은 플랫폼 개발 전, 사전 리서치에서 발견된 인사이트와 팁이었습니다! 🙃</p>
               <p>(여러분만의 비법을 자유롭게 작성해주세요오오오)</p>
             </div>
 

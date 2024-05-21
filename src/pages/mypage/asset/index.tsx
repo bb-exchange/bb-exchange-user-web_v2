@@ -1,20 +1,21 @@
 import styles from "./asset.module.scss";
 import { Tooltip } from "react-tooltip";
+
+import ChevronRt from ".assets/icons/ChevronRt.svg";
 import CommonFooter from ".src/components/common/commonFooter";
 import CommonHeader from ".src/components/common/header/commonHeader";
-import MypageNavAside from ".src/components/mypage/mypageNavAside";
-import UseMypageAsset from ".src/hooks/mypage/asset/useMypageAsset";
-import ChevronRt from ".assets/icons/ChevronRt.svg";
+import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
+import PopupBg from ".src/components/common/popupBg";
 import ScrollTopBtn from ".src/components/common/scrollTopBtn";
-import TermIncome from ".src/components/mypage/asset/termIncome";
 import ContentIncome from ".src/components/mypage/asset/contentIncome";
 import MyWithdraw from ".src/components/mypage/asset/myWithdraw";
-import UseWithdrawPopup from ".src/hooks/mypage/asset/useWithdrawPopup";
-import PopupBg from ".src/components/common/popupBg";
-import WithdrawPopup from ".src/components/mypage/asset/withdrawPopup";
+import TermIncome from ".src/components/mypage/asset/termIncome";
 import WithdrawInfoPopup from ".src/components/mypage/asset/withdrawInfoPopup";
-import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
+import WithdrawPopup from ".src/components/mypage/asset/withdrawPopup";
+import MypageNavAside from ".src/components/mypage/mypageNavAside";
+import UseMypageAsset from ".src/hooks/mypage/asset/useMypageAsset";
 import UseMyTermIncome from ".src/hooks/mypage/asset/useMytermIncome";
+import UseWithdrawPopup from ".src/hooks/mypage/asset/useWithdrawPopup";
 import RedCaution from ".assets/icons/RedCaution.svg";
 import { useState } from "react";
 import Popup from ".src/components/Popup";
@@ -69,9 +70,7 @@ export default function Asset() {
 
               <li>
                 <p className={styles.key}>총 출금 완료 금액</p>
-                <p className={styles.value}>
-                  {Intl.NumberFormat().format(0)} 원
-                </p>
+                <p className={styles.value}>{Intl.NumberFormat().format(0)} 원</p>
               </li>
             </ul>
 
@@ -94,15 +93,10 @@ export default function Asset() {
               </div>
 
               <div className={styles.accountBox}>
-                <button
-                  className={styles.accountBtn}
-                  onClick={useMyTermIncome.onClickDraw}
-                >
+                <button className={styles.accountBtn} onClick={useMyTermIncome.onClickDraw}>
                   <p>
                     <strong>출금 계좌</strong>
-                    {useMyTermIncome.isAccount
-                      ? "국민은행 999999********"
-                      : "미입력"}
+                    {useMyTermIncome.isAccount ? "국민은행 999999********" : "미입력"}
                   </p>
                   <ChevronRt />
                 </button>
@@ -143,18 +137,14 @@ export default function Asset() {
       {/* NOTE 출금 정보 입력 팝업 */}
       {useMyTermIncome.drawInfoPopup && (
         <>
-          <WithdrawInfoPopup
-            off={() => useMyTermIncome.setDrawInfoPopup(false)}
-          />
+          <WithdrawInfoPopup off={() => useMyTermIncome.setDrawInfoPopup(false)} />
           <PopupBg bg off={() => useMyTermIncome.setDrawInfoPopup(false)} />
         </>
       )}
       {useWithdrawPopup.compPopup && (
         <>
           <ErrorMsgPopup
-            msg={`${Intl.NumberFormat().format(
-              useWithdrawPopup.watch("amount"),
-            )}원 출금 예정`}
+            msg={`${Intl.NumberFormat().format(useWithdrawPopup.watch("amount"))}원 출금 예정`}
             subMsg={
               <>
                 출금 신청이 완료되었습니다.

@@ -1,13 +1,15 @@
-import { useRouter } from "next/router";
-import CommonHeader from ".src/components/common/header/commonHeader";
 import styles from "./like.module.scss";
-import CommonFooter from ".src/components/common/commonFooter";
-import ProfSec from ".src/components/mypage/profSec";
+
+import { useRouter } from "next/router";
+
 import Swap from ".assets/icons/Swap.svg";
+import CommonFooter from ".src/components/common/commonFooter";
+import CommonHeader from ".src/components/common/header/commonHeader";
 import PageNav from ".src/components/common/pageNav";
-import UseMyPageLike from ".src/hooks/mypage/useMypageLike";
-import LikePost from ".src/components/mypage/like/likePost";
 import ScrollTopBtn from ".src/components/common/scrollTopBtn";
+import LikePost from ".src/components/mypage/like/likePost";
+import ProfSec from ".src/components/mypage/profSec";
+import UseMyPageLike from ".src/hooks/mypage/useMypageLike";
 
 export default function MypageWrite() {
   const router = useRouter();
@@ -15,9 +17,7 @@ export default function MypageWrite() {
 
   // NOTE 페이지 변경 함수
   const onChangePage = (pageIndex: number) =>
-    pageIndex === 0
-      ? router.push(router.pathname)
-      : router.push({ query: { page: pageIndex } });
+    pageIndex === 0 ? router.push(router.pathname) : router.push({ query: { page: pageIndex } });
 
   return (
     <>
@@ -33,9 +33,7 @@ export default function MypageWrite() {
                 {useMypageLike.categoryList.map((v, i) => (
                   <li
                     key={i}
-                    className={
-                      v.label === useMypageLike.category.label ? styles.on : ""
-                    }
+                    className={v.label === useMypageLike.category.label ? styles.on : ""}
                     onClick={() => useMypageLike.onClickCategoryBtn(v.url)}
                   >
                     <p>{v.label}</p>
@@ -47,17 +45,11 @@ export default function MypageWrite() {
             <div className={styles.rightCont}>
               {useMypageLike.editMode ? (
                 <>
-                  <button
-                    className={styles.selAllBtn}
-                    onClick={useMypageLike.onClickSelAllBtn}
-                  >
+                  <button className={styles.selAllBtn} onClick={useMypageLike.onClickSelAllBtn}>
                     전체선택
                   </button>
                   <hr />
-                  <button
-                    className={styles.delSelLikeBtn}
-                    onClick={useMypageLike.onClickDelBtn}
-                  >
+                  <button className={styles.delSelLikeBtn} onClick={useMypageLike.onClickDelBtn}>
                     선택삭제&nbsp;
                     <span className={styles.blue}>
                       {useMypageLike.postList.filter((e) => e.sel).length}
@@ -88,16 +80,9 @@ export default function MypageWrite() {
           </article>
 
           <ul className={styles.postList}>
-            {useMypageLike?.interestsList?.contents?.map(
-              (v: any, i: number) => (
-                <LikePost
-                  data={v}
-                  index={i}
-                  useMypageLike={useMypageLike}
-                  key={i}
-                />
-              )
-            )}
+            {useMypageLike?.interestsList?.contents?.map((v: any, i: number) => (
+              <LikePost data={v} index={i} useMypageLike={useMypageLike} key={i} />
+            ))}
           </ul>
 
           <PageNav

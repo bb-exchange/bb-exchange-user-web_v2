@@ -1,7 +1,10 @@
-import Image from ".src/components/Image";
 import styles from "./profSec.module.scss";
-import Profile from ".assets/images/img_profile.svg";
+
 import { useRouter } from "next/router";
+
+import IconCopy from ".assets/icons/Copy.svg";
+import Profile from ".assets/images/img_profile.svg";
+import Image from ".src/components/Image";
 import useGetMyProfile from ".src/hooks/common/useGetProfile";
 import IconCopy from ".assets/icons/Copy.svg";
 import ChevronRtBlue from ".assets/icons/ChevronRtBlue.svg";
@@ -36,9 +39,7 @@ export default function ProfSec() {
               <div>추천인 코드</div>
               <div>{myProfile?.recommendCode}</div>
               <div
-                onClick={() =>
-                  navigator.clipboard.writeText(myProfile?.recommendCode)
-                }
+                onClick={() => navigator.clipboard.writeText(myProfile?.recommendCode)}
                 className={styles.copyIcon}
               >
                 <IconCopy />
@@ -52,9 +53,7 @@ export default function ProfSec() {
             <li>
               <p className={styles.key}>포인트</p>
 
-              <p className={styles.value}>
-                {Intl.NumberFormat().format(myProfile?.balance)}
-              </p>
+              <p className={styles.value}>{Intl.NumberFormat().format(myProfile?.balance)}</p>
 
               {/* <button
                 className={styles.detailBtn}
@@ -85,10 +84,7 @@ export default function ProfSec() {
       </article>
 
       <article className={styles.rightArea}>
-        <button
-          className={styles.profBtn}
-          onClick={() => router.push("/mypage/edit_prof")}
-        >
+        <button className={styles.profBtn} onClick={() => router.push("/mypage/edit_prof")}>
           <p>프로필 수정</p>
         </button>
       </article>

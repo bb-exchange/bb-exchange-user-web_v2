@@ -1,32 +1,29 @@
-import { useCallback, useEffect, useState } from "react";
-
-import SelectArrow from ".assets/images/tiptap/select-arrow.svg";
-import Quote from ".assets/images/tiptap/quote.svg";
-import Ol from ".assets/images/tiptap/ol.svg";
-import Li from ".assets/images/tiptap/li.svg";
-import Align from ".assets/images/tiptap/center.svg";
-
-import Bold from ".assets/images/tiptap/bold.svg";
-import BoldActive from ".assets/images/tiptap/bold-active.svg";
-import Italic from ".assets/images/tiptap/italic.svg";
-import ItalicActive from ".assets/images/tiptap/italic-active.svg";
-import Underline from ".assets/images/tiptap/underline.svg";
-import UnderlineActive from ".assets/images/tiptap/underline-active.svg";
-import Color from ".assets/images/tiptap/color.svg";
-
-import Link from ".assets/images/tiptap/link.svg";
-import Photo from ".assets/images/tiptap/photo.svg";
-
-import Undo from ".assets/images/tiptap/undo.svg";
-import Redo from ".assets/images/tiptap/redo.svg";
-
-import LogoBlue from ".assets/logos/LogoBlue.svg";
-import useEnroll from ".src/hooks/enroll/useEnroll";
-import styles from "./enrollHeader.module.scss";
-
-import HeadingCategoryPopup from "./headingCategoryPopup";
 // import AlignCategoryPopup from "./alignCategoryPopup";
 import PopupBg from "../common/popupBg";
+import HeadingCategoryPopup from "./headingCategoryPopup";
+
+import styles from "./enrollHeader.module.scss";
+
+import { useCallback, useEffect, useState } from "react";
+
+import BoldActive from ".assets/images/tiptap/bold-active.svg";
+import Bold from ".assets/images/tiptap/bold.svg";
+import Align from ".assets/images/tiptap/center.svg";
+import Color from ".assets/images/tiptap/color.svg";
+import ItalicActive from ".assets/images/tiptap/italic-active.svg";
+import Italic from ".assets/images/tiptap/italic.svg";
+import Li from ".assets/images/tiptap/li.svg";
+import Link from ".assets/images/tiptap/link.svg";
+import Ol from ".assets/images/tiptap/ol.svg";
+import Photo from ".assets/images/tiptap/photo.svg";
+import Quote from ".assets/images/tiptap/quote.svg";
+import Redo from ".assets/images/tiptap/redo.svg";
+import SelectArrow from ".assets/images/tiptap/select-arrow.svg";
+import UnderlineActive from ".assets/images/tiptap/underline-active.svg";
+import Underline from ".assets/images/tiptap/underline.svg";
+import Undo from ".assets/images/tiptap/undo.svg";
+import LogoBlue from ".assets/logos/LogoBlue.svg";
+import useEnroll from ".src/hooks/enroll/useEnroll";
 
 interface Iprops {
   editor: any;
@@ -34,11 +31,7 @@ interface Iprops {
   useEnrollHook: ReturnType<typeof useEnroll>;
 }
 
-export default function EnrollHeader({
-  editor,
-  isEdit,
-  useEnrollHook,
-}: Iprops) {
+export default function EnrollHeader({ editor, isEdit, useEnrollHook }: Iprops) {
   const [isLink, setIsLink] = useState<boolean>(true);
   const [isHeadingSelector, setIsHeadingSelector] = useState<boolean>(false);
   const [headingValue, setHeadingValue] = useState<string>("본문 1");
@@ -94,9 +87,7 @@ export default function EnrollHeader({
   }, [editor, headingValue]);
 
   const onToggleAlignMenu = () => {
-    setAlignValue((prev) =>
-      prev === "left" ? "center" : prev === "center" ? "right" : "left"
-    );
+    setAlignValue((prev) => (prev === "left" ? "center" : prev === "center" ? "right" : "left"));
     // setIsAlignSelector(!isAlignSelector);
   };
   useEffect(() => {
@@ -126,16 +117,10 @@ export default function EnrollHeader({
         <article className={styles.rightArea}>
           {useEnrollHook.btnName === "게시하기" ? (
             <div className={styles.tempSaveBox}>
-              <button
-                className={styles.tempSaveBtn2}
-                onClick={useEnrollHook.openDraftsPopup}
-              >
+              <button className={styles.tempSaveBtn2} onClick={useEnrollHook.openDraftsPopup}>
                 임시 {useEnrollHook.articleTempList?.data.length ?? 0}
               </button>
-              <button
-                className={styles.tempSaveBtn1}
-                onClick={useEnrollHook.onClickEnrollTemp}
-              >
+              <button className={styles.tempSaveBtn1} onClick={useEnrollHook.onClickEnrollTemp}>
                 임시저장
               </button>
             </div>
@@ -173,14 +158,7 @@ export default function EnrollHeader({
               {isHeadingSelector && (
                 <>
                   <HeadingCategoryPopup
-                    categoryList={[
-                      "제목 1",
-                      "제목 2",
-                      "제목 3",
-                      "본문 1",
-                      "본문 2",
-                      "본문 3",
-                    ]}
+                    categoryList={["제목 1", "제목 2", "제목 3", "본문 1", "본문 2", "본문 3"]}
                     setValue={(v: any) => setHeadingValue(v)}
                     off={() => setIsHeadingSelector(false)}
                   />
@@ -195,16 +173,10 @@ export default function EnrollHeader({
               >
                 <Quote />
               </button>
-              <button
-                id="ol"
-                onClick={() => editor.chain().focus().toggleOrderedList().run()}
-              >
+              <button id="ol" onClick={() => editor.chain().focus().toggleOrderedList().run()}>
                 <Ol />
               </button>
-              <button
-                id="li"
-                onClick={() => editor.chain().focus().toggleBulletList().run()}
-              >
+              <button id="li" onClick={() => editor.chain().focus().toggleBulletList().run()}>
                 <Li />
               </button>
               <button onClick={onToggleAlignMenu} className={styles.alignBtn}>
@@ -221,16 +193,10 @@ export default function EnrollHeader({
                   <PopupBg off={() => setIsAlignSelector(false)} />
                 </>
               )} */}
-              <button
-                id="bold"
-                onClick={() => editor.chain().focus().toggleBold().run()}
-              >
+              <button id="bold" onClick={() => editor.chain().focus().toggleBold().run()}>
                 <Bold />
               </button>
-              <button
-                id="italic"
-                onClick={() => editor.chain().focus().toggleItalic().run()}
-              >
+              <button id="italic" onClick={() => editor.chain().focus().toggleItalic().run()}>
                 <Italic />
               </button>
               <button

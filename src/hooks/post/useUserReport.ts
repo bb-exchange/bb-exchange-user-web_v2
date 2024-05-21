@@ -1,14 +1,12 @@
-import { D_userReportCategoryList } from ".src/data/post/D_userReport";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-export default function UseUserReport() {
-  const [reportCategory, setReportCategory] = useState<string[]>(
-    D_userReportCategoryList
-  );
+import { D_userReportCategoryList } from ".src/data/post/D_userReport";
 
-  const { register, watch, setValue, formState, resetField, handleSubmit } =
-    useForm<IuserReport>();
+export default function UseUserReport() {
+  const [reportCategory, setReportCategory] = useState<string[]>(D_userReportCategoryList);
+
+  const { register, watch, setValue, formState, resetField, handleSubmit } = useForm<IuserReport>();
 
   useEffect(() => {
     register("category", {

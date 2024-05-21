@@ -1,12 +1,13 @@
-import { expect } from "@jest/globals";
-import { fireEvent, render, renderHook } from "@testing-library/react";
-import "@testing-library/jest-dom";
-import { useQuery } from "@tanstack/react-query";
-import { waitFor } from "@testing-library/react";
-import { fetchArticles } from ".src/api/articles/articles";
 import mockNextRouter from "../../../__test__/__mocks__/nextRouter";
 import mockReactQuery from "../../../__test__/__mocks__/reactQuery";
+
+import { fetchArticles } from ".src/api/articles/articles";
 import UseLatest from ".src/hooks/posts/useLatest";
+import { expect } from "@jest/globals";
+import { useQuery } from "@tanstack/react-query";
+import "@testing-library/jest-dom";
+import { fireEvent, render, renderHook } from "@testing-library/react";
+import { waitFor } from "@testing-library/react";
 
 describe("useLatest", () => {
   mockNextRouter({
@@ -43,10 +44,7 @@ describe("useLatest", () => {
     };
 
     const TestBtn = () => (
-      <button
-        data-testid={"testBtn"}
-        onClick={(e) => useLatest.onClickFavBtn(e, 0)}
-      />
+      <button data-testid={"testBtn"} onClick={(e) => useLatest.onClickFavBtn(e, 0)} />
     );
 
     const { container } = render(
@@ -57,7 +55,7 @@ describe("useLatest", () => {
             <TestBtn />
           </>
         ),
-      })
+      }),
     );
 
     const testBtn = container.querySelector('[data-testid="testBtn"]');

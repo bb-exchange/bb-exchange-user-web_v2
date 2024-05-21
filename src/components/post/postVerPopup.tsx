@@ -1,9 +1,10 @@
-import UsePostVerPopup from ".src/hooks/post/usePostVerPopup";
 import styles from "./postVerPopup.module.scss";
-import X from ".assets/icons/X.svg";
+
 import Best from ".assets/icons/badge/Best.svg";
-import moment from "moment";
+import X from ".assets/icons/X.svg";
 import UseScrollBar from ".src/hooks/common/useScrollBar";
+import UsePostVerPopup from ".src/hooks/post/usePostVerPopup";
+import moment from "moment";
 
 interface Iprops {
   off: Function;
@@ -26,24 +27,15 @@ export default function PostVerPopup({ off }: Iprops) {
       <article className={styles.contArea}>
         <ul className={styles.verList} onScroll={useScrollBar.onScroll}>
           {customHook.verList.map((v, i) => (
-            <li
-              key={i}
-              className={`${v.now ? styles.now : ""} ${
-                v.read ? styles.read : ""
-              }`}
-            >
+            <li key={i} className={`${v.now ? styles.now : ""} ${v.read ? styles.read : ""}`}>
               <div className={styles.topBar}>
                 <div className={styles.verBox}>
                   {v.badge === "best" && <Best />}
 
-                  <p className={styles.ver}>{`Ver.${v.num
-                    .toString()
-                    .padStart(2, "0")}`}</p>
+                  <p className={styles.ver}>{`Ver.${v.num.toString().padStart(2, "0")}`}</p>
                 </div>
 
-                <p className={styles.createdAt}>
-                  {moment(v.createdAt).format("YYYY.MM.DD")}
-                </p>
+                <p className={styles.createdAt}>{moment(v.createdAt).format("YYYY.MM.DD")}</p>
               </div>
 
               <p className={styles.title}>{v.title}</p>

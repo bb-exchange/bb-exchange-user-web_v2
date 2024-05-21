@@ -1,8 +1,10 @@
+import { useState } from "react";
+
+import { useRouter } from "next/router";
+
 import { fetchArticles } from ".src/api/articles/articles";
 import { D_latestPostList } from ".src/data/posts/D_latest";
 import { useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/router";
-import { useState } from "react";
 
 export default function UseLatest() {
   const router = useRouter();
@@ -27,8 +29,7 @@ export default function UseLatest() {
 
     let _dataList = dataList;
 
-    if (_dataList[i].articleInfo.interest)
-      _dataList[i].articleInfo.interest = false;
+    if (_dataList[i].articleInfo.interest) _dataList[i].articleInfo.interest = false;
     else _dataList[i].articleInfo.interest = true;
 
     setDataList([..._dataList]);

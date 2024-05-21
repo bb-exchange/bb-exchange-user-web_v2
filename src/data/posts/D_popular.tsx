@@ -1,11 +1,11 @@
-import { hourToSec } from ".src/util/dateTime";
+import business from ".assets/example/category/business.png";
+import etc from ".assets/example/category/etc.png";
+import hobby from ".assets/example/category/hobby.png";
 import thumb1 from ".assets/example/popular/thumb1.png";
 import thumb2 from ".assets/example/popular/thumb2.png";
 import thumb3 from ".assets/example/popular/thumb3.png";
 import thumb4 from ".assets/example/popular/thumb4.png";
-import business from ".assets/example/category/business.png";
-import hobby from ".assets/example/category/hobby.png";
-import etc from ".assets/example/category/etc.png";
+import { hourToSec } from ".src/utils/dateTime";
 
 export const D_popularPostList: any[] = [
   {

@@ -1,5 +1,6 @@
-import { PageData } from ".src/api/interface";
 import { basicInstance } from "../instance";
+
+import { PageData } from ".src/api/interface";
 
 export interface CommentData {
   parentCommentId: number | null;

@@ -1,40 +1,34 @@
+import useEnroll from ".src/hooks/enroll/useEnroll";
+import { selectedEditorNodeState } from ".src/recoil";
+import { findChildren, mergeAttributes, Node, nodeInputRule } from "@tiptap/core";
+import Blockquote from "@tiptap/extension-blockquote";
+import Bold from "@tiptap/extension-bold";
+import BulletList from "@tiptap/extension-bullet-list";
+import CodeBlock from "@tiptap/extension-code-block";
+import Color from "@tiptap/extension-color";
+import Document from "@tiptap/extension-document";
+import Dropcursor from "@tiptap/extension-dropcursor";
+import Heading from "@tiptap/extension-heading";
+import History from "@tiptap/extension-history";
+import Image from "@tiptap/extension-image";
+import Italic from "@tiptap/extension-italic";
+import Link from "@tiptap/extension-link";
+import ListItem from "@tiptap/extension-list-item";
+import OrderedList from "@tiptap/extension-ordered-list";
+import Paragraph from "@tiptap/extension-paragraph";
+import Placeholder from "@tiptap/extension-placeholder";
+import Text from "@tiptap/extension-text";
+import TextAlign from "@tiptap/extension-text-align";
+import TextStyle from "@tiptap/extension-text-style";
+import Underline from "@tiptap/extension-underline";
 import {
   // findChildren,
   // mergeAttributes,
   // nodeInputRule,
   useEditor,
 } from "@tiptap/react";
-import {
-  findChildren,
-  mergeAttributes,
-  Node,
-  nodeInputRule,
-} from "@tiptap/core";
 import StarterKit from "@tiptap/starter-kit";
-import Bold from "@tiptap/extension-bold";
-import Italic from "@tiptap/extension-italic";
-import Underline from "@tiptap/extension-underline";
-import Blockquote from "@tiptap/extension-blockquote";
-import Heading from "@tiptap/extension-heading";
-import Dropcursor from "@tiptap/extension-dropcursor";
-import ListItem from "@tiptap/extension-list-item";
-import OrderedList from "@tiptap/extension-ordered-list";
-import BulletList from "@tiptap/extension-bullet-list";
-import TextAlign from "@tiptap/extension-text-align";
-import Link from "@tiptap/extension-link";
-import Placeholder from "@tiptap/extension-placeholder";
-import Paragraph from "@tiptap/extension-paragraph";
-import Image from "@tiptap/extension-image";
-import Document from "@tiptap/extension-document";
-import Text from "@tiptap/extension-text";
-import CodeBlock from "@tiptap/extension-code-block";
-import Color from "@tiptap/extension-color";
-import TextStyle from "@tiptap/extension-text-style";
-import History from "@tiptap/extension-history";
-
-import useEnroll from ".src/hooks/enroll/useEnroll";
 import { useSetRecoilState } from "recoil";
-import { selectedEditorNodeState } from ".src/recoil";
 
 const inputRegex = /!\[(.+|:?)]\((\S+)(?:(?:\s+)["'](\S+)["'])?\)/;
 
@@ -81,8 +75,7 @@ export const useMakeEditor = ({ isEdit }: IProps) => {
         isThumb: {
           default: null,
           parseHTML: (element) =>
-            element.querySelector("figure")?.getAttribute("data-is-thumb") ??
-            false,
+            element.querySelector("figure")?.getAttribute("data-is-thumb") ?? false,
         },
 
         fileName: {
@@ -152,16 +145,13 @@ export const useMakeEditor = ({ isEdit }: IProps) => {
             if (!images.length) {
               return false;
             }
-            return commands.forEach(
-              images,
-              ({ node, pos }: { node: any; pos: any }) => {
-                tr.setNodeMarkup(pos, undefined, {
-                  ...node?.attrs,
-                  isThumb: nodePos === pos,
-                });
-                return true;
-              }
-            );
+            return commands.forEach(images, ({ node, pos }: { node: any; pos: any }) => {
+              tr.setNodeMarkup(pos, undefined, {
+                ...node?.attrs,
+                isThumb: nodePos === pos,
+              });
+              return true;
+            });
           },
         deleteImage:
           (nodePos: number) =>
@@ -218,8 +208,7 @@ export const useMakeEditor = ({ isEdit }: IProps) => {
         });
 
         Object.entries(HTMLAttributes).forEach(([key, value]) => {
-          if (key === "title" || key === "alt")
-            figcaption.setAttribute(key, value);
+          if (key === "title" || key === "alt") figcaption.setAttribute(key, value);
         });
 
         container.append(img, figcaption, thumbBox);

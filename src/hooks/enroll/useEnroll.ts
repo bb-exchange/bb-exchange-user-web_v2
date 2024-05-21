@@ -1,17 +1,15 @@
 "use client";
 
-import { Editor } from "@tiptap/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useMutation, useQuery } from "@tanstack/react-query";
+
 import { useRouter } from "next/router";
-import CryptoJS from "crypto-js";
 
 import {
   deleteArticleTemp,
   getArticle,
-  getArticleTemp,
   getArticlesTemp,
+  getArticleTemp,
   patchArticleTag,
   patchArticleTemp,
   patchArticleThumbnail,
@@ -19,10 +17,13 @@ import {
   postArticleTemp,
   updateArticle,
 } from ".src/api/articles/articles";
-import { uploadImg } from ".src/api/images/uploadImg";
 import { imgPreSignedUrl } from ".src/api/images/imgPreSignedUrl";
-import { useRecoilValue } from "recoil";
+import { uploadImg } from ".src/api/images/uploadImg";
 import { selectedEditorNodeState } from ".src/recoil";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { Editor } from "@tiptap/react";
+import CryptoJS from "crypto-js";
+import { useRecoilValue } from "recoil";
 
 export default function useEnroll(editor: Editor | null) {
   const router = useRouter();
@@ -40,8 +41,7 @@ export default function useEnroll(editor: Editor | null) {
   const [loadDraftPopup, setLoadDraftPopup] = useState<boolean>(false);
   const [writeCancelPopup, setWriteCancelPopup] = useState<boolean>(false);
   const [successPostPopup, setSuccessPostPopup] = useState<boolean>(false);
-  const [tempSuccessPostPopup, setTempSuccessPostPopup] =
-    useState<boolean>(false);
+  const [tempSuccessPostPopup, setTempSuccessPostPopup] = useState<boolean>(false);
   const [files, setFiles] = useState<
     Map<
       string,
@@ -59,21 +59,12 @@ export default function useEnroll(editor: Editor | null) {
   const [tempNum, setTempNum] = useState<number>(0);
   const [tempArticleId, setTempArticleId] = useState<number | null>(null);
   const [btnName, setBtnName] = useState<string>("게시하기");
-  const [successTempUpdatePopup, setSuccessTempUpdatePopup] =
-    useState<boolean>(false);
+  const [successTempUpdatePopup, setSuccessTempUpdatePopup] = useState<boolean>(false);
   const [editListedPopup, setEditListedPopup] = useState<boolean>(false);
   const [editPopup, setEditPopup] = useState<boolean>(false);
 
-  const {
-    register,
-    watch,
-    setValue,
-    formState,
-    resetField,
-    handleSubmit,
-    clearErrors,
-    setError,
-  } = useForm<IenrollProps>({ mode: "onChange" });
+  const { register, watch, setValue, formState, resetField, handleSubmit, clearErrors, setError } =
+    useForm<IenrollProps>({ mode: "onChange" });
 
   //NOTE = [API] 내 글 불러오기
   const myArticleId = router.asPath.split("/")[2];
@@ -86,7 +77,7 @@ export default function useEnroll(editor: Editor | null) {
     if (myArticleData?.tagList.length) {
       setValue(
         "tagList",
-        myArticleData.tagList.map((v: any) => v.tagName)
+        myArticleData.tagList.map((v: any) => v.tagName),
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -336,9 +327,7 @@ export default function useEnroll(editor: Editor | null) {
     if (btnName === "수정하기" && tempArticleId) {
       editorJson = {
         ...editorJson,
-        content: editorJson?.content?.filter(
-          (item: any) => item.type !== "figure"
-        ),
+        content: editorJson?.content?.filter((item: any) => item.type !== "figure"),
       };
     } else {
       editorJson = {
@@ -362,14 +351,12 @@ export default function useEnroll(editor: Editor | null) {
     }
 
     const thumb = editorJson.content?.filter(
-      (item: any) => item.type === "figure" && item.attrs.isThumb
+      (item: any) => item.type === "figure" && item.attrs.isThumb,
     );
 
     let thumbNail = thumb?.length ? thumb[0]?.attrs?.src : "";
 
-    const firstThumb = editorJson.content?.filter(
-      (item: any) => item.type === "figure"
-    );
+    const firstThumb = editorJson.content?.filter((item: any) => item.type === "figure");
 
     if (!thumb?.length && firstThumb?.length) {
       thumbNail = firstThumb[0]?.attrs?.src;
@@ -417,18 +404,10 @@ export default function useEnroll(editor: Editor | null) {
       });
       return;
     }
-    
+
     enrollPostMutation.mutate(body);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    btnName,
-    editor,
-    files,
-    setError,
-    tempArticleId,
-    updateTempMutation,
-    watch,
-  ]);
+  }, [btnName, editor, files, setError, tempArticleId, updateTempMutation, watch]);
 
   //NOTE - 임시저장 클릭 시
   const onClickEnrollTemp = () => {
@@ -465,9 +444,7 @@ export default function useEnroll(editor: Editor | null) {
       if (files.size) {
         editorJson = {
           ...editorJson,
-          content: editorJson?.content?.filter(
-            (item: any) => item.type !== "figure"
-          ),
+          content: editorJson?.content?.filter((item: any) => item.type !== "figure"),
         };
       }
 
@@ -494,8 +471,7 @@ export default function useEnroll(editor: Editor | null) {
   //NOTE - 썸네일 지정
   const onSetThumbnail = () => {
     //@ts-ignore
-    if (selectImg?.isthumb !== "true")
-      editor?.commands.setThumb(selectedEditorNodePos);
+    if (selectImg?.isthumb !== "true") editor?.commands.setThumb(selectedEditorNodePos);
 
     setSelectImg(undefined);
   };
@@ -510,8 +486,7 @@ export default function useEnroll(editor: Editor | null) {
     // 삭제 이미지가 섬네일일 경우 섬네일 삭제
     if (watch("thumbNail") === selectImg.src) setValue("thumbNail", "");
 
-    if (selectedEditorNodePos !== null)
-      editor?.commands.deleteImage(selectedEditorNodePos);
+    if (selectedEditorNodePos !== null) editor?.commands.deleteImage(selectedEditorNodePos);
 
     setSelectImg(undefined);
   };

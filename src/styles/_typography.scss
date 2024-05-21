@@ -1,0 +1,85 @@
+$bold: 700;
+$regular: 400;
+
+$font-family: Pretendard;
+
+.h1 {
+  font-family: $font-family;
+  font-size: 32px;
+  line-height: 40px;
+  letter-spacing: -0.4px;
+  font-weight: $regular;
+  &.bold {
+    font-weight: $bold;
+  }
+}
+.h2 {
+  font-family: $font-family;
+  font-size: 24px;
+  line-height: 34px;
+  font-weight: $regular;
+  &.bold {
+    font-weight: $bold;
+  }
+}
+.h3 {
+  font-family: $font-family;
+  font-size: 18px;
+  line-height: auto;
+  font-weight: $regular;
+  &.bold {
+    font-size: 20px;
+    line-height: 28px;
+    font-weight: $bold;
+  }
+}
+
+.p1 {
+  font-family: $font-family;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: $regular;
+  &.bold {
+    font-weight: $bold;
+  }
+}
+
+.p2 {
+  font-family: $font-family;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: $regular;
+  &.bold {
+    font-weight: $bold;
+  }
+}
+
+.p3 {
+  font-family: $font-family;
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: $regular;
+  &.bold {
+    font-weight: $bold;
+  }
+}
+
+.p4 {
+  font-family: $font-family;
+  font-size: 12px;
+  line-height: 19px;
+  font-weight: $regular;
+  &.bold {
+    font-weight: $bold;
+  }
+}
+
+.p5 {
+  font-family: $font-family;
+  font-size: 10px;
+  line-height: 19px;
+  font-weight: $regular;
+  &.bold {
+    font-weight: $bold;
+  }
+}

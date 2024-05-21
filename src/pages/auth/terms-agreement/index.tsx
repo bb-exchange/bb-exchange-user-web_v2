@@ -1,24 +1,28 @@
-import styles from "./index.module.scss";
 import IconArrow from "../../../../public/assets/icons/ArrowRight.svg";
 import IconCaution from "../../../../public/assets/icons/Caution.svg";
+
+import styles from "./index.module.scss";
+
 import { useEffect, useState } from "react";
-import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
-import PopupBg from ".src/components/common/popupBg";
-import TextPopup from ".src/components/common/popup/textPopup";
-import { useRouter } from "next/router";
-import ConfirmPopup from ".src/components/common/popup/confirmPopup";
-import { ITerms, postTermsAgreement } from ".src/api/auth/terms";
 import { useCookies } from "react-cookie";
+
+import { useRouter } from "next/router";
+
+import { ITerms, postTermsAgreement } from ".src/api/auth/terms";
+import ConfirmPopup from ".src/components/common/popup/confirmPopup";
+import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
+import TextPopup from ".src/components/common/popup/textPopup";
+import PopupBg from ".src/components/common/popupBg";
 
 const TermsAgreement = () => {
   const router = useRouter();
   const [checkedInputs, setCheckedInputs] = useState<string[]>([]);
   const [openCautionPopUp, setOpenCautionPopUp] = useState(
-    router.query.openCautionPopUp === "true" || false
+    router.query.openCautionPopUp === "true" || false,
   );
   const [openTerm, setOpenTerm] = useState<string>("");
   const [openTextPopUp, setOpenTextPopUp] = useState(
-    router.query.openTextPopUp === "true" || false
+    router.query.openTextPopUp === "true" || false,
   );
   const [openConsentPopup, setOpenConsentPopup] = useState(false);
   const [openRefusePopup, setOpenRefusePopup] = useState(false);
@@ -44,21 +48,13 @@ const TermsAgreement = () => {
   const handleCheckbox = (checked: boolean, id: string) => {
     if (checked) {
       if (checkedInputs.length === 4) {
-        setCheckedInputs([
-          "check_1",
-          "check_2",
-          "check_3",
-          "check_4",
-          "check_all",
-        ]);
+        setCheckedInputs(["check_1", "check_2", "check_3", "check_4", "check_all"]);
       } else {
         setCheckedInputs([...checkedInputs, id]);
       }
     } else {
       if (checkedInputs.length === 5) {
-        setCheckedInputs(
-          checkedInputs.filter((el) => el !== id && el !== "check_all")
-        );
+        setCheckedInputs(checkedInputs.filter((el) => el !== id && el !== "check_all"));
       } else {
         setCheckedInputs(checkedInputs.filter((el) => el !== id));
       }
@@ -99,9 +95,7 @@ const TermsAgreement = () => {
   const storage = globalThis?.sessionStorage;
   useEffect(() => {
     const prevPath = storage.getItem("prevPath") as string;
-    const termsCheckList = JSON.parse(
-      storage.getItem("termsCheckList") as string
-    );
+    const termsCheckList = JSON.parse(storage.getItem("termsCheckList") as string);
     if (
       (prevPath === "/auth/terms-agreement/service" ||
         prevPath === "/auth/terms-agreement/privacy") &&
@@ -146,10 +140,7 @@ const TermsAgreement = () => {
               />
               <label htmlFor="check_1">(필수) 만 14세 이상입니다.</label>
             </section>
-            <IconCaution
-              className={styles.iconCaution}
-              onClick={() => setOpenCautionPopUp(true)}
-            />
+            <IconCaution className={styles.iconCaution} onClick={() => setOpenCautionPopUp(true)} />
           </li>
           <li>
             <section>
@@ -171,10 +162,7 @@ const TermsAgreement = () => {
                   pathname: "/auth/terms-agreement/[type]",
                   query: { type: "service" },
                 });
-                storage.setItem(
-                  "termsCheckList",
-                  JSON.stringify(checkedInputs)
-                );
+                storage.setItem("termsCheckList", JSON.stringify(checkedInputs));
               }}
             >
               <IconArrow />
@@ -200,10 +188,7 @@ const TermsAgreement = () => {
                   pathname: "/auth/terms-agreement/[type]",
                   query: { type: "privacy" },
                 });
-                storage.setItem(
-                  "termsCheckList",
-                  JSON.stringify(checkedInputs)
-                );
+                storage.setItem("termsCheckList", JSON.stringify(checkedInputs));
               }}
             >
               <IconArrow />
@@ -229,10 +214,7 @@ const TermsAgreement = () => {
           </li>
         </ul>
 
-        <button
-          className={btnActive ? styles.active : ""}
-          onClick={handleClickBtn}
-        >
+        <button className={btnActive ? styles.active : ""} onClick={handleClickBtn}>
           다음
         </button>
       </div>
@@ -269,9 +251,7 @@ const TermsAgreement = () => {
             }
             cancelFunc={() => {
               setOpenConsentPopup(false);
-              setCheckedInputs(
-                checkedInputs.filter((ele) => ele !== "check_4")
-              );
+              setCheckedInputs(checkedInputs.filter((ele) => ele !== "check_4"));
             }}
             confirmFunc={() => {
               setOpenConsentPopup(false);
@@ -281,9 +261,7 @@ const TermsAgreement = () => {
             bg
             off={() => {
               setOpenConsentPopup(false);
-              setCheckedInputs(
-                checkedInputs.filter((ele) => ele !== "check_4")
-              );
+              setCheckedInputs(checkedInputs.filter((ele) => ele !== "check_4"));
             }}
           />
         </>

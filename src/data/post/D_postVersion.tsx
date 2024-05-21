@@ -17,8 +17,7 @@ export const D_postVerList: IpostVersions[] = [
   {
     num: 7,
     createdAt: new Date(2023, 1, 1),
-    title:
-      "읽었던 글은 이렇게 딤처리 해주세요 읽었던 글은 이렇게 딤처리 해주세요",
+    title: "읽었던 글은 이렇게 딤처리 해주세요 읽었던 글은 이렇게 딤처리 해주세요",
     read: true,
   },
   {
@@ -30,8 +29,7 @@ export const D_postVerList: IpostVersions[] = [
   {
     num: 5,
     createdAt: new Date(2023, 1, 1),
-    title:
-      "읽었던 글은 이렇게 딤처리 해주세요 읽었던 글은 이렇게 딤처리 해주세요",
+    title: "읽었던 글은 이렇게 딤처리 해주세요 읽었던 글은 이렇게 딤처리 해주세요",
     read: true,
   },
   {

@@ -1,5 +1,7 @@
-import { useState } from "react";
 import UsePost from "./usePost";
+
+import { useState } from "react";
+
 import { useRouter } from "next/router";
 
 interface Iprops {

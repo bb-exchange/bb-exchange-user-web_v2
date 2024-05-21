@@ -1,5 +1,6 @@
-import useEnroll from ".src/hooks/enroll/useEnroll";
 import styles from "./selImgPopup.module.scss";
+
+import useEnroll from ".src/hooks/enroll/useEnroll";
 
 interface Iprops {
   useEnrollHook: ReturnType<typeof useEnroll>;

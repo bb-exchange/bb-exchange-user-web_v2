@@ -1,11 +1,12 @@
-import { useCookies } from "react-cookie";
-import { ReactNode, useEffect } from "react";
-import { useSetRecoilState } from "recoil";
-
-import Navbar from "./Navbar";
-import CommonHeader from ".src/components/common/header/commonHeader";
 import CommonFooter from "../common/commonFooter";
-import { isLoginState, useSsrCompletedState, userNameState } from ".src/recoil";
+import Navbar from "./Navbar";
+
+import { ReactNode, useEffect } from "react";
+import { useCookies } from "react-cookie";
+
+import CommonHeader from ".src/components/common/header/commonHeader";
+import { isLoginState, userNameState, useSsrCompletedState } from ".src/recoil";
+import { useSetRecoilState } from "recoil";
 
 interface Iprops {
   pageProps: any;
@@ -26,12 +27,7 @@ const Layout = ({ pageProps, children }: Iprops) => {
       setIsLoginState(false);
       setUserNameState(null);
     }
-  }, [
-    cookie.accessToken,
-    cookie.refreshToken,
-    setIsLoginState,
-    setUserNameState,
-  ]);
+  }, [cookie.accessToken, cookie.refreshToken, setIsLoginState, setUserNameState]);
 
   return (
     <div
@@ -41,9 +37,7 @@ const Layout = ({ pageProps, children }: Iprops) => {
       onKeyDown={(e) => e.ctrlKey && e.code === "KeyC" && e.preventDefault()}
     >
       {pageProps.navBar && <Navbar />}
-      {pageProps.commonLayout && (
-        <CommonHeader commonSort={pageProps.commonSort} />
-      )}
+      {pageProps.commonLayout && <CommonHeader commonSort={pageProps.commonSort} />}
 
       <div>{children}</div>
 

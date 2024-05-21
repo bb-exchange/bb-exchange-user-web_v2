@@ -1,13 +1,16 @@
-import axios from "axios";
-import Image from "next/image";
-import { useRouter } from "next/router";
+import styles from "../loadingLayout.module.scss";
+
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
-import { useSetRecoilState } from "recoil";
+
+import Image from "next/image";
+import { useRouter } from "next/router";
 
 import { basicInstance } from ".src/api/instance";
-import styles from "../loadingLayout.module.scss";
 import { isLoginState, profileState, userNameState } from ".src/recoil";
+import axios from "axios";
+import { useSetRecoilState } from "recoil";
+
 //(비회원인 경우)
 //카카오 인증 성공 -> 서비스 이용동의 -> 바로 닉네임 설정 페이지로 이동 (휴대폰 인증 단계 X) (중도 이탈 시 맨 처음부터 시작)
 //구글, 애플 인증 성공 -> -> 서비스 이용동의-> 휴대폰 인증 페이지로 이동 -> 닉네임 설정 페이지로 이동 (중도 이탈 시 맨 처음부터 시작)
@@ -17,12 +20,7 @@ import { isLoginState, profileState, userNameState } from ".src/recoil";
 
 const GoogleAuth = () => {
   const { query, push } = useRouter();
-  const [cookie, setCookie] = useCookies([
-    "oauthId",
-    "oauthType",
-    "accessToken",
-    "refreshToken",
-  ]);
+  const [cookie, setCookie] = useCookies(["oauthId", "oauthType", "accessToken", "refreshToken"]);
 
   const setIsLoginState = useSetRecoilState(isLoginState);
   const setUserNameState = useSetRecoilState(userNameState);
@@ -42,16 +40,13 @@ const GoogleAuth = () => {
             client_secret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET,
             redirect_uri: process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI,
           },
-          { headers: { "content-type": "application/x-www-form-urlencoded" } }
+          { headers: { "content-type": "application/x-www-form-urlencoded" } },
         );
         if (googleTokenData) {
-          const { data: authLoginData } = await basicInstance.post(
-            "/v1/auth/oidc/login",
-            {
-              idToken: googleTokenData.id_token,
-              oauthType: "GOOGLE",
-            }
-          );
+          const { data: authLoginData } = await basicInstance.post("/v1/auth/oidc/login", {
+            idToken: googleTokenData.id_token,
+            oauthType: "GOOGLE",
+          });
           if (authLoginData.message === "등록되지 않은 유저입니다.") {
             //verify user account
             const { data: registerVerifyData } = await basicInstance.post(
@@ -60,7 +55,7 @@ const GoogleAuth = () => {
                 oauthType: "GOOGLE",
                 idToken: googleTokenData.id_token,
                 kakaoAccessToken: null,
-              }
+              },
             );
 
             if (registerVerifyData.data.status === "OAUTH_VERIFIED") {
@@ -74,10 +69,7 @@ const GoogleAuth = () => {
                 pathname: "/auth/terms-agreement",
               });
             }
-          } else if (
-            authLoginData.data.accessToken &&
-            authLoginData.data.refreshToken
-          ) {
+          } else if (authLoginData.data.accessToken && authLoginData.data.refreshToken) {
             //정상 로그인 처리
             setCookie("accessToken", authLoginData.data.accessToken, {
               path: "/",
@@ -92,7 +84,7 @@ const GoogleAuth = () => {
               },
             });
             const { data: profileData } = await axios.get(
-              `${baseURL}/v1/users/profile/${data?.data.id}`
+              `${baseURL}/v1/users/profile/${data?.data.id}`,
             );
 
             setProfile({

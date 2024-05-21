@@ -1,10 +1,12 @@
-import { imgPreSignedUrl } from ".src/api/images/imgPreSignedUrl";
-import { checkUserNickname } from ".src/api/mypage/nickname";
-import { editMyProfile } from ".src/api/users/users";
-import { useRouter } from "next/router";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+
+import { useRouter } from "next/router";
+
+import { imgPreSignedUrl } from ".src/api/images/imgPreSignedUrl";
 import { uploadImg } from ".src/api/images/uploadImg";
+import { checkUserNickname } from ".src/api/mypage/nickname";
+import { editMyProfile } from ".src/api/users/users";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import CryptoJS from "crypto-js";
 
@@ -77,11 +79,9 @@ export default function UseEditProf() {
         message: `${nicknameMinLen}자 이상 ${nicknameMaxLen}자 이내로 작성해주세요.`,
       },
       validate: {
-        space: (str: string) =>
-          !/\s/g.test(str) || "띄어쓰기를 사용할 수 없습니다.",
+        space: (str: string) => !/\s/g.test(str) || "띄어쓰기를 사용할 수 없습니다.",
         enKrNum: (str: string) =>
-          /^[ㄱ-ㅎ가-힣a-zA-Z0-9]*$/.test(str) ||
-          "특수문자를 입력할 수 없습니다.",
+          /^[ㄱ-ㅎ가-힣a-zA-Z0-9]*$/.test(str) || "특수문자를 입력할 수 없습니다.",
       },
     });
 

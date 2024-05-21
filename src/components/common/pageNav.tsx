@@ -1,9 +1,10 @@
+import styles from "./pageNav.module.scss";
+
 import { useMemo } from "react";
-import classNames from "classnames";
 
 import ArwLt from ".assets/icons/ArwLt.svg";
 import ArwRt from ".assets/icons/ArwRt.svg";
-import styles from "./pageNav.module.scss";
+import classNames from "classnames";
 
 interface Iprops {
   totalPages?: number;
@@ -11,11 +12,7 @@ interface Iprops {
   onChangePage?: (pageIndex: number) => void;
 }
 
-export default function PageNav({
-  totalPages = 1,
-  currentPage = 0,
-  onChangePage,
-}: Iprops) {
+export default function PageNav({ totalPages = 1, currentPage = 0, onChangePage }: Iprops) {
   // NOTE - 화면 출력 페이지 목록 최대 개수
   const listCount = 10;
 
@@ -51,8 +48,7 @@ export default function PageNav({
     onChangePage(pageIndex);
   };
 
-  const onClickPageButton = (pageIndex: number) =>
-    onChangePage && onChangePage(pageIndex);
+  const onClickPageButton = (pageIndex: number) => onChangePage && onChangePage(pageIndex);
 
   return (
     <nav className={styles.pageNavArea}>

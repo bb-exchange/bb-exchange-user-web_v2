@@ -1,4 +1,5 @@
 import styles from "./imgErrorMsgPopup.module.scss";
+
 import Danger from ".assets/icons/Danger.svg";
 
 interface Iprops {
@@ -8,12 +9,7 @@ interface Iprops {
   btnText: string;
 }
 
-export default function ImgErrorMsgPopup({
-  msg,
-  subMsg,
-  confirmFunc,
-  btnText,
-}: Iprops) {
+export default function ImgErrorMsgPopup({ msg, subMsg, confirmFunc, btnText }: Iprops) {
   return (
     <section className={styles.errorMsgPopup}>
       <div className={styles.msgBox}>

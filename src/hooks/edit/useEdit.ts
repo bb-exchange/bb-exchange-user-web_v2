@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
-import { redoBtnHandler, undoBtnHandler } from ".src/util/textEditor";
 import { useForm } from "react-hook-form";
+
 import { useRouter } from "next/router";
+
+import { redoBtnHandler, undoBtnHandler } from ".src/utils/textEditor";
 
 export default function useEdit(quillRef: any) {
   const router = useRouter();
@@ -9,24 +11,24 @@ export default function useEdit(quillRef: any) {
   const [selectImg, setSelectImg] = useState<HTMLImageElement>();
   const [errMsgBusy, setErrMsgBusy] = useState<boolean>(false);
   const [selCategoryPopup, setSelCategoryPopup] = useState<boolean>(
-    router.query.selCategoryPopup === "true" || false
+    router.query.selCategoryPopup === "true" || false,
   );
   const [errMsg, setErrMsg] = useState<string>("");
   const [mobileView, setMobileView] = useState<boolean>(false);
   const [draftsPopup, setDraftsPopup] = useState<boolean>(
-    router.query.draftsPopup === "true" || false
+    router.query.draftsPopup === "true" || false,
   );
   const [delDraftPopup, setDelDraftPopup] = useState<boolean>(
-    router.query.delDraftPopup === "true" || false
+    router.query.delDraftPopup === "true" || false,
   );
   const [loadDraftPopup, setLoadDraftPopup] = useState<boolean>(
-    router.query.loadDraftPopup === "true" || false
+    router.query.loadDraftPopup === "true" || false,
   );
   const [confirmSaveEditPopup, setConfirmSaveEditPopup] = useState<boolean>(
-    router.query.confirmSaveEditPopup === "true" || false
+    router.query.confirmSaveEditPopup === "true" || false,
   );
   const [compEditPopup, setCompEditPopup] = useState<boolean>(
-    router.query.compEditPopup === "true" || false
+    router.query.compEditPopup === "true" || false,
   );
 
   const { register, watch, setValue, formState, resetField, handleSubmit } =
@@ -118,7 +120,7 @@ export default function useEdit(quillRef: any) {
         },
       },
     }),
-    []
+    [],
   );
 
   const closeErrMsg = () => {

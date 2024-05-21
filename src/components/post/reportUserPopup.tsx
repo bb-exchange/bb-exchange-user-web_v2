@@ -1,7 +1,8 @@
 import styles from "./reportUserPopup.module.scss";
-import X from ".assets/icons/X.svg";
+
 import CheckCircle from ".assets/icons/CheckCircle.svg";
 import CheckCircleBlueO from ".assets/icons/CheckCircleBlueO.svg";
+import X from ".assets/icons/X.svg";
 import UseScrollBar from ".src/hooks/common/useScrollBar";
 import UseUserReport from ".src/hooks/post/useUserReport";
 
@@ -34,24 +35,18 @@ export default function ReportUserPopup({ off, confirmFunc }: Iprops) {
           <h1 className={styles.key}>신고사유를 알려주세요!</h1>
 
           <p className={styles.explain}>
-            타당한 근거 없이 신고된 내용은 관리자 확인 후 반영되지 않을 수
-            있습니다.
+            타당한 근거 없이 신고된 내용은 관리자 확인 후 반영되지 않을 수 있습니다.
           </p>
         </div>
 
         <div className={styles.reportCont}>
           <form onSubmit={useCustomHook.handleSubmit(onSubmit)}>
             <div className={styles.scrollBox}>
-              <ul
-                className={styles.categoryList}
-                onScroll={useScrollBar.onScroll}
-              >
+              <ul className={styles.categoryList} onScroll={useScrollBar.onScroll}>
                 {useCustomHook.reportCategory.map((v, i) => (
                   <li
                     key={i}
-                    className={`${
-                      v === useCustomHook.watch("category") ? styles.on : ""
-                    }`}
+                    className={`${v === useCustomHook.watch("category") ? styles.on : ""}`}
                     onClick={() => useCustomHook.setValue("category", v)}
                   >
                     <CheckCircle className={styles.offSvg} />
@@ -73,10 +68,7 @@ export default function ReportUserPopup({ off, confirmFunc }: Iprops) {
               {...useCustomHook.register("detail", { required: true })}
             />
 
-            <button
-              className={styles.submitBtn}
-              disabled={!useCustomHook.formState.isValid}
-            >
+            <button className={styles.submitBtn} disabled={!useCustomHook.formState.isValid}>
               <p>신고하기</p>
             </button>
           </form>

@@ -1,19 +1,20 @@
+import ".src/styles/globals.scss";
+import "react-notion-x/src/styles.css";
+
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { CookiesProvider } from "react-cookie";
+
 import type { AppProps } from "next/app";
 import Head from "next/head";
+import { useRouter } from "next/router";
+
+import Layout from ".src/components/layouts/Layout";
+import ".src/lib/recoil";
+import { init } from "@amplitude/analytics-browser";
+import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { RecoilRoot } from "recoil";
-import { CookiesProvider } from "react-cookie";
-import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
-import { init } from "@amplitude/analytics-browser";
-
-import ".src/lib/recoil";
-import "react-notion-x/src/styles.css";
-import ".src/styles/globals.scss";
-
-import Layout from ".src/components/layouts/Layout";
 
 export default function App({ Component, ...rest }: AppProps) {
   const GA_KEY = `${process.env.NEXT_PUBLIC_GA_KEY}`;
@@ -33,7 +34,7 @@ export default function App({ Component, ...rest }: AppProps) {
             gcTime: 0,
           },
         },
-      })
+      }),
   );
 
   const router = useRouter();

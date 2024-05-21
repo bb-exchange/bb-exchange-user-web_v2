@@ -1,8 +1,9 @@
-import { expect } from "@jest/globals";
 import mockNextRouter from "../../../__test__/__mocks__/nextRouter";
-import usePost from "./usePost";
-import { fireEvent, render } from "@testing-library/react";
 import mockReactQuery from "../../../__test__/__mocks__/reactQuery";
+import usePost from "./usePost";
+
+import { expect } from "@jest/globals";
+import { fireEvent, render } from "@testing-library/react";
 
 describe("usePost", () => {
   mockNextRouter({});
@@ -16,17 +17,11 @@ describe("usePost", () => {
     };
 
     const TestBtnDn = () => (
-      <button
-        data-testid={"testBtnDn"}
-        onClick={() => UsePost.onClickLikeBtn(-1)}
-      />
+      <button data-testid={"testBtnDn"} onClick={() => UsePost.onClickLikeBtn(-1)} />
     );
 
     const TestBtnUp = () => (
-      <button
-        data-testid={"testBtnUp"}
-        onClick={() => UsePost.onClickLikeBtn(1)}
-      />
+      <button data-testid={"testBtnUp"} onClick={() => UsePost.onClickLikeBtn(1)} />
     );
 
     const { container } = render(
@@ -38,7 +33,7 @@ describe("usePost", () => {
             <TestBtnUp />
           </>
         ),
-      })
+      }),
     );
 
     const testBtnDn = container.querySelector('[data-testid="testBtnDn"]');
@@ -65,16 +60,10 @@ describe("usePost", () => {
     };
 
     const TestMorePopupBtn = () => (
-      <button
-        data-testid={"testMorePopupBtn"}
-        onClick={() => UsePost.setMorePopup(true)}
-      />
+      <button data-testid={"testMorePopupBtn"} onClick={() => UsePost.setMorePopup(true)} />
     );
     const TestReportBtn = () => (
-      <button
-        data-testid={"testReportBtn"}
-        onClick={UsePost.onClickReportPostBtn}
-      />
+      <button data-testid={"testReportBtn"} onClick={UsePost.onClickReportPostBtn} />
     );
 
     const { container } = render(
@@ -86,15 +75,11 @@ describe("usePost", () => {
             <TestReportBtn />
           </>
         ),
-      })
+      }),
     );
 
-    const testMorePopupBtn = container.querySelector(
-      '[data-testid="testMorePopupBtn"]'
-    );
-    const testReportBtn = container.querySelector(
-      '[data-testid="testReportBtn"]'
-    );
+    const testMorePopupBtn = container.querySelector('[data-testid="testMorePopupBtn"]');
+    const testReportBtn = container.querySelector('[data-testid="testReportBtn"]');
 
     fireEvent.click(testMorePopupBtn!);
     expect(UsePost.morePopup).toBe(true);
@@ -113,17 +98,11 @@ describe("usePost", () => {
     };
 
     const TestReportBtn = () => (
-      <button
-        data-testid={"testReportBtn"}
-        onClick={UsePost.onClickReportPostBtn}
-      />
+      <button data-testid={"testReportBtn"} onClick={UsePost.onClickReportPostBtn} />
     );
 
     const TestSuccessReportPostBtn = () => (
-      <button
-        data-testid={"testSuccessReportPostBtn"}
-        onClick={UsePost.onSuccessReportPost}
-      />
+      <button data-testid={"testSuccessReportPostBtn"} onClick={UsePost.onSuccessReportPost} />
     );
 
     const { container } = render(
@@ -135,14 +114,12 @@ describe("usePost", () => {
             <TestSuccessReportPostBtn />
           </>
         ),
-      })
+      }),
     );
 
-    const testReportBtn = container.querySelector(
-      '[data-testid="testReportBtn"]'
-    );
+    const testReportBtn = container.querySelector('[data-testid="testReportBtn"]');
     const testSuccessReportPostBtn = container.querySelector(
-      '[data-testid="testSuccessReportPostBtn"]'
+      '[data-testid="testSuccessReportPostBtn"]',
     );
 
     fireEvent.click(testReportBtn!);
@@ -162,16 +139,10 @@ describe("usePost", () => {
     };
 
     const TestMorePopupBtn = () => (
-      <button
-        data-testid={"testMorePopupBtn"}
-        onClick={() => UsePost.setMorePopup(true)}
-      />
+      <button data-testid={"testMorePopupBtn"} onClick={() => UsePost.setMorePopup(true)} />
     );
     const TestReportBtn = () => (
-      <button
-        data-testid={"testReportBtn"}
-        onClick={UsePost.onClickReportUserBtn}
-      />
+      <button data-testid={"testReportBtn"} onClick={UsePost.onClickReportUserBtn} />
     );
 
     const { container } = render(
@@ -183,15 +154,11 @@ describe("usePost", () => {
             <TestReportBtn />
           </>
         ),
-      })
+      }),
     );
 
-    const testMorePopupBtn = container.querySelector(
-      '[data-testid="testMorePopupBtn"]'
-    );
-    const testReportBtn = container.querySelector(
-      '[data-testid="testReportBtn"]'
-    );
+    const testMorePopupBtn = container.querySelector('[data-testid="testMorePopupBtn"]');
+    const testReportBtn = container.querySelector('[data-testid="testReportBtn"]');
 
     fireEvent.click(testMorePopupBtn!);
     expect(UsePost.morePopup).toBe(true);
@@ -210,17 +177,11 @@ describe("usePost", () => {
     };
 
     const TestReportBtn = () => (
-      <button
-        data-testid={"testReportBtn"}
-        onClick={UsePost.onClickReportUserBtn}
-      />
+      <button data-testid={"testReportBtn"} onClick={UsePost.onClickReportUserBtn} />
     );
 
     const TestSuccessReportUserBtn = () => (
-      <button
-        data-testid={"testSuccessReportUserBtn"}
-        onClick={UsePost.onSuccessReportUser}
-      />
+      <button data-testid={"testSuccessReportUserBtn"} onClick={UsePost.onSuccessReportUser} />
     );
 
     const { container } = render(
@@ -232,14 +193,12 @@ describe("usePost", () => {
             <TestSuccessReportUserBtn />
           </>
         ),
-      })
+      }),
     );
 
-    const testReportBtn = container.querySelector(
-      '[data-testid="testReportBtn"]'
-    );
+    const testReportBtn = container.querySelector('[data-testid="testReportBtn"]');
     const testSuccessReportUserBtn = container.querySelector(
-      '[data-testid="testSuccessReportUserBtn"]'
+      '[data-testid="testSuccessReportUserBtn"]',
     );
 
     fireEvent.click(testReportBtn!);
@@ -259,17 +218,11 @@ describe("usePost", () => {
     };
 
     const TestMorePopupBtn = () => (
-      <button
-        data-testid={"testMorePopupBtn"}
-        onClick={() => UsePost.setMorePopup(true)}
-      />
+      <button data-testid={"testMorePopupBtn"} onClick={() => UsePost.setMorePopup(true)} />
     );
 
     const TestHideBtn = () => (
-      <button
-        data-testid={"testHideBtn"}
-        onClick={UsePost.onClickHideUserPostBtn}
-      />
+      <button data-testid={"testHideBtn"} onClick={UsePost.onClickHideUserPostBtn} />
     );
 
     const { container } = render(
@@ -281,12 +234,10 @@ describe("usePost", () => {
             <TestHideBtn />
           </>
         ),
-      })
+      }),
     );
 
-    const testMorePopupBtn = container.querySelector(
-      '[data-testid="testMorePopupBtn"]'
-    );
+    const testMorePopupBtn = container.querySelector('[data-testid="testMorePopupBtn"]');
     const testHideBtn = container.querySelector('[data-testid="testHideBtn"]');
 
     fireEvent.click(testMorePopupBtn!);
@@ -306,17 +257,11 @@ describe("usePost", () => {
     };
 
     const TestHideBtn = () => (
-      <button
-        data-testid={"testHideBtn"}
-        onClick={UsePost.onClickHideUserPostBtn}
-      />
+      <button data-testid={"testHideBtn"} onClick={UsePost.onClickHideUserPostBtn} />
     );
 
     const TestSuccessReportUserBtn = () => (
-      <button
-        data-testid={"testSuccessHideBtn"}
-        onClick={UsePost.onSuccessHideUserPost}
-      />
+      <button data-testid={"testSuccessHideBtn"} onClick={UsePost.onSuccessHideUserPost} />
     );
 
     const { container } = render(
@@ -328,12 +273,12 @@ describe("usePost", () => {
             <TestSuccessReportUserBtn />
           </>
         ),
-      })
+      }),
     );
 
     const testHideBtn = container.querySelector('[data-testid="testHideBtn"]');
     const testSuccessHideUserPostBtn = container.querySelector(
-      '[data-testid="testSuccessHideBtn"]'
+      '[data-testid="testSuccessHideBtn"]',
     );
 
     fireEvent.click(testHideBtn!);
@@ -352,9 +297,7 @@ describe("usePost", () => {
       return null;
     };
 
-    const TestBtn = () => (
-      <button data-testid={"testBtn"} onClick={UsePost.onClickFavBtn} />
-    );
+    const TestBtn = () => <button data-testid={"testBtn"} onClick={UsePost.onClickFavBtn} />;
 
     const { container } = render(
       mockReactQuery({
@@ -364,7 +307,7 @@ describe("usePost", () => {
             <TestBtn />
           </>
         ),
-      })
+      }),
     );
 
     const testBtn = container.querySelector('[data-testid="testBtn"]');

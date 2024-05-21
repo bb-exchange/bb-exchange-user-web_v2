@@ -1,6 +1,7 @@
-import UseScrollTopBtn from ".src/hooks/common/useScrollTopBtn";
 import styles from "./scrollTopBtn.module.scss";
+
 import ScrollTop from ".assets/icons/ScrollTop.svg";
+import UseScrollTopBtn from ".src/hooks/common/useScrollTopBtn";
 
 export default function ScrollTopBtn() {
   const useScrollTopBtn = UseScrollTopBtn();
@@ -11,9 +12,7 @@ export default function ScrollTopBtn() {
 
   return (
     <button
-      className={`${styles.scrollTopBtn} ${
-        useScrollTopBtn.scrollEnd ? styles.scrollEnd : ""
-      }`}
+      className={`${styles.scrollTopBtn} ${useScrollTopBtn.scrollEnd ? styles.scrollEnd : ""}`}
       onClick={onClickScrollBtn}
     >
       <ScrollTop />

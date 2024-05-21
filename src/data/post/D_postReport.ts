@@ -18,4 +18,3 @@ export const D_postReportCaategoryList: string[] = [
   "광고, 홍보성 글",
   "기타(하단 내용 작성",
 ];
-

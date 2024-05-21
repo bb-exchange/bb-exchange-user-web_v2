@@ -1,10 +1,12 @@
-import { useRecoilValue } from "recoil";
-import { useRouter } from "next/router";
+import ImageFirework from "../../../../public/assets/images/firework.svg";
 
 import styles from "./index.module.scss";
-import ImageFirework from "../../../../public/assets/images/firework.svg";
+
+import { useRouter } from "next/router";
+
 import ContainedBtn from ".src/components/Buttons/ContainedBtn";
 import { userNameState } from ".src/recoil";
+import { useRecoilValue } from "recoil";
 
 const SignUpCompletion = () => {
   const router = useRouter();

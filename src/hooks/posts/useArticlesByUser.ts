@@ -1,7 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
-
 import { articlesByUser } from ".src/api/articles/articles";
 import { ArticleSortBy } from ".src/api/interface";
+import { useQuery } from "@tanstack/react-query";
 
 export const useArticlesByUser = ({
   userId,
@@ -15,7 +14,7 @@ export const useArticlesByUser = ({
   articleId: string;
 }) => {
   const setKey = (
-    sortBy: ArticleSortBy
+    sortBy: ArticleSortBy,
   ): [string, { userId?: number; sortBy: ArticleSortBy; size: number }] => [
     articlesByUser.name,
     { userId, sortBy, size },
@@ -31,13 +30,11 @@ export const useArticlesByUser = ({
     queryKey: setKey("LATEST"),
     queryFn: ({ queryKey: [_, props] }) => articlesByUser(props),
     enabled:
-      !!userId &&
-      (sortBy === "LATEST" ||
-        (listPriceStatus !== "pending" && !listPrice?.length)),
+      !!userId && (sortBy === "LATEST" || (listPriceStatus !== "pending" && !listPrice?.length)),
   });
 
   const list = (listPrice ?? listLatest ?? []).filter(
-    ({ articleInfo: { articleId: id } }) => id !== Number(articleId)
+    ({ articleInfo: { articleId: id } }) => id !== Number(articleId),
   );
 
   return list.length > 3 ? list.slice(0, 3) : list;

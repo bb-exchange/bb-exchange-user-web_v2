@@ -1,22 +1,19 @@
+import styles from "../loadingLayout.module.scss";
+
 import { useEffect } from "react";
-import { useRouter } from "next/router";
-import axios from "axios";
 import { useCookies } from "react-cookie";
+
 import Image from "next/image";
-import { useSetRecoilState } from "recoil";
+import { useRouter } from "next/router";
 
 import { basicInstance } from ".src/api/instance";
-import styles from "../loadingLayout.module.scss";
 import { isLoginState, profileState, userNameState } from ".src/recoil";
+import axios from "axios";
+import { useSetRecoilState } from "recoil";
 
 const AppleAuth = () => {
   const { query, push } = useRouter();
-  const [cookie, setCookie] = useCookies([
-    "oauthId",
-    "oauthType",
-    "accessToken",
-    "refreshToken",
-  ]);
+  const [cookie, setCookie] = useCookies(["oauthId", "oauthType", "accessToken", "refreshToken"]);
 
   const setIsLoginState = useSetRecoilState(isLoginState);
   const setUserNameState = useSetRecoilState(userNameState);
@@ -52,10 +49,7 @@ const AppleAuth = () => {
               pathname: `/auth/terms-agreement`,
             });
           }
-        } else if (
-          response.data.data.accessToken &&
-          response.data.data.refreshToken
-        ) {
+        } else if (response.data.data.accessToken && response.data.data.refreshToken) {
           setCookie("accessToken", response.data.data.accessToken, {
             path: "/",
           });
@@ -69,7 +63,7 @@ const AppleAuth = () => {
             },
           });
           const { data: profileData } = await axios.get(
-            `${baseURL}/v1/users/profile/${data?.data.id}`
+            `${baseURL}/v1/users/profile/${data?.data.id}`,
           );
 
           setProfile({
