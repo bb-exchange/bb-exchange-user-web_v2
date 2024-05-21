@@ -188,4 +188,19 @@
       }
     }
   }
+
+  
+}
+.settlementPopupContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  
+  .description {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 28px; 
+    letter-spacing: -0.2px;
+    color: $Black3;
+  }
 }
