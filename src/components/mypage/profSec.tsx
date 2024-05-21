@@ -2,7 +2,6 @@ import styles from "./profSec.module.scss";
 
 import { useRouter } from "next/router";
 
-import IconCopy from ".assets/icons/Copy.svg";
 import Profile from ".assets/images/img_profile.svg";
 import Image from ".src/components/Image";
 import useGetMyProfile from ".src/hooks/common/useGetProfile";
