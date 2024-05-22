@@ -1,7 +1,11 @@
 import styles from "./asset.module.scss";
+
+import { useState } from "react";
 import { Tooltip } from "react-tooltip";
 
 import ChevronRt from "@assets/icons/ChevronRt.svg";
+import RedCaution from "@assets/icons/RedCaution.svg";
+
 import CommonFooter from "@components/common/commonFooter";
 import CommonHeader from "@components/common/header/commonHeader";
 import ErrorMsgPopup from "@components/common/popup/errorMsgPopup";
@@ -9,26 +13,27 @@ import PopupBg from "@components/common/popupBg";
 import ScrollTopBtn from "@components/common/scrollTopBtn";
 import ContentIncome from "@components/mypage/asset/contentIncome";
 import MyWithdraw from "@components/mypage/asset/myWithdraw";
+import PointPopup from "@components/mypage/asset/pointPopup";
 import TermIncome from "@components/mypage/asset/termIncome";
 import WithdrawInfoPopup from "@components/mypage/asset/withdrawInfoPopup";
 import WithdrawPopup from "@components/mypage/asset/withdrawPopup";
 import MypageNavAside from "@components/mypage/mypageNavAside";
+
 import UseMypageAsset from "@hooks/mypage/asset/useMypageAsset";
-import UseMyTermIncome from "@hooks/mypage/asset/useMytermIncome"; 
+import UseMyTermIncome from "@hooks/mypage/asset/useMytermIncome";
 import UseWithdrawPopup from "@hooks/mypage/asset/useWithdrawPopup";
-import RedCaution from "@assets/icons/RedCaution.svg";
-import { useState } from "react"; 
-import Popup from "@components/Popup";
-import ContainedBtn from "@components/Buttons/ContainedBtn"; 
 
 export default function Asset() {
-  const useMypageAsset = UseMypageAsset(); 
-  const useWithdrawPopup = UseWithdrawPopup(); 
+  const useMypageAsset = UseMypageAsset();
+  const useWithdrawPopup = UseWithdrawPopup();
   const useMyTermIncome = UseMyTermIncome();
- 
-  const [isOpen, setIsOpen] = useState(false);
+
+  const [isPointPopupOpen, setIsPointPopup] = useState(false);
   const onOpenPointPopup = () => {
-    setIsOpen((prev) => !prev);
+    setIsPointPopup(true);
+  };
+  const onClosePointPopup = () => {
+    setIsPointPopup(false);
   };
 
   return (
@@ -176,20 +181,7 @@ export default function Asset() {
           <PopupBg bg off={() => useMyTermIncome.setNoDrawPopup(false)} />
         </>
       )}
-      {isOpen && <Popup title='포인트로 전환' visible={isOpen}>
-        <div className={styles.settlementPopupContainer}>
-          <div>
-            <h3 className={styles.description}>수익금을 포인트로 전환하세요!</h3>
-            <span>1원은 1p와 동일해요.</span>
-        </div>
-        <div>출금 가능 수익금
-
-        </div>
-        <div></div>
-        <ContainedBtn text="전환하기"  disabled /> 
-        </div>
-        </Popup>}
+      {isPointPopupOpen && <PointPopup onClose={onClosePointPopup} visible={isPointPopupOpen} />}
     </>
   );
 }
-  

@@ -1,6 +1,8 @@
 import styles from "./Popup.module.scss";
+
 import { PropsWithChildren, useEffect, useState } from "react";
-import X from '.assets/icons/X.svg'
+
+import X from ".assets/icons/X.svg";
 
 type PopupProps = {
   title?: String;
@@ -42,7 +44,9 @@ export default function Popup({
       <div className={styles.popup}>
         <div className={styles.header}>
           <h3>{title}</h3>
-          <X />
+          <button onClick={onClose}>
+            <X />
+          </button>
         </div>
         {children}
       </div>

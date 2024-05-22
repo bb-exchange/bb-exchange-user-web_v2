@@ -12,7 +12,7 @@
 
 .popup {
   width: 520px;
-  height: 580px;
+  // height: 580px;
   border-radius: 16px;
   background-color: white;
 
@@ -28,8 +28,8 @@
   // TODO: 임시
   padding: 32px;
 
-  .header { 
-    display: flex;  
+  .header {
+    display: flex;
     align-items: center;
     justify-content: space-between;
 
@@ -42,7 +42,7 @@
       font-weight: 700;
       line-height: 120%; /* 30.622px */
     }
-    
+
     svg {
       min-width: 24px;
       height: 24px;
