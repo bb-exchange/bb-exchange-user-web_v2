@@ -1,18 +1,15 @@
 import styles from "./charge.module.scss";
+
+import PcircleBlue from ".assets/icons/PcircleBlue.svg";
+import { confirmPayments, ConfirmPaymentsRequest, preparePayments } from ".src/api/point";
 import CommonFooter from ".src/components/common/commonFooter";
 import CommonHeader from ".src/components/common/header/commonHeader";
-import UseCharge from ".src/hooks/charge/useCharge";
-import PcircleBlue from ".assets/icons/PcircleBlue.svg";
-import usePayment from ".src/hooks/payment/usePayment";
 import { D_chargeNoticeList } from ".src/data/charge/D_charge";
-import { useMutation } from "@tanstack/react-query";
-import {
-  ConfirmPaymentsRequest,
-  confirmPayments,
-  preparePayments,
-} from ".src/api/point";
+import UseCharge from ".src/hooks/charge/useCharge";
 import useGetMyProfile from ".src/hooks/common/useGetProfile";
+import usePayment from ".src/hooks/payment/usePayment";
 import { RequestPayResponse } from ".src/types/imp";
+import { useMutation } from "@tanstack/react-query";
 
 export default function Charge() {
   const useCharge = UseCharge();
@@ -37,14 +34,11 @@ export default function Charge() {
 
     // IMPORT 결제 모듈 호출
     requestPayment(paymentTxId, price, (response: RequestPayResponse) =>
-      successCallback(paymentTxId, response)
+      successCallback(paymentTxId, response),
     );
   };
 
-  const successCallback = async (
-    paymentTxId: string,
-    response: RequestPayResponse
-  ) => {
+  const successCallback = async (paymentTxId: string, response: RequestPayResponse) => {
     const { imp_uid, merchant_uid, error_msg } = response;
 
     let request: ConfirmPaymentsRequest = {
@@ -104,15 +98,10 @@ export default function Charge() {
                 <div className={styles.leftBox}>
                   <PcircleBlue />
 
-                  <p className={styles.amount}>
-                    {Intl.NumberFormat().format(v)}
-                  </p>
+                  <p className={styles.amount}>{Intl.NumberFormat().format(v)}</p>
                 </div>
                 <div className={styles.rightBox}>
-                  <button
-                    className={styles.chargeBtn}
-                    onClick={() => preparePayment(v)}
-                  >
+                  <button className={styles.chargeBtn} onClick={() => preparePayment(v)}>
                     <p>{Intl.NumberFormat().format(v)}원</p>
                   </button>
                 </div>

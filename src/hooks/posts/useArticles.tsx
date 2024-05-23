@@ -1,13 +1,8 @@
 import { useMemo } from "react";
-import {
-  keepPreviousData,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
 
 import { articles, updateArticleBookmark } from ".src/api/articles/articles";
-import { ArticleSearchType, Articles } from ".src/api/interface";
+import { Articles, ArticleSearchType } from ".src/api/interface";
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const useArticles = (props: {
   searchType: ArticleSearchType;
@@ -40,14 +35,8 @@ export const useArticles = (props: {
 
   // NOTE 글 목록 수정
   const { mutate: mutateArticle } = useMutation({
-    mutationFn: ({
-      index,
-      ...props
-    }: {
-      index: number;
-      bookmarking: boolean;
-      articleId: number;
-    }) => updateArticleBookmark(props),
+    mutationFn: ({ index, ...props }: { index: number; bookmarking: boolean; articleId: number }) =>
+      updateArticleBookmark(props),
     onMutate: ({ index, bookmarking }) => {
       queryClient.setQueryData<Articles>(queryKey, (articles) => {
         if (articles != null) {

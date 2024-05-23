@@ -1,6 +1,8 @@
-import Link from "next/link";
-import UseWritePost from ".src/hooks/mypage/useWritePost";
 import styles from "./writePost.module.scss";
+
+import Link from "next/link";
+
+import UseWritePost from ".src/hooks/mypage/useWritePost";
 import moment from "moment";
 import "moment/locale/ko";
 
@@ -23,11 +25,7 @@ export default function WritePost({ data }: Iprops) {
           <div className={styles.thumbBox}>
             <Link href={`/post/${data.articleInfo.articleId}`}>
               <div className={styles.titleBar}>
-                <p
-                  className={`${styles.title} ${
-                    data.articleInfo.read ? styles.read : ""
-                  }`}
-                >
+                <p className={`${styles.title} ${data.articleInfo.read ? styles.read : ""}`}>
                   {data.articleInfo.title}
                 </p>
 
@@ -39,9 +37,7 @@ export default function WritePost({ data }: Iprops) {
 
             <div className={styles.infoBar}>
               <p className={styles.category}>{data.boardInfo.description}</p>・
-              <p className={styles.createdAt}>
-                {moment(data.articleInfo.createdAt).fromNow()}
-              </p>
+              <p className={styles.createdAt}>{moment(data.articleInfo.createdAt).fromNow()}</p>
             </div>
           </div>
 
@@ -49,35 +45,25 @@ export default function WritePost({ data }: Iprops) {
             <li>
               <p className={styles.key}>좋아요</p>&nbsp;
               <p className={styles.value}>
-                {(data.priceInfo.likeNum || 0) > 999999
-                  ? "999,999+"
-                  : data.priceInfo.likeNum}
+                {(data.priceInfo.likeNum || 0) > 999999 ? "999,999+" : data.priceInfo.likeNum}
               </p>
             </li>
 
             <li>
               <p className={styles.key}>총수익</p>&nbsp;
-              <p className={styles.value}>
-                {`${Intl.NumberFormat().format(data.revenue || 0)}원`}
-              </p>
+              <p className={styles.value}>{`${Intl.NumberFormat().format(data.revenue || 0)}원`}</p>
             </li>
           </ul>
         </div>
 
         <div className={styles.thumbnailImgBox}>
-          {data.articleInfo.thumbnail ? (
-            <img src={data.articleInfo.thumbnail} alt="" />
-          ) : null}
+          {data.articleInfo.thumbnail ? <img src={data.articleInfo.thumbnail} alt="" /> : null}
         </div>
       </div>
 
       <div className={styles.rightCont}>
         {data.priceInfo.price ? (
-          <div
-            className={`${styles.priceBox} ${getDiffStyle(
-              data.priceInfo.changeRate || 0
-            )}`}
-          >
+          <div className={`${styles.priceBox} ${getDiffStyle(data.priceInfo.changeRate || 0)}`}>
             <div className={styles.diffBox}>
               <p>
                 {`${(data.priceInfo.changeRate || 0) > 0 ? "+" : ""}${
@@ -87,7 +73,7 @@ export default function WritePost({ data }: Iprops) {
             </div>
 
             <h1 className={styles.price}>{`${new Intl.NumberFormat().format(
-              data.priceInfo.price || 0
+              data.priceInfo.price || 0,
             )} P`}</h1>
           </div>
         ) : (

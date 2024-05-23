@@ -21,9 +21,7 @@ export default function UseMyTermIncome() {
   };
 
   const options: any = { year: "numeric", month: "numeric" };
-  const selectedDate = dateText
-    .toLocaleDateString("ko-KR", options)
-    .slice(0, -1);
+  const selectedDate = dateText.toLocaleDateString("ko-KR", options).slice(0, -1);
 
   // 더미데이타
   const revenueList = [

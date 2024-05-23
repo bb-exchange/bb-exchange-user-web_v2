@@ -1,29 +1,29 @@
-import { useRouter } from "next/router";
-
-import EnrollHeader from ".src/components/enroll/enrollHeader";
 import styles from "./index.module.scss";
 import "react-quill/dist/quill.snow.css";
 
-import { EditorContent } from "@tiptap/react";
+import { useEffect, useState } from "react";
 
-import EnrollGuid from ".assets/icons/EnrollGuid.svg";
-import useEnroll from ".src/hooks/enroll/useEnroll";
-import ChevronDn from ".assets/icons/ChevronDn.svg";
+import { useRouter } from "next/router";
+
 import CellPhoneBlue from ".assets/icons/CellPhoneBlue.svg";
+import ChevronDn from ".assets/icons/ChevronDn.svg";
+import EnrollGuid from ".assets/icons/EnrollGuid.svg";
 import PcBlue from ".assets/icons/PcBlue.svg";
-import PopupBg from ".src/components/common/popupBg";
-import SelCategoryPopup from ".src/components/enroll/selCategoryPopup";
-import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
-import SelImgPopup from ".src/components/common/popup/selImgPopup";
-import RecentTagPopup from ".src/components/enroll/recentTagPopup";
-import DraftsPopup from ".src/components/enroll/draftsPopup";
+import { fetchCategory } from ".src/api/articles/category";
 import ConfirmPopup from ".src/components/common/popup/confirmPopup";
+import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
+import LoadingPopup from ".src/components/common/popup/loadingPopup";
+import SelImgPopup from ".src/components/common/popup/selImgPopup";
+import PopupBg from ".src/components/common/popupBg";
+import DraftsPopup from ".src/components/enroll/draftsPopup";
+import EnrollHeader from ".src/components/enroll/enrollHeader";
+import RecentTagPopup from ".src/components/enroll/recentTagPopup";
+import SelCategoryPopup from ".src/components/enroll/selCategoryPopup";
+import useEnroll from ".src/hooks/enroll/useEnroll";
+import { useMakeEditor } from ".src/hooks/enroll/useMakeEditor";
 import UseRecentTagPopup from ".src/hooks/enroll/useRecentTagPopup";
 import { useQuery } from "@tanstack/react-query";
-import { fetchCategory } from ".src/api/articles/category";
-import { useMakeEditor } from ".src/hooks/enroll/useMakeEditor";
-import LoadingPopup from ".src/components/common/popup/loadingPopup";
-import { useEffect, useState } from "react";
+import { EditorContent } from "@tiptap/react";
 
 export default function EnrollScreen() {
   const router = useRouter();
@@ -50,7 +50,7 @@ export default function EnrollScreen() {
 
     if (data) {
       const category = categoryList?.filter(
-        (item) => item.category === data?.boardInfo.category
+        (item) => item.category === data?.boardInfo.category,
       )[0];
       useEnrollHook.setValue("title", data.articleInfo.title);
       category && useEnrollHook.setValue("category", category);
@@ -63,18 +63,10 @@ export default function EnrollScreen() {
 
   return (
     <>
-      <EnrollHeader
-        isEdit={true}
-        editor={editor}
-        useEnrollHook={useEnrollHook}
-      />
+      <EnrollHeader isEdit={true} editor={editor} useEnrollHook={useEnrollHook} />
 
       <section className={styles.innerSec}>
-        <article
-          className={`${styles.contArea} ${
-            useEnrollHook.mobileView ? styles.mobile : ""
-          }`}
-        >
+        <article className={`${styles.contArea} ${useEnrollHook.mobileView ? styles.mobile : ""}`}>
           <form id="enrollForm">
             <div className={styles.topBar}>
               <div className={styles.categoryBox}>
@@ -103,14 +95,10 @@ export default function EnrollScreen() {
                   <>
                     <SelCategoryPopup
                       categoryList={categoryList ?? []}
-                      setValue={(v: IpostCategories) =>
-                        useEnrollHook.setValue("category", v)
-                      }
+                      setValue={(v: IpostCategories) => useEnrollHook.setValue("category", v)}
                       off={() => useEnrollHook.setSelCategoryPopup(false)}
                     />
-                    <PopupBg
-                      off={() => useEnrollHook.setSelCategoryPopup(false)}
-                    />
+                    <PopupBg off={() => useEnrollHook.setSelCategoryPopup(false)} />
                   </>
                 )}
               </div>
@@ -128,10 +116,7 @@ export default function EnrollScreen() {
               </div>
             </div>
 
-            <div
-              className={styles.editorBox}
-              onClick={(e) => useEnrollHook.onClickEditor(e)}
-            >
+            <div className={styles.editorBox} onClick={(e) => useEnrollHook.onClickEditor(e)}>
               {editor && <EditorContent editor={editor} height={"100%"} />}
             </div>
 
@@ -139,10 +124,7 @@ export default function EnrollScreen() {
               {useEnrollHook.watch("tagList")?.length > 0 && (
                 <ul className={styles.tagList}>
                   {useEnrollHook.watch("tagList").map((v, i) => (
-                    <li
-                      key={i}
-                      onClick={() => useEnrollHook.handleOnClickTagList(v)}
-                    >
+                    <li key={i} onClick={() => useEnrollHook.handleOnClickTagList(v)}>
                       <p>#{v}</p>
                     </li>
                   ))}
@@ -230,11 +212,7 @@ export default function EnrollScreen() {
             confirmFunc={() => {}}
             zIndex={80}
           />
-          <PopupBg
-            bg
-            zIndex={70}
-            off={() => useEnrollHook.setEditListedPopup(false)}
-          />
+          <PopupBg bg zIndex={70} off={() => useEnrollHook.setEditListedPopup(false)} />
         </>
       )}
       {useEnrollHook.editPopup && (
@@ -260,11 +238,7 @@ export default function EnrollScreen() {
             confirmFunc={() => useEnrollHook.onLoadTempArticle()}
             zIndex={80}
           />
-          <PopupBg
-            bg
-            zIndex={70}
-            off={() => useEnrollHook.setLoadDraftPopup(false)}
-          />
+          <PopupBg bg zIndex={70} off={() => useEnrollHook.setLoadDraftPopup(false)} />
         </>
       )}
       {useEnrollHook.writeCancelPopup && (
@@ -281,11 +255,7 @@ export default function EnrollScreen() {
             confirmFunc={() => router.back()}
             zIndex={80}
           />
-          <PopupBg
-            bg
-            zIndex={70}
-            off={() => useEnrollHook.setWriteCancelPopup(false)}
-          />
+          <PopupBg bg zIndex={70} off={() => useEnrollHook.setWriteCancelPopup(false)} />
         </>
       )}
       {useEnrollHook.tempSuccessPostPopup && (
@@ -299,20 +269,14 @@ export default function EnrollScreen() {
             }
             confirmFunc={() => useEnrollHook.setTempSuccessPostPopup(false)}
           />
-          <PopupBg
-            bg
-            off={() => useEnrollHook.setTempSuccessPostPopup(false)}
-          />
+          <PopupBg bg off={() => useEnrollHook.setTempSuccessPostPopup(false)} />
         </>
       )}
 
       {useEnrollHook.successPostPopup && (
         <>
           <LoadingPopup message="게시글 업로드 중입니다." />
-          <PopupBg
-            bg
-            off={() => useEnrollHook.setTempSuccessPostPopup(false)}
-          />
+          <PopupBg bg off={() => useEnrollHook.setTempSuccessPostPopup(false)} />
         </>
       )}
     </>

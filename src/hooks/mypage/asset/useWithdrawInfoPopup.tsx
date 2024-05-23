@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function useWithdrawInfoPopup() {
-  const [nameAccountRequestAlertPopup, setNameAccountRequestAlertPopup] =
-    useState<boolean>(false);
+  const [nameAccountRequestAlertPopup, setNameAccountRequestAlertPopup] = useState<boolean>(false);
 
   const { setFocus, register, handleSubmit, getValues } = useForm<{
     name: string;

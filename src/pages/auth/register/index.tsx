@@ -1,20 +1,24 @@
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
-import { useCookies } from "react-cookie";
+import IconBlueCheck from "../../../../public/assets/icons/BlueCheck.svg";
+import IconRedCaution from "../../../../public/assets/icons/RedCaution.svg";
 
 import styles from "./index.module.scss";
+
+import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
+import { useForm } from "react-hook-form";
+
+import { useRouter } from "next/router";
+
+import { registerNickname } from ".src/api/auth/auth";
+import { checkNickname } from ".src/api/users/users";
 import ContainedBtn from ".src/components/Buttons/ContainedBtn";
-import IconRedCaution from "../../../../public/assets/icons/RedCaution.svg";
-import IconBlueCheck from "../../../../public/assets/icons/BlueCheck.svg";
-import PopupBg from ".src/components/common/popupBg";
 import ConfirmPopup from ".src/components/common/popup/confirmPopup";
-import { useSetRecoilState } from "recoil";
+import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
+import PopupBg from ".src/components/common/popupBg";
 import { userNameState } from ".src/recoil";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { checkNickname } from ".src/api/users/users";
-import { registerNickname } from ".src/api/auth/auth";
-import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
+import { useSetRecoilState } from "recoil";
+
 interface Inputs {
   nickname: string;
 }
@@ -33,7 +37,7 @@ const Register = () => {
 
   const [availableNickname, setAvailableNickname] = useState<string>("");
   const [openConfirmPopup, setOpenConfirmPopup] = useState(
-    router.query.openConfirmPopup === "true" || false
+    router.query.openConfirmPopup === "true" || false,
   );
   const [openErrorPopup, setOpenErrorPopup] = useState(false);
 
@@ -110,20 +114,16 @@ const Register = () => {
   }, []);
 
   //variable
-  let isAvailable =
-    watch("nickname") !== "" && availableNickname === watch("nickname");
+  let isAvailable = watch("nickname") !== "" && availableNickname === watch("nickname");
   let isDisable =
-    watch("nickname")?.length > 0 &&
-    errors.nickname === undefined &&
-    isAvailable === false;
+    watch("nickname")?.length > 0 && errors.nickname === undefined && isAvailable === false;
 
   return (
     <>
       <div id={styles.register} className={styles.container}>
         <div className={styles.contentBox}>
           <h2 className={styles.title}>
-            <span className={styles.blueText}>사용할 닉네임</span>을
-            입력해주세요
+            <span className={styles.blueText}>사용할 닉네임</span>을 입력해주세요
           </h2>
           <form>
             <section className={styles.inputWrap}>
@@ -139,9 +139,7 @@ const Register = () => {
                     },
                     validate: {
                       noSpaceCheck: (v) =>
-                        v.includes(" ")
-                          ? "띄어쓰기를 사용할 수 없습니다"
-                          : true,
+                        v.includes(" ") ? "띄어쓰기를 사용할 수 없습니다" : true,
                       lengthCheck: (v) =>
                         (v.length >= 3 && v.length <= 10) || v.length === 0 // 값이 없을 때 에러메세지가 노출되지 않도록 v.length === 0 추가
                           ? true
@@ -202,9 +200,7 @@ const Register = () => {
               }}
               content={
                 <>
-                  <span className={styles.boldText}>
-                    회원가입이 완료되지 않았습니다!
-                  </span>
+                  <span className={styles.boldText}>회원가입이 완료되지 않았습니다!</span>
                   <span>처음 화면으로 돌아가시겠습니까?</span>
                 </>
               }

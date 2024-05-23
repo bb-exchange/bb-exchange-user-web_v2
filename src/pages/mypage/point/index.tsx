@@ -1,13 +1,15 @@
 import styles from "./point.module.scss";
-import CommonHeader from ".src/components/common/header/commonHeader";
+
+import { useRouter } from "next/router";
+
 import CommonFooter from ".src/components/common/commonFooter";
-import UseMyPoint from ".src/hooks/mypage/useMyPoint";
-import MypageNavAside from ".src/components/mypage/mypageNavAside";
+import CommonHeader from ".src/components/common/header/commonHeader";
 import PageNav from ".src/components/common/pageNav";
 import ScrollTopBtn from ".src/components/common/scrollTopBtn";
-import { useRouter } from "next/router";
+import MypageNavAside from ".src/components/mypage/mypageNavAside";
 import { D_mypagePointCategoryList } from ".src/data/mypage/D_mypage";
 import useGetMyProfile from ".src/hooks/common/useGetProfile";
+import UseMyPoint from ".src/hooks/mypage/useMyPoint";
 
 export default function Point() {
   const router = useRouter();
@@ -40,10 +42,7 @@ export default function Point() {
             </div>
 
             <div className={styles.rightBox}>
-              <button
-                className={styles.chargeBtn}
-                onClick={() => router.push("/charge")}
-              >
+              <button className={styles.chargeBtn} onClick={() => router.push("/charge")}>
                 충전하기
               </button>
             </div>

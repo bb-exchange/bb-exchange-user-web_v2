@@ -1,6 +1,8 @@
-import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Image from "../../../components/Image";
+
 import { useEffect } from "react";
+
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const isBibeopClient = ctx.req.headers["bibeop-client"];

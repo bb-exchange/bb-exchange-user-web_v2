@@ -1,4 +1,4 @@
-import { Html, Head, Main, NextScript } from "next/document";
+import { Head, Html, Main, NextScript } from "next/document";
 import Script from "next/script";
 
 const clarityCode = `(function (c, l, a, r, i, t, y) {
@@ -18,18 +18,8 @@ export default function Document() {
   return (
     <Html lang="ko">
       <Head>
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/assets/images/favicon_32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/assets/images/favicon_16x16.png"
-        />
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon_32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon_16x16.png" />
 
         <Script id="ms-clarity" strategy="beforeInteractive">
           {clarityCode}
@@ -38,10 +28,7 @@ export default function Document() {
       <body>
         <Main />
         <NextScript />
-        <Script
-          src="https://cdn.iamport.kr/v1/iamport.js"
-          strategy="beforeInteractive"
-        />
+        <Script src="https://cdn.iamport.kr/v1/iamport.js" strategy="beforeInteractive" />
       </body>
     </Html>
   );

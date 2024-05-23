@@ -1,8 +1,10 @@
+import { useState } from "react";
+
+import { useRouter } from "next/router";
+
 import { fetchArticles } from ".src/api/articles/articles";
 import { D_popularPostList } from ".src/data/posts/D_popular";
 import { useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/router";
-import { useState } from "react";
 
 export default function UsePopular() {
   const router = useRouter();

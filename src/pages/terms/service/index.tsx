@@ -1,6 +1,7 @@
 import { NotionRenderer } from "react-notion-x";
-import { ExtendedRecordMap } from "notion-types";
+
 import notion from ".src/lib/notion";
+import { ExtendedRecordMap } from "notion-types";
 
 const TermsService = ({ recordMap }: { recordMap: ExtendedRecordMap }) => {
   return (

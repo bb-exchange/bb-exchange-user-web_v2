@@ -1,4 +1,5 @@
 import styles from "./textPopup.module.scss";
+
 import IconX from ".assets/icons/X.svg";
 import { POLICY_OF_PERSONAL_INFO } from ".src/data/terms-agreement/D_terms";
 

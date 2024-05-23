@@ -1,15 +1,16 @@
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+
+import { useRouter } from "next/router";
 
 export default function usePostInquiry() {
   const router = useRouter();
 
   const [openCompletePopup, setOpenCompletePopup] = useState<boolean>(
-    router.query.openCompletePopup === "true" || false
+    router.query.openCompletePopup === "true" || false,
   );
   const [openBlockPopup, setOpenBlockPopup] = useState<boolean>(
-    router.query.openBlockPopup === "true" || false
+    router.query.openBlockPopup === "true" || false,
   );
   const {
     register,
@@ -24,10 +25,7 @@ export default function usePostInquiry() {
   });
 
   let disable =
-    errors.content ||
-    errors.title ||
-    !watch("title") ||
-    watch("content").length < 10
+    errors.content || errors.title || !watch("title") || watch("content").length < 10
       ? true
       : false;
 

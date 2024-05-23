@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+
 import NextImage, { ImageLoaderProps, ImageProps } from "next/image";
 
 const Image = ({
@@ -10,18 +11,14 @@ const Image = ({
 }: Omit<ImageProps, "loader"> & { loader?: boolean }) => {
   const [error, setError] = useState<boolean>(false);
 
-  const imgPath = useMemo(
-    () => (error ? "/assets/images/error_image.svg" : src),
-    [error, src]
-  );
+  const imgPath = useMemo(() => (error ? "/assets/images/error_image.svg" : src), [error, src]);
 
   const imgLoader = useMemo(
     () =>
       loader && !error
-        ? ({ src, width, quality }: ImageLoaderProps) =>
-            `${src}?w=${width}&q=${quality || 75}`
+        ? ({ src, width, quality }: ImageLoaderProps) => `${src}?w=${width}&q=${quality || 75}`
         : undefined,
-    [error, loader]
+    [error, loader],
   );
 
   return (

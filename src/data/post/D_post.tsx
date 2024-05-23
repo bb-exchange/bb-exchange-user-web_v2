@@ -1,4 +1,4 @@
-import { hourToSec } from ".src/util/dateTime";
+import { hourToSec } from ".src/utils/dateTime";
 
 export const D_otherPostList: any[] = [
   {
@@ -48,8 +48,8 @@ export const D_replyList: Ireply[] = [
     tier: "gold",
     text: (
       <p>
-        감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다!
-        감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다!
+        감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다! 감사합니다! 이
+        질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다!
       </p>
     ),
     likeCount: 9999,
@@ -59,8 +59,8 @@ export const D_replyList: Ireply[] = [
     nickname: "wooAng",
     text: (
       <span>
-        감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다!
-        감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다!
+        감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다! 감사합니다! 이
+        질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다!
       </span>
     ),
     likeCount: 9999,
@@ -73,9 +73,8 @@ export const D_replyList: Ireply[] = [
         text: (
           <span>
             <strong>@wooAng</strong>
-            감사합니다! 이 질문이 나와서 면접에서 자신감 있게
-            대답했어요!감사합니다! 감사합니다! 이 질문이 나와서 면접에서 자신감
-            있게 대답했어요!감사합니다!
+            감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다! 감사합니다! 이
+            질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다!
           </span>
         ),
         likeCount: 9999,
@@ -88,8 +87,8 @@ export const D_replyList: Ireply[] = [
     nickname: "wooAng",
     text: (
       <span>
-        감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다!
-        감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다!
+        감사합니다! 이 질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다! 감사합니다! 이
+        질문이 나와서 면접에서 자신감 있게 대답했어요!감사합니다!
       </span>
     ),
     likeCount: 9999,

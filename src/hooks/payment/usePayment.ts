@@ -1,4 +1,4 @@
-import { ConfirmPaymentsRequest, confirmPayments } from ".src/api/point";
+import { confirmPayments, ConfirmPaymentsRequest } from ".src/api/point";
 import { profileState, userNameState } from ".src/recoil";
 import { RequestPayParams, RequestPayResponse } from ".src/types/imp";
 import { useMutation } from "@tanstack/react-query";
@@ -14,7 +14,7 @@ export default function usePayment() {
   const requestPayment = (
     paymentTxId: string,
     amount: number,
-    callback: (response: RequestPayResponse) => void
+    callback: (response: RequestPayResponse) => void,
   ) => {
     if (!window.IMP) return;
     /* 1. 가맹점 식별(초기화) */

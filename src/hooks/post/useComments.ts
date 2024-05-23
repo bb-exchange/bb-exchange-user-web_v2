@@ -1,19 +1,19 @@
 import {
+  Comments,
+  commentsByArticleId,
+  CommentSortByType,
+  createComment,
+  deleteComment,
+  updateComment,
+  updateLikeComment,
+} from ".src/api/comments";
+import {
   InfiniteData,
   keepPreviousData,
   useInfiniteQuery,
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
-import {
-  CommentSortByType,
-  Comments,
-  commentsByArticleId,
-  createComment,
-  deleteComment,
-  updateComment,
-  updateLikeComment,
-} from ".src/api/comments";
 
 export const useComments = ({
   articleId,
@@ -41,8 +41,7 @@ export const useComments = ({
         page: pageParam,
         sortBy: commentSortBy,
       }),
-    getNextPageParam: ({ hasNext, pageNumber }) =>
-      hasNext ? pageNumber + 1 : null,
+    getNextPageParam: ({ hasNext, pageNumber }) => (hasNext ? pageNumber + 1 : null),
     placeholderData: keepPreviousData,
   });
 
@@ -67,12 +66,12 @@ export const useComments = ({
                       ...content,
                       content: props.content,
                     }
-                  : content
+                  : content,
               ),
             }));
           }
           return data;
-        }
+        },
       ),
   });
 
@@ -93,12 +92,12 @@ export const useComments = ({
                       content: "삭제된 댓글입니다.",
                       isDeleted: true,
                     }
-                  : content
+                  : content,
               ),
             }));
           }
           return data;
-        }
+        },
       ),
   });
 
@@ -117,16 +116,14 @@ export const useComments = ({
                   ? {
                       ...content,
                       isLike,
-                      likeCounts: isLike
-                        ? (content.likeCounts += 1)
-                        : (content.likeCounts -= 1),
+                      likeCounts: isLike ? (content.likeCounts += 1) : (content.likeCounts -= 1),
                     }
-                  : content
+                  : content,
               ),
             }));
           }
           return data;
-        }
+        },
       ),
   });
 

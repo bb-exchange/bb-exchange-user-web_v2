@@ -1,9 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
-import { useRecoilValue } from "recoil";
-
 import { getProfile } from ".src/api/users/users";
 import { currentUserInfo } from ".src/api/users/users";
 import { isLoginState } from ".src/recoil";
+import { useQuery } from "@tanstack/react-query";
+import { useRecoilValue } from "recoil";
 
 interface profile {
   userId: number;

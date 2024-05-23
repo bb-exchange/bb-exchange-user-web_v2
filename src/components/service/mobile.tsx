@@ -1,9 +1,9 @@
-import Image from "next/image";
-import { useRouter } from "next/router";
-
-import section1 from "../../../public/assets/images/serviceIntroduction/section1.png";
+import mBanner from "../../../public/assets/images/serviceIntroduction/m-banner.png";
+import mLogoText from "../../../public/assets/images/serviceIntroduction/m-logo-text.png";
+import mLogo from "../../../public/assets/images/serviceIntroduction/m-logo.png";
 import mSection2 from "../../../public/assets/images/serviceIntroduction/m-section2.png";
 import mSection3 from "../../../public/assets/images/serviceIntroduction/m-section3-1.png";
+import section1 from "../../../public/assets/images/serviceIntroduction/section1.png";
 import section32 from "../../../public/assets/images/serviceIntroduction/section3-2.png";
 import section4 from "../../../public/assets/images/serviceIntroduction/section4-1.png";
 import section42 from "../../../public/assets/images/serviceIntroduction/section4-2.png";
@@ -11,24 +11,20 @@ import section43 from "../../../public/assets/images/serviceIntroduction/section
 import section44 from "../../../public/assets/images/serviceIntroduction/section4-4.png";
 import section45 from "../../../public/assets/images/serviceIntroduction/section4-5.png";
 import section5 from "../../../public/assets/images/serviceIntroduction/section5.png";
-import mBanner from "../../../public/assets/images/serviceIntroduction/m-banner.png";
-import mLogo from "../../../public/assets/images/serviceIntroduction/m-logo.png";
-import mLogoText from "../../../public/assets/images/serviceIntroduction/m-logo-text.png";
+import MobileHeader from "../common/header/mobileHeader";
 
 import styles from "./mobile.module.scss";
-import MobileHeader from "../common/header/mobileHeader";
-import classNames from "classnames";
-import ConfirmTitlePopup from ".src/components/common/popup/confirmTitlePopup";
-import PopupBg from ".src/components/common/popupBg";
+
 import { useState } from "react";
 
-const DesktopPage = ({
-  isClient,
-  isAndroid,
-}: {
-  isClient: boolean;
-  isAndroid: boolean;
-}) => {
+import Image from "next/image";
+import { useRouter } from "next/router";
+
+import ConfirmTitlePopup from ".src/components/common/popup/confirmTitlePopup";
+import PopupBg from ".src/components/common/popupBg";
+import classNames from "classnames";
+
+const DesktopPage = ({ isClient, isAndroid }: { isClient: boolean; isAndroid: boolean }) => {
   const router = useRouter();
 
   const [preparePopup, setPreparePopup] = useState<boolean>(false);
@@ -73,10 +69,7 @@ const DesktopPage = ({
           <Image src={mLogoText} alt="" className={styles.logoText} />
           <Image src={section1} alt="" />
 
-          <button
-            className={`${styles.btn} ${styles.section1Btn}`}
-            onClick={onClickMoveToHome}
-          >
+          <button className={`${styles.btn} ${styles.section1Btn}`} onClick={onClickMoveToHome}>
             {isClient ? "수익 창출하러 가기" : "APP 다운받기"}
           </button>
         </section>
@@ -116,12 +109,7 @@ const DesktopPage = ({
               좋아요가 더 쌓일수록
               <br />더 두둑해지는 내 지갑!
             </p>
-            <Image
-              className={styles.section3Img2}
-              src={section32}
-              alt=""
-              width={422}
-            />
+            <Image className={styles.section3Img2} src={section32} alt="" width={422} />
             <p className={styles.infoText}>
               글을 읽은 사용자들에게
               <br /> 더 많은 좋아요를 받을수록
@@ -213,17 +201,11 @@ const DesktopPage = ({
             지금 바로 자산으로 바꿔보세요!
           </h4>
           {!isClient ? (
-            <button
-              onClick={onClickAppLink}
-              className={`${styles.btn} ${styles.section6Btn}`}
-            >
+            <button onClick={onClickAppLink} className={`${styles.btn} ${styles.section6Btn}`}>
               수익 창출하러 가기
             </button>
           ) : (
-            <button
-              className={`${styles.btn} ${styles.section6Btn}`}
-              onClick={onClickMoveToHome}
-            >
+            <button className={`${styles.btn} ${styles.section6Btn}`} onClick={onClickMoveToHome}>
               수익 창출하러 가기
             </button>
           )}

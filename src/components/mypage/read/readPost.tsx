@@ -1,9 +1,10 @@
 import styles from "./readPost.module.scss";
-import moment from "moment";
-import "moment/locale/ko";
+
 import HeartGrey from ".assets/icons/HeartGrey.svg";
 import HeartRedO from ".assets/icons/HeartRedO.svg";
 import UseMyPageRead from ".src/hooks/mypage/useMypageRead";
+import moment from "moment";
+import "moment/locale/ko";
 
 interface Iprops {
   data: any;
@@ -26,9 +27,7 @@ export default function ReadPost({ data, index, useMypageRead }: Iprops) {
               <p className={styles.title}>{data.articleInfo.title}</p>
 
               <p className={styles.replyCount}>{`[${
-                (data.articleInfo.commentNum || 0) > 99
-                  ? `+99`
-                  : data.articleInfo.commentNum || 0
+                (data.articleInfo.commentNum || 0) > 99 ? `+99` : data.articleInfo.commentNum || 0
               }]`}</p>
             </div>
 
@@ -44,9 +43,7 @@ export default function ReadPost({ data, index, useMypageRead }: Iprops) {
               )}
               <p className={styles.category}>{data.boardInfo.description}</p>・
               <p className={styles.creator}>{data.userInfo.nickname}</p>・
-              <p className={styles.createdAt}>
-                {moment(data.articleInfo.createdAt).fromNow()}
-              </p>
+              <p className={styles.createdAt}>{moment(data.articleInfo.createdAt).fromNow()}</p>
             </div>
           </div>
 
@@ -60,28 +57,20 @@ export default function ReadPost({ data, index, useMypageRead }: Iprops) {
 
             <li>
               <p className={styles.value}>
-                {`(${Intl.NumberFormat().format(
-                  data.priceInfo.priceDifference || 0
-                )}P 절약)`}
+                {`(${Intl.NumberFormat().format(data.priceInfo.priceDifference || 0)}P 절약)`}
               </p>
             </li>
           </ul>
         </div>
 
         <div className={styles.thumbnailImgBox}>
-          {data.articleInfo.thumbnail ? (
-            <img src={data.articleInfo.thumbnail} alt="" />
-          ) : null}
+          {data.articleInfo.thumbnail ? <img src={data.articleInfo.thumbnail} alt="" /> : null}
         </div>
       </div>
 
       <div className={styles.rightCont}>
         {data.priceInfo.price ? (
-          <div
-            className={`${styles.priceBox} ${getDiffStyle(
-              data.priceInfo.changeRate || 0
-            )}`}
-          >
+          <div className={`${styles.priceBox} ${getDiffStyle(data.priceInfo.changeRate || 0)}`}>
             <div className={styles.diffBox}>
               <p>
                 {`${(data.priceInfo.changeRate || 0) > 0 ? "+" : ""}${
@@ -91,7 +80,7 @@ export default function ReadPost({ data, index, useMypageRead }: Iprops) {
             </div>
 
             <h1 className={styles.price}>{`${new Intl.NumberFormat().format(
-              data.priceInfo.price || 0
+              data.priceInfo.price || 0,
             )} P`}</h1>
           </div>
         ) : (
@@ -104,10 +93,7 @@ export default function ReadPost({ data, index, useMypageRead }: Iprops) {
           </div>
         )}
 
-        <button
-          className={styles.likeBtn}
-          onClick={() => useMypageRead.onClickLikeBtn(index)}
-        >
+        <button className={styles.likeBtn} onClick={() => useMypageRead.onClickLikeBtn(index)}>
           {data.articleInfo.interest ? <HeartRedO /> : <HeartGrey />}
         </button>
       </div>

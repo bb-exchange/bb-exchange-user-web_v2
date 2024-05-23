@@ -29,7 +29,7 @@ interface IpostData {
     {
       tagId: number;
       tagName: string;
-    }
+    },
   ];
 }
 

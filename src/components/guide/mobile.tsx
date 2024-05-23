@@ -1,22 +1,19 @@
-import Link from "next/link";
-import classNames from "classnames";
+import event_banner from "../../../public/assets/images/event_banner_mobile.png";
+import MobileHeader from "../common/header/mobileHeader";
+import PopupBg from "../common/popupBg";
+import Image from "../Image";
 
 import styles from "./mobile.module.scss";
-import Image from "../Image";
-import ConfirmTitlePopup from ".src/components/common/popup/confirmTitlePopup";
-import MobileHeader from "../common/header/mobileHeader";
-import { useState } from "react";
-import PopupBg from "../common/popupBg";
-import { useRouter } from "next/router";
-import event_banner from "../../../public/assets/images/event_banner_mobile.png";
 
-const MobilePage = ({
-  isClient,
-  isAndroid,
-}: {
-  isClient: boolean;
-  isAndroid: boolean;
-}) => {
+import { useState } from "react";
+
+import Link from "next/link";
+import { useRouter } from "next/router";
+
+import ConfirmTitlePopup from ".src/components/common/popup/confirmTitlePopup";
+import classNames from "classnames";
+
+const MobilePage = ({ isClient, isAndroid }: { isClient: boolean; isAndroid: boolean }) => {
   const { push } = useRouter();
 
   const getImgPath = (name: string) => `/assets/images/${name}_mobile.png`;
@@ -88,13 +85,10 @@ const MobilePage = ({
             <div className={styles.descArea}>
               <div className={styles.desc}>
                 <p>
-                  비법거래소에는 총 13개의 카테고리가 있어요. 카테고리를 보고
-                  주제를 떠올려보는 것도 좋아요.
+                  비법거래소에는 총 13개의 카테고리가 있어요. 카테고리를 보고 주제를 떠올려보는 것도
+                  좋아요.
                 </p>
-                <p>
-                  카테고리는 트렌드나 글의 수요에 따라 유동적으로 운영될 수
-                  있어요!
-                </p>
+                <p>카테고리는 트렌드나 글의 수요에 따라 유동적으로 운영될 수 있어요!</p>
               </div>
 
               <Image
@@ -118,12 +112,10 @@ const MobilePage = ({
             <div className={classNames(styles.content, styles.sub)}>
               <div className={styles.descArea}>
                 <div className={styles.desc}>
+                  <p>매력적인 제목은 곧 글이 팔리는 가격 형성에 영향을 미쳐요.</p>
                   <p>
-                    매력적인 제목은 곧 글이 팔리는 가격 형성에 영향을 미쳐요.
-                  </p>
-                  <p>
-                    최대 40자 이내로 글의 내용을 잘 이해할 수 있는 키워드를
-                    포함해 제목을 작성해보세요.
+                    최대 40자 이내로 글의 내용을 잘 이해할 수 있는 키워드를 포함해 제목을
+                    작성해보세요.
                   </p>
                 </div>
 
@@ -141,12 +133,11 @@ const MobilePage = ({
               <div className={styles.descArea}>
                 <div className={styles.desc}>
                   <p>
-                    비법거래소 팀에서 사업 계획을 하며 사전 리서치를 했던 자료
-                    중, 상위 랭크된 글들의 제목을 공유드릴게요!
+                    비법거래소 팀에서 사업 계획을 하며 사전 리서치를 했던 자료 중, 상위 랭크된
+                    글들의 제목을 공유드릴게요!
                   </p>
                   <p>
-                    (이 글들이 꼭 정답은 아니니, 참고하여 나만의 경험이 담긴
-                    글을 구성해보세요.)
+                    (이 글들이 꼭 정답은 아니니, 참고하여 나만의 경험이 담긴 글을 구성해보세요.)
                   </p>
                 </div>
 
@@ -194,14 +185,8 @@ const MobilePage = ({
 
             <div className={styles.descArea}>
               <div className={styles.desc}>
-                <p>
-                  초안이라도 좋아요. 미리 저장해두고 조금씩 보완해서 올리면
-                  돼요.
-                </p>
-                <p>
-                  누구나 처음부터 좋은 글을 쓰기 어려워 하니, 고민보다 일단
-                  시작부터!
-                </p>
+                <p>초안이라도 좋아요. 미리 저장해두고 조금씩 보완해서 올리면 돼요.</p>
+                <p>누구나 처음부터 좋은 글을 쓰기 어려워 하니, 고민보다 일단 시작부터!</p>
               </div>
 
               <div className={styles.imageWrapper}>
@@ -231,17 +216,12 @@ const MobilePage = ({
           <article className={styles.content}>
             <h2 className={styles.titleArea}>
               <span className={styles.title}>Q.</span>
-              <span className={styles.title}>
-                비법글을 쓰면 어떻게 부수익이 창출되나요?
-              </span>
+              <span className={styles.title}>비법글을 쓰면 어떻게 부수익이 창출되나요?</span>
             </h2>
 
             <div className={styles.descArea}>
               <div className={styles.desc}>
-                <p>
-                  내 글이 좋아요 100개를 받으면, 상장이 됨과 동시에 부수익을
-                  얻을 수 있어요.
-                </p>
+                <p>내 글이 좋아요 100개를 받으면, 상장이 됨과 동시에 부수익을 얻을 수 있어요.</p>
                 <p>좋은 글을 써서 좋은 평가를 받을수록 수익은 배가 돼요.</p>
               </div>
 
@@ -306,8 +286,7 @@ const MobilePage = ({
                 priority
               />
               <span style={{ fontWeight: 500, color: "#555" }}>
-                <span style={{ fontWeight: 700 }}>비법거래소</span>를 앱으로
-                편리하게 이용하세요!
+                <span style={{ fontWeight: 700 }}>비법거래소</span>를 앱으로 편리하게 이용하세요!
               </span>
             </div>
             <button onClick={onClickMoveToApp}>앱으로 이용하기</button>

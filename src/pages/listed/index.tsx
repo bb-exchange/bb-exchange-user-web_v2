@@ -1,30 +1,25 @@
+import styles from "./listed.module.scss";
+
 import { useState } from "react";
+
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useRouter } from "next/router";
-import {
-  DehydratedState,
-  HydrationBoundary,
-  QueryClient,
-  dehydrate,
-} from "@tanstack/react-query";
-import { useRecoilValue } from "recoil";
-import moment from "moment";
-import "moment/locale/ko";
 
+import HeartGrey from ".assets/icons/HeartGrey.svg";
+import HeartRedO from ".assets/icons/HeartRedO.svg";
+import { articles } from ".src/api/articles/articles";
+import PageNav from ".src/components/common/pageNav";
+import ConfirmPopup from ".src/components/common/popup/confirmPopup";
+import PopupBg from ".src/components/common/popupBg";
+import ScrollTopBtn from ".src/components/common/scrollTopBtn";
+import Image from ".src/components/Image";
+import { useArticles } from ".src/hooks/posts/useArticles";
 // import useListed from ".src/hooks/posts/useListed";
 import { categoryState, isLoginState } from ".src/recoil";
-import { articles } from ".src/api/articles/articles";
-import { useArticles } from ".src/hooks/posts/useArticles";
-
-import PageNav from ".src/components/common/pageNav";
-import ScrollTopBtn from ".src/components/common/scrollTopBtn";
-import PopupBg from ".src/components/common/popupBg";
-import ConfirmPopup from ".src/components/common/popup/confirmPopup";
-import Image from ".src/components/Image";
-
-import HeartRedO from ".assets/icons/HeartRedO.svg";
-import HeartGrey from ".assets/icons/HeartGrey.svg";
-import styles from "./listed.module.scss";
+import { dehydrate, DehydratedState, HydrationBoundary, QueryClient } from "@tanstack/react-query";
+import moment from "moment";
+import "moment/locale/ko";
+import { useRecoilValue } from "recoil";
 
 export const getServerSideProps: GetServerSideProps<{
   dehydratedState: DehydratedState;
@@ -83,17 +78,9 @@ export default function Listed({
   }
 
   // NOTE 찜하기 버튼 클릭
-  const onClickFavBtn = ({
-    articleId,
-    interest,
-  }: {
-    articleId: number;
-    interest: boolean;
-  }) => {
+  const onClickFavBtn = ({ articleId, interest }: { articleId: number; interest: boolean }) => {
     if (isLogin) {
-      const index = contents.findIndex(
-        (content) => content.articleInfo.articleId === articleId
-      );
+      const index = contents.findIndex((content) => content.articleInfo.articleId === articleId);
       mutateArticle({ index, articleId, bookmarking: !interest });
     } else {
       setRequestLoginPop(true);
@@ -102,20 +89,11 @@ export default function Listed({
 
   // NOTE 페이지 변경 함수
   const onChangePage = (pageIndex: number) =>
-    pageIndex === 0
-      ? router.push(router.pathname)
-      : router.push({ query: { page: pageIndex } });
+    pageIndex === 0 ? router.push(router.pathname) : router.push({ query: { page: pageIndex } });
 
   // FIXME BB-337에서 컴포넌트로 분리함 full받고 적용할 것
-  const imageLoader = ({
-    src,
-    width,
-    quality,
-  }: {
-    src: string;
-    width: number;
-    quality?: number;
-  }) => `${src}?w=${width}&q=${quality || 75}`;
+  const imageLoader = ({ src, width, quality }: { src: string; width: number; quality?: number }) =>
+    `${src}?w=${width}&q=${quality || 75}`;
 
   return (
     <HydrationBoundary state={dehydratedState}>
@@ -148,16 +126,9 @@ export default function Listed({
                   changeRate,
                 },
               }) => (
-                <li
-                  key={articleId}
-                  onClick={() => router.push(`/post/${articleId}`)}
-                >
+                <li key={articleId} onClick={() => router.push(`/post/${articleId}`)}>
                   <div className={styles.leftArea}>
-                    <div
-                      className={`${styles.infoCont} ${
-                        read ? styles.read : ""
-                      }`}
-                    >
+                    <div className={`${styles.infoCont} ${read ? styles.read : ""}`}>
                       <div className={styles.titleBar}>
                         <h2 className={`${styles.title}`}>{title}</h2>
                         <p className={styles.replyCount}>{`[${
@@ -186,11 +157,7 @@ export default function Listed({
                       </div>
                     </div>
 
-                    <div
-                      className={`${styles.thumbnailImgBox} ${
-                        read ? styles.read : ""
-                      }`}
-                    >
+                    <div className={`${styles.thumbnailImgBox} ${read ? styles.read : ""}`}>
                       {thumbnail && (
                         <Image
                           src={thumbnail}
@@ -209,7 +176,7 @@ export default function Listed({
                     {price ? (
                       <div
                         className={`${styles.priceCont} ${getDiffStyle(
-                          changeRate || 0
+                          changeRate || 0,
                         )} ${read ? styles.read : ""}`}
                       >
                         <div className={styles.diffBox}>
@@ -220,18 +187,12 @@ export default function Listed({
                           </p>
                         </div>
 
-                        <h1
-                          className={styles.price}
-                        >{`${new Intl.NumberFormat().format(
-                          price || 0
+                        <h1 className={styles.price}>{`${new Intl.NumberFormat().format(
+                          price || 0,
                         )} P`}</h1>
                       </div>
                     ) : (
-                      <div
-                        className={`${styles.notListedCont} ${
-                          read ? styles.read : ""
-                        }`}
-                      >
+                      <div className={`${styles.notListedCont} ${read ? styles.read : ""}`}>
                         <div className={styles.likeCountBox}>
                           <p>{`좋아요 ${likeNum || 0}개`}</p>
                         </div>
@@ -251,15 +212,11 @@ export default function Listed({
                     </button>
                   </article>
                 </li>
-              )
+              ),
             )}
           </ul>
 
-          <PageNav
-            totalPages={totalPages}
-            currentPage={pageNumber}
-            onChangePage={onChangePage}
-          />
+          <PageNav totalPages={totalPages} currentPage={pageNumber} onChangePage={onChangePage} />
         </section>
       </main>
 

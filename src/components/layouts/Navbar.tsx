@@ -1,8 +1,10 @@
-import { useRouter } from "next/router";
-import styles from "./styles/Navbar.module.scss";
-import Link from "next/link";
-import OutlinedBtn from "../Buttons/OutlinedBtn";
 import HomeLink from "../../../public/assets/logos/LogoBlue.svg";
+import OutlinedBtn from "../Buttons/OutlinedBtn";
+
+import styles from "./styles/Navbar.module.scss";
+
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 const Navbar = () => {
   const { pathname } = useRouter();

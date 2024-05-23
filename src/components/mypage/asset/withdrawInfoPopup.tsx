@@ -1,9 +1,10 @@
 import styles from "./withdrawInfoPopup.module.scss";
-import X from ".assets/icons/X.svg";
+
 import ChevronDn from ".assets/icons/ChevronDn.svg";
-import useWithdrawInfoPopup from ".src/hooks/mypage/asset/useWithdrawInfoPopup";
+import X from ".assets/icons/X.svg";
 import ImgErrorMsgPopup from ".src/components/common/popup/imgErrorMsgPopup";
 import PopupBg from ".src/components/common/popupBg";
+import useWithdrawInfoPopup from ".src/hooks/mypage/asset/useWithdrawInfoPopup";
 
 interface Iprops {
   off: React.MouseEventHandler<HTMLButtonElement>;
@@ -57,9 +58,7 @@ export default function WithdrawPopup({ off }: Iprops) {
 
               <div className={styles.valueBox}>
                 <button className={styles.selBox}>
-                  <p className={styles.value}>
-                    {/* {useWithdrawPopup.watch("bank")} */}
-                  </p>
+                  <p className={styles.value}>{/* {useWithdrawPopup.watch("bank")} */}</p>
 
                   <ChevronDn />
                 </button>
@@ -71,9 +70,7 @@ export default function WithdrawPopup({ off }: Iprops) {
 
               <div className={styles.valueBox}>
                 <div className={styles.inputBox}>
-                  <p className={styles.value}>
-                    {/* {useWithdrawPopup.getAccountNumber()} */}
-                  </p>
+                  <p className={styles.value}>{/* {useWithdrawPopup.getAccountNumber()} */}</p>
                 </div>
               </div>
             </li>

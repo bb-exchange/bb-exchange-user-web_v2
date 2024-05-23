@@ -1,30 +1,29 @@
-import ToggleSwitch from ".src/components/common/toggle/toggleSwitch";
 import styles from "./setting.module.scss";
+
 import { useState } from "react";
+
+import { useRouter } from "next/router";
+
+import { withdrawal } from ".src/api/users/users";
 import ConfirmPopup from ".src/components/common/popup/confirmPopup";
 import ConfirmTitlePopup from ".src/components/common/popup/confirmTitlePopup";
-import PopupBg from ".src/components/common/popupBg";
-import { useSignOut } from ".src/hooks/common/useSignOut";
-import { useRouter } from "next/router";
-import { withdrawal } from ".src/api/users/users";
 import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
+import PopupBg from ".src/components/common/popupBg";
+import ToggleSwitch from ".src/components/common/toggle/toggleSwitch";
+import { useSignOut } from ".src/hooks/common/useSignOut";
 
 export default function Setting() {
   const router = useRouter();
   const [logOut] = useSignOut();
   const [alertChecked, setAlertChecked] = useState(true);
   const [marketingChecked, setMarketingChecked] = useState(true);
-  const [alertPopup, setAlertPopup] = useState(
-    router.query.alertPopup === "true" || false
-  );
+  const [alertPopup, setAlertPopup] = useState(router.query.alertPopup === "true" || false);
   const [marketingPopup, setMarketingPopup] = useState(
-    router.query.marketingPopup === "true" || false
+    router.query.marketingPopup === "true" || false,
   );
-  const [logOutPopup, setLogOutPopup] = useState(
-    router.query.logOutPopup === "true" || false
-  );
+  const [logOutPopup, setLogOutPopup] = useState(router.query.logOutPopup === "true" || false);
   const [withdrawPopup, setWithdrawPopup] = useState(
-    router.query.withdrawPopup === "true" || false
+    router.query.withdrawPopup === "true" || false,
   );
   const [inactiveFn, setInactiveFn] = useState(false);
 
@@ -42,10 +41,7 @@ export default function Setting() {
           <div className={styles.box}>
             <h3>알림</h3>
             <ul>
-              <li
-                onClick={() => openInactivePopup()}
-                className={styles.boxAlert}
-              >
+              <li onClick={() => openInactivePopup()} className={styles.boxAlert}>
                 <div>
                   <span>활동알림</span>
                   <span className={styles.smallText}>상장, 댓글 등 알림</span>
@@ -56,15 +52,10 @@ export default function Setting() {
                   setIsChecked={setAlertChecked}
                 />
               </li>
-              <li
-                onClick={() => openInactivePopup()}
-                className={styles.boxAlert}
-              >
+              <li onClick={() => openInactivePopup()} className={styles.boxAlert}>
                 <div>
                   <span>마케팅 알림</span>
-                  <span className={styles.smallText}>
-                    마케팅 정보 수신 동의 2023-12-21
-                  </span>
+                  <span className={styles.smallText}>마케팅 정보 수신 동의 2023-12-21</span>
                 </div>
                 <ToggleSwitch
                   setPopup={setMarketingPopup}
@@ -79,9 +70,7 @@ export default function Setting() {
             <ul>
               <li
                 onClick={() => {
-                  window.open(
-                    "https://bbexchange.notion.site/de262be556504eafad04f699c006f5e4"
-                  );
+                  window.open("https://bbexchange.notion.site/de262be556504eafad04f699c006f5e4");
                   // router.push("/board/notice")
                 }}
               >
@@ -89,9 +78,7 @@ export default function Setting() {
               </li>
               <li
                 onClick={() => {
-                  window.open(
-                    "https://bbexchange.notion.site/af49e261ae3a465a81097d9ad1715fb0"
-                  );
+                  window.open("https://bbexchange.notion.site/af49e261ae3a465a81097d9ad1715fb0");
                   // router.push("/board/faq")
                 }}
               >
@@ -131,12 +118,8 @@ export default function Setting() {
           <div className={styles.box}>
             <h3>약관 및 정책</h3>
             <ul>
-              <li onClick={() => window.open("/terms/service")}>
-                서비스 이용약관
-              </li>
-              <li onClick={() => window.open("/terms/privacy")}>
-                개인정보 처리방침
-              </li>
+              <li onClick={() => window.open("/terms/service")}>서비스 이용약관</li>
+              <li onClick={() => window.open("/terms/privacy")}>개인정보 처리방침</li>
             </ul>
           </div>
           <div className={styles.box}>

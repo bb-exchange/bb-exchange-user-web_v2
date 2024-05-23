@@ -1,8 +1,9 @@
 import styles from "./contentIncome.module.scss";
-import moment from "moment";
+
+import Swap from ".assets/icons/Swap.svg";
 import PageNav from ".src/components/common/pageNav";
 import UseMyContentIncome from ".src/hooks/mypage/asset/useMyContentIncome";
-import Swap from ".assets/icons/Swap.svg";
+import moment from "moment";
 
 export default function ContentIncome() {
   const useMyContentIncome = UseMyContentIncome();
@@ -48,15 +49,11 @@ export default function ContentIncome() {
 
               <div className={styles.infoBar}>
                 <p className={styles.category}>{v.category}</p>・
-                <p className={styles.createdAt}>
-                  {moment(v.createdAt).fromNow()}
-                </p>
+                <p className={styles.createdAt}>{moment(v.createdAt).fromNow()}</p>
               </div>
             </div>
 
-            <p className={styles.amount}>
-              {Intl.NumberFormat().format(v.amount)} 원
-            </p>
+            <p className={styles.amount}>{Intl.NumberFormat().format(v.amount)} 원</p>
           </li>
         ))}
       </ul>

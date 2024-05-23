@@ -1,20 +1,12 @@
+import Lastest from "./latest";
+
 import { useEffect, useState } from "react";
-import {
-  GetServerSideProps,
-  GetServerSidePropsContext,
-  InferGetServerSidePropsType,
-} from "next";
+
+import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
-import {
-  DehydratedState,
-  HydrationBoundary,
-  QueryClient,
-  dehydrate,
-} from "@tanstack/react-query";
 
 import { articles } from ".src/api/articles/articles";
-
-import Lastest from "./latest";
+import { dehydrate, DehydratedState, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 
 export const getServerSideProps: GetServerSideProps<{
   dehydratedState: DehydratedState;
@@ -63,10 +55,7 @@ export default function Home({
       <Head>
         <meta property="og:title" content="비법거래소" />
         <meta property="og:url" content={currentUrl} />
-        <meta
-          property="og:image"
-          content="/assets/images/og_image_service_kakao.png"
-        />
+        <meta property="og:image" content="/assets/images/og_image_service_kakao.png" />
         <meta property="og:description" content="제2의 월급, 비법거래소에서" />
 
         <meta name="twitter:card" content="summary" />
@@ -74,10 +63,7 @@ export default function Home({
         <meta property="twitter:url" content={currentUrl} />
         <meta name="twitter:title" content="비법거래소" />
         <meta name="twitter:description" content="제2의 월급, 비법거래소에서" />
-        <meta
-          name="twitter:image"
-          content="/assets/images/og_image_service_x.png"
-        />
+        <meta name="twitter:image" content="/assets/images/og_image_service_x.png" />
       </Head>
 
       <Lastest />

@@ -6,11 +6,7 @@ interface Iprops {
   categoryList: string[];
 }
 
-export default function SelCategoryPopup({
-  off,
-  setValue,
-  categoryList,
-}: Iprops) {
+export default function SelCategoryPopup({ off, setValue, categoryList }: Iprops) {
   function handleClickCategory(v: string) {
     setValue(v);
     off();
