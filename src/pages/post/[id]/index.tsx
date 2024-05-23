@@ -28,15 +28,15 @@ import { PostData } from ".src/api/interface";
 import { ArticleData } from ".src/api/interface/articles";
 import { deletePost, postById, updateDislikePost, updateLikePost } from ".src/api/post/post";
 import { currentUserInfo, hideAuthorsPosts } from ".src/api/users/users";
-import Image from ".src/components/Image";
 import CommonFooter from ".src/components/common/commonFooter";
 import CommonHeader from ".src/components/common/header/commonHeader";
 import ConfirmPopup from ".src/components/common/popup/confirmPopup";
 import ConfirmTitlePopup from ".src/components/common/popup/confirmTitlePopup";
 import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
 import PopupBg from ".src/components/common/popupBg";
-import PostDeleteConfirmPopup from ".src/components/post/PostDeleteConfirmPopup";
+import Image from ".src/components/Image";
 import CompPayPopup from ".src/components/post/compPayPopup";
+import PostDeleteConfirmPopup from ".src/components/post/PostDeleteConfirmPopup";
 import PostEditConfirmPopup from ".src/components/post/postEditConfirmPopup";
 import PostImgPopup from ".src/components/post/postImgPopup";
 import PostMorePopup from ".src/components/post/postMorePopup";
@@ -52,6 +52,9 @@ import { isLoginState } from ".src/recoil";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { EditorContent } from "@tiptap/react";
 import classNames from "classnames";
+import { deleteCookie } from "cookies-next";
+import moment from "moment";
+import { useRecoilValue } from "recoil";
 
 export const getServerSideProps: GetServerSideProps<{
   postData: PostData | undefined;
@@ -78,6 +81,18 @@ export const getServerSideProps: GetServerSideProps<{
       },
     };
   } catch (e) {
+    deleteCookie("accessToken", {
+      path: "/",
+      domain: context.req.headers.host,
+    });
+    deleteCookie("refreshToken", {
+      path: "/",
+      domain: context.req.headers.host,
+    });
+
+    basicInstance.defaults.headers.common.Authorization = "";
+    basicInstance.defaults.headers.common.refreshToken = "";
+
     return {
       props: {
         postData: undefined,
