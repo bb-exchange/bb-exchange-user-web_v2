@@ -1,6 +1,6 @@
 import styles from "./Popup.module.scss";
 
-import { PropsWithChildren, useEffect, useState } from "react";
+import { CSSProperties, PropsWithChildren, useEffect, useState } from "react";
 
 import X from ".assets/icons/X.svg";
 
@@ -9,6 +9,7 @@ type PopupProps = {
   showClose?: boolean;
   onClose?: () => void;
   visible?: boolean;
+  style?: CSSProperties;
 };
 
 export default function Popup({
@@ -16,6 +17,7 @@ export default function Popup({
   showClose,
   onClose,
   visible,
+  style,
   children,
 }: PropsWithChildren<PopupProps>) {
   const [isOpen, setIsOpen] = useState(false);
@@ -41,13 +43,17 @@ export default function Popup({
 
   return (
     <div className={styles.overlay}>
-      <div className={styles.popup}>
-        <div className={styles.header}>
-          <h3>{title}</h3>
-          <button onClick={onClose}>
-            <X />
-          </button>
-        </div>
+      <div className={styles.popup} style={style}>
+        {title && (
+          <div className={styles.header}>
+            <h2 className="h2 bold color-primary-bg1">{title}</h2>
+            {(showClose || onClose) && (
+              <button onClick={onClose} className="close">
+                <X />
+              </button>
+            )}
+          </div>
+        )}
         {children}
       </div>
     </div>

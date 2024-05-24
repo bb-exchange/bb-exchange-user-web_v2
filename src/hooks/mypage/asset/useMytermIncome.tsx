@@ -1,14 +1,7 @@
-import { getActual } from ".src/api/mypage/settlement";
-import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
 export default function UseMyTermIncome() {
   const [dateText, setDateText] = useState<Date>(new Date());
-  const [noDrawPopup, setNoDrawPopup] = useState<boolean>(false);
-  const [drawPopup, setDrawPopup] = useState<boolean>(false);
-  const [drawInfoPopup, setDrawInfoPopup] = useState<boolean>(false);
-  // NOTE 임시 상태
-  const [isAccount, setIsAccount] = useState<boolean>(false);
 
   const onNextDate = () => {
     const nextMonth = new Date(dateText);
@@ -25,44 +18,17 @@ export default function UseMyTermIncome() {
   const options: any = { year: "numeric", month: "numeric" };
   const selectedDate = dateText.toLocaleDateString("ko-KR", options).slice(0, -1);
 
-  const { data: actualData } = useQuery({
-    queryKey: ["getActual"],
-    queryFn: () => getActual(),
-  });
-
   // 더미데이타
-
   const revenueList = [
     { date: "2023.10.11", point: 1000 },
     { date: "2023.11.12", point: 2000 },
     // { date: "2023.11.13", point: 12000 },
   ];
-  const totalPoint = actualData?.data.data;
-
-  // NOTE 출금신청 버튼 클릭 시
-  const onClickDraw = () => {
-    if (isAccount) {
-      if (totalPoint < 10000) setNoDrawPopup(true);
-      else setDrawPopup(true);
-    } else {
-      if (totalPoint < 10000) setNoDrawPopup(true);
-      else setDrawInfoPopup(true);
-    }
-  };
 
   return {
     revenueList,
-    totalPoint,
     selectedDate,
     onNextDate,
     onPrevDate,
-    noDrawPopup,
-    setNoDrawPopup,
-    onClickDraw,
-    drawPopup,
-    setDrawPopup,
-    isAccount,
-    drawInfoPopup,
-    setDrawInfoPopup,
   };
 }

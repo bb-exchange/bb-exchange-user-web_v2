@@ -11,8 +11,7 @@
 }
 
 .popup {
-  width: 520px;
-  // height: 580px;
+  width: 100%;
   border-radius: 16px;
   background-color: white;
 
@@ -25,27 +24,21 @@
   display: flex;
   flex-direction: column;
 
-  // TODO: 임시
-  padding: 32px;
-
   .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    h3 {
-      width: 100%;
-      color: #111213;
+    padding: 24px 28px;
+    h2 {
       text-align: center;
-      font-size: 25.518px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: 120%; /* 30.622px */
+      width: 100%;
     }
 
-    svg {
-      min-width: 24px;
-      height: 24px;
+    .close {
+      svg {
+        min-width: 24px;
+        height: 24px;
+      }
     }
   }
 }
