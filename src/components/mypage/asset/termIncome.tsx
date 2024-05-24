@@ -3,7 +3,10 @@ import styles from "./termIncome.module.scss";
 import ArrowIcon from ".assets/icons/ArrowAsset.svg";
 import UseMyTermIncome from ".src/hooks/mypage/asset/useMytermIncome";
 
+import UseMypageAsset from "@hooks/mypage/asset/useMypageAsset";
+
 export default function TermIncome() {
+  const useMypageAsset = UseMypageAsset();
   const prop = UseMyTermIncome();
 
   return (
@@ -32,7 +35,9 @@ export default function TermIncome() {
         <>
           <div className={styles.totalAsset}>
             <h2>2023년 10월 총 수익</h2>
-            <p className={styles.strongText}>{Intl.NumberFormat().format(prop.totalPoint)}원</p>
+            <p className={styles.strongText}>
+              {Intl.NumberFormat().format(useMypageAsset.totalPoint)}원
+            </p>
           </div>
           <ul className={styles.revenueList}>
             {prop.revenueList.map((v, i) => (
