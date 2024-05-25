@@ -11,7 +11,8 @@ const Image = ({
 }: Omit<ImageProps, "loader"> & { loader?: boolean }) => {
   const [error, setError] = useState<boolean>(false);
 
-  const imgPath = useMemo(() => (error ? "/assets/images/error_image.svg" : src), [error, src]);
+  const imgPath = error ? "/assets/images/error_image.svg" : src;
+  // const imgPath = useMemo(() => (error ? "/assets/images/error_image.svg" : src), [error, src]);
 
   const imgLoader = useMemo(
     () =>
