@@ -20,6 +20,7 @@ export default function EditProf() {
     if (myProfile) {
       useEditProf.setValue("nickname", myProfile.nickname);
       useEditProf.setValue("description", myProfile.description);
+      useEditProf.setValue("profImg", myProfile.profileImage);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [myProfile]);
