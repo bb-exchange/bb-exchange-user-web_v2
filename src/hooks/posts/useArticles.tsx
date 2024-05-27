@@ -1,7 +1,7 @@
-import { useMemo } from "react";
+import { useState } from "react";
 
 import { articles, updateArticleBookmark } from ".src/api/articles/articles";
-import { Articles, ArticleSearchType } from ".src/api/interface";
+import { ArticleData, Articles, ArticleSearchType } from ".src/api/interface";
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const useArticles = (props: {
@@ -16,22 +16,29 @@ export const useArticles = (props: {
     queryKey,
     queryFn: () => articles(props),
     placeholderData: keepPreviousData,
+    select: (data) => {
+      setArticlesData({
+        totalPages: data.totalPages,
+        pageNumber: data.pageNumber,
+        size: data.size,
+        contents: data.contents,
+      });
+    },
   });
-
   const queryClient = useQueryClient();
 
-  const articlesData = useMemo(
-    () =>
-      data == null
-        ? { totalPages: 1, pageNumber: 0, contents: [], size: 0 }
-        : {
-            totalPages: data.totalPages,
-            pageNumber: data.pageNumber,
-            contents: data.contents,
-            size: data.size,
-          },
-    [data],
-  );
+  type ArticleProps = {
+    totalPages: number;
+    pageNumber: number;
+    size: number;
+    contents: ArticleData[];
+  };
+  const [articlesData, setArticlesData] = useState<ArticleProps>({
+    totalPages: 1,
+    pageNumber: 0,
+    size: 0,
+    contents: [],
+  });
 
   // NOTE 글 목록 수정
   const { mutate: mutateArticle } = useMutation({

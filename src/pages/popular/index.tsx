@@ -5,24 +5,25 @@ import { useState } from "react";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useRouter } from "next/router";
 
-import HeartGrey from ".assets/icons/HeartGrey.svg";
-// import PolygonUpRedO from ".assets/icons/PolygonUpRedO.svg";
-// import PolygonDnBlueO from ".assets/icons/PolygonDnBlueO.svg";
-// import HorizonBarGrey from ".assets/icons/HorizonBarGrey.svg";
-import HeartRedO from ".assets/icons/HeartRedO.svg";
-import { articles } from ".src/api/articles/articles";
-import PageNav from ".src/components/common/pageNav";
-import ConfirmPopup from ".src/components/common/popup/confirmPopup";
-import PopupBg from ".src/components/common/popupBg";
-import ScrollTopBtn from ".src/components/common/scrollTopBtn";
-import Image from ".src/components/Image";
-import { useArticles } from ".src/hooks/posts/useArticles";
-// import UsePopular from ".src/hooks/posts/usePopular";
-import { categoryState, isLoginState } from ".src/recoil";
-import { dehydrate, DehydratedState, HydrationBoundary, QueryClient } from "@tanstack/react-query";
+import { dehydrate, DehydratedState, QueryClient } from "@tanstack/react-query";
 import moment from "moment";
 import "moment/locale/ko";
 import { useRecoilValue } from "recoil";
+
+import HeartGrey from "@assets/icons/HeartGrey.svg";
+import HeartRedO from "@assets/icons/HeartRedO.svg";
+
+import { articles } from "@api/articles/articles";
+
+import PageNav from "@components/common/pageNav";
+import ConfirmPopup from "@components/common/popup/confirmPopup";
+import PopupBg from "@components/common/popupBg";
+import ScrollTopBtn from "@components/common/scrollTopBtn";
+import Image from "@components/Image";
+
+import { useArticles } from "@hooks/posts/useArticles";
+
+import { categoryState, isLoginState } from "@recoil/index";
 
 export const getServerSideProps: GetServerSideProps<{
   dehydratedState: DehydratedState;
@@ -52,9 +53,6 @@ export const getServerSideProps: GetServerSideProps<{
 export default function Popular({
   dehydratedState,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  // FIXME - API 연동끝나면 관련 코드 일괄 정리
-  // const usePopular = UsePopular();
-
   const router = useRouter();
   const { query } = router;
 
@@ -79,12 +77,6 @@ export default function Popular({
     else if (diff < 0) return styles.dn;
   }
 
-  // function getRankDiffIcon(diff: number) {
-  //   if (diff > 0) return <PolygonUpRedO />;
-  //   else if (diff < 0) return <PolygonDnBlueO />;
-  //   else return <HorizonBarGrey />;
-  // }
-
   // NOTE 찜하기 버튼 클릭
   const onClickFavBtn = ({ articleId, interest }: { articleId: number; interest: boolean }) => {
     if (isLogin) {
@@ -99,9 +91,11 @@ export default function Popular({
   // NOTE 페이지 변경 함수
   const onChangePage = (pageIndex: number) =>
     pageIndex === 0 ? router.push(router.pathname) : router.push({ query: { page: pageIndex } });
-
+  console.log("contents", contents);
   return (
-    <HydrationBoundary state={dehydratedState}>
+    <>
+      {/* TODO: 여기 수정중 */}
+      {/* <HydrationBoundary state={dehydratedState}> */}
       <main className={styles.popular}>
         <section className={styles.postSec}>
           <ul className={styles.postList} data-cy="postList">
@@ -138,17 +132,6 @@ export default function Popular({
                   <div className={styles.leftArea}>
                     <div className={styles.rankCont}>
                       <h2 className={styles.rank}>{pageNumber * size + (idx + 1)}</h2>
-
-                      {/* FIXME 응답 API에 랭킹 정보 없음 추후 기능 추가되면 수정 필요 */}
-                      {/* <div
-                        className={`${styles.diffBox} ${getDiffStyle(
-                          v.rankDiff || 0
-                        )}`}
-                      >
-                        {getRankDiffIcon(v.rankDiff || 0)}
-
-                        <p>{Math.abs(v.rankDiff || 0)}</p>
-                      </div> */}
                     </div>
 
                     <div className={`${styles.infoCont} ${read ? styles.read : ""}`}>
@@ -259,6 +242,7 @@ export default function Popular({
       )}
 
       <ScrollTopBtn />
-    </HydrationBoundary>
+      {/* </HydrationBoundary> */}
+    </>
   );
 }
