@@ -74,7 +74,7 @@ export default function CommonHeader({ commonSort }: HeaderProps) {
 
   const { data: notifications } = useQuery({
     queryKey: ["getNotifications"],
-    queryFn: () => getNotifications(profile.userId),
+    queryFn: () => getNotifications(),
   });
   console.log(notifications);
   return (
