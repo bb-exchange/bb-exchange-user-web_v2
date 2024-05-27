@@ -1,40 +1,39 @@
-import ArrowRight from "../../../../public/assets/icons/BlackArrowRight.svg";
-
 import styles from "./alertHoverPopup.module.scss";
 
-import { D_alertList } from ".src/data/common/alert";
+import cn from "classnames";
+
+import ArrowRight from "@assets/icons/BlackArrowRight.svg";
+
+import { D_alertList } from "@data/common/alert";
 
 const AlertHoverPopup = () => {
+  const hasReadAlram = D_alertList.every((data) => data.isRead);
+
   return (
-    <section className={styles.hoverArea}>
-      <div className={styles.alertHoverPopup}>
-        <div className={styles.title}>알림</div>
-        <ul>
-          {D_alertList.map(({ date, dataList }, idx) => (
-            <div className={styles.sectionLine} key={idx}>
-              <span>{date}</span>
-              {dataList.map((ele, idx) => (
-                <li key={idx}>
-                  <section className={styles.topSection}>
-                    {ele.isRead ? (
-                      <span className={styles.isRead}>{ele.category}</span>
-                    ) : (
-                      <span className={styles.unRead}>{ele.category}</span>
-                    )}
-                    <span className={styles.alertTime}>{ele.time}</span>
-                  </section>
-                  <section className={styles.bottomSection}>
-                    <p className={styles.content}>{ele.content}</p>
-                    <p className={styles.gray}>{ele.description}</p>
-                    {!!ele.description && <ArrowRight />}
-                  </section>
-                </li>
-              ))}
+    <section className={styles.alertContainer}>
+      <div className={styles.title}>알림</div>
+      <ul>
+        {D_alertList.map((ele, idx) => (
+          <li key={idx}>
+            <div className={styles.mainContainer}>
+              <div className={styles.topSection}>
+                <span className={cn(styles.chip, { [styles.active]: !ele.isRead })}>
+                  {ele.category}
+                </span>
+                <span className={styles.time}>{ele.time}</span>
+              </div>
+              <div className={styles.bottomSection}>
+                <p className={styles.content}>{ele.content}</p>
+                <p className={styles.description}>{ele.description}</p>
+              </div>
             </div>
-          ))}
-        </ul>
-        <div className={styles.allRead}>모두 읽음 처리하기</div>
-      </div>
+            {!!ele.description && <ArrowRight />}
+          </li>
+        ))}
+      </ul>
+      <button className={styles.textButton} disabled={hasReadAlram}>
+        모두 읽음 처리하기
+      </button>
     </section>
   );
 };
