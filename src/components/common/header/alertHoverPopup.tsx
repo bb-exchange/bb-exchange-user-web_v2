@@ -6,8 +6,11 @@ import ArrowRight from "@assets/icons/BlackArrowRight.svg";
 
 import { D_alertList } from "@data/common/alert";
 
+import usePushNotification from "@hooks/common/useNotification";
+
 const AlertHoverPopup = () => {
   const hasReadAlram = D_alertList.every((data) => data.isRead);
+  // const { fireNotification } = usePushNotification();
 
   return (
     <section className={styles.alertContainer}>

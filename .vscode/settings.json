@@ -3,6 +3,6 @@
   "prettier.configPath": ".prettierrc",
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.organizeImports": "explicit"
+    // "source.organizeImports": "explicit"
   }
 }

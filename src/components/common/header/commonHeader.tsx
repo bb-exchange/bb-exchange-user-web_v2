@@ -1,7 +1,6 @@
 import AlertCount from "./alertCount";
 import AlertHoverPopup from "./alertHoverPopup";
 import PostCategoryPopup from "./postCategoryPopup";
-import ProfileHoverPopup from "./profileHoverPopup";
 
 import styles from "./commonHeader.module.scss";
 
@@ -20,6 +19,7 @@ import TriangleDn from "@assets/icons/TriangleDn.svg";
 import WriteWhite from "@assets/icons/WriteWhite.svg";
 import LogoBlue from "@assets/logos/LogoBlue.svg";
 
+import { getNotifications } from "@api/notification";
 import { getEthicalPledge, getProfile } from "@api/users/users";
 
 import Image from "@components/Image";
@@ -72,6 +72,11 @@ export default function CommonHeader({ commonSort }: HeaderProps) {
     enabled: !!profile.userId,
   });
 
+  const { data: notifications } = useQuery({
+    queryKey: ["getNotifications"],
+    queryFn: () => getNotifications(profile.userId),
+  });
+  console.log(notifications);
   return (
     <header className={styles.commonHeader}>
       <section className={styles.innerSec}>
@@ -115,7 +120,7 @@ export default function CommonHeader({ commonSort }: HeaderProps) {
                     width={28}
                     height={28}
                   />
-                  <ProfileHoverPopup />
+                  {/* <ProfileHoverPopup /> */}
                 </div>
               </>
             ) : (
