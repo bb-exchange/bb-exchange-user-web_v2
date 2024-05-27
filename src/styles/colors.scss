@@ -51,9 +51,9 @@ $config-theme: (
 
 @each $name, $color in $config-theme {
   .color-#{$name} {
-    color: $color;
+    color: $color !important;
   }
   .bg-#{$name} {
-    background-color: $color;
+    background-color: $color !important;
   }
 }

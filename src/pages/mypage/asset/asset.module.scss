@@ -105,27 +105,6 @@
             line-height: 18px;
             color: $Gray1;
           }
-
-          .btnBar {
-            display: flex;
-            gap: 6px;
-
-            button {
-              width: 335px;
-              height: 48px;
-              border-radius: 8px;
-              font-size: 14px;
-              font-weight: 700;
-              color: $White1;
-
-              &.activeWithdrawBtn {
-                background: $Primary1;
-              }
-              &.deActiveWithdrawBtn {
-                background: $Black2;
-              }
-            }
-          }
         }
 
         .accountBox {

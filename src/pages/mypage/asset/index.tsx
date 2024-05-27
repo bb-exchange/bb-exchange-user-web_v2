@@ -21,6 +21,7 @@ import WithdrawPopup from "@components/mypage/asset/withdrawPopup";
 import MypageNavAside from "@components/mypage/mypageNavAside";
 import Popup from "@components/Popup";
 
+import useBankInfo from "@hooks/mypage/asset/useBankInfo";
 import UseMypageAsset from "@hooks/mypage/asset/useMypageAsset";
 import UseMyTermIncome from "@hooks/mypage/asset/useMytermIncome";
 import UseWithdrawPopup from "@hooks/mypage/asset/useWithdrawPopup";
@@ -29,7 +30,8 @@ export default function Asset() {
   const useMypageAsset = UseMypageAsset();
   const useWithdrawPopup = UseWithdrawPopup();
   const useMyTermIncome = UseMyTermIncome();
-
+  const bankInfo = useBankInfo();
+  console.log(bankInfo);
   return (
     <>
       <CommonHeader />
@@ -77,18 +79,11 @@ export default function Asset() {
               <div className={styles.actionBox}>
                 <p className={styles.limit}>10,000원 이상부터 출금 가능</p>
 
-                <div className={styles.btnBar}>
-                  <button
-                    className={
-                      useMypageAsset.totalPoint < 10000
-                        ? styles.deActiveWithdrawBtn
-                        : styles.activeWithdrawBtn
-                    }
-                    onClick={useMypageAsset.onClickDraw}
-                  >
-                    출금신청
-                  </button>
-                </div>
+                <ContainedBtn
+                  text="출금신청"
+                  className={useMypageAsset.totalPoint < 10000 ? "bg-black2" : ""}
+                  onClick={useMypageAsset.onClickDraw}
+                />
               </div>
 
               <div className={styles.accountBox}>
