@@ -9,7 +9,7 @@ import { D_alertList } from "@data/common/alert";
 import usePushNotification from "@hooks/common/useNotification";
 
 const AlertHoverPopup = () => {
-  const hasReadAlram = D_alertList.every((data) => data.isRead);
+  const hasReadAlarm = D_alertList.every((data) => data.isRead);
   // const { fireNotification } = usePushNotification();
 
   return (
@@ -38,7 +38,7 @@ const AlertHoverPopup = () => {
           <div className={styles.noData}>알림이 없습니다.</div>
         )}
       </ul>
-      <button className={styles.textButton} disabled={hasReadAlram}>
+      <button className={styles.textButton} disabled={hasReadAlarm}>
         모두 읽음 처리하기
       </button>
     </section>
