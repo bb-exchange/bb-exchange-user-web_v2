@@ -1,33 +1,37 @@
 import { PageData } from "./common";
 
+export type BoardProps = {
+  image: string;
+  category: string;
+  description: string;
+};
+type UserProps = {
+  gradeType: string;
+  userId: number;
+  nickname: string;
+};
+type ArticleProps = {
+  articleId: number;
+  createdAt: string;
+  title: string;
+  commentNum: number;
+  thumbnail: string;
+  read: boolean;
+  purchased: boolean;
+  interest: boolean;
+  listed: boolean;
+};
+type PriceProps = {
+  likeNum: number;
+  changeAmount: number;
+  changeRate: number;
+  price: number;
+};
 export interface ArticleData {
-  boardInfo: {
-    image: string;
-    category: string;
-    description: string;
-  };
-  userInfo: {
-    gradeType: string;
-    userId: number;
-    nickname: string;
-  };
-  articleInfo: {
-    articleId: number;
-    createdAt: string;
-    title: string;
-    commentNum: number;
-    thumbnail: string;
-    read: boolean;
-    purchased: boolean;
-    interest: boolean;
-    listed: boolean;
-  };
-  priceInfo: {
-    likeNum: number;
-    changeAmount: number;
-    changeRate: number;
-    price: number;
-  };
+  boardInfo: BoardProps;
+  userInfo: UserProps;
+  articleInfo: ArticleProps;
+  priceInfo: PriceProps;
 }
 
 export type Articles = PageData & { contents: Array<ArticleData> };
