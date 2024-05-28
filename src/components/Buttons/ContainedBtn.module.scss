@@ -1,8 +1,8 @@
-@import "../../styles/colors.scss";
+@import "/src/styles/variable";
 
 .containedBtn {
-  font-size: 14px;
-  font-weight: 700;
+  @extend .p2;
+  @extend .bold;
   background-color: $Primary1;
   color: $White1;
   border-radius: 8px;
