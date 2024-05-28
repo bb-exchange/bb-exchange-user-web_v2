@@ -5,7 +5,7 @@ import { useState } from "react";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useRouter } from "next/router";
 
-import { dehydrate, DehydratedState, QueryClient } from "@tanstack/react-query";
+import { dehydrate, DehydratedState, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import moment from "moment";
 import "moment/locale/ko";
 import { useRecoilValue } from "recoil";
@@ -91,11 +91,9 @@ export default function Popular({
   // NOTE 페이지 변경 함수
   const onChangePage = (pageIndex: number) =>
     pageIndex === 0 ? router.push(router.pathname) : router.push({ query: { page: pageIndex } });
-  console.log("contents", contents);
+
   return (
-    <>
-      {/* TODO: 여기 수정중 */}
-      {/* <HydrationBoundary state={dehydratedState}> */}
+    <HydrationBoundary state={dehydratedState}>
       <main className={styles.popular}>
         <section className={styles.postSec}>
           <ul className={styles.postList} data-cy="postList">
@@ -131,7 +129,7 @@ export default function Popular({
                 <li key={articleId} onClick={() => router.push(`/post/${articleId}`)}>
                   <div className={styles.leftArea}>
                     <div className={styles.rankCont}>
-                      <h2 className={styles.rank}>{pageNumber * size + (idx + 1)}</h2>
+                      <h2 className={styles.rank}>{Number(query.page ?? 0) * size + (idx + 1)}</h2>
                     </div>
 
                     <div className={`${styles.infoCont} ${read ? styles.read : ""}`}>
@@ -242,7 +240,6 @@ export default function Popular({
       )}
 
       <ScrollTopBtn />
-      {/* </HydrationBoundary> */}
-    </>
+    </HydrationBoundary>
   );
 }
