@@ -3,6 +3,7 @@ import { useState } from "react";
 import { D_mypageAssetCategoryList } from ".src/data/mypage/asset/D_mypageAsset";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
+import { getBankInfo } from "@api/bank";
 import { getActual, postProfitToPoint } from "@api/mypage/settlement";
 
 export default function UseMypageAsset() {
@@ -91,6 +92,11 @@ export default function UseMypageAsset() {
     }
   };
 
+  const { data: bankInfo } = useQuery({
+    queryKey: ["getBankInfo"],
+    queryFn: () => getBankInfo(),
+  });
+
   return {
     categoryList,
     category,
@@ -115,5 +121,6 @@ export default function UseMypageAsset() {
     setDrawPopup,
     drawInfoPopup,
     setDrawInfoPopup,
+    bankInfo,
   };
 }

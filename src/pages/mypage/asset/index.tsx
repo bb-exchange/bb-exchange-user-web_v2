@@ -21,7 +21,6 @@ import WithdrawPopup from "@components/mypage/asset/withdrawPopup";
 import MypageNavAside from "@components/mypage/mypageNavAside";
 import Popup from "@components/Popup";
 
-import useBankInfo from "@hooks/mypage/asset/useBankInfo";
 import UseMypageAsset from "@hooks/mypage/asset/useMypageAsset";
 import UseMyTermIncome from "@hooks/mypage/asset/useMytermIncome";
 import UseWithdrawPopup from "@hooks/mypage/asset/useWithdrawPopup";
@@ -30,8 +29,7 @@ export default function Asset() {
   const useMypageAsset = UseMypageAsset();
   const useWithdrawPopup = UseWithdrawPopup();
   const useMyTermIncome = UseMyTermIncome();
-  const bankInfo = useBankInfo();
-  console.log(bankInfo);
+  console.log(useMypageAsset.bankInfo);
   return (
     <>
       <CommonHeader />
@@ -132,7 +130,7 @@ export default function Asset() {
       {useMypageAsset.drawInfoPopup && (
         <>
           <WithdrawInfoPopup off={() => useMypageAsset.setDrawInfoPopup(false)} />
-          <PopupBg bg off={() => useMypageAsset.setDrawInfoPopup(false)} />
+          <PopupBg bg />
         </>
       )}
       {useWithdrawPopup.compPopup && (

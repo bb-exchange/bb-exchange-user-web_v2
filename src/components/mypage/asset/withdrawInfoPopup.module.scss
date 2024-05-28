@@ -41,61 +41,28 @@
         gap: 24px;
 
         li {
-          .key {
-            padding: 16px 0 8px;
-            font-size: 14px;
-            line-height: 22px;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          .label {
+            padding-top: 16px;
+            @extend .p2;
             color: $Gray1;
           }
 
-          .valueBox {
-            position: relative;
-
-            .inputBox {
-              display: flex;
-              align-items: center;
-              height: 48px;
-              background: $Primary5;
-              border: 1px solid $Gray1;
-              border-radius: 8px;
-
-              input {
-                flex: 1;
-                height: 100%;
-                padding: 0 12px;
-
-                &.hidden {
-                  width: 0;
-                  height: 0;
-                  padding: 0;
-                }
-              }
-
-              .value {
-                flex: 1;
-                display: flex;
-                align-items: center;
-                height: 100%;
-                padding: 0 12px;
-              }
-            }
-
-            .selBox {
-              display: flex;
-              align-items: center;
+          .inputBox {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid $Gray2;
+            background-color: white;
+            input {
+              padding: 4px 0;
+              @extend .p1;
+              color: $Black1;
               width: 100%;
-              height: 48px;
-              padding: 0 12px;
-              border: 1px solid $Gray1;
-              border-radius: 8px;
 
-              .value {
-                flex: 1;
-                text-align: start;
-              }
-
-              svg {
-                width: 16px;
+              ::placeholder {
+                color: $Gray1;
               }
             }
           }
