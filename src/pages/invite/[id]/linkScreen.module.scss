@@ -1,0 +1,45 @@
+@import "/src/styles/variable";
+
+.container {
+  background-color: $Black1;
+  margin: auto;
+  color: $White1;
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-height: 100vh;
+
+  & > caption {
+    font-size: 0.8125rem;
+    color: $Gray2;
+  }
+
+  & > button {
+    background-color: $Primary1;
+    padding: 0.5rem 1.3rem;
+    border-radius: 0.3125rem;
+    font-weight: 600;
+    margin: 1rem;
+    font-size: 0.875rem;
+
+    &:hover {
+      background-color: $Primary2;
+      opacity: 0.8;
+    }
+
+    &:active {
+      background-color: $Primary2;
+      opacity: 0.9;
+    }
+  }
+}
+
+.logoWrapper {
+  aspect-ratio: 1;
+  width: 7.5rem;
+  height: 7.5rem;
+  position: relative;
+  margin-bottom: 1rem;
+}
