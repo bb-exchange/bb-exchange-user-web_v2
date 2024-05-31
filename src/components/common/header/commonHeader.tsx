@@ -1,17 +1,16 @@
-import AlertCount from "./alertCount";
-import AlertHoverPopup from "./alertHoverPopup";
 import PostCategoryPopup from "./postCategoryPopup";
 import ProfileHoverPopup from "./profileHoverPopup";
 
 import styles from "./commonHeader.module.scss";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useRouter } from "next/router";
 
 import DefaultProfImg from ".assets/example/DefaultProfImg.png";
 import Bell from ".assets/icons/Bell.svg";
 import ChevronRt from ".assets/icons/ChevronRt.svg";
+import Event from ".assets/icons/Event.svg";
 import Hamburger from ".assets/icons/Hamburger.svg";
 import Shop from ".assets/icons/Shop.svg";
 import TriangleDn from ".assets/icons/TriangleDn.svg";
@@ -90,6 +89,15 @@ export default function CommonHeader({ commonSort }: Iprops) {
                 </button>
 
                 <div className={styles.imgWrap}>
+                  <div
+                    className={styles.shopImgWrap}
+                    onClick={() => {
+                      router.push("/daily");
+                    }}
+                  >
+                    <Event />
+                  </div>
+
                   <div
                     className={styles.shopImgWrap}
                     onClick={() => {

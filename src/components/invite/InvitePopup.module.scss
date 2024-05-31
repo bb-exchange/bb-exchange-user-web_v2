@@ -1,0 +1,54 @@
+@import "/src/styles/variable";
+
+.invitePopupContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 0px 36px;
+
+  main {
+    gap: 24px;
+    display: flex;
+    flex-direction: column;
+
+    .explainSection {
+      display: flex;
+      gap: 9px;
+      padding: 16px 0px;
+    }
+
+    .codeSection {
+      background-color: $Gray2;
+      padding: 40px 0px;
+      text-align: center;
+      border-radius: 8px;
+
+      p {
+        text-decoration: underline;
+      }
+    }
+
+    .cautionSection {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      ul {
+        padding-left: 10px;
+        li {
+          padding-left: 10px;
+          &::marker {
+            content: "·";
+            color: $Black1;
+            font-size: 18px;
+          }
+        }
+      }
+    }
+  }
+
+  .shareButton {
+    margin: 40px 0px;
+    padding: 14px 16px;
+    border-radius: 8px;
+  }
+}

@@ -1,0 +1,70 @@
+@import "/src/styles/variable";
+
+.daily {
+  display: flex;
+  flex-direction: column;
+  padding: 208px 0 100px;
+  margin: 0 auto;
+  max-width: 800px;
+
+  .row {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .titleSection {
+    text-align: center;
+    padding-bottom: 60px;
+  }
+
+  .eventContainer {
+    .eventRowSection {
+      cursor: pointer;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+
+      .eventTitleSection {
+        text-align: left;
+      }
+
+      .onlyAppButton {
+        background: $Gray1;
+        padding: 8px 13px;
+        border-radius: 8px;
+      }
+    }
+
+    .eventFooter {
+      display: flex;
+      justify-content: center;
+      padding: 24px 0px;
+      margin-top: 60px;
+      border-radius: 8px;
+      margin-bottom: 60px;
+    }
+  }
+
+  .footer {
+    ul {
+      padding-left: 10px;
+
+      li {
+        color: $Gray1;
+        padding-left: 10px;
+
+        &::marker {
+          content: "·";
+          color: $Gray1;
+          font-size: 18px;
+        }
+
+        span {
+          font-size: 18px;
+        }
+      }
+    }
+  }
+}
