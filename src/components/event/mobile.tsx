@@ -3,16 +3,9 @@ import MobileHeader from "../common/header/mobileHeader";
 
 import styles from "./mobile.module.scss";
 
-import { useState } from "react";
-
 import Image from "next/image";
 
-import ConfirmTitlePopup from ".src/components/common/popup/confirmTitlePopup";
-import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
-import PopupBg from ".src/components/common/popupBg";
-import { isLoginState } from ".src/recoil";
 import classNames from "classnames";
-import { useRecoilValue } from "recoil";
 
 const Event = ({
   isClient,
@@ -23,13 +16,12 @@ const Event = ({
   isAndroid: boolean;
   eventUrl: string;
 }) => {
-  const [copyPopup, setCopyPopup] = useState<boolean>(false);
-  const [preparePopup, setPreparePopup] = useState<boolean>(false);
-
   const onClickAppLink = () => {
-    if (isAndroid) {
-      setPreparePopup(true);
-    } else window.location.assign(`${process.env.NEXT_PUBLIC_APPLE_APP_STORE}`);
+    let url = "";
+    if (isAndroid) url = `${process.env.NEXT_PUBLIC_ANDROID_PLAY_STORE}`;
+    else url = `${process.env.NEXT_PUBLIC_APPLE_APP_STORE}`;
+
+    window.location.assign(url);
   };
 
   return (
@@ -148,27 +140,6 @@ const Event = ({
           </div>
         )}
       </main>
-
-      {preparePopup && (
-        <>
-          <ConfirmTitlePopup
-            title="안드로이드 앱 심사중!"
-            content={`안드로이드 앱은 아직 심사중입니다.
-PC를 통해 비법거래소를 만나보세요!`}
-            confirmText="확인"
-            confirmFunc={() => setPreparePopup(false)}
-            zIndex={80}
-          />
-          <PopupBg bg zIndex={70} off={() => setPreparePopup(false)} />
-        </>
-      )}
-
-      {copyPopup && (
-        <>
-          <ErrorMsgPopup msg="URL이 복사되었습니다." confirmFunc={() => setCopyPopup(false)} />
-          <PopupBg bg off={() => setCopyPopup(false)} />
-        </>
-      )}
     </>
   );
 };
