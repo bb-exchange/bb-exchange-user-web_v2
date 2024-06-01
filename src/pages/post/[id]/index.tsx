@@ -62,6 +62,8 @@ import { SuccessPopup } from "@components/common/popup/SuccessPopup";
 
 import useGetMyProfile from "@hooks/common/useGetProfile";
 
+import { formatRate } from "@utils/format";
+
 export const getServerSideProps: GetServerSideProps<{
   postData: PostData | undefined;
 }> = async (context: GetServerSidePropsContext) => {
@@ -626,7 +628,9 @@ export default function Post({
                       <h2 className={styles.price}>{`${new Intl.NumberFormat().format(
                         Number(postData?.priceInfo.price),
                       )}P`}</h2>
-                      <p className={styles.percent}>{postData?.priceInfo.changeRate || 0}%</p>
+                      <p className={styles.percent}>
+                        {formatRate(postData?.priceInfo.changeRate || 0)}%
+                      </p>
                     </div>
 
                     <button
@@ -895,7 +899,7 @@ export default function Post({
                 <div className={styles.priceCont}>
                   <div className={`${styles.diffBox} ${getDiffStyle(1 || 0)}`}>
                     <p>
-                      +{postData?.priceInfo.changeRate || 0}% (
+                      +{formatRate(postData?.priceInfo.changeRate || 0)}% (
                       {postData?.priceInfo.changeAmount || 0})
                     </p>
                   </div>
@@ -1146,7 +1150,7 @@ const ArticleItem = ({
         {listed ? (
           <div className={`${styles.rightCont} ${getDiffStyle(changeRate || 0)}`}>
             <p className={styles.diff}>
-              {`${(changeRate || 0) > 0 ? "+" : ""}${changeRate || 0}% (${changeAmount || 0})`}
+              {`${(changeRate || 0) > 0 ? "+" : ""}${formatRate(changeRate || 0)}% (${changeAmount || 0})`}
             </p>
 
             <p className={styles.price}>{`${new Intl.NumberFormat().format(price || 0)} 원`}</p>
