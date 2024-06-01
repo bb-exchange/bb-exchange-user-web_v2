@@ -27,14 +27,19 @@ const POPUP_STYLE: CSSProperties = {
 export const InvitePopup = ({ onClose }: Props) => {
   const { profile } = useGetMyProfile();
 
+  // 초대코드 복사 완료 팝업 toggle
+  const [isInviteCodeCopySuccessPopupShow, setIsInviteCodeCopySuccessPopupShow] = useState(false);
   // 이벤트 공유링크 복사 완료 팝업 toggle
-  const [isSuccessPopupShow, setIsSuccessPopupShow] = useState(false);
+  const [isShareLinkCopySuccessPopupShow, setIsShareLinkCopySuccessPopupShow] = useState(false);
 
   // 초대코드 클립보드 복사
   const onClickRecommendCodeCopy = useCallback(() => {
     if (!profile.recommendCode) return;
 
+    // 초대코드 클립보드 복사
     navigator.clipboard.writeText(profile.recommendCode);
+    // 복사 완료 팝업 Show
+    setIsInviteCodeCopySuccessPopupShow(true);
   }, [profile?.recommendCode]);
 
   // 초대링크 복사 && Success Popup Show
@@ -42,7 +47,7 @@ export const InvitePopup = ({ onClose }: Props) => {
     // 초대링크 클립보드 복사
     navigator.clipboard.writeText(`${window.location.host}/invite/${profile?.recommendCode}`);
     // 복사 완료 팝업 Show
-    setIsSuccessPopupShow(true);
+    setIsShareLinkCopySuccessPopupShow(true);
   }, [profile?.recommendCode]);
 
   if (!profile?.recommendCode) return null;
@@ -100,11 +105,18 @@ export const InvitePopup = ({ onClose }: Props) => {
         </button>
       </div>
 
-      {isSuccessPopupShow && (
+      {isInviteCodeCopySuccessPopupShow && (
+        <SuccessPopup
+          title="초대코드를 복사했어요."
+          confirmFunc={() => setIsInviteCodeCopySuccessPopupShow(false)}
+        />
+      )}
+
+      {isShareLinkCopySuccessPopupShow && (
         <SuccessPopup
           title="링크를 복사했어요.\n이 링크를 공유해주세요."
           iconSrc="/assets/icons/Attendance.svg"
-          confirmFunc={() => setIsSuccessPopupShow(false)}
+          confirmFunc={() => setIsShareLinkCopySuccessPopupShow(false)}
         />
       )}
     </Popup>

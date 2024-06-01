@@ -170,11 +170,7 @@ const Daily = () => {
 
           <ul>
             {D_eventFooterList.map((html, index) => (
-              <li
-                key={index}
-                className={`${styles.notice} h3`}
-                dangerouslySetInnerHTML={{ __html: html }}
-              />
+              <li key={index} className="h3" dangerouslySetInnerHTML={{ __html: html }} />
             ))}
           </ul>
         </section>
