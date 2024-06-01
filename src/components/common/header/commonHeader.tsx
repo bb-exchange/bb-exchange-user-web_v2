@@ -89,30 +89,28 @@ export default function CommonHeader({ commonSort }: Iprops) {
                 </button>
 
                 <div className={styles.imgWrap}>
-                  <div
-                    className={styles.shopImgWrap}
+                  <button
                     onClick={() => {
                       router.push("/daily");
                     }}
                   >
                     <Event />
-                  </div>
+                  </button>
 
-                  <div
-                    className={styles.shopImgWrap}
+                  <button
                     onClick={() => {
                       router.push("/charge");
                     }}
                   >
                     <Shop />
-                  </div>
+                  </button>
 
-                  <div className={styles.alertImgWrap} onClick={() => setPreparePopup(true)}>
+                  <button className={styles.alertImgWrap} onClick={() => setPreparePopup(true)}>
                     <Bell />
                     {/* NOTE - 임시로 주석처리 (기능 미개발) */}
                     {/* <AlertCount />
-                    <AlertHoverPopup /> */}
-                  </div>
+                    // <AlertHoverPopup /> */}
+                  </button>
 
                   <div className={styles.profImgWrap}>
                     <Image
