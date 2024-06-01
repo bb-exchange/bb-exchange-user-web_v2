@@ -47,7 +47,7 @@ export default function CommonHeader({ commonSort }: Iprops) {
       return;
     }
 
-    router.push(url);
+    router.push(`/${url}`);
   };
 
   const { refetch, data: ethicalPledgeData } = useQuery({
