@@ -110,7 +110,7 @@ const Daily = () => {
 
   return (
     <>
-      <CommonHeader />
+      <CommonHeader commonSort="일일보상" />
 
       <main className={styles.daily}>
         <section className={styles.titleSection}>

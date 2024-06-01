@@ -263,21 +263,6 @@
             border-radius: 12px;
             cursor: pointer;
 
-            p {
-              font-size: 13px;
-              line-height: 20px;
-              color: $Black2;
-
-              span {
-                margin: 4px;
-              }
-
-              strong {
-                font-weight: 700;
-                color: $Primary1;
-              }
-            }
-
             svg {
               path {
                 fill: $Gray1;
