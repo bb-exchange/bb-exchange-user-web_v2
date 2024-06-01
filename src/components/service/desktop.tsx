@@ -183,9 +183,9 @@ const DesktopPage = () => {
           <Link href={isSignedIn ? "/enroll" : "/auth/signin"}>
             <button className={`${styles.btn} ${styles.section6Btn}`}>수익 창출하러 가기</button>
           </Link>
-          {/* <Link href={"/event"}>
+          <Link href={"/event"}>
             <Image src={banner} alt="" width={1200} />
-          </Link> */}
+          </Link>
         </section>
       </main>
     </>
