@@ -110,7 +110,7 @@ const Daily = () => {
 
   return (
     <>
-      <CommonHeader />
+      <CommonHeader commonSort="일일보상" />
 
       <main className={styles.daily}>
         <section className={styles.titleSection}>
@@ -170,11 +170,7 @@ const Daily = () => {
 
           <ul>
             {D_eventFooterList.map((html, index) => (
-              <li
-                key={index}
-                className={`${styles.notice} h3`}
-                dangerouslySetInnerHTML={{ __html: html }}
-              />
+              <li key={index} className="h3" dangerouslySetInnerHTML={{ __html: html }} />
             ))}
           </ul>
         </section>
