@@ -2,18 +2,14 @@ import styles from "./popular.module.scss";
 
 import { useState } from "react";
 
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useRouter } from "next/router";
 
-import { dehydrate, DehydratedState, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import moment from "moment";
 import "moment/locale/ko";
 import { useRecoilValue } from "recoil";
 
 import HeartGrey from "@assets/icons/HeartGrey.svg";
 import HeartRedO from "@assets/icons/HeartRedO.svg";
-
-import { articles } from "@api/articles/articles";
 
 import PageNav from "@components/common/pageNav";
 import ConfirmPopup from "@components/common/popup/confirmPopup";
@@ -25,34 +21,11 @@ import { useArticles } from "@hooks/posts/useArticles";
 
 import { categoryState, isLoginState } from "@recoil/index";
 
-export const getServerSideProps: GetServerSideProps<{
-  dehydratedState: DehydratedState;
-}> = async () => {
-  const queryClient = new QueryClient();
+export function getStaticProps() {
+  return { props: { commonLayout: true, commonSort: "인기" } };
+}
 
-  const defaultValues = {
-    category: "ALL",
-    searchType: "POPULAR" as const,
-    page: 0,
-  };
-
-  await queryClient.prefetchQuery({
-    queryKey: ["articles", defaultValues],
-    queryFn: () => articles(defaultValues),
-  });
-
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-      commonLayout: true,
-      commonSort: "인기",
-    },
-  };
-};
-
-export default function Popular({
-  dehydratedState,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Popular() {
   const router = useRouter();
   const { query } = router;
 
@@ -93,7 +66,7 @@ export default function Popular({
     pageIndex === 0 ? router.push(router.pathname) : router.push({ query: { page: pageIndex } });
 
   return (
-    <HydrationBoundary state={dehydratedState}>
+    <>
       <main className={styles.popular}>
         <section className={styles.postSec}>
           <ul className={styles.postList} data-cy="postList">
@@ -240,6 +213,6 @@ export default function Popular({
       )}
 
       <ScrollTopBtn />
-    </HydrationBoundary>
+    </>
   );
 }

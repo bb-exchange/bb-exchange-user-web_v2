@@ -2,6 +2,7 @@ import styles from "./latest.module.scss";
 
 import { useState } from "react";
 
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useRouter } from "next/router";
 
 import HeartGrey from ".assets/icons/HeartGrey.svg";
@@ -12,16 +13,42 @@ import PopupBg from ".src/components/common/popupBg";
 import ScrollTopBtn from ".src/components/common/scrollTopBtn";
 import Image from ".src/components/Image";
 import { useArticles } from ".src/hooks/posts/useArticles";
-// import UseLatest from ".src/hooks/posts/useLatest";
 import { categoryState, isLoginState } from ".src/recoil";
+import { dehydrate, DehydratedState, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import moment from "moment";
 import "moment/locale/ko";
 import { useRecoilValue } from "recoil";
 
-export default function Lastest() {
-  // FIXME - API 연동끝나면 관련 코드 일괄 정리
-  // const customHook = UseLatest();
+import { articles } from "@api/articles/articles";
 
+export const getServerSideProps: GetServerSideProps<{
+  dehydratedState: DehydratedState;
+}> = async () => {
+  const queryClient = new QueryClient();
+
+  const defaultValues = {
+    category: "ALL",
+    searchType: "LATEST" as const,
+    page: 0,
+  };
+
+  await queryClient.prefetchQuery({
+    queryKey: ["articles", defaultValues],
+    queryFn: () => articles(defaultValues),
+  });
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+      commonLayout: true,
+      commonSort: "최신",
+    },
+  };
+};
+
+export default function Lastest({
+  dehydratedState,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();
   const { query } = router;
 
@@ -63,7 +90,7 @@ export default function Lastest() {
     pageIndex === 0 ? router.push(router.pathname) : router.push({ query: { page: pageIndex } });
 
   return (
-    <>
+    <HydrationBoundary state={dehydratedState}>
       <main className={styles.lastest}>
         <section className={styles.postSec}>
           <ul className={styles.postList} data-cy="postList">
@@ -203,10 +230,6 @@ export default function Lastest() {
         </>
       )}
       <ScrollTopBtn />
-    </>
+    </HydrationBoundary>
   );
-}
-
-export function getStaticProps() {
-  return { props: { commonLayout: true, commonSort: "최신" } };
 }

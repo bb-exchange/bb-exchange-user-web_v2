@@ -1,8 +1,8 @@
-import Lastest from "./latest";
+import Popular from "./popular";
 
 import { useEffect, useState } from "react";
 
-import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
 
 import { articles } from ".src/api/articles/articles";
@@ -10,18 +10,12 @@ import { dehydrate, DehydratedState, HydrationBoundary, QueryClient } from "@tan
 
 export const getServerSideProps: GetServerSideProps<{
   dehydratedState: DehydratedState;
-}> = async (context: GetServerSidePropsContext) => {
-  const userAgent = context.req.headers["user-agent"];
-  // console.log({ userAgent });
-  if (userAgent?.includes("Mobile")) {
-    console.log("Mobile!");
-  }
-
+}> = async () => {
   const queryClient = new QueryClient();
 
   const defaultValues = {
     category: "ALL",
-    searchType: "LATEST" as const,
+    searchType: "POPULAR" as const,
     page: 0,
   };
 
@@ -34,7 +28,7 @@ export const getServerSideProps: GetServerSideProps<{
     props: {
       dehydratedState: dehydrate(queryClient),
       commonLayout: true,
-      commonSort: "최신",
+      commonSort: "인기",
     },
   };
 };
@@ -66,7 +60,7 @@ export default function Home({
         <meta name="twitter:image" content="/assets/images/og_image_service_x.png" />
       </Head>
 
-      <Lastest />
+      <Popular />
     </HydrationBoundary>
   );
 }

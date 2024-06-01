@@ -1,11 +1,9 @@
-import AlertCount from "./alertCount";
-import AlertHoverPopup from "./alertHoverPopup";
 import PostCategoryPopup from "./postCategoryPopup";
 import ProfileHoverPopup from "./profileHoverPopup";
 
 import styles from "./commonHeader.module.scss";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useRouter } from "next/router";
 
