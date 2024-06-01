@@ -56,6 +56,12 @@ import { deleteCookie } from "cookies-next";
 import moment from "moment";
 import { useRecoilValue } from "recoil";
 
+import { isDailyEventSuccess } from "@api/event";
+
+import { SuccessPopup } from "@components/common/popup/SuccessPopup";
+
+import useGetMyProfile from "@hooks/common/useGetProfile";
+
 export const getServerSideProps: GetServerSideProps<{
   postData: PostData | undefined;
 }> = async (context: GetServerSidePropsContext) => {
@@ -118,6 +124,7 @@ export default function Post({
   const { id: articleId } = router.query as { id: string };
 
   const isLogin = useRecoilValue(isLoginState);
+  const { profile } = useGetMyProfile();
 
   // NOTE 좋아요/싫어요 수정 불가 팝업 오픈 여부
   const [oneMinOver, setOneMinOver] = useState<boolean>(false);
@@ -145,6 +152,13 @@ export default function Post({
 
   // NOTE - 내 글 삭제 완료 팝업 오픈 여부
   const [openConfirmDeleteComplete, setOpenConfirmDeleteComplete] = useState<boolean>(false);
+
+  // NOTE - 일일보상 지급완료 팝업 오픈 여부
+  const [dailyEventPopupInfo, setDailyEventPopupInfo] = useState({
+    isShow: false,
+    title: "",
+    subTitle: "",
+  });
 
   // NOTE URL 복사 완료 팝업 오픈 여부
   const [copied, setCopied] = useState<boolean>(false);
@@ -177,7 +191,7 @@ export default function Post({
   const onConfirmDelete = () => deleteThisPost();
 
   // NOTE 좋아요/싫어요 - 등록/해제
-  const { mutate: mutateSetValue } = useMutation({
+  const { mutateAsync: mutateSetValue } = useMutation({
     mutationFn: async ({ isTrue, type }: { isTrue: boolean; type: "like" | "dislike" }) =>
       type === "like"
         ? await updateLikePost({
@@ -284,10 +298,10 @@ export default function Post({
   const onChangeComment = (value: string) => setCommentContent(value);
 
   // NOTE 댓글 저장
-  const onSubmit = useCallback(() => {
+  const onSubmit = useCallback(async () => {
     if (!isValidComment) return;
 
-    newComment(
+    await newComment(
       {
         articleId,
         parentCommentId: null,
@@ -300,7 +314,19 @@ export default function Post({
         },
       },
     );
-  }, [articleId, commentContent, isValidComment, newComment]);
+
+    // 일일보상 댓글 작성 완료여부 조회
+    const { data } = await isDailyEventSuccess(profile?.userId, "ARTICLE_COMMENT");
+
+    if (data.data.done) {
+      setDailyEventPopupInfo((prev) => ({
+        ...prev,
+        title: "50원 받았어요!",
+        subTitle: "비법글에 좋아요 X개 누르기",
+        isShow: true,
+      }));
+    }
+  }, [articleId, commentContent, isValidComment, newComment, profile?.userId]);
 
   // NOTE 댓글 수정
   const onClickUpdateComment = useCallback(
@@ -338,14 +364,18 @@ export default function Post({
 
   // NOTE 좋아요/싫어요 클릭
   const onClickSetValue = useCallback(
-    ({ type }: { type: "like" | "dislike" }) => {
+    async ({ type }: { type: "like" | "dislike" }) => {
       if (!isLogin) router.push("/auth/signin");
       else if (!postData?.priceInfo) return;
       else {
         const { isLike, isDislike } = postData.priceInfo;
 
-        if (!isLike && !isDislike) return mutateSetValue({ type, isTrue: true });
-        else if (type === "like" && isDislike)
+        if (!isLike && !isDislike) {
+          await mutateSetValue({ type, isTrue: true });
+          const { data } = await isDailyEventSuccess(profile?.userId, "ARTICLE_LIKE");
+
+          return;
+        } else if (type === "like" && isDislike)
           return mutateSetValue({ type: "dislike", isTrue: false });
         else if (type === "dislike" && isLike)
           return mutateSetValue({ type: "like", isTrue: false });
@@ -353,7 +383,7 @@ export default function Post({
         return mutateSetValue({ type, isTrue: false });
       }
     },
-    [isLogin, mutateSetValue, postData, router],
+    [isLogin, mutateSetValue, postData, profile?.userId, router],
   );
 
   function getDiffStyle(diff: number) {
@@ -1041,6 +1071,21 @@ export default function Post({
         <ConfirmTitlePopup
           title="글이 삭제되었습니다."
           confirmFunc={() => router.push(`/mypage/write`)}
+        />
+      )}
+
+      {dailyEventPopupInfo.isShow && (
+        <SuccessPopup
+          title={dailyEventPopupInfo.title}
+          subTitle={dailyEventPopupInfo.subTitle}
+          iconSrc="/assets/icons/RewardIcon.png"
+          iconWidth={96}
+          iconHeight={96}
+          confirmFunc={() =>
+            setDailyEventPopupInfo((prev) => {
+              return { ...prev, isShow: false };
+            })
+          }
         />
       )}
     </>

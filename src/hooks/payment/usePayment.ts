@@ -1,5 +1,5 @@
 import { confirmPayments, ConfirmPaymentsRequest } from ".src/api/point";
-import { profileState, userNameState } from ".src/recoil";
+import { profileState } from ".src/recoil";
 import { RequestPayParams, RequestPayResponse } from ".src/types/imp";
 import { useMutation } from "@tanstack/react-query";
 import { useRecoilValue } from "recoil";
@@ -44,10 +44,6 @@ export default function usePayment() {
   /* 3. 콜백 함수 정의 */
   async function callback(paymentTxId: string, response: RequestPayResponse) {
     const { imp_uid, merchant_uid, error_msg } = response;
-    console.log(response);
-    console.log(paymentTxId);
-
-    // {imp_uid: 'imp_625921322418', merchant_uid: 'mid_1713545921075'}
 
     let request: ConfirmPaymentsRequest = {
       store: "PORTONE",

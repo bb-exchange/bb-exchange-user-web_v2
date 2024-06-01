@@ -46,7 +46,7 @@ export const useComments = ({
   });
 
   // NOTE 댓글 추가
-  const { mutate: newComment } = useMutation({
+  const { mutateAsync: newComment } = useMutation({
     mutationFn: createComment,
   });
 
