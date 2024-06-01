@@ -21,6 +21,8 @@ import { useArticles } from "@hooks/posts/useArticles";
 
 import { categoryState, isLoginState } from "@recoil/index";
 
+import { formatRate } from "@utils/format";
+
 export function getStaticProps() {
   return { props: { commonLayout: true, commonSort: "인기" } };
 }
@@ -158,9 +160,9 @@ export default function Popular() {
                       >
                         <div className={styles.diffBox}>
                           <p>
-                            {`${(changeRate || 0) > 0 ? "+" : ""}${
-                              changeRate || 0
-                            }% (${changeAmount || 0})`}
+                            {`${(changeRate || 0) > 0 ? "+" : ""}${formatRate(
+                              changeRate || 0,
+                            )}% (${changeAmount || 0})`}
                           </p>
                         </div>
 

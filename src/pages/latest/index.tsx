@@ -21,6 +21,8 @@ import { useRecoilValue } from "recoil";
 
 import { articles } from "@api/articles/articles";
 
+import { formatRate } from "@utils/format";
+
 export const getServerSideProps: GetServerSideProps<{
   dehydratedState: DehydratedState;
 }> = async () => {
@@ -176,9 +178,7 @@ export default function Lastest({
                         >
                           <div className={styles.diffBox}>
                             <p>
-                              {`${(changeRate || 0) > 0 ? "+" : ""}${
-                                changeRate || 0
-                              }% (${changeAmount || 0})`}
+                              {`${(changeRate || 0) > 0 ? "+" : ""}${formatRate(changeRate || 0)}% (${changeAmount || 0})`}
                             </p>
                           </div>
 
