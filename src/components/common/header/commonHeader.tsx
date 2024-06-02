@@ -1,6 +1,7 @@
 import AlertCount from "./alertCount";
 import AlertHoverPopup from "./alertHoverPopup";
 import PostCategoryPopup from "./postCategoryPopup";
+import ProfileHoverPopup from "./profileHoverPopup";
 
 import styles from "./commonHeader.module.scss";
 
@@ -20,6 +21,7 @@ import WriteWhite from "@assets/icons/WriteWhite.svg";
 import LogoBlue from "@assets/logos/LogoBlue.svg";
 
 import { getNotifications } from "@api/notification";
+import { NotificationResponse } from "@api/notification/types";
 import { getEthicalPledge, getProfile } from "@api/users/users";
 
 import Image from "@components/Image";
@@ -31,8 +33,6 @@ import { isLoginState, profileState, userNameState } from "@recoil/index";
 interface HeaderProps {
   commonSort?: "인기" | "최신" | "상장" | "서비스 소개" | "이벤트";
 }
-
-const COUNT = 1;
 
 export default function CommonHeader({ commonSort }: HeaderProps) {
   const router = useRouter();
@@ -72,11 +72,12 @@ export default function CommonHeader({ commonSort }: HeaderProps) {
     enabled: !!profile.userId,
   });
 
-  const { data: notifications } = useQuery({
+  const { data: notifications } = useQuery<NotificationResponse>({
     queryKey: ["getNotifications"],
     queryFn: () => getNotifications(),
   });
-  console.log(notifications);
+  const alertCount = notifications?.data?.contents.filter((content) => !content.isRead);
+
   return (
     <header className={styles.commonHeader}>
       <section className={styles.innerSec}>
@@ -106,8 +107,8 @@ export default function CommonHeader({ commonSort }: HeaderProps) {
                 </div>
 
                 <div className={styles.headerIcon}>
-                  <AlertCount count={COUNT} />
-                  <AlertHoverPopup />
+                  <AlertCount count={alertCount?.length ?? 0} />
+                  <AlertHoverPopup data={notifications} />
                 </div>
 
                 <div className={styles.headerIcon}>
@@ -120,7 +121,7 @@ export default function CommonHeader({ commonSort }: HeaderProps) {
                     width={28}
                     height={28}
                   />
-                  {/* <ProfileHoverPopup /> */}
+                  <ProfileHoverPopup />
                 </div>
               </>
             ) : (

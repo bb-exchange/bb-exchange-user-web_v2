@@ -12,6 +12,8 @@ export type NotificationContent = {
   landingTargetId: number;
 };
 
-export type NotificationResponse = PageData & {
-  contents: NotificationContent[];
+export type NotificationResponse = {
+  data: {
+    contents: NotificationContent[];
+  } & PageData;
 };
