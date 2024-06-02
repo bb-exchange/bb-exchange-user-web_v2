@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
+import { useQuery } from "@tanstack/react-query";
+
+import { getTelecoms } from "@api/phone";
+
 export default function useWithdrawInfoPopup() {
   const [nameAccountRequestAlertPopup, setNameAccountRequestAlertPopup] = useState<boolean>(false);
 
   const { setFocus, register, handleSubmit, getValues } = useForm<{
     name: string;
     accountNumber: string;
+    phoneNumber: string;
   }>();
 
   useEffect(() => {
@@ -21,6 +26,11 @@ export default function useWithdrawInfoPopup() {
     }
   };
 
+  const { data: telecoms } = useQuery({
+    queryKey: ["getTelecoms"],
+    queryFn: () => getTelecoms(),
+  });
+
   const onSubmit = () => {};
 
   return {
@@ -30,5 +40,6 @@ export default function useWithdrawInfoPopup() {
     onClickDraw,
     nameAccountRequestAlertPopup,
     setNameAccountRequestAlertPopup,
+    telecoms,
   };
 }

@@ -29,7 +29,6 @@ export default function Asset() {
   const useMypageAsset = UseMypageAsset();
   const useWithdrawPopup = UseWithdrawPopup();
   const useMyTermIncome = UseMyTermIncome();
-  console.log(useMypageAsset.bankInfo);
   return (
     <>
       <CommonHeader />

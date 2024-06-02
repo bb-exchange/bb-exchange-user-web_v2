@@ -1,7 +1,8 @@
 import styles from "./withdrawInfoPopup.module.scss";
 
-import ChevronDn from "@assets/icons/ChevronDn.svg";
 import X from "@assets/icons/X.svg";
+
+import { TelecomCode, TelecomType } from "@api/phone";
 
 import ContainedBtn from "@components/Buttons/ContainedBtn";
 
@@ -13,7 +14,7 @@ interface Iprops {
 
 export default function WithdrawPopup({ off }: Iprops) {
   const prop = useWithdrawInfoPopup();
-
+  console.log("telecoms ", prop.telecoms);
   return (
     <section className={styles.withdrawPopup}>
       <div className={styles.topBar}>
@@ -48,14 +49,23 @@ export default function WithdrawPopup({ off }: Iprops) {
             </li>
             <li>
               <label className={styles.label}>휴대폰 번호</label>
-              <div className={styles.inputBox}>
+              <div className={styles.selectBox}>
+                <select name="" id="">
+                  {prop.telecoms?.data.map(
+                    ({ code, telecom }: { code: string; telecom: TelecomType }) => {
+                      return (
+                        <option value={code} key={code}>
+                          {TelecomCode[telecom].label}
+                        </option>
+                      );
+                    },
+                  )}
+                </select>
                 <input
-                  // type="number"
-                  {...prop.register("accountNumber")}
-                  placeholder={`생년월일 6자리  -  ● ● ● ● ● ● ●`}
-                  maxLength={13}
+                  {...prop.register("phoneNumber")}
+                  placeholder="휴대폰 번호"
+                  maxLength={11}
                   defaultValue={""}
-                  // value={maskingAccountNum}
                 />
               </div>
             </li>

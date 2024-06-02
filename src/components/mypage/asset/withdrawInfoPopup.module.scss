@@ -61,6 +61,35 @@
               color: $Black1;
               width: 100%;
 
+              background-color: pink;
+              ::placeholder {
+                color: $Gray1;
+              }
+            }
+          }
+          .selectBox {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid $Gray2;
+            background-color: white;
+
+            display: flex;
+            gap: 10px;
+
+            select {
+              @extend .p1;
+              color: $Black1;
+              border: none;
+              appearance: none;
+            }
+
+            input {
+              padding: 4px 0;
+              @extend .p1;
+              color: $Black1;
+              width: 100%;
+
+              background-color: pink;
               ::placeholder {
                 color: $Gray1;
               }
