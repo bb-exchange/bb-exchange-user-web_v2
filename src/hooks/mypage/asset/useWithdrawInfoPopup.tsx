@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 
 import { useQuery } from "@tanstack/react-query";
 
+import { getBanks } from "@api/bank";
 import { getTelecoms } from "@api/phone";
 
 export default function useWithdrawInfoPopup() {
@@ -30,6 +31,10 @@ export default function useWithdrawInfoPopup() {
     queryKey: ["getTelecoms"],
     queryFn: () => getTelecoms(),
   });
+  const { data: banks } = useQuery({
+    queryKey: ["getBanks"],
+    queryFn: () => getBanks(),
+  });
 
   const onSubmit = () => {};
 
@@ -41,5 +46,6 @@ export default function useWithdrawInfoPopup() {
     nameAccountRequestAlertPopup,
     setNameAccountRequestAlertPopup,
     telecoms,
+    banks,
   };
 }

@@ -50,6 +50,22 @@
             color: $Gray1;
           }
 
+          .subDescription {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #777777;
+            @extend .p2;
+
+            svg {
+              width: 18px;
+              height: 18px;
+              g {
+                fill: $Black4;
+              }
+            }
+          }
+
           .inputBox {
             padding: 8px 12px;
             border-radius: 8px;
@@ -61,7 +77,6 @@
               color: $Black1;
               width: 100%;
 
-              background-color: pink;
               ::placeholder {
                 color: $Gray1;
               }
@@ -81,15 +96,17 @@
               color: $Black1;
               border: none;
               appearance: none;
+              background: url("/assets/images/arrow_down.png") 100% center no-repeat;
+              background-size: 16px;
+              padding-right: 24px;
             }
 
             input {
               padding: 4px 0;
               @extend .p1;
               color: $Black1;
-              width: 100%;
+              flex: 1;
 
-              background-color: pink;
               ::placeholder {
                 color: $Gray1;
               }

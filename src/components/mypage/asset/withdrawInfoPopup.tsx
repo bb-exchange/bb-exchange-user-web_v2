@@ -1,8 +1,7 @@
 import styles from "./withdrawInfoPopup.module.scss";
 
+import Caution from "@assets/icons/RedCaution.svg";
 import X from "@assets/icons/X.svg";
-
-import { TelecomCode, TelecomType } from "@api/phone";
 
 import ContainedBtn from "@components/Buttons/ContainedBtn";
 
@@ -14,7 +13,7 @@ interface Iprops {
 
 export default function WithdrawPopup({ off }: Iprops) {
   const prop = useWithdrawInfoPopup();
-  console.log("telecoms ", prop.telecoms);
+  console.log("telecoms ", prop.banks, prop.telecoms);
   return (
     <section className={styles.withdrawPopup}>
       <div className={styles.topBar}>
@@ -52,10 +51,10 @@ export default function WithdrawPopup({ off }: Iprops) {
               <div className={styles.selectBox}>
                 <select name="" id="">
                   {prop.telecoms?.data.map(
-                    ({ code, telecom }: { code: string; telecom: TelecomType }) => {
+                    ({ code, telecom }: { code: string; telecom: string }) => {
                       return (
                         <option value={code} key={code}>
-                          {TelecomCode[telecom].label}
+                          {telecom}
                         </option>
                       );
                     },
@@ -69,8 +68,26 @@ export default function WithdrawPopup({ off }: Iprops) {
                 />
               </div>
             </li>
+            <li>
+              <label className={styles.label}>수익금 출금 계좌</label>
+              <div className={styles.selectBox}>
+                <select name="" id="">
+                  {prop.banks?.data.data.map(({ code, name }: { code: string; name: string }) => {
+                    return (
+                      <option value={code} key={code}>
+                        {name}
+                      </option>
+                    );
+                  })}
+                </select>
+                <input {...prop.register("phoneNumber")} placeholder="계좌번호" />
+              </div>
+              <span className={styles.subDescription}>
+                <Caution />
+                가상 계좌번호는 지정할 수 없습니다.
+              </span>
+            </li>
           </ul>
-
           <ContainedBtn text="출금신청" onClick={prop.onClickDraw} />
         </form>
       </article>
