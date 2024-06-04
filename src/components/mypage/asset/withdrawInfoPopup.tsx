@@ -88,7 +88,22 @@ export default function WithdrawPopup({ off }: Iprops) {
               </span>
             </li>
           </ul>
-          <ContainedBtn text="출금신청" onClick={prop.onClickDraw} />
+
+          <section className={styles.submitForm}>
+            <div className={styles.checkbox}>
+              <input
+                id={"agree_check"}
+                className={styles.hiddenCheckbox}
+                type="checkbox"
+                onChange={(e) => {
+                  // handleCheckbox(e.target.checked, "agree_check");
+                }}
+                // checked={checkedInputs.includes("agree_check") ? true : false}
+              />
+              <label htmlFor="agree_check">(필수) 출금을 위한 개인정보 수집 동의</label>
+            </div>
+            <ContainedBtn text="완료" onClick={prop.onClickDraw} />
+          </section>
         </form>
       </article>
     </section>
