@@ -29,5 +29,8 @@ interface IsDailyEventSuccessRes {
   data: {
     eventType: string;
     done: true;
+    amount: number;
+    limitPerDay: number;
+    attainment: number;
   };
 }
