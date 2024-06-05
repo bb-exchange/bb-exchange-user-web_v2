@@ -7,24 +7,25 @@ import { getBanks } from "@api/bank";
 import { getTelecoms } from "@api/phone";
 
 export default function useWithdrawInfoPopup() {
-  const [nameAccountRequestAlertPopup, setNameAccountRequestAlertPopup] = useState<boolean>(false);
-
-  const { setFocus, register, handleSubmit, getValues } = useForm<{
+  const { setFocus, setValue, register, handleSubmit, getValues, watch } = useForm<{
     name: string;
-    accountNumber: string;
     phoneNumber: string;
+    bankAccountNumber: string;
+    bankCode: string;
+    telecomCode: string;
+    birthDate: string;
+    genderCode: string;
   }>();
+
+  const [agreeCheck, setAgreeCheck] = useState<boolean>(false);
 
   useEffect(() => {
     setFocus("name");
   }, [setFocus]);
 
-  // NOTE 출금신청 클릭 시
+  // 출금 정보 입력 [완료] 버튼
   const onClickDraw = () => {
-    // 실명 및 계좌정보 미입력 시
-    if (!getValues("name")) {
-      setNameAccountRequestAlertPopup(true);
-    }
+    console.log(getValues());
   };
 
   const { data: telecoms } = useQuery({
@@ -42,10 +43,13 @@ export default function useWithdrawInfoPopup() {
     handleSubmit,
     onSubmit,
     register,
+    setFocus,
+    setValue,
+    watch,
     onClickDraw,
-    nameAccountRequestAlertPopup,
-    setNameAccountRequestAlertPopup,
     telecoms,
     banks,
+    agreeCheck,
+    setAgreeCheck,
   };
 }

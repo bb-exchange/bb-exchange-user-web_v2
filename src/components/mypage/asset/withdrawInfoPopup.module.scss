@@ -71,15 +71,29 @@
             border-radius: 8px;
             border: 1px solid $Gray2;
             background-color: white;
+
+            .birthdate {
+              max-width: 100px;
+            }
+            .gendercode {
+              max-width: 14px;
+            }
             input {
               padding: 4px 0;
               @extend .p1;
               color: $Black1;
-              width: 100%;
+              flex: 1;
 
               ::placeholder {
                 color: $Gray1;
               }
+            }
+            .dot {
+              color: #202020;
+            }
+            .dash {
+              color: #b6b6b6;
+              margin: 0 10px;
             }
           }
           .selectBox {

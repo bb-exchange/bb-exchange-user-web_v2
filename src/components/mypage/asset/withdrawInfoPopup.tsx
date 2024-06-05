@@ -7,13 +7,14 @@ import ContainedBtn from "@components/Buttons/ContainedBtn";
 
 import useWithdrawInfoPopup from "@hooks/mypage/asset/useWithdrawInfoPopup";
 
+import { onHandlePhoneRegex } from "@utils/regex";
+
 interface Iprops {
   off: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 export default function WithdrawPopup({ off }: Iprops) {
   const prop = useWithdrawInfoPopup();
-  console.log("telecoms ", prop.banks, prop.telecoms);
   return (
     <section className={styles.withdrawPopup}>
       <div className={styles.topBar}>
@@ -37,19 +38,35 @@ export default function WithdrawPopup({ off }: Iprops) {
               <label className={styles.label}>주민등록번호</label>
               <div className={styles.inputBox}>
                 <input
-                  // type="number"
-                  {...prop.register("accountNumber")}
-                  placeholder={`생년월일 6자리  -  ● ● ● ● ● ● ●`}
-                  maxLength={13}
-                  defaultValue={""}
-                  // value={maskingAccountNum}
+                  {...prop.register("birthDate", {
+                    onChange: (e) => {
+                      // TODO: 소수점 입력 안되게 예외처리
+                      const value = e.target.value.replace(/[^0-9]/g, "");
+                      if (value.length >= 6) prop.setFocus("genderCode");
+                    },
+                  })}
+                  placeholder="생년월일 6자리"
+                  className={styles.birthdate}
+                  maxLength={6}
                 />
+                <span className={styles.dash}>-</span>
+                <input
+                  {...prop.register("genderCode", {
+                    onChange: (e) => {
+                      if (e.target.value.length > 0) prop.setFocus("telecomCode");
+                    },
+                  })}
+                  className={styles.gendercode}
+                  maxLength={1}
+                  placeholder="●"
+                />
+                <span className={styles.dot}> ● ● ● ● ● ●</span>
               </div>
             </li>
             <li>
               <label className={styles.label}>휴대폰 번호</label>
               <div className={styles.selectBox}>
-                <select name="" id="">
+                <select {...prop.register("telecomCode")}>
                   {prop.telecoms?.data.map(
                     ({ code, telecom }: { code: string; telecom: string }) => {
                       return (
@@ -61,17 +78,20 @@ export default function WithdrawPopup({ off }: Iprops) {
                   )}
                 </select>
                 <input
-                  {...prop.register("phoneNumber")}
+                  {...prop.register("phoneNumber", {
+                    onChange: (e) => {
+                      const value = onHandlePhoneRegex(e.target.value);
+                      prop.setValue("phoneNumber", value);
+                    },
+                  })}
                   placeholder="휴대폰 번호"
-                  maxLength={11}
-                  defaultValue={""}
                 />
               </div>
             </li>
             <li>
               <label className={styles.label}>수익금 출금 계좌</label>
               <div className={styles.selectBox}>
-                <select name="" id="">
+                <select {...prop.register("bankCode")}>
                   {prop.banks?.data.data.map(({ code, name }: { code: string; name: string }) => {
                     return (
                       <option value={code} key={code}>
@@ -80,7 +100,7 @@ export default function WithdrawPopup({ off }: Iprops) {
                     );
                   })}
                 </select>
-                <input {...prop.register("phoneNumber")} placeholder="계좌번호" />
+                <input {...prop.register("bankAccountNumber")} placeholder="계좌번호" />
               </div>
               <span className={styles.subDescription}>
                 <Caution />
@@ -96,13 +116,13 @@ export default function WithdrawPopup({ off }: Iprops) {
                 className={styles.hiddenCheckbox}
                 type="checkbox"
                 onChange={(e) => {
-                  // handleCheckbox(e.target.checked, "agree_check");
+                  prop.setAgreeCheck(e.target.checked);
                 }}
-                // checked={checkedInputs.includes("agree_check") ? true : false}
+                checked={prop.agreeCheck}
               />
               <label htmlFor="agree_check">(필수) 출금을 위한 개인정보 수집 동의</label>
             </div>
-            <ContainedBtn text="완료" onClick={prop.onClickDraw} />
+            <ContainedBtn text="완료" onClick={prop.onClickDraw} disabled={!prop.agreeCheck} />
           </section>
         </form>
       </article>
