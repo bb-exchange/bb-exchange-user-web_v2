@@ -1153,7 +1153,7 @@ const ArticleItem = ({
               {`${(changeRate || 0) > 0 ? "+" : ""}${formatRate(changeRate || 0)}% (${changeAmount || 0})`}
             </p>
 
-            <p className={styles.price}>{`${new Intl.NumberFormat().format(price || 0)} 원`}</p>
+            <p className={styles.price}>{`${new Intl.NumberFormat().format(price || 0)} P`}</p>
           </div>
         ) : (
           <div className={`${styles.rightCont} ${styles.notListed}`}>
