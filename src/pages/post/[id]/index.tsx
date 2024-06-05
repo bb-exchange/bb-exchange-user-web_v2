@@ -323,8 +323,8 @@ export default function Post({
     if (data.data.done) {
       setDailyEventPopupInfo((prev) => ({
         ...prev,
-        title: "50원 받았어요!",
-        subTitle: "비법글에 좋아요 X개 누르기",
+        title: `${data.data.amount}원 받았어요!`,
+        subTitle: `비법글에 댓글 ${data.data.attainment}개 작성하기`,
         isShow: true,
       }));
     }
@@ -344,15 +344,51 @@ export default function Post({
 
   // NOTE 대댓글 추가
   const onClickCreateComment = useCallback(
-    (props: { parentCommentId: number; content: string }) =>
-      newComment({ articleId, ...props }, { onSuccess: () => refetchComments() }),
-    [articleId, newComment, refetchComments],
+    (props: { parentCommentId: number; content: string }) => {
+      newComment(
+        { articleId, ...props },
+        {
+          onSuccess: async () => {
+            await refetchComments();
+
+            // 일일보상 댓글 작성 완료여부 조회
+            const { data } = await isDailyEventSuccess(profile?.userId, "ARTICLE_COMMENT");
+
+            if (data.data.done) {
+              setDailyEventPopupInfo((prev) => ({
+                ...prev,
+                title: `${data.data.amount}원 받았어요!`,
+                subTitle: `비법글에 댓글 ${data.data.attainment}개 작성하기`,
+                isShow: true,
+              }));
+            }
+          },
+        },
+      );
+    },
+    [articleId, newComment, profile?.userId, refetchComments],
   );
 
   // NOTE 댓글 좋아요 등록/해제
   const onClickLikeComment = useCallback(
-    (props: { isLike: boolean; commentId: number }) => setLikeComment(props),
-    [setLikeComment],
+    async (props: { isLike: boolean; commentId: number }) => {
+      await setLikeComment(props);
+
+      if (!props.isLike) return;
+
+      // 일일보상 댓글 좋아요 완료여부 조회
+      const { data } = await isDailyEventSuccess(profile?.userId, "COMMENT_LIKE");
+
+      if (data.data.done) {
+        setDailyEventPopupInfo((prev) => ({
+          ...prev,
+          title: `${data.data.amount}원 받았어요!`,
+          subTitle: `댓글에 좋아요 ${data.data.attainment}개 누르기`,
+          isShow: true,
+        }));
+      }
+    },
+    [profile?.userId, setLikeComment],
   );
 
   // NOTE 유저프로필 클릭 시 유저상세페이지로 연결
@@ -374,7 +410,18 @@ export default function Post({
 
         if (!isLike && !isDislike) {
           await mutateSetValue({ type, isTrue: true });
+
+          if (type === "dislike") return;
+
           const { data } = await isDailyEventSuccess(profile?.userId, "ARTICLE_LIKE");
+          if (data.data.done) {
+            setDailyEventPopupInfo((prev) => ({
+              ...prev,
+              title: `${data.data.amount}원 받았어요!`,
+              subTitle: `비법글에 좋아요 ${data.data.attainment}개 누르기`,
+              isShow: true,
+            }));
+          }
 
           return;
         } else if (type === "like" && isDislike)

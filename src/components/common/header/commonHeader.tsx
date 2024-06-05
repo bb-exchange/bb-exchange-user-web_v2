@@ -1,3 +1,4 @@
+import Dvider from "../../../../public/assets/images/divider.svg";
 import PostCategoryPopup from "./postCategoryPopup";
 import ProfileHoverPopup from "./profileHoverPopup";
 
@@ -157,15 +158,19 @@ export default function CommonHeader({ commonSort }: Iprops) {
             </span>
 
             <ul className={styles.categoryList}>
-              {D_commonHeaderCategoryList.map((v, i) => (
-                <li
-                  key={i}
-                  className={v.label === commonSort ? styles.on : ""}
-                  onClick={() => onClickTab(v.url, v.label)}
-                >
-                  <p>{v.label}</p>
-                </li>
-              ))}
+              {D_commonHeaderCategoryList.map((v, i) =>
+                v.label === "divder" ? (
+                  <Dvider key={i} />
+                ) : (
+                  <li
+                    key={i}
+                    className={v.label === commonSort ? styles.on : ""}
+                    onClick={() => onClickTab(v.url, v.label)}
+                  >
+                    <p>{v.label}</p>
+                  </li>
+                ),
+              )}
             </ul>
           </div>
 
