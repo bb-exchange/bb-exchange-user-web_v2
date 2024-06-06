@@ -58,24 +58,15 @@ const Daily = () => {
   const eventStatusCountRenderItem = useCallback((statusCount: number, limitPerDay: number) => {
     let renderItem;
 
-    if (statusCount === limitPerDay) {
-      // 참여완료한 이벤트인 경우
+    if (statusCount === 0) {
+      // 미션 수행전인 미션의 경우
+      renderItem = <>오늘 {limitPerDay}번 가능</>;
+    } else {
       renderItem = (
         <>
           오늘 {statusCount}/{limitPerDay}번 완료
         </>
       );
-    } else if (limitPerDay <= 1) {
-      // 1회 이상의 미션인 경우
-      renderItem = <>오늘 {limitPerDay}번 가능</>;
-    } else if (statusCount < limitPerDay) {
-      renderItem = (
-        <>
-          오늘 {limitPerDay - statusCount}/{limitPerDay}번 가능
-        </>
-      );
-    } else {
-      renderItem = <>오늘 {limitPerDay}번 가능</>;
     }
 
     return renderItem;
