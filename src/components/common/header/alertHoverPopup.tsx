@@ -13,15 +13,12 @@ import { NotificationResponse } from "@api/notification/types";
 
 import { NotificationTypeCode } from "@const/common";
 
-import usePushNotification from "@hooks/common/useNotification";
-
-type AlertHoverPopupRrops = {
+type AlertHoverPopupProps = {
   data?: NotificationResponse;
 };
 
-const AlertHoverPopup = ({ data: notificationData }: AlertHoverPopupRrops) => {
+const AlertHoverPopup = ({ data: notificationData }: AlertHoverPopupProps) => {
   const hasReadAlarm = notificationData?.data?.contents?.every((content) => content.isRead);
-  // const { fireNotification } = usePushNotification();
   const router = useRouter();
 
   const { mutate: updateNotificationById } = useMutation({
