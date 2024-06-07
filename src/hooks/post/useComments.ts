@@ -46,7 +46,7 @@ export const useComments = ({
   });
 
   // NOTE 댓글 추가
-  const { mutate: newComment } = useMutation({
+  const { mutateAsync: newComment } = useMutation({
     mutationFn: createComment,
   });
 
@@ -102,7 +102,7 @@ export const useComments = ({
   });
 
   // NOTE 댓글 좋아요 등록/해제
-  const { mutate: setLikeComment } = useMutation({
+  const { mutateAsync: setLikeComment } = useMutation({
     mutationFn: updateLikeComment,
     onSuccess: (_, { isLike, commentId }) =>
       queryClient.setQueryData<InfiniteData<Comments>>(

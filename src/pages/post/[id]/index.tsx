@@ -56,6 +56,14 @@ import { deleteCookie } from "cookies-next";
 import moment from "moment";
 import { useRecoilValue } from "recoil";
 
+import { isDailyEventSuccess } from "@api/event";
+
+import { SuccessPopup } from "@components/common/popup/SuccessPopup";
+
+import useGetMyProfile from "@hooks/common/useGetProfile";
+
+import { formatRate } from "@utils/format";
+
 export const getServerSideProps: GetServerSideProps<{
   postData: PostData | undefined;
 }> = async (context: GetServerSidePropsContext) => {
@@ -118,6 +126,7 @@ export default function Post({
   const { id: articleId } = router.query as { id: string };
 
   const isLogin = useRecoilValue(isLoginState);
+  const { profile } = useGetMyProfile();
 
   // NOTE 좋아요/싫어요 수정 불가 팝업 오픈 여부
   const [oneMinOver, setOneMinOver] = useState<boolean>(false);
@@ -145,6 +154,13 @@ export default function Post({
 
   // NOTE - 내 글 삭제 완료 팝업 오픈 여부
   const [openConfirmDeleteComplete, setOpenConfirmDeleteComplete] = useState<boolean>(false);
+
+  // NOTE - 일일보상 지급완료 팝업 오픈 여부
+  const [dailyEventPopupInfo, setDailyEventPopupInfo] = useState({
+    isShow: false,
+    title: "",
+    subTitle: "",
+  });
 
   // NOTE URL 복사 완료 팝업 오픈 여부
   const [copied, setCopied] = useState<boolean>(false);
@@ -177,7 +193,7 @@ export default function Post({
   const onConfirmDelete = () => deleteThisPost();
 
   // NOTE 좋아요/싫어요 - 등록/해제
-  const { mutate: mutateSetValue } = useMutation({
+  const { mutateAsync: mutateSetValue } = useMutation({
     mutationFn: async ({ isTrue, type }: { isTrue: boolean; type: "like" | "dislike" }) =>
       type === "like"
         ? await updateLikePost({
@@ -284,10 +300,10 @@ export default function Post({
   const onChangeComment = (value: string) => setCommentContent(value);
 
   // NOTE 댓글 저장
-  const onSubmit = useCallback(() => {
+  const onSubmit = useCallback(async () => {
     if (!isValidComment) return;
 
-    newComment(
+    await newComment(
       {
         articleId,
         parentCommentId: null,
@@ -300,7 +316,19 @@ export default function Post({
         },
       },
     );
-  }, [articleId, commentContent, isValidComment, newComment]);
+
+    // 일일보상 댓글 작성 완료여부 조회
+    const { data } = await isDailyEventSuccess(profile?.userId, "ARTICLE_COMMENT");
+
+    if (data.data.done) {
+      setDailyEventPopupInfo((prev) => ({
+        ...prev,
+        title: `${data.data.amount}원 받았어요!`,
+        subTitle: `비법글에 댓글 ${data.data.attainment}개 작성하기`,
+        isShow: true,
+      }));
+    }
+  }, [articleId, commentContent, isValidComment, newComment, profile?.userId]);
 
   // NOTE 댓글 수정
   const onClickUpdateComment = useCallback(
@@ -316,15 +344,51 @@ export default function Post({
 
   // NOTE 대댓글 추가
   const onClickCreateComment = useCallback(
-    (props: { parentCommentId: number; content: string }) =>
-      newComment({ articleId, ...props }, { onSuccess: () => refetchComments() }),
-    [articleId, newComment, refetchComments],
+    (props: { parentCommentId: number; content: string }) => {
+      newComment(
+        { articleId, ...props },
+        {
+          onSuccess: async () => {
+            await refetchComments();
+
+            // 일일보상 댓글 작성 완료여부 조회
+            const { data } = await isDailyEventSuccess(profile?.userId, "ARTICLE_COMMENT");
+
+            if (data.data.done) {
+              setDailyEventPopupInfo((prev) => ({
+                ...prev,
+                title: `${data.data.amount}원 받았어요!`,
+                subTitle: `비법글에 댓글 ${data.data.attainment}개 작성하기`,
+                isShow: true,
+              }));
+            }
+          },
+        },
+      );
+    },
+    [articleId, newComment, profile?.userId, refetchComments],
   );
 
   // NOTE 댓글 좋아요 등록/해제
   const onClickLikeComment = useCallback(
-    (props: { isLike: boolean; commentId: number }) => setLikeComment(props),
-    [setLikeComment],
+    async (props: { isLike: boolean; commentId: number }) => {
+      await setLikeComment(props);
+
+      if (!props.isLike) return;
+
+      // 일일보상 댓글 좋아요 완료여부 조회
+      const { data } = await isDailyEventSuccess(profile?.userId, "COMMENT_LIKE");
+
+      if (data.data.done) {
+        setDailyEventPopupInfo((prev) => ({
+          ...prev,
+          title: `${data.data.amount}원 받았어요!`,
+          subTitle: `댓글에 좋아요 ${data.data.attainment}개 누르기`,
+          isShow: true,
+        }));
+      }
+    },
+    [profile?.userId, setLikeComment],
   );
 
   // NOTE 유저프로필 클릭 시 유저상세페이지로 연결
@@ -338,14 +402,29 @@ export default function Post({
 
   // NOTE 좋아요/싫어요 클릭
   const onClickSetValue = useCallback(
-    ({ type }: { type: "like" | "dislike" }) => {
+    async ({ type }: { type: "like" | "dislike" }) => {
       if (!isLogin) router.push("/auth/signin");
       else if (!postData?.priceInfo) return;
       else {
         const { isLike, isDislike } = postData.priceInfo;
 
-        if (!isLike && !isDislike) return mutateSetValue({ type, isTrue: true });
-        else if (type === "like" && isDislike)
+        if (!isLike && !isDislike) {
+          await mutateSetValue({ type, isTrue: true });
+
+          if (type === "dislike") return;
+
+          const { data } = await isDailyEventSuccess(profile?.userId, "ARTICLE_LIKE");
+          if (data.data.done) {
+            setDailyEventPopupInfo((prev) => ({
+              ...prev,
+              title: `${data.data.amount}원 받았어요!`,
+              subTitle: `비법글에 좋아요 ${data.data.attainment}개 누르기`,
+              isShow: true,
+            }));
+          }
+
+          return;
+        } else if (type === "like" && isDislike)
           return mutateSetValue({ type: "dislike", isTrue: false });
         else if (type === "dislike" && isLike)
           return mutateSetValue({ type: "like", isTrue: false });
@@ -353,7 +432,7 @@ export default function Post({
         return mutateSetValue({ type, isTrue: false });
       }
     },
-    [isLogin, mutateSetValue, postData, router],
+    [isLogin, mutateSetValue, postData, profile?.userId, router],
   );
 
   function getDiffStyle(diff: number) {
@@ -596,7 +675,9 @@ export default function Post({
                       <h2 className={styles.price}>{`${new Intl.NumberFormat().format(
                         Number(postData?.priceInfo.price),
                       )}P`}</h2>
-                      <p className={styles.percent}>{postData?.priceInfo.changeRate || 0}%</p>
+                      <p className={styles.percent}>
+                        {formatRate(postData?.priceInfo.changeRate || 0)}%
+                      </p>
                     </div>
 
                     <button
@@ -865,7 +946,7 @@ export default function Post({
                 <div className={styles.priceCont}>
                   <div className={`${styles.diffBox} ${getDiffStyle(1 || 0)}`}>
                     <p>
-                      +{postData?.priceInfo.changeRate || 0}% (
+                      +{formatRate(postData?.priceInfo.changeRate || 0)}% (
                       {postData?.priceInfo.changeAmount || 0})
                     </p>
                   </div>
@@ -1043,6 +1124,21 @@ export default function Post({
           confirmFunc={() => router.push(`/mypage/write`)}
         />
       )}
+
+      {dailyEventPopupInfo.isShow && (
+        <SuccessPopup
+          title={dailyEventPopupInfo.title}
+          subTitle={dailyEventPopupInfo.subTitle}
+          iconSrc="/assets/icons/RewardIcon.png"
+          iconWidth={96}
+          iconHeight={96}
+          confirmFunc={() =>
+            setDailyEventPopupInfo((prev) => {
+              return { ...prev, isShow: false };
+            })
+          }
+        />
+      )}
     </>
   );
 }
@@ -1101,10 +1197,10 @@ const ArticleItem = ({
         {listed ? (
           <div className={`${styles.rightCont} ${getDiffStyle(changeRate || 0)}`}>
             <p className={styles.diff}>
-              {`${(changeRate || 0) > 0 ? "+" : ""}${changeRate || 0}% (${changeAmount || 0})`}
+              {`${(changeRate || 0) > 0 ? "+" : ""}${formatRate(changeRate || 0)}% (${changeAmount || 0})`}
             </p>
 
-            <p className={styles.price}>{`${new Intl.NumberFormat().format(price || 0)} 원`}</p>
+            <p className={styles.price}>{`${new Intl.NumberFormat().format(price || 0)} P`}</p>
           </div>
         ) : (
           <div className={`${styles.rightCont} ${styles.notListed}`}>

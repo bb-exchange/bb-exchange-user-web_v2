@@ -46,6 +46,10 @@
         align-items: center;
         gap: 24px;
 
+        &.login {
+          gap: 24px;
+        }
+
         .writeBtn {
           display: flex;
           justify-content: center;
@@ -81,11 +85,46 @@
           align-items: center;
           gap: 24px;
         }
+
+        .imgWrap {
+          display: flex;
+          align-items: center;
+          gap: 24px;
         .headerIcon {
           width: 28px;
           height: 28px;
           cursor: pointer;
           position: relative;
+          svg,
+          img {
+            cursor: pointer;
+          }
+
+          button {
+            display: flex;
+          }
+
+          .alertImgWrap {
+            // padding: 6px 10px 0;
+            position: relative;
+            > section {
+              display: none;
+            }
+            &:hover {
+              > section {
+                display: block;
+              }
+            }
+          }
+          .profImgWrap {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            width: 29px;
+            height: 29px;
+            overflow: hidden;
+            border-radius: 50%;
 
           .profile {
             width: 100%;
@@ -225,21 +264,6 @@
             background: $Primary5;
             border-radius: 12px;
             cursor: pointer;
-
-            p {
-              font-size: 13px;
-              line-height: 20px;
-              color: $Black2;
-
-              span {
-                margin: 4px;
-              }
-
-              strong {
-                font-weight: 700;
-                color: $Primary1;
-              }
-            }
 
             svg {
               path {
