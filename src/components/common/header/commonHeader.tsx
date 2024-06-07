@@ -1,31 +1,37 @@
-import Dvider from "../../../../public/assets/images/divider.svg";
+import AlertCount from "./alertCount";
+import AlertHoverPopup from "./alertHoverPopup";
 import PostCategoryPopup from "./postCategoryPopup";
 import ProfileHoverPopup from "./profileHoverPopup";
 
 import styles from "./commonHeader.module.scss";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 import { useRouter } from "next/router";
 
-import DefaultProfImg from ".assets/example/DefaultProfImg.png";
-import Bell from ".assets/icons/Bell.svg";
-import ChevronRt from ".assets/icons/ChevronRt.svg";
-import Hamburger from ".assets/icons/Hamburger.svg";
-import Shop from ".assets/icons/Shop.svg";
-import TriangleDn from ".assets/icons/TriangleDn.svg";
-import WriteWhite from ".assets/icons/WriteWhite.svg";
-import LogoBlue from ".assets/logos/LogoBlue.svg";
-import { getEthicalPledge, getProfile } from ".src/api/users/users";
-import ConfirmTitlePopup from ".src/components/common/popup/confirmTitlePopup";
-import PopupBg from ".src/components/common/popupBg";
-import Image from ".src/components/Image";
-import { D_commonHeaderCategoryList } from ".src/data/common/header";
-import { isLoginState, profileState } from ".src/recoil";
 import { useQuery } from "@tanstack/react-query";
 import { useRecoilValue } from "recoil";
 
-interface Iprops {
+import DefaultProfImg from "@assets/example/DefaultProfImg.png";
+import ChevronRt from "@assets/icons/ChevronRt.svg";
+import Hamburger from "@assets/icons/Hamburger.svg";
+import Shop from "@assets/icons/Shop.svg";
+import TriangleDn from "@assets/icons/TriangleDn.svg";
+import WriteWhite from "@assets/icons/WriteWhite.svg";
+import Dvider from "@assets/images/divider.svg";
+import LogoBlue from "@assets/logos/LogoBlue.svg";
+
+import { getNotifications } from "@api/notification";
+import { NotificationResponse } from "@api/notification/types";
+import { getEthicalPledge, getProfile } from "@api/users/users";
+
+import Image from "@components/Image";
+
+import { D_commonHeaderCategoryList } from "@data/common/header";
+
+import { isLoginState, profileState } from "@recoil/index";
+
+interface HeaderProps {
   commonSort?: "인기" | "최신" | "상장" | "서비스 소개" | "이벤트" | "일일보상";
 }
 
@@ -101,7 +107,7 @@ export default function CommonHeader({ commonSort }: HeaderProps) {
                   <p>작성하기</p>
                 </button>
 
-                <div className={styles.imgWrap}>
+                <div className={styles.headerIcon}>
                   <button
                     onClick={() => {
                       router.push("/charge");
@@ -109,7 +115,7 @@ export default function CommonHeader({ commonSort }: HeaderProps) {
                   >
                     <Shop />
                   </button>
-
+                </div>
                 <div className={styles.headerIcon}>
                   <AlertCount count={alertCount?.length ?? 0} />
                   <AlertHoverPopup data={notifications} />
