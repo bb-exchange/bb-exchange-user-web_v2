@@ -59,6 +59,7 @@ import { useRecoilValue } from "recoil";
 import { isDailyEventSuccess } from "@api/event";
 
 import { SuccessPopup } from "@components/common/popup/SuccessPopup";
+import BuyPostPopup from "@components/post/buyPostPopup";
 
 import useGetMyProfile from "@hooks/common/useGetProfile";
 
@@ -1063,7 +1064,12 @@ export default function Post({
 
       {hook.buyPopup && (
         <>
-          {/* <BuyPostPopup usePost={hook} /> */}
+          <BuyPostPopup
+            title={postData?.articleInfo.title || ""}
+            price={postData?.priceInfo.price || 0}
+            usePost={hook}
+          />
+          {/* <SuccessPopup confirmFunc={null} /> */}
           <PopupBg bg off={() => hook.setBuyPopup(false)} />
         </>
       )}
