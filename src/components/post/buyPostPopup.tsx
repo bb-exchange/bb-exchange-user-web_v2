@@ -1,11 +1,12 @@
 import styles from "./buyPostPopup.module.scss";
 
-import CautionRed from ".assets/icons/CautionRed.svg";
-import CheckCircle from ".assets/icons/CheckCircle.svg";
-import CheckCircleBlueO from ".assets/icons/CheckCircleBlueO.svg";
-import X from ".assets/icons/X.svg";
-import UseBuyPostPopup from ".src/hooks/post/useBuyPostPopup";
-import UsePost from ".src/hooks/post/usePost";
+import CautionRed from "@assets/icons/CautionRed.svg";
+import CheckCircle from "@assets/icons/CheckCircle.svg";
+import CheckCircleBlueO from "@assets/icons/CheckCircleBlueO.svg";
+import X from "@assets/icons/X.svg";
+
+import UseBuyPostPopup from "@hooks/post/useBuyPostPopup";
+import UsePost from "@hooks/post/usePost";
 
 interface Iprops {
   usePost: ReturnType<typeof UsePost>;
