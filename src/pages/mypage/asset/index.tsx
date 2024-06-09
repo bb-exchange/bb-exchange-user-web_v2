@@ -22,6 +22,7 @@ import TermIncome from "@components/mypage/asset/termIncome";
 import WithdrawInfoPopup from "@components/mypage/asset/withdrawInfoPopup";
 import WithdrawPopup from "@components/mypage/asset/withdrawPopup";
 import MypageNavAside from "@components/mypage/mypageNavAside";
+import EventCategory from "@components/mypage/profit-category/eventCategory";
 
 import { BY_CONTENT, EVENT, MONTHLY, WITHDRAWAL } from "@const/common";
 
@@ -122,7 +123,7 @@ export default function Asset() {
             ))}
           </ul>
 
-          {useMypageAsset.selectedCategory === EVENT && <TermIncome />}
+          {useMypageAsset.selectedCategory === EVENT && <EventCategory />}
           {useMypageAsset.selectedCategory === MONTHLY && <TermIncome />}
           {useMypageAsset.selectedCategory === BY_CONTENT && <ContentIncome />}
           {useMypageAsset.selectedCategory === WITHDRAWAL && <MyWithdraw />}

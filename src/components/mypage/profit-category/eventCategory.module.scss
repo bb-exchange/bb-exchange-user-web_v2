@@ -1,0 +1,35 @@
+@import "/src/styles/variable";
+
+.eventCategoryContainer {
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .listItem {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .titleWrapper {
+      display: flex;
+      gap: 40px;
+    }
+
+    .dateText {
+      @extend .p3;
+      color: $Black2;
+    }
+    .mainText {
+      @extend .p1;
+      @extend .bold;
+      color: $Black3;
+    }
+    .subText {
+      @extend .h3;
+      @extend .bold;
+      color: $Red1;
+    }
+  }
+}

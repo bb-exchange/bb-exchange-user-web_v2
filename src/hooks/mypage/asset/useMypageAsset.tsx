@@ -7,7 +7,7 @@ import { BankInfoType, getBankDetails, getBanks, updateBankDetails } from "@api/
 import { getActual, postProfitToPoint, postSettlement } from "@api/mypage/settlement";
 import { getTelecoms } from "@api/phone";
 
-import { ProfitCategory, ProfitCategoryTypeCode } from "@const/common";
+import { ProfitCategoryTypeCode } from "@const/common";
 
 import { onHandlePhoneRegex } from "@utils/regex";
 
