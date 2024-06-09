@@ -58,3 +58,27 @@ export const NotificationTypeCode: CodeType<NotificationInteraction> = {
     value: "COMMENT_LIKED",
   },
 };
+
+export const EVENT = "EVENT";
+export const MONTHLY = "MONTHLY";
+export const BY_CONTENT = "BY_CONTENT";
+export const WITHDRAWAL = "WITHDRAWAL";
+export type ProfitCategory = typeof EVENT | typeof MONTHLY | typeof BY_CONTENT | typeof WITHDRAWAL;
+export const ProfitCategoryTypeCode: CodeType<ProfitCategory> = {
+  [EVENT]: {
+    label: "이벤트 수익금",
+    value: EVENT,
+  },
+  [MONTHLY]: {
+    label: "월별 수익금",
+    value: MONTHLY,
+  },
+  [BY_CONTENT]: {
+    label: "콘텐츠별 수익금",
+    value: BY_CONTENT,
+  },
+  [WITHDRAWAL]: {
+    label: "출금내역",
+    value: WITHDRAWAL,
+  },
+};

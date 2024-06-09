@@ -23,6 +23,8 @@ import WithdrawInfoPopup from "@components/mypage/asset/withdrawInfoPopup";
 import WithdrawPopup from "@components/mypage/asset/withdrawPopup";
 import MypageNavAside from "@components/mypage/mypageNavAside";
 
+import { BY_CONTENT, EVENT, MONTHLY, WITHDRAWAL } from "@const/common";
+
 import UseMypageAsset from "@hooks/mypage/asset/useMypageAsset";
 import UseMyTermIncome from "@hooks/mypage/asset/useMytermIncome";
 import UseWithdrawPopup from "@hooks/mypage/asset/useWithdrawPopup";
@@ -109,21 +111,21 @@ export default function Asset() {
           </article>
 
           <ul className={styles.categoryList}>
-            {useMypageAsset.categoryList.map((v, i) => (
+            {useMypageAsset.categoryList.map(({ label, value }) => (
               <li
-                key={i}
-                className={v === useMypageAsset.category ? styles.on : ""}
-                onClick={() => useMypageAsset.setCategory(v)}
+                key={value}
+                className={value === useMypageAsset.selectedCategory ? styles.on : ""}
+                onClick={() => useMypageAsset.setSelectedCategory(value)}
               >
-                <p>{v}</p>
+                <p>{label}</p>
               </li>
             ))}
           </ul>
 
-          {useMypageAsset.category === "이벤트 수익금" && <TermIncome />}
-          {useMypageAsset.category === "월별 수익금" && <TermIncome />}
-          {useMypageAsset.category === "콘텐츠별 수익금" && <ContentIncome />}
-          {useMypageAsset.category === "출금내역" && <MyWithdraw />}
+          {useMypageAsset.selectedCategory === EVENT && <TermIncome />}
+          {useMypageAsset.selectedCategory === MONTHLY && <TermIncome />}
+          {useMypageAsset.selectedCategory === BY_CONTENT && <ContentIncome />}
+          {useMypageAsset.selectedCategory === WITHDRAWAL && <MyWithdraw />}
         </section>
       </main>
       <ScrollTopBtn />

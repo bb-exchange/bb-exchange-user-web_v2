@@ -1,19 +1,26 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-import { D_mypageAssetCategoryList } from ".src/data/mypage/asset/D_mypageAsset";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { BankInfoType, getBankDetails, getBanks, updateBankDetails } from "@api/bank";
 import { getActual, postProfitToPoint, postSettlement } from "@api/mypage/settlement";
 import { getTelecoms } from "@api/phone";
 
+import { ProfitCategory, ProfitCategoryTypeCode } from "@const/common";
+
 import { onHandlePhoneRegex } from "@utils/regex";
 
 export default function UseMypageAsset() {
-  const categoryList: string[] = D_mypageAssetCategoryList;
+  const categoryList = Object.values(ProfitCategoryTypeCode).map(({ label, value }) => {
+    return {
+      label,
+      value,
+    };
+  });
 
-  const [category, setCategory] = useState<string>(categoryList[0]);
+  const [selectedCategory, setSelectedCategory] = useState<string>(categoryList[0].value);
+
   const [isPointPopupOpen, setIsPointPopup] = useState<boolean>(false);
   const onOpenPointPopup = () => {
     setChangePointValue(0);
@@ -196,8 +203,8 @@ export default function UseMypageAsset() {
 
   return {
     categoryList,
-    category,
-    setCategory,
+    selectedCategory,
+    setSelectedCategory,
     isPointPopupOpen,
     onOpenPointPopup,
     onClosePointPopup,
