@@ -14,6 +14,7 @@ import { init } from "@amplitude/analytics-browser";
 import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import "moment/locale/ko";
 import { RecoilRoot } from "recoil";
 
 export default function App({ Component, ...rest }: AppProps) {
