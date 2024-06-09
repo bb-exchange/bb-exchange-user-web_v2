@@ -69,6 +69,7 @@
           .inputBox {
             padding: 8px 12px;
             border-radius: 8px;
+
             border: 1px solid $Gray2;
             background-color: white;
 
@@ -82,12 +83,13 @@
               padding: 4px 0;
               @extend .p1;
               color: $Black1;
-              flex: 1;
+              width: 100%;
 
               ::placeholder {
                 color: $Gray1;
               }
             }
+
             .dot {
               color: #202020;
             }
@@ -95,6 +97,13 @@
               color: #b6b6b6;
               margin: 0 10px;
             }
+          }
+          .suffix {
+            display: flex;
+            align-items: center;
+          }
+          .suffix::after {
+            content: "원";
           }
           .selectBox {
             padding: 8px 12px;
@@ -125,6 +134,10 @@
                 color: $Gray1;
               }
             }
+          }
+
+          .disabled {
+            background-color: $Primary5;
           }
         }
       }
@@ -159,13 +172,6 @@
         .hiddenCheckbox:checked + label::before {
           background: url("/assets/icons/CheckCircleSmall.svg") no-repeat;
         }
-      }
-      .submitBtn {
-        height: 52px;
-        font-weight: 700;
-        color: $White1;
-        background: $Primary1;
-        border-radius: 8px;
       }
     }
   }

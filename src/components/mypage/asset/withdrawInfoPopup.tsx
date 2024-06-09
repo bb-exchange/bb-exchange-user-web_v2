@@ -5,16 +5,16 @@ import X from "@assets/icons/X.svg";
 
 import ContainedBtn from "@components/Buttons/ContainedBtn";
 
-import useWithdrawInfoPopup from "@hooks/mypage/asset/useWithdrawInfoPopup";
+import UseMypageAsset from "@hooks/mypage/asset/useMypageAsset";
 
 import { onHandlePhoneRegex } from "@utils/regex";
 
-interface Iprops {
+interface WithdrawPopupProps {
   off: React.MouseEventHandler<HTMLButtonElement>;
+  useMypageAsset: ReturnType<typeof UseMypageAsset>;
 }
 
-export default function WithdrawPopup({ off }: Iprops) {
-  const prop = useWithdrawInfoPopup();
+export default function WithdrawPopup({ off, useMypageAsset: prop }: WithdrawPopupProps) {
   return (
     <section className={styles.withdrawPopup}>
       <div className={styles.topBar}>
@@ -26,12 +26,12 @@ export default function WithdrawPopup({ off }: Iprops) {
       </div>
 
       <article className={styles.contArea}>
-        <form onSubmit={prop.handleSubmit(prop.onSubmit)}>
+        <form onSubmit={prop.handleSubmit(prop.onRegisterAccountNumberSubmit)}>
           <ul className={styles.inputList}>
             <li>
               <label className={styles.label}>실명</label>
               <div className={styles.inputBox}>
-                <input {...prop.register("name")} placeholder="이름" />
+                <input {...prop.register("name", { required: true })} placeholder="이름" />
               </div>
             </li>
             <li>
@@ -39,9 +39,10 @@ export default function WithdrawPopup({ off }: Iprops) {
               <div className={styles.inputBox}>
                 <input
                   {...prop.register("birthDate", {
+                    required: true,
                     onChange: (e) => {
-                      // TODO: 소수점 입력 안되게 예외처리
                       const value = e.target.value.replace(/[^0-9]/g, "");
+                      prop.setValue("birthDate", value);
                       if (value.length >= 6) prop.setFocus("genderCode");
                     },
                   })}
@@ -52,8 +53,12 @@ export default function WithdrawPopup({ off }: Iprops) {
                 <span className={styles.dash}>-</span>
                 <input
                   {...prop.register("genderCode", {
+                    required: true,
                     onChange: (e) => {
-                      if (e.target.value.length > 0) prop.setFocus("telecomCode");
+                      const value = e.target.value.replace(/[^0-9]/g, "");
+                      prop.setValue("genderCode", value);
+
+                      if (value.length > 0) prop.setFocus("telecomCode");
                     },
                   })}
                   className={styles.gendercode}
@@ -66,11 +71,12 @@ export default function WithdrawPopup({ off }: Iprops) {
             <li>
               <label className={styles.label}>휴대폰 번호</label>
               <div className={styles.selectBox}>
-                <select {...prop.register("telecomCode")}>
+                <select {...prop.register("telecomCode", { required: true })}>
+                  <option value="">선택</option>
                   {prop.telecoms?.data.map(
                     ({ code, telecom }: { code: string; telecom: string }) => {
                       return (
-                        <option value={code} key={code}>
+                        <option value={telecom} key={code}>
                           {telecom}
                         </option>
                       );
@@ -79,6 +85,7 @@ export default function WithdrawPopup({ off }: Iprops) {
                 </select>
                 <input
                   {...prop.register("phoneNumber", {
+                    required: true,
                     onChange: (e) => {
                       const value = onHandlePhoneRegex(e.target.value);
                       prop.setValue("phoneNumber", value);
@@ -91,8 +98,9 @@ export default function WithdrawPopup({ off }: Iprops) {
             <li>
               <label className={styles.label}>수익금 출금 계좌</label>
               <div className={styles.selectBox}>
-                <select {...prop.register("bankCode")}>
-                  {prop.banks?.data.data.map(({ code, name }: { code: string; name: string }) => {
+                <select {...prop.register("bankCode", { required: true })}>
+                  <option value="">선택</option>
+                  {prop.banks?.data.map(({ code, name }: { code: string; name: string }) => {
                     return (
                       <option value={code} key={code}>
                         {name}
@@ -100,7 +108,10 @@ export default function WithdrawPopup({ off }: Iprops) {
                     );
                   })}
                 </select>
-                <input {...prop.register("bankAccountNumber")} placeholder="계좌번호" />
+                <input
+                  {...prop.register("bankAccountNumber", { required: true })}
+                  placeholder="계좌번호"
+                />
               </div>
               <span className={styles.subDescription}>
                 <Caution />
@@ -122,7 +133,10 @@ export default function WithdrawPopup({ off }: Iprops) {
               />
               <label htmlFor="agree_check">(필수) 출금을 위한 개인정보 수집 동의</label>
             </div>
-            <ContainedBtn text="완료" onClick={prop.onClickDraw} disabled={!prop.agreeCheck} />
+            <ContainedBtn
+              text="완료"
+              disabled={!prop.agreeCheck || !prop.formState.isValid || !prop.formState.isDirty}
+            />
           </section>
         </form>
       </article>

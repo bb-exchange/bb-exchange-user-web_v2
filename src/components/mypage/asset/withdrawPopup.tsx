@@ -1,15 +1,19 @@
-import styles from "./withdrawPopup.module.scss";
+import styles from "./withdrawInfoPopup.module.scss";
 
-import ChevronDn from ".assets/icons/ChevronDn.svg";
-import X from ".assets/icons/X.svg";
-import UseWithdrawPopup from ".src/hooks/mypage/asset/useWithdrawPopup";
+import cn from "classnames";
 
-interface Iprops {
-  useWithdrawPopup: ReturnType<typeof UseWithdrawPopup>;
+import X from "@assets/icons/X.svg";
+
+import ContainedBtn from "@components/Buttons/ContainedBtn";
+
+import UseMypageAsset from "@hooks/mypage/asset/useMypageAsset";
+
+interface WithdrawPopupProps {
+  useMypageAsset: ReturnType<typeof UseMypageAsset>;
   off: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-export default function WithdrawPopup({ useWithdrawPopup, off }: Iprops) {
+export default function WithdrawPopup({ useMypageAsset, off }: WithdrawPopupProps) {
   return (
     <section className={styles.withdrawPopup}>
       <article className={styles.topBar}>
@@ -21,75 +25,69 @@ export default function WithdrawPopup({ useWithdrawPopup, off }: Iprops) {
       </article>
 
       <article className={styles.contArea}>
-        <form onSubmit={useWithdrawPopup.handleSubmit}>
+        <form onSubmit={useMypageAsset.handleSubmit(useMypageAsset.onApplyWithdrawSubmit)}>
           <ul className={styles.inputList}>
             <li>
-              <p className={styles.key}>실명</p>
-
-              <div className={styles.valueBox}>
-                <div className={styles.inputBox}>
-                  <input {...useWithdrawPopup.register("name")} disabled />
-                </div>
+              <label className={styles.label}>실명</label>
+              <div className={cn(styles.inputBox, styles.disabled)}>
+                <input {...useMypageAsset.register("name", { required: true, disabled: true })} />
+              </div>
+            </li>
+            <li>
+              <label className={styles.label}>주민등록번호</label>
+              <div className={cn(styles.inputBox, styles.disabled)}>
+                <input
+                  {...useMypageAsset.register("birthDate", { required: true, disabled: true })}
+                  className={styles.birthdate}
+                />
+                <span className={styles.dash}>-</span>
+                <input
+                  {...useMypageAsset.register("genderCode", { required: true, disabled: true })}
+                  className={styles.gendercode}
+                />
+                <span className={styles.dot}> ● ● ● ● ● ●</span>
               </div>
             </li>
 
             <li>
-              <p className={styles.key}>주민등록번호</p>
-
-              <div className={styles.valueBox}>
-                <div className={styles.inputBox}>
-                  <p className={styles.value}>{useWithdrawPopup.getRegistNumStr()}</p>
-                </div>
-              </div>
-            </li>
-
-            <li>
-              <p className={styles.key}>수입금 출금 은행</p>
-
-              <div className={styles.valueBox}>
-                <button className={styles.selBox}>
-                  <p className={styles.value}>{useWithdrawPopup.watch("bank")}</p>
-
-                  <ChevronDn />
-                </button>
-              </div>
-            </li>
-
-            <li>
-              <p className={styles.key}>수입금 출금 계좌</p>
-
-              <div className={styles.valueBox}>
-                <div className={styles.inputBox}>
-                  <p className={styles.value}>{useWithdrawPopup.getAccountNumber()}</p>
-                </div>
-              </div>
-            </li>
-
-            <li>
-              <p className={styles.key}>출금 신청 수익금</p>
-
-              <div className={styles.valueBox}>
-                <div
-                  className={styles.inputBox}
-                  onClick={() => useWithdrawPopup.setFocus("amount")}
+              <label className={styles.label}>수입금 출금 계좌</label>
+              <div className={cn(styles.selectBox, styles.disabled)}>
+                <select
+                  {...useMypageAsset.register("bankCode", { required: true, disabled: true })}
                 >
-                  <p className={styles.value}>
-                    {Intl.NumberFormat().format(useWithdrawPopup.watch("amount") || 0)}원
-                  </p>
+                  <option value="">선택</option>
+                  {useMypageAsset.banks?.data.map(
+                    ({ code, name }: { code: string; name: string }) => {
+                      return (
+                        <option value={code} key={code}>
+                          {name}
+                        </option>
+                      );
+                    },
+                  )}
+                </select>
+                <input
+                  {...useMypageAsset.register("bankAccountNumber", {
+                    required: true,
+                    disabled: true,
+                  })}
+                />
+              </div>
+            </li>
+            <li>
+              <label className={styles.label}>출금 신청 수익금</label>
 
-                  <input
-                    type="number"
-                    className={styles.hidden}
-                    {...useWithdrawPopup.register("amount")}
-                  />
-                </div>
+              <div className={cn(styles.inputBox, styles.suffix)}>
+                <input
+                  onChange={useMypageAsset.onChange}
+                  value={useMypageAsset.changePointValue.toLocaleString()}
+                  onBlur={useMypageAsset.onBlur}
+                />
               </div>
             </li>
           </ul>
 
-          <button className={styles.submitBtn} onClick={() => {}}>
-            출금신청
-          </button>
+          <ContainedBtn text="출금신청" />
         </form>
       </article>
     </section>

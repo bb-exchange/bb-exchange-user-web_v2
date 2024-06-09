@@ -4,7 +4,6 @@ import { Tooltip } from "react-tooltip";
 
 import ChevronRt from "@assets/icons/ChevronRt.svg";
 import RedCaution from "@assets/icons/RedCaution.svg";
-import PurpleSet3 from "@assets/images/purple_set_3.png";
 
 import ContainedBtn from "@components/Buttons/ContainedBtn";
 import CommonFooter from "@components/common/commonFooter";
@@ -15,11 +14,14 @@ import ScrollTopBtn from "@components/common/scrollTopBtn";
 import ContentIncome from "@components/mypage/asset/contentIncome";
 import MyWithdraw from "@components/mypage/asset/myWithdraw";
 import PointPopup from "@components/mypage/asset/pointPopup";
+import RegisterAccountNumberNecessityPopup from "@components/mypage/asset/registerAccountNumberNecessityPopup";
+import RegisterAccountNumberSuccessPopup from "@components/mypage/asset/registerAccountNumberSuccessPopup";
+import SettlementSuccessPopup from "@components/mypage/asset/settlementSuccessPopup";
+import SwitchPointSuccessPopup from "@components/mypage/asset/switchPointSuccessPopup";
 import TermIncome from "@components/mypage/asset/termIncome";
 import WithdrawInfoPopup from "@components/mypage/asset/withdrawInfoPopup";
 import WithdrawPopup from "@components/mypage/asset/withdrawPopup";
 import MypageNavAside from "@components/mypage/mypageNavAside";
-import Popup from "@components/Popup";
 
 import UseMypageAsset from "@hooks/mypage/asset/useMypageAsset";
 import UseMyTermIncome from "@hooks/mypage/asset/useMytermIncome";
@@ -29,6 +31,12 @@ export default function Asset() {
   const useMypageAsset = UseMypageAsset();
   const useWithdrawPopup = UseWithdrawPopup();
   const useMyTermIncome = UseMyTermIncome();
+
+  const bankInfo = useMypageAsset.getValues();
+  const bankCode = useMypageAsset.banks?.data.filter(
+    ({ code }: { code: string }) => code === bankInfo.bankCode,
+  );
+
   return (
     <>
       <CommonHeader />
@@ -84,10 +92,15 @@ export default function Asset() {
               </div>
 
               <div className={styles.accountBox}>
-                <button className={styles.accountBtn} onClick={useMypageAsset.onClickDraw}>
+                <button
+                  className={styles.accountBtn}
+                  onClick={useMypageAsset.onRegisterAccountNumberPopupOpen}
+                >
                   <p>
                     <strong>출금 계좌</strong>
-                    {useMypageAsset.isAccount ? "국민은행 999999********" : "미입력"}
+                    {bankInfo?.bankAccountNumber && bankInfo?.bankCode
+                      ? `${bankCode[0].name} ${bankInfo?.bankAccountNumber}`
+                      : "미입력"}
                   </p>
                   <ChevronRt />
                 </button>
@@ -119,38 +132,39 @@ export default function Asset() {
       {useMypageAsset.drawPopup && (
         <>
           <WithdrawPopup
-            useWithdrawPopup={useWithdrawPopup}
+            useMypageAsset={useMypageAsset}
             off={() => useMypageAsset.setDrawPopup(false)}
           />
           <PopupBg bg off={() => useMypageAsset.setDrawPopup(false)} />
         </>
       )}
-      {/* NOTE 출금 정보 입력 팝업 */}
-      {useMypageAsset.drawInfoPopup && (
+      {/* [출금 신청이 완료되었습니다] 팝업 */}
+      {useMypageAsset.settlementSuccess && (
         <>
-          <WithdrawInfoPopup off={() => useMypageAsset.setDrawInfoPopup(false)} />
+          <SettlementSuccessPopup useMypageAsset={useMypageAsset} />
+          <PopupBg bg off={() => useMypageAsset.setSettlementSuccess(false)} />
+        </>
+      )}
+
+      {/* NOTE 출금 정보 입력 팝업 */}
+      {useMypageAsset.withdrawInfoPopup && (
+        <>
+          <WithdrawInfoPopup
+            useMypageAsset={useMypageAsset}
+            off={() => useMypageAsset.onRegisterAccountNumberPopupClose()}
+          />
           <PopupBg bg />
         </>
       )}
-      {useWithdrawPopup.compPopup && (
-        <>
-          <ErrorMsgPopup
-            msg={`${Intl.NumberFormat().format(useWithdrawPopup.watch("amount"))}원 출금 예정`}
-            subMsg={
-              <>
-                출금 신청이 완료되었습니다.
-                <br />
-                출금 신청된 금액은 다음주 수요일에
-                <br />
-                계좌로 입급됩니다.
-              </>
-            }
-            confirmFunc={() => useWithdrawPopup.setCompPopup(false)}
-          />
-
-          <PopupBg bg off={() => useWithdrawPopup.setCompPopup(false)} />
-        </>
+      {/* [실명 정보 및 계좌 입력이 완료되었습니다] 팝업 */}
+      {useMypageAsset.isRegisterAccountNumberSuccess && (
+        <RegisterAccountNumberSuccessPopup useMypageAsset={useMypageAsset} />
       )}
+      {/* [실명 정보 및 계좌 입력 필요] 팝업 */}
+      {useMypageAsset.registerAccountNumberNecessity && (
+        <RegisterAccountNumberNecessityPopup useMypageAsset={useMypageAsset} />
+      )}
+
       {useMypageAsset.noDrawPopup && (
         <>
           <ErrorMsgPopup
@@ -174,27 +188,7 @@ export default function Asset() {
           useMypageAsset={useMypageAsset}
         />
       )}
-      <Popup visible={useMypageAsset.isSuccess} style={{ maxWidth: 312 }}>
-        <div
-          style={{
-            padding: "32px 16px 16px 16px",
-            display: "flex",
-            flexDirection: "column",
-            gap: 24,
-            alignItems: "center",
-          }}
-        >
-          <img src={PurpleSet3.src} width={100} height={100} />
-          <h3 className="h3 bold color-black-3">
-            {Intl.NumberFormat().format(useMypageAsset.changePointValue)}P 전환 완료
-          </h3>
-          <ContainedBtn
-            text="완료"
-            style={{ width: "100%" }}
-            onClick={useMypageAsset.onCloseSuccessPopup}
-          />
-        </div>
-      </Popup>
+      {useMypageAsset.isSuccess && <SwitchPointSuccessPopup useMypageAsset={useMypageAsset} />}
     </>
   );
 }
