@@ -82,7 +82,7 @@ export default function CommonHeader({ commonSort }: HeaderProps) {
     enabled: !!profile.userId,
   });
 
-  const { data: notifications } = useQuery<NotificationResponse>({
+  const { data: notifications, refetch: notificationRefetch } = useQuery<NotificationResponse>({
     queryKey: ["getNotifications"],
     queryFn: () => getNotifications(),
   });
@@ -118,7 +118,7 @@ export default function CommonHeader({ commonSort }: HeaderProps) {
                 </div>
                 <div className={styles.headerIcon}>
                   <AlertCount count={alertCount?.length ?? 0} />
-                  <AlertHoverPopup data={notifications} />
+                  <AlertHoverPopup data={notifications} refetch={notificationRefetch} />
                 </div>
 
                 <div className={styles.headerIcon}>

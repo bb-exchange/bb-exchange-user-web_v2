@@ -15,17 +15,24 @@ import { NotificationTypeCode } from "@const/common";
 
 type AlertHoverPopupProps = {
   data?: NotificationResponse;
+  refetch: () => void;
 };
 
-const AlertHoverPopup = ({ data: notificationData }: AlertHoverPopupProps) => {
+const AlertHoverPopup = ({ data: notificationData, refetch }: AlertHoverPopupProps) => {
   const hasReadAlarm = notificationData?.data?.contents?.every((content) => content.isRead);
   const router = useRouter();
 
   const { mutate: updateNotificationById } = useMutation({
     mutationFn: updateNotification,
+    onSuccess: () => {
+      refetch();
+    },
   });
   const { mutate: updateNotificationByAll } = useMutation({
     mutationFn: updateNotificationAll,
+    onSuccess: () => {
+      refetch();
+    },
   });
 
   const onClickTargetId = (contentId: number, targetId: number) => {
@@ -55,10 +62,7 @@ const AlertHoverPopup = ({ data: notificationData }: AlertHoverPopupProps) => {
                     </span>
                   </div>
                   <div className={styles.bottomSection}>
-                    <p className={styles.content}>
-                      {content.landingTargetId}
-                      {content.title}
-                    </p>
+                    <p className={styles.content}>{content.title}</p>
                     <p className={styles.description}>{content.content}</p>
                   </div>
                 </div>
