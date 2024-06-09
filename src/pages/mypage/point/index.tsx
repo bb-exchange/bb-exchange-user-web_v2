@@ -36,9 +36,7 @@ export default function Point() {
             <div className={styles.leftBox}>
               <h2 className={styles.key}>보유 포인트 조회</h2>
 
-              <h1 className={styles.value}>
-                {Intl.NumberFormat().format(myProfile?.settlementAmount)} P
-              </h1>
+              <h1 className={styles.value}>{Intl.NumberFormat().format(myProfile?.balance)} P</h1>
             </div>
 
             <div className={styles.rightBox}>

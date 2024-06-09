@@ -1,11 +1,10 @@
-import AlertCount from "./alertCount";
-import AlertHoverPopup from "./alertHoverPopup";
+import Dvider from "../../../../public/assets/images/divider.svg";
 import PostCategoryPopup from "./postCategoryPopup";
 import ProfileHoverPopup from "./profileHoverPopup";
 
 import styles from "./commonHeader.module.scss";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useRouter } from "next/router";
 
@@ -22,18 +21,17 @@ import ConfirmTitlePopup from ".src/components/common/popup/confirmTitlePopup";
 import PopupBg from ".src/components/common/popupBg";
 import Image from ".src/components/Image";
 import { D_commonHeaderCategoryList } from ".src/data/common/header";
-import { isLoginState, profileState, userNameState } from ".src/recoil";
+import { isLoginState, profileState } from ".src/recoil";
 import { useQuery } from "@tanstack/react-query";
 import { useRecoilValue } from "recoil";
 
 interface Iprops {
-  commonSort?: "인기" | "최신" | "상장" | "서비스 소개" | "이벤트";
+  commonSort?: "인기" | "최신" | "상장" | "서비스 소개" | "이벤트" | "일일보상";
 }
 
 export default function CommonHeader({ commonSort }: Iprops) {
   const router = useRouter();
 
-  const nickname = useRecoilValue(userNameState);
   const isSignedIn = useRecoilValue(isLoginState);
   const profile = useRecoilValue(profileState);
 
@@ -41,7 +39,17 @@ export default function CommonHeader({ commonSort }: Iprops) {
 
   const isClickedEnroll = useRef<boolean>(false);
 
-  const onClickTab = (url: string) => router.push(`/${url}`);
+  const onClickTab = (url: string, label: string) => {
+    // 인증이 필요한 탭 List
+    const authRequiredLabelList = ["일일보상"];
+
+    if (authRequiredLabelList.includes(label) && !isSignedIn) {
+      router.push("/auth/signin");
+      return;
+    }
+
+    router.push(`/${url}`);
+  };
 
   const { refetch, data: ethicalPledgeData } = useQuery({
     queryKey: ["user", "get|ethical-pledge"],
@@ -90,21 +98,20 @@ export default function CommonHeader({ commonSort }: Iprops) {
                 </button>
 
                 <div className={styles.imgWrap}>
-                  <div
-                    className={styles.shopImgWrap}
+                  <button
                     onClick={() => {
                       router.push("/charge");
                     }}
                   >
                     <Shop />
-                  </div>
+                  </button>
 
-                  <div className={styles.alertImgWrap} onClick={() => setPreparePopup(true)}>
+                  <button className={styles.alertImgWrap} onClick={() => setPreparePopup(true)}>
                     <Bell />
                     {/* NOTE - 임시로 주석처리 (기능 미개발) */}
                     {/* <AlertCount />
-                    <AlertHoverPopup /> */}
-                  </div>
+                    // <AlertHoverPopup /> */}
+                  </button>
 
                   <div className={styles.profImgWrap}>
                     <Image
@@ -151,32 +158,27 @@ export default function CommonHeader({ commonSort }: Iprops) {
             </span>
 
             <ul className={styles.categoryList}>
-              {D_commonHeaderCategoryList.map((v, i) => (
-                <li
-                  key={i}
-                  className={v.label === commonSort ? styles.on : ""}
-                  onClick={() => onClickTab(v.url)}
-                >
-                  <p>{v.label}</p>
-                </li>
-              ))}
+              {D_commonHeaderCategoryList.map((v, i) =>
+                v.label === "divder" ? (
+                  <Dvider key={i} />
+                ) : (
+                  <li
+                    key={i}
+                    className={v.label === commonSort ? styles.on : ""}
+                    onClick={() => onClickTab(v.url, v.label)}
+                  >
+                    <p>{v.label}</p>
+                  </li>
+                ),
+              )}
             </ul>
           </div>
 
           <div className={styles.rightCont}>
             <div className={styles.bannerBox}>
-              <div
-                className={styles.banner}
-                onClick={() => (!isSignedIn ? router.push("/auth/signin") : onClickEnroll())}
-              >
-                <p className={styles.cont}>
-                  {!!isSignedIn && (
-                    <span>
-                      <strong className={styles.nickname}>{nickname}</strong>
-                      님,
-                    </span>
-                  )}
-                  나만의 비법, 지식, 경험을 공유하고 수익을 창출해 보세요!
+              <div className={styles.banner} onClick={() => router.push("/event")}>
+                <p className="p4 color-black2">
+                  내 콘텐츠도 <span className="p4 semibold">로캣상장</span> 시키고 수익화하기
                 </p>
                 <ChevronRt />
               </div>

@@ -1,5 +1,4 @@
-import { getProfile } from ".src/api/users/users";
-import { currentUserInfo } from ".src/api/users/users";
+import { currentUserInfo, getProfile } from ".src/api/users/users";
 import { isLoginState } from ".src/recoil";
 import { useQuery } from "@tanstack/react-query";
 import { useRecoilValue } from "recoil";
@@ -31,6 +30,7 @@ export default function useGetMyProfile() {
     queryFn: () => getProfile(currentUserData?.id ?? 0),
     enabled: !!currentUserData?.id,
     gcTime: Infinity,
+    refetchOnMount: "always",
   });
 
   return {

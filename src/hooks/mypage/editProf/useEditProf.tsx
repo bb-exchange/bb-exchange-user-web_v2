@@ -19,15 +19,15 @@ interface IUploadFile {
   fileByte: any;
 }
 
+const nicknameMinLen = 3;
+const nicknameMaxLen = 10;
+const msgMaxLen = 200;
+
 export default function UseEditProf() {
   const router = useRouter();
   const queryClient = useQueryClient();
 
   const profImgInputRef = useRef<HTMLInputElement>(null);
-
-  const nicknameMinLen = 3;
-  const nicknameMaxLen = 10;
-  const msgMaxLen = 200;
 
   const {
     register,
@@ -107,10 +107,11 @@ export default function UseEditProf() {
   });
 
   const onSubmit = (data: any) => {
+    const imagePath = fileInfo.imgPath ? fileInfo.imgPath : data.profImg ? data.profImg : "";
     editProfileMutation.mutate({
       nickname: data.nickname,
       description: data.description,
-      imagePath: fileInfo.imgPath ?? "",
+      imagePath,
     });
   };
 

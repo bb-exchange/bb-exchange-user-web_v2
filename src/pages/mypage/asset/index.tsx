@@ -1,20 +1,29 @@
 import styles from "./asset.module.scss";
 
-import ChevronRt from ".assets/icons/ChevronRt.svg";
-import CommonFooter from ".src/components/common/commonFooter";
-import CommonHeader from ".src/components/common/header/commonHeader";
-import ErrorMsgPopup from ".src/components/common/popup/errorMsgPopup";
-import PopupBg from ".src/components/common/popupBg";
-import ScrollTopBtn from ".src/components/common/scrollTopBtn";
-import ContentIncome from ".src/components/mypage/asset/contentIncome";
-import MyWithdraw from ".src/components/mypage/asset/myWithdraw";
-import TermIncome from ".src/components/mypage/asset/termIncome";
-import WithdrawInfoPopup from ".src/components/mypage/asset/withdrawInfoPopup";
-import WithdrawPopup from ".src/components/mypage/asset/withdrawPopup";
-import MypageNavAside from ".src/components/mypage/mypageNavAside";
-import UseMypageAsset from ".src/hooks/mypage/asset/useMypageAsset";
-import UseMyTermIncome from ".src/hooks/mypage/asset/useMytermIncome";
-import UseWithdrawPopup from ".src/hooks/mypage/asset/useWithdrawPopup";
+import { Tooltip } from "react-tooltip";
+
+import ChevronRt from "@assets/icons/ChevronRt.svg";
+import RedCaution from "@assets/icons/RedCaution.svg";
+import PurpleSet3 from "@assets/images/purple_set_3.png";
+
+import ContainedBtn from "@components/Buttons/ContainedBtn";
+import CommonFooter from "@components/common/commonFooter";
+import CommonHeader from "@components/common/header/commonHeader";
+import ErrorMsgPopup from "@components/common/popup/errorMsgPopup";
+import PopupBg from "@components/common/popupBg";
+import ScrollTopBtn from "@components/common/scrollTopBtn";
+import ContentIncome from "@components/mypage/asset/contentIncome";
+import MyWithdraw from "@components/mypage/asset/myWithdraw";
+import PointPopup from "@components/mypage/asset/pointPopup";
+import TermIncome from "@components/mypage/asset/termIncome";
+import WithdrawInfoPopup from "@components/mypage/asset/withdrawInfoPopup";
+import WithdrawPopup from "@components/mypage/asset/withdrawPopup";
+import MypageNavAside from "@components/mypage/mypageNavAside";
+import Popup from "@components/Popup";
+
+import UseMypageAsset from "@hooks/mypage/asset/useMypageAsset";
+import UseMyTermIncome from "@hooks/mypage/asset/useMytermIncome";
+import UseWithdrawPopup from "@hooks/mypage/asset/useWithdrawPopup";
 
 export default function Asset() {
   const useMypageAsset = UseMypageAsset();
@@ -32,15 +41,35 @@ export default function Asset() {
           <article className={styles.thumbArea}>
             <ul className={styles.assetList}>
               <li>
-                <p className={styles.key}>출금 가능 수익금</p>
-                <p className={styles.value}>
-                  {Intl.NumberFormat().format(useMyTermIncome.totalPoint)}원
+                <p className={styles.key}>
+                  출금 가능 수익금
+                  <a id="tooltip-anchor">
+                    <RedCaution />
+                  </a>
+                  <Tooltip
+                    className={styles.tooltip}
+                    anchorSelect="#tooltip-anchor"
+                    render={() => (
+                      <div className={styles.tooltipContent}>
+                        판매 대금 확정 여부에 따라 ‘수익금’과
+                        <br />
+                        ‘출금 가능 수익금’에 차이가 있을 수 있어요.
+                      </div>
+                    )}
+                    place="top-start"
+                  />
                 </p>
+                <div className={styles.value}>
+                  {Intl.NumberFormat().format(useMypageAsset.totalPoint)} 원
+                  <div className={styles.subText} onClick={useMypageAsset.onOpenPointPopup}>
+                    포인트로 전환 <ChevronRt />
+                  </div>
+                </div>
               </li>
 
               <li>
                 <p className={styles.key}>총 출금 완료 금액</p>
-                <p className={styles.value}>{Intl.NumberFormat().format(0)}원</p>
+                <p className={styles.value}>{Intl.NumberFormat().format(0)} 원</p>
               </li>
             </ul>
 
@@ -51,11 +80,11 @@ export default function Asset() {
                 <div className={styles.btnBar}>
                   <button
                     className={
-                      useMyTermIncome.totalPoint < 10000
+                      useMypageAsset.totalPoint < 10000
                         ? styles.deActiveWithdrawBtn
                         : styles.activeWithdrawBtn
                     }
-                    onClick={useMyTermIncome.onClickDraw}
+                    onClick={useMypageAsset.onClickDraw}
                   >
                     출금신청
                   </button>
@@ -63,10 +92,10 @@ export default function Asset() {
               </div>
 
               <div className={styles.accountBox}>
-                <button className={styles.accountBtn} onClick={useMyTermIncome.onClickDraw}>
+                <button className={styles.accountBtn} onClick={useMypageAsset.onClickDraw}>
                   <p>
                     <strong>출금 계좌</strong>
-                    {useMyTermIncome.isAccount ? "국민은행 999999********" : "미입력"}
+                    {useMypageAsset.isAccount ? "국민은행 999999********" : "미입력"}
                   </p>
                   <ChevronRt />
                 </button>
@@ -86,6 +115,7 @@ export default function Asset() {
             ))}
           </ul>
 
+          {useMypageAsset.category === "이벤트 수익금" && <TermIncome />}
           {useMypageAsset.category === "월별 수익금" && <TermIncome />}
           {useMypageAsset.category === "콘텐츠별 수익금" && <ContentIncome />}
           {useMypageAsset.category === "출금내역" && <MyWithdraw />}
@@ -94,20 +124,20 @@ export default function Asset() {
       <ScrollTopBtn />
       <CommonFooter />
       {/* NOTE 출금하기 팝업 */}
-      {useMyTermIncome.drawPopup && (
+      {useMypageAsset.drawPopup && (
         <>
           <WithdrawPopup
             useWithdrawPopup={useWithdrawPopup}
-            off={() => useMyTermIncome.setDrawPopup(false)}
+            off={() => useMypageAsset.setDrawPopup(false)}
           />
-          <PopupBg bg off={() => useMyTermIncome.setDrawPopup(false)} />
+          <PopupBg bg off={() => useMypageAsset.setDrawPopup(false)} />
         </>
       )}
       {/* NOTE 출금 정보 입력 팝업 */}
-      {useMyTermIncome.drawInfoPopup && (
+      {useMypageAsset.drawInfoPopup && (
         <>
-          <WithdrawInfoPopup off={() => useMyTermIncome.setDrawInfoPopup(false)} />
-          <PopupBg bg off={() => useMyTermIncome.setDrawInfoPopup(false)} />
+          <WithdrawInfoPopup off={() => useMypageAsset.setDrawInfoPopup(false)} />
+          <PopupBg bg off={() => useMypageAsset.setDrawInfoPopup(false)} />
         </>
       )}
       {useWithdrawPopup.compPopup && (
@@ -129,7 +159,7 @@ export default function Asset() {
           <PopupBg bg off={() => useWithdrawPopup.setCompPopup(false)} />
         </>
       )}
-      {useMyTermIncome.noDrawPopup && (
+      {useMypageAsset.noDrawPopup && (
         <>
           <ErrorMsgPopup
             msg={<>출금 신청 요건 미충족</>}
@@ -140,11 +170,39 @@ export default function Asset() {
                 출금이 가능합니다.
               </>
             }
-            confirmFunc={() => useMyTermIncome.setNoDrawPopup(false)}
+            confirmFunc={() => useMypageAsset.setNoDrawPopup(false)}
           />
-          <PopupBg bg off={() => useMyTermIncome.setNoDrawPopup(false)} />
+          <PopupBg bg off={() => useMypageAsset.setNoDrawPopup(false)} />
         </>
       )}
+      {useMypageAsset.isPointPopupOpen && (
+        <PointPopup
+          onClose={useMypageAsset.onClosePointPopup}
+          visible={useMypageAsset.isPointPopupOpen}
+          useMypageAsset={useMypageAsset}
+        />
+      )}
+      <Popup visible={useMypageAsset.isSuccess} style={{ maxWidth: 312 }}>
+        <div
+          style={{
+            padding: "32px 16px 16px 16px",
+            display: "flex",
+            flexDirection: "column",
+            gap: 24,
+            alignItems: "center",
+          }}
+        >
+          <img src={PurpleSet3.src} width={100} height={100} />
+          <h3 className="h3 bold color-black-3">
+            {Intl.NumberFormat().format(useMypageAsset.changePointValue)}P 전환 완료
+          </h3>
+          <ContainedBtn
+            text="완료"
+            style={{ width: "100%" }}
+            onClick={useMypageAsset.onCloseSuccessPopup}
+          />
+        </div>
+      </Popup>
     </>
   );
 }

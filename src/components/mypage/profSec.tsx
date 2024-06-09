@@ -2,10 +2,11 @@ import styles from "./profSec.module.scss";
 
 import { useRouter } from "next/router";
 
-import IconCopy from ".assets/icons/Copy.svg";
 import Profile from ".assets/images/img_profile.svg";
 import Image from ".src/components/Image";
 import useGetMyProfile from ".src/hooks/common/useGetProfile";
+import IconCopy from ".assets/icons/Copy.svg";
+import ChevronRtBlue from ".assets/icons/ChevronRtBlue.svg";
 
 export default function ProfSec() {
   const router = useRouter();
@@ -49,7 +50,7 @@ export default function ProfSec() {
 
           <ul className={styles.accountList}>
             <li>
-              <p className={styles.key}>보유 포인트</p>
+              <p className={styles.key}>포인트</p>
 
               <p className={styles.value}>{Intl.NumberFormat().format(myProfile?.balance)}</p>
 
@@ -64,18 +65,18 @@ export default function ProfSec() {
             <hr />
 
             <li>
-              <p className={styles.key}>예상 정산금</p>
-
+              <p className={styles.key}>수익금</p>
               <p className={styles.value}>
-                {Intl.NumberFormat().format(myProfile?.expectedSettlementAmount)}
+                {Intl.NumberFormat().format(
+                  myProfile?.expectedSettlementAmount,
+                )}
               </p>
-
-              {/* <button
+              <button
                 className={styles.detailBtn}
                 onClick={() => router.push("/mypage/asset")}
               >
                 <ChevronRtBlue />
-              </button> */}
+              </button>
             </li>
           </ul>
         </div>
