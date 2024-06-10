@@ -154,7 +154,11 @@ export default function UseMypageAsset() {
   };
 
   const { setFocus, setValue, register, handleSubmit, getValues, formState, reset, watch } =
-    useForm<BankInfoType>({ defaultValues: bankInfoForm });
+    useForm<BankInfoType>({
+      defaultValues: bankInfoForm,
+      mode: "onBlur",
+      reValidateMode: "onBlur",
+    });
 
   const [agreeCheck, setAgreeCheck] = useState<boolean>(false);
 
@@ -179,6 +183,7 @@ export default function UseMypageAsset() {
   const { mutate: updateBankDetailsMutate } = useMutation({
     mutationFn: updateBankDetails,
     onSuccess: () => {
+      onRegisterAccountNumberPopupClose();
       setIsRegisterAccountNumberSuccess(true);
     },
   });
