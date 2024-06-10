@@ -2,7 +2,7 @@ import styles from "./InvitePopup.module.scss";
 
 import { CSSProperties, useCallback, useState } from "react";
 
-import { SuccessPopup } from "@components/common/popup/SuccessPopup";
+import { CommonPopup } from "@components/common/popup/CommonPopup";
 import Image from "@components/Image";
 import Popup from "@components/Popup";
 
@@ -106,15 +106,15 @@ export const InvitePopup = ({ onClose }: Props) => {
       </div>
 
       {isInviteCodeCopySuccessPopupShow && (
-        <SuccessPopup
+        <CommonPopup
           title="초대코드를 복사했어요."
           confirmFunc={() => setIsInviteCodeCopySuccessPopupShow(false)}
         />
       )}
 
       {isShareLinkCopySuccessPopupShow && (
-        <SuccessPopup
-          title="링크를 복사했어요.\n이 링크를 공유해주세요."
+        <CommonPopup
+          title="링크를 복사했어요.<br/>이 링크를 공유해주세요."
           iconSrc="/assets/icons/Attendance.svg"
           confirmFunc={() => setIsShareLinkCopySuccessPopupShow(false)}
         />
