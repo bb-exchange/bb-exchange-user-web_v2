@@ -123,7 +123,6 @@ export default function Asset() {
             <div
               style={{
                 textAlign: "center",
-                backgroundColor: "rgba(173, 101, 246, 0.20)",
                 padding: "18px 24px",
                 color: "#9F9F9F",
                 width: 300,
