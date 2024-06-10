@@ -9,12 +9,12 @@ import UseMypageAsset from "@hooks/mypage/asset/useMypageAsset";
 
 import { onHandlePhoneRegex } from "@utils/regex";
 
-interface WithdrawPopupProps {
+interface WithdrawInfoPopupProps {
   off: React.MouseEventHandler<HTMLButtonElement>;
   useMypageAsset: ReturnType<typeof UseMypageAsset>;
 }
 
-export default function WithdrawPopup({ off, useMypageAsset: prop }: WithdrawPopupProps) {
+export default function WithdrawInfoPopup({ off, useMypageAsset: prop }: WithdrawInfoPopupProps) {
   return (
     <section className={styles.withdrawPopup}>
       <div className={styles.topBar}>
@@ -76,7 +76,7 @@ export default function WithdrawPopup({ off, useMypageAsset: prop }: WithdrawPop
                   {prop.telecoms?.data.map(
                     ({ code, telecom }: { code: string; telecom: string }) => {
                       return (
-                        <option value={telecom} key={code}>
+                        <option value={code} key={code}>
                           {telecom}
                         </option>
                       );
@@ -133,10 +133,7 @@ export default function WithdrawPopup({ off, useMypageAsset: prop }: WithdrawPop
               />
               <label htmlFor="agree_check">(필수) 출금을 위한 개인정보 수집 동의</label>
             </div>
-            <ContainedBtn
-              text="완료"
-              disabled={!prop.agreeCheck || !prop.formState.isValid || !prop.formState.isDirty}
-            />
+            <ContainedBtn text="완료" disabled={!prop.agreeCheck || !prop.formState.isValid} />
           </section>
         </form>
       </article>
