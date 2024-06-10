@@ -1,34 +1,31 @@
 import styles from "./buyPostPopup.module.scss";
 
-import CautionRed from ".assets/icons/CautionRed.svg";
-import CheckCircle from ".assets/icons/CheckCircle.svg";
-import CheckCircleBlueO from ".assets/icons/CheckCircleBlueO.svg";
-import X from ".assets/icons/X.svg";
-import UseBuyPostPopup from ".src/hooks/post/useBuyPostPopup";
-import UsePost from ".src/hooks/post/usePost";
+import { QueryObserverResult } from "@tanstack/react-query";
 
-// interface Iprops {
-//   usePost: ReturnType<typeof UsePost>;
-// }
+import CautionRed from "@assets/icons/CautionRed.svg";
+import CheckCircle from "@assets/icons/CheckCircle.svg";
+import CheckCircleBlueO from "@assets/icons/CheckCircleBlueO.svg";
+import X from "@assets/icons/X.svg";
+
+import { PostData } from "@api/interface";
+
+import UseBuyPostPopup from "@hooks/post/useBuyPostPopup";
+import UsePost from "@hooks/post/usePost";
 
 interface Iprops {
   usePost: ReturnType<typeof UsePost>;
+  refetchArticle: () => Promise<QueryObserverResult<PostData, Error>>;
   title: string;
   price: number;
 }
 
-// export default function BuyPostPopup({ usePost }: Iprops) {
-export default function BuyPostPopup({ usePost, title, price }: Iprops) {
-  const useBuyPostPopup = UseBuyPostPopup({ usePost });
+export default function BuyPostPopup({ usePost, title, price, refetchArticle }: Iprops) {
+  const useBuyPostPopup = UseBuyPostPopup({ usePost, originalPrice: price, refetchArticle });
 
   return (
     <section className={styles.buyPostPopup}>
       <article className={styles.topBar}>
-        {/* <h1 className={styles.popupTitle}>
-          취준생 모여라! 답변 못하면 탈락하는 면접 질문 30선 제목 다 나오게
-          할까요
-        </h1> */}
-        <h1 className={styles.popupTitle}>{title}</h1>
+        <h1 className="h2 bold color-primary-bg1">{title}</h1>
 
         <button className={styles.exitBtn} onClick={() => usePost.setBuyPopup(false)}>
           <X />
@@ -36,9 +33,7 @@ export default function BuyPostPopup({ usePost, title, price }: Iprops) {
       </article>
 
       <article
-        className={`${styles.priceArea} ${
-          useBuyPostPopup.price <= useBuyPostPopup.point ? "" : styles.notEnough
-        }`}
+        className={`${styles.priceArea} ${price <= useBuyPostPopup.point ? "" : styles.notEnough}`}
       >
         <ul className={styles.priceList}>
           <li className={styles.account}>
@@ -48,16 +43,13 @@ export default function BuyPostPopup({ usePost, title, price }: Iprops) {
 
           <li className={styles.price}>
             <p className={styles.key}>구매 가격</p>
-            <p className={styles.value}>
-              {/* {Intl.NumberFormat().format(useBuyPostPopup.price)} P */}
-              {Intl.NumberFormat().format(price)} P
-            </p>
+            <p className={styles.value}>{Intl.NumberFormat().format(price)} P</p>
           </li>
         </ul>
       </article>
 
       <article className={styles.actionArea}>
-        {useBuyPostPopup.price <= useBuyPostPopup.point ? (
+        {price <= useBuyPostPopup.point ? (
           <>
             <div className={styles.agreeBar}>
               <button className={styles.agreeTermBtn} onClick={useBuyPostPopup.onClickAgreeTermBtn}>

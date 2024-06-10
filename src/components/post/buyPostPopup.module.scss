@@ -16,14 +16,11 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: 80px;
     padding: 0 0 24px;
+    gap: 80px;
 
-    .popupTitle {
-      font-size: 24px;
-      line-height: 34px;
-      font-weight: 700;
-      color: $PrimaryBG1;
+    h1 {
+      line-height: 24px;
     }
 
     .exitBtn {
@@ -35,10 +32,7 @@
   .priceArea {
     padding: 24px 0;
     border-top: 1px solid $Gray3;
-
-    &.notEnough {
-      border-bottom: 1px solid $Gray3;
-    }
+    border-bottom: 1px solid $Gray3;
 
     .priceList {
       display: flex;
