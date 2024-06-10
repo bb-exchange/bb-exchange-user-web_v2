@@ -1,0 +1,21 @@
+@import "/src/styles/variable";
+.popupContainer {
+  padding: 32px 16px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+
+  .successImage {
+    width: 82px;
+    height: 82px;
+    object-fit: contain;
+  }
+
+  .description {
+    @extend .h3;
+    @extend .bold;
+    color: $Black3;
+    text-align: center;
+  }
+}

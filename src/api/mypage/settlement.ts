@@ -7,3 +7,8 @@ export const getActual = async () => {
 export const postProfitToPoint = async ({ amount }: { amount: number }) => {
   return await basicInstance.post("/v1/settlement/profit-to-point", { amount });
 };
+
+export const postSettlement = async ({ amount }: { amount: number }) => {
+  const { data } = await basicInstance.post("/v1/settlement", { amount });
+  return data;
+};

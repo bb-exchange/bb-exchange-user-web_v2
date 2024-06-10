@@ -4,7 +4,7 @@ interface IProps {
   bg?: boolean;
   opacity?: number;
   zIndex?: number;
-  off: React.MouseEventHandler<HTMLButtonElement>;
+  off?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 export default function PopupBg({ bg, opacity = 0.4, zIndex, off }: IProps) {

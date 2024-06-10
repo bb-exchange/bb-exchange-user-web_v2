@@ -1,108 +1,143 @@
 import styles from "./withdrawInfoPopup.module.scss";
 
-import ChevronDn from ".assets/icons/ChevronDn.svg";
-import X from ".assets/icons/X.svg";
-import ImgErrorMsgPopup from ".src/components/common/popup/imgErrorMsgPopup";
-import PopupBg from ".src/components/common/popupBg";
-import useWithdrawInfoPopup from ".src/hooks/mypage/asset/useWithdrawInfoPopup";
+import Caution from "@assets/icons/RedCaution.svg";
+import X from "@assets/icons/X.svg";
 
-interface Iprops {
+import ContainedBtn from "@components/Buttons/ContainedBtn";
+
+import UseMypageAsset from "@hooks/mypage/asset/useMypageAsset";
+
+import { onHandlePhoneRegex } from "@utils/regex";
+
+interface WithdrawPopupProps {
   off: React.MouseEventHandler<HTMLButtonElement>;
+  useMypageAsset: ReturnType<typeof UseMypageAsset>;
 }
 
-export default function WithdrawPopup({ off }: Iprops) {
-  const prop = useWithdrawInfoPopup();
-
+export default function WithdrawPopup({ off, useMypageAsset: prop }: WithdrawPopupProps) {
   return (
     <section className={styles.withdrawPopup}>
-      <article className={styles.topBar}>
+      <div className={styles.topBar}>
         <span className={styles.blank} />
         <h1 className={styles.popupTitle}>출금 정보 입력</h1>
         <button className={styles.exitBtn} onClick={off}>
           <X />
         </button>
-      </article>
+      </div>
 
       <article className={styles.contArea}>
-        <form onSubmit={prop.handleSubmit(prop.onSubmit)}>
+        <form onSubmit={prop.handleSubmit(prop.onRegisterAccountNumberSubmit)}>
           <ul className={styles.inputList}>
             <li>
-              <p className={styles.key}>실명</p>
-
-              <div className={styles.valueBox}>
-                <div className={styles.inputBox}>
-                  <input {...prop.register("name")} />
-                </div>
+              <label className={styles.label}>실명</label>
+              <div className={styles.inputBox}>
+                <input {...prop.register("name", { required: true })} placeholder="이름" />
               </div>
             </li>
-
             <li>
-              <p className={styles.key}>주민등록번호</p>
+              <label className={styles.label}>주민등록번호</label>
+              <div className={styles.inputBox}>
+                <input
+                  {...prop.register("birthDate", {
+                    required: true,
+                    onChange: (e) => {
+                      const value = e.target.value.replace(/[^0-9]/g, "");
+                      prop.setValue("birthDate", value);
+                      if (value.length >= 6) prop.setFocus("genderCode");
+                    },
+                  })}
+                  placeholder="생년월일 6자리"
+                  className={styles.birthdate}
+                  maxLength={6}
+                />
+                <span className={styles.dash}>-</span>
+                <input
+                  {...prop.register("genderCode", {
+                    required: true,
+                    onChange: (e) => {
+                      const value = e.target.value.replace(/[^0-9]/g, "");
+                      prop.setValue("genderCode", value);
 
-              <div className={styles.valueBox}>
-                <div className={styles.inputBox}>
-                  <input
-                    // type="number"
-                    {...prop.register("accountNumber")}
-                    placeholder={`생년월일 6자리  -  ● ● ● ● ● ● ●`}
-                    maxLength={13}
-                    defaultValue={""}
-                    // value={maskingAccountNum}
-                  />
-                </div>
+                      if (value.length > 0) prop.setFocus("telecomCode");
+                    },
+                  })}
+                  className={styles.gendercode}
+                  maxLength={1}
+                  placeholder="●"
+                />
+                <span className={styles.dot}> ● ● ● ● ● ●</span>
               </div>
             </li>
-
             <li>
-              <p className={styles.key}>수입금 출금 은행</p>
-
-              <div className={styles.valueBox}>
-                <button className={styles.selBox}>
-                  <p className={styles.value}>{/* {useWithdrawPopup.watch("bank")} */}</p>
-
-                  <ChevronDn />
-                </button>
+              <label className={styles.label}>휴대폰 번호</label>
+              <div className={styles.selectBox}>
+                <select {...prop.register("telecomCode", { required: true })}>
+                  <option value="">선택</option>
+                  {prop.telecoms?.data.map(
+                    ({ code, telecom }: { code: string; telecom: string }) => {
+                      return (
+                        <option value={telecom} key={code}>
+                          {telecom}
+                        </option>
+                      );
+                    },
+                  )}
+                </select>
+                <input
+                  {...prop.register("phoneNumber", {
+                    required: true,
+                    onChange: (e) => {
+                      const value = onHandlePhoneRegex(e.target.value);
+                      prop.setValue("phoneNumber", value);
+                    },
+                  })}
+                  placeholder="휴대폰 번호"
+                />
               </div>
             </li>
-
             <li>
-              <p className={styles.key}>수입금 출금 계좌</p>
-
-              <div className={styles.valueBox}>
-                <div className={styles.inputBox}>
-                  <p className={styles.value}>{/* {useWithdrawPopup.getAccountNumber()} */}</p>
-                </div>
+              <label className={styles.label}>수익금 출금 계좌</label>
+              <div className={styles.selectBox}>
+                <select {...prop.register("bankCode", { required: true })}>
+                  <option value="">선택</option>
+                  {prop.banks?.data.map(({ code, name }: { code: string; name: string }) => {
+                    return (
+                      <option value={code} key={code}>
+                        {name}
+                      </option>
+                    );
+                  })}
+                </select>
+                <input
+                  {...prop.register("bankAccountNumber", { required: true })}
+                  placeholder="계좌번호"
+                />
               </div>
-            </li>
-
-            <li>
-              <p className={styles.key}>출금 신청 수익금</p>
-
-              <div className={styles.valueBox}>
-                <div
-                  className={styles.inputBox}
-                  // onClick={() => useWithdrawPopup.setFocus("amount")}
-                >
-                  <p className={styles.value}>
-                    {/* {Intl.NumberFormat().format(
-                      useWithdrawPopup.watch("amount") || 0
-                    )} */}
-                    원
-                  </p>
-
-                  <input
-                    type="number"
-                    className={styles.hidden}
-                    // {...useWithdrawPopup.register("amount")}
-                  />
-                </div>
-              </div>
+              <span className={styles.subDescription}>
+                <Caution />
+                가상 계좌번호는 지정할 수 없습니다.
+              </span>
             </li>
           </ul>
 
-          <button className={styles.submitBtn} onClick={prop.onClickDraw}>
-            출금신청
-          </button>
+          <section className={styles.submitForm}>
+            <div className={styles.checkbox}>
+              <input
+                id={"agree_check"}
+                className={styles.hiddenCheckbox}
+                type="checkbox"
+                onChange={(e) => {
+                  prop.setAgreeCheck(e.target.checked);
+                }}
+                checked={prop.agreeCheck}
+              />
+              <label htmlFor="agree_check">(필수) 출금을 위한 개인정보 수집 동의</label>
+            </div>
+            <ContainedBtn
+              text="완료"
+              disabled={!prop.agreeCheck || !prop.formState.isValid || !prop.formState.isDirty}
+            />
+          </section>
         </form>
       </article>
     </section>
