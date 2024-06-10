@@ -82,3 +82,43 @@ export const ProfitCategoryTypeCode: CodeType<ProfitCategory> = {
     value: WITHDRAWAL,
   },
 };
+
+export type ProfitCategoryEventType =
+  | "ATTENDANCE"
+  | "ARTICLE_LIKE"
+  | "ARTICLE_COMMENT"
+  | "COMMENT_LIKE"
+  | "WRITE_ARTICLE_WITH_LIKES"
+  | "INVITE"
+  | "ALL_DONE";
+
+export const ProfitCategoryEventTypeCode: CodeType<ProfitCategoryEventType> = {
+  ATTENDANCE: {
+    label: "출석",
+    value: "ATTENDANCE",
+  },
+  ARTICLE_LIKE: {
+    label: "게시글 좋아요",
+    value: "ARTICLE_LIKE",
+  },
+  ARTICLE_COMMENT: {
+    label: "게시글 댓글",
+    value: "ARTICLE_COMMENT",
+  },
+  COMMENT_LIKE: {
+    label: "댓글 좋아요",
+    value: "COMMENT_LIKE",
+  },
+  WRITE_ARTICLE_WITH_LIKES: {
+    label: "게시글 작성 후 좋아요받기",
+    value: "WRITE_ARTICLE_WITH_LIKES",
+  },
+  INVITE: {
+    label: "친구초대",
+    value: "INVITE",
+  },
+  ALL_DONE: {
+    label: "전체완료",
+    value: "ALL_DONE",
+  },
+};
