@@ -2,11 +2,10 @@ import { postPurchase } from "./purchase";
 
 import { useMutation } from "@tanstack/react-query";
 
-export const usePostPurchase = (articleId: number) => {
+export const usePostPurchase = () => {
   const { mutateAsync } = useMutation({
-    mutationFn: () => postPurchase(articleId),
+    mutationFn: postPurchase,
   });
-  console.log(articleId);
 
   return {
     postPurchase: mutateAsync,

@@ -166,7 +166,7 @@ export default function Post({
   // NOTE URL 복사 완료 팝업 오픈 여부
   const [copied, setCopied] = useState<boolean>(false);
 
-  const { data: postData } = useQuery({
+  const { data: postData, refetch: refetchPostData } = useQuery({
     queryKey,
     queryFn: () => postById(articleId),
     initialData: _postData,
@@ -1067,9 +1067,9 @@ export default function Post({
           <BuyPostPopup
             title={postData?.articleInfo.title || ""}
             price={postData?.priceInfo.price || 0}
+            refetchArticle={refetchPostData}
             usePost={hook}
           />
-          {/* <SuccessPopup confirmFunc={null} /> */}
           <PopupBg bg off={() => hook.setBuyPopup(false)} />
         </>
       )}
@@ -1086,6 +1086,14 @@ export default function Post({
           <ErrorMsgPopup msg="URL이 복사되었습니다. " confirmFunc={() => setCopied(false)} />
           <PopupBg bg off={() => setCopied(false)} />
         </>
+      )}
+
+      {hook.changePricePopup && (
+        <SuccessPopup
+          title="가격이 변동되었어요"
+          subTitle="다시 결제를 진행해주세요."
+          confirmFunc={() => hook.setChangePricePopup(false)}
+        />
       )}
 
       {/* NOTE - 내 글 비공개 전환 확인 팝업 */}

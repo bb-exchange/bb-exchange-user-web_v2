@@ -1,25 +1,26 @@
 import styles from "./buyPostPopup.module.scss";
 
+import { QueryObserverResult } from "@tanstack/react-query";
+
 import CautionRed from "@assets/icons/CautionRed.svg";
 import CheckCircle from "@assets/icons/CheckCircle.svg";
 import CheckCircleBlueO from "@assets/icons/CheckCircleBlueO.svg";
 import X from "@assets/icons/X.svg";
+
+import { PostData } from "@api/interface";
 
 import UseBuyPostPopup from "@hooks/post/useBuyPostPopup";
 import UsePost from "@hooks/post/usePost";
 
 interface Iprops {
   usePost: ReturnType<typeof UsePost>;
+  refetchArticle: () => Promise<QueryObserverResult<PostData, Error>>;
   title: string;
   price: number;
 }
 
-export default function BuyPostPopup({ usePost, title, price }: Iprops) {
-  const useBuyPostPopup = UseBuyPostPopup({ usePost });
-
-  // console.log(useBuyPostPopup.price <= useBuyPostPopup.point ? "" : styles.notEnough);
-  console.log(price < useBuyPostPopup.point);
-  console.log(price < useBuyPostPopup.point ? "" : styles.notEnough);
+export default function BuyPostPopup({ usePost, title, price, refetchArticle }: Iprops) {
+  const useBuyPostPopup = UseBuyPostPopup({ usePost, originalPrice: price, refetchArticle });
 
   return (
     <section className={styles.buyPostPopup}>
@@ -42,10 +43,7 @@ export default function BuyPostPopup({ usePost, title, price }: Iprops) {
 
           <li className={styles.price}>
             <p className={styles.key}>구매 가격</p>
-            <p className={styles.value}>
-              {/* {Intl.NumberFormat().format(useBuyPostPopup.price)} P */}
-              {Intl.NumberFormat().format(price)} P
-            </p>
+            <p className={styles.value}>{Intl.NumberFormat().format(price)} P</p>
           </li>
         </ul>
       </article>
