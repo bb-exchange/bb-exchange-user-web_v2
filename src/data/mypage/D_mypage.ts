@@ -27,11 +27,11 @@ export const D_mypageNavList: mypageNavs[] = [
     url: "/mypage/edit_prof",
   },
   {
-    label: "보유 포인트 관리",
+    label: "포인트 관리",
     url: "/mypage/point",
   },
   {
-    label: "예산 정산금 관리",
+    label: "수익금 관리",
     url: "/mypage/asset",
   },
 ];
