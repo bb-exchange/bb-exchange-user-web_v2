@@ -11,6 +11,8 @@ import CommonHeader from "@components/common/header/commonHeader";
 import ErrorMsgPopup from "@components/common/popup/errorMsgPopup";
 import PopupBg from "@components/common/popupBg";
 import ScrollTopBtn from "@components/common/scrollTopBtn";
+import ContentIncome from "@components/mypage/asset/contentIncome";
+import MyWithdraw from "@components/mypage/asset/myWithdraw";
 import PointPopup from "@components/mypage/asset/pointPopup";
 import RegisterAccountNumberNecessityPopup from "@components/mypage/asset/registerAccountNumberNecessityPopup";
 import RegisterAccountNumberSuccessPopup from "@components/mypage/asset/registerAccountNumberSuccessPopup";
