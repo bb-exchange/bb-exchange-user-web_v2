@@ -11,8 +11,6 @@ import CommonHeader from "@components/common/header/commonHeader";
 import ErrorMsgPopup from "@components/common/popup/errorMsgPopup";
 import PopupBg from "@components/common/popupBg";
 import ScrollTopBtn from "@components/common/scrollTopBtn";
-import ContentIncome from "@components/mypage/asset/contentIncome";
-import MyWithdraw from "@components/mypage/asset/myWithdraw";
 import PointPopup from "@components/mypage/asset/pointPopup";
 import RegisterAccountNumberNecessityPopup from "@components/mypage/asset/registerAccountNumberNecessityPopup";
 import RegisterAccountNumberSuccessPopup from "@components/mypage/asset/registerAccountNumberSuccessPopup";
@@ -120,10 +118,32 @@ export default function Asset() {
             ))}
           </ul>
 
-          {useMypageAsset.category === "이벤트 수익금" && <TermIncome />}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: 30,
+            }}
+          >
+            <div
+              style={{
+                textAlign: "center",
+                backgroundColor: "rgba(173, 101, 246, 0.20)",
+                padding: "18px 24px",
+                color: "#9F9F9F",
+                width: 300,
+              }}
+            >
+              해당 기능은 아직 개발중입니다.
+              <br />
+              빠른 시일내에 업데이트 하겠습니다.
+            </div>
+          </div>
+          {/* {useMypageAsset.category === "이벤트 수익금" && <TermIncome />}
           {useMypageAsset.category === "월별 수익금" && <TermIncome />}
           {useMypageAsset.category === "콘텐츠별 수익금" && <ContentIncome />}
-          {useMypageAsset.category === "출금내역" && <MyWithdraw />}
+          {useMypageAsset.category === "출금내역" && <MyWithdraw />} */}
         </section>
       </main>
       <ScrollTopBtn />

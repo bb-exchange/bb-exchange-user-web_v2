@@ -27,7 +27,13 @@ export default function CompPayPopup({ usePost, off }: Iprops) {
             되었어요!
           </h1>
 
-          <p className={styles.cont}>구매한 글을 지금 확인해보세요!</p>
+          <p className={styles.cont}>
+            구매한 글을 지금 확인해보세요.
+            <br />
+            구매 후 7일이 지나면, 열람여부와 관계 없이
+            <br />
+            포인트 환불이 불가능합니다.
+          </p>
         </div>
 
         <button className={styles.confirmBtn} onClick={useCompPayPopup.onClickSeeNowBtn}>

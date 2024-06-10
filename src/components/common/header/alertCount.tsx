@@ -1,7 +1,18 @@
 import styles from "./alertCount.module.scss";
 
-const AlertCount = () => {
-  return <div className={styles.alertCount}>2</div>;
+import Bell from "@assets/icons/Bell.svg";
+
+type AlertCountProps = {
+  count?: number;
+};
+
+const AlertCount = ({ count = 0 }: AlertCountProps) => {
+  return (
+    <div>
+      <Bell />
+      {count > 0 && <span className={styles.alertCount}>{count}</span>}
+    </div>
+  );
 };
 
 export default AlertCount;

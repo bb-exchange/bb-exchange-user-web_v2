@@ -27,9 +27,9 @@ export default function MypageNavAside() {
 
           <ul className={styles.accountList}>
             <li>
-              <p className={styles.key}>보유 포인트</p>
+              <p className={styles.key}>포인트</p>
 
-              <p className={styles.value}>{Intl.NumberFormat().format(profile?.balance)}</p>
+              <p className={styles.value}>{Intl.NumberFormat().format(profile?.balance)}P</p>
 
               <button className={styles.detailBtn} onClick={() => router.push("/mypage/point")}>
                 <ChevronRtBlue />
