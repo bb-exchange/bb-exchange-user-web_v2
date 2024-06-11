@@ -4,7 +4,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { InView } from "react-intersection-observer";
 
 import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
-import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
@@ -60,6 +59,7 @@ import { isDailyEventSuccess } from "@api/event";
 
 import { CommonPopup } from "@components/common/popup/CommonPopup";
 import BuyPostPopup from "@components/post/buyPostPopup";
+import { SubHeader } from "@components/post/SubHeader";
 
 import useGetMyProfile from "@hooks/common/useGetProfile";
 
@@ -483,39 +483,43 @@ export default function Post({
 
       <CommonHeader />
 
-      <main className={styles.postScreen}>
-        <section className={styles.contSec}>
-          {/* SECTION 타이틀 영역 */}
-          <article className={styles.topBar}>
-            <div className={styles.verArea}>
-              <div className={styles.leftCont}>
-                {/* NOTE 현재 글 카테고리 */}
-                <h2 className={styles.category}>{postData?.boardInfo.description}</h2>
+      <main className={styles.main_container}>
+        {/* 구매 윤리문구  */}
+        <SubHeader />
 
-                {/* NOTE 비상장글 이거나 구매한 글일 때 */}
-                {hasOwnership && (
-                  <>
-                    <hr />
+        <div className={styles.postScreen}>
+          <section className={styles.contSec}>
+            {/* SECTION 타이틀 영역 */}
+            <article className={styles.topBar}>
+              <div className={styles.verArea}>
+                <div className={styles.leftCont}>
+                  {/* NOTE 현재 글 카테고리 */}
+                  <h2 className={styles.category}>{postData?.boardInfo.description}</h2>
 
-                    {/* NOTE 현재 글 버전 */}
-                    <div className={styles.verCont}>
-                      <div className={styles.verBox}>
-                        {/* REVIEW 벳지 출력 관련 정보 없음(최신글/베스트글 여부) */}
-                        {/* <NewSky /> */}
-                        <p>Ver.{postData?.articleInfo.version || 1}</p>
+                  {/* NOTE 비상장글 이거나 구매한 글일 때 */}
+                  {hasOwnership && (
+                    <>
+                      <hr />
+
+                      {/* NOTE 현재 글 버전 */}
+                      <div className={styles.verCont}>
+                        <div className={styles.verBox}>
+                          {/* REVIEW 벳지 출력 관련 정보 없음(최신글/베스트글 여부) */}
+                          {/* <NewSky /> */}
+                          <p>Ver.{postData?.articleInfo.version || 1}</p>
+                        </div>
+                        {/* 안되어있음 */}
+                        <p className={styles.time}>
+                          {moment(postData?.articleInfo.versionCreatedAt).format("YY.MM.DD")}
+                        </p>
                       </div>
-                      {/* 안되어있음 */}
-                      <p className={styles.time}>
-                        {moment(postData?.articleInfo.versionCreatedAt).format("YY.MM.DD")}
-                      </p>
-                    </div>
-                  </>
-                )}
-              </div>
+                    </>
+                  )}
+                </div>
 
-              {/* NOTE 글 히스토리(이전 버전) */}
-              {/* NOTE 비상장글 이거나 구매한 글일 때 출력 */}
-              {/* <div className={styles.rightCont}>
+                {/* NOTE 글 히스토리(이전 버전) */}
+                {/* NOTE 비상장글 이거나 구매한 글일 때 출력 */}
+                {/* <div className={styles.rightCont}>
                   {hasOwnership && (
                     <button
                       className={styles.otherVerBtn}
@@ -527,472 +531,479 @@ export default function Post({
                     </button>
                   )}
                 </div> */}
-            </div>
+              </div>
 
-            <div className={styles.titleArea}>
-              {/* NOTE 타이틀 */}
-              <h1 className={styles.title}>{postData?.articleInfo.title}</h1>
+              <div className={styles.titleArea}>
+                {/* NOTE 타이틀 */}
+                <h1 className={styles.title}>{postData?.articleInfo.title}</h1>
 
-              <div className={styles.utilBar}>
-                <div className={styles.leftCont}>
-                  {/* NOTE 작성자 */}
-                  <div className={`${styles.creatorBox} ${styles.contBox}`}>
+                <div className={styles.utilBar}>
+                  <div className={styles.leftCont}>
+                    {/* NOTE 작성자 */}
+                    <div className={`${styles.creatorBox} ${styles.contBox}`}>
+                      <>
+                        {!!(postData?.userInfo.gradeType === "MASTER") && <Gold />}
+                        {!!(postData?.userInfo.gradeType === "SEMI") && <Silver />}
+                      </>
+
+                      <p onClick={onMoveUserPage} className={styles.cursor}>
+                        {postData?.userInfo.nickname}
+                      </p>
+                    </div>
+
+                    {hasOwnership ? (
+                      // NOTE 비상장글 이거나 구매한 글일 때 - 조회수
+                      <div className={`${styles.creatorBox} ${styles.contBox}`}>
+                        <Eye />
+
+                        <p>
+                          {new Intl.NumberFormat().format(postData?.articleInfo.totalViewNum || 0)}
+                        </p>
+                      </div>
+                    ) : (
+                      // NOTE 비구매 글일 때 - 작성일
+                      <div className={`${styles.creatorBox} ${styles.contBox}`}>
+                        <p>
+                          작성일{" "}
+                          {moment(new Date(postData?.articleInfo.versionCreatedAt || "")).format(
+                            "YYYY.MM.DD",
+                          )}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className={styles.rightCont}>
+                    <button className={styles.urlCopyBtn} onClick={urlCopy}>
+                      URL 복사
+                    </button>
+                    {/* NOTE 로그인 && (비상장 || 구매한 글)인 유저만 볼 수 있는 더보기 메뉴 */}
+                    {hasOwnership && (
+                      <div className={styles.btnBox}>
+                        {isLogin && hasOwnership && (
+                          <button
+                            className={styles.moreBtn}
+                            onClick={() => hook.setMorePopup(true)}
+                          >
+                            <Dot3 />
+                          </button>
+                        )}
+
+                        {hook.morePopup && (
+                          <>
+                            <PostMorePopup
+                              isMyPost={!!(currentUserData?.id === userId)}
+                              isListed={postData?.articleInfo.isListed}
+                              UsePost={hook}
+                              onClickSetPrivate={() => {
+                                hook.setMorePopup(false);
+                                setOpenConfirmPrivate(true);
+                              }}
+                              onClickEdit={() => {
+                                hook.setMorePopup(false);
+                                setOpenConfirmEdit(true);
+                              }}
+                              onClickDelete={() => {
+                                hook.setMorePopup(false);
+                                setOpenConfirmDelete(true);
+                              }}
+                            />
+                            <PopupBg off={() => hook.setMorePopup(false)} />
+                          </>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </article>
+            {/* !SECTION */}
+
+            {/* SECTION 글 내용 영역 */}
+            {/* NOTE 비상장글 이거나 구매한 글일 때 */}
+            {hasOwnership ? (
+              <>
+                <article className={styles.contArea}>
+                  {editor && <EditorContent readOnly editor={editor} height={"100%"} />}
+                </article>
+
+                {/* NOTE 좋아요 */}
+                <article className={styles.likeArea}>
+                  {!postData?.articleInfo.isListed ? (
+                    // NOTE 비상장글일 때
+                    <div
+                      className={`${
+                        postData?.priceInfo.isLike ? styles.like : ""
+                      } ${styles.innerCont} ${styles.notListed}`}
+                      onClick={() => onClickSetValue({ type: "like" })}
+                    >
+                      <Image
+                        src={
+                          postData?.priceInfo.isLike
+                            ? "/assets/icons/ThumbUpRed.svg"
+                            : "/assets/icons/ThumbUpGrey.svg"
+                        }
+                        width={36}
+                        height={36}
+                        alt=""
+                      />
+
+                      <div
+                        className={`${styles.currentBox} ${
+                          postData?.priceInfo.isLike ? styles.like : ""
+                        }`}
+                      >
+                        <p className={`${postData?.priceInfo.isLike ? styles.like : ""}`}>좋아요</p>
+                        <h2
+                          className={`${styles.price} ${
+                            postData?.priceInfo.isLike ? styles.like : ""
+                          }`}
+                        >
+                          {postData?.priceInfo.likeNum}
+                        </h2>
+                      </div>
+                    </div>
+                  ) : (
+                    // NOTE 구매한글일 때
+                    <div
+                      className={`${
+                        postData?.priceInfo.isLike ? styles.up : ""
+                      } ${postData?.priceInfo.isDislike ? styles.dn : ""} ${styles.innerCont}`}
+                    >
+                      <button
+                        className={styles.likeBtn}
+                        onClick={() => onClickSetValue({ type: "like" })}
+                      >
+                        {postData?.priceInfo.isLike ? <ThumbUpRed /> : <ThumbUpGrey />}
+                        <p>+1P</p>
+                      </button>
+
+                      <div className={styles.currentBox}>
+                        <p>현재가</p>
+                        <h2 className={styles.price}>{`${new Intl.NumberFormat().format(
+                          Number(postData?.priceInfo.price),
+                        )}P`}</h2>
+                        <p className={styles.percent}>
+                          {formatRate(postData?.priceInfo.changeRate || 0)}%
+                        </p>
+                      </div>
+
+                      <button
+                        className={styles.likeBtn}
+                        onClick={() => onClickSetValue({ type: "dislike" })}
+                      >
+                        {postData?.priceInfo.isDislike ? <ThumbDnBlue /> : <ThumbDnGrey />}
+                        <p>-1P</p>
+                      </button>
+                    </div>
+                  )}
+                </article>
+
+                {/* NOTE 태그 영역 */}
+                <article className={styles.replyArea}>
+                  <ul className={styles.tagList}>
+                    {postData?.tagList.map(({ tagName, tagId }) => <li key={tagId}>{tagName}</li>)}
+                  </ul>
+
+                  {/* NOTE 비상장글/구매한글일 때 댓글 */}
+                  <div className={styles.inputCont}>
+                    <div className={styles.wrapper}>
+                      <div className={styles.countBar}>
+                        <Message />
+
+                        <p className={styles.key}>댓글</p>
+                        <p className={styles.value}>{comments?.pages[0].totalElements ?? 0}</p>
+                      </div>
+
+                      <div
+                        className={styles.sortBy}
+                        onClick={() => setShowCommentSortByPopup(true)}
+                      >
+                        <span>{commentSortByInfo[commentSortBy]}</span>
+                        <Image
+                          src={"/assets/icons/SortAscending.svg"}
+                          alt={"sort"}
+                          width={16}
+                          height={16}
+                        />
+
+                        {showCommentSortByPopup && (
+                          <>
+                            <CommentSortByPopup onClickSetCommentSortBy={onClickSetCommentSortBy} />
+                            <PopupBg
+                              off={(e) => {
+                                e.stopPropagation();
+                                setShowCommentSortByPopup(false);
+                              }}
+                            />
+                          </>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* NOTE 로그인한 유저에게만 댓글 입력창 출력 */}
+                    {!!isLogin && (
+                      <div className={styles.inputBox}>
+                        <textarea
+                          ref={(ref) => {
+                            if (ref?.style) {
+                              ref.style.minHeight = "54px";
+                              ref.style.height = "auto";
+                              ref.style.height = `${ref?.scrollHeight}px`;
+                              ref.style.maxHeight = "200px";
+                            }
+                          }}
+                          rows={1}
+                          value={commentContent}
+                          onChange={({ target: { value } }) => onChangeComment(value)}
+                          placeholder="댓글을 입력해주세요"
+                        />
+
+                        <button
+                          className={styles.enrollBtn}
+                          aria-disabled={!isValidComment}
+                          onClick={onSubmit}
+                        >
+                          입력
+                        </button>
+                      </div>
+                    )}
+
+                    {/* NOTE 댓글 목록 */}
+                    <ul className={styles.replyList}>
+                      {comments?.pages.map((page) =>
+                        page.contents.map((props) => (
+                          <li key={props.commentId}>
+                            <Reply
+                              isMyComment={!!(currentUserData?.id === props.userId)}
+                              hasOwnership={hasOwnership}
+                              data={props}
+                              nested={!!(props.parentCommentId != null)}
+                              onClickLikeComment={onClickLikeComment}
+                              onClickUpdateComment={onClickUpdateComment}
+                              onClickDeleteComment={onClickDeleteComment}
+                              onClickCreateComment={onClickCreateComment}
+                            />
+                          </li>
+                        )),
+                      )}
+                      {!!comments?.pages[0].contents.length &&
+                        (!isFetchingNextPage ? (
+                          <InView onChange={(inView) => inView && hasNextPage && fetchNextPage()} />
+                        ) : (
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <Image
+                              src={"/assets/icons/loading/threeDots.gif"}
+                              alt={"loading dots"}
+                              width={70}
+                              height={70}
+                            />
+                          </div>
+                        ))}
+                    </ul>
+                  </div>
+                </article>
+              </>
+            ) : (
+              // NOTE 상장글이면서 비구매 글일 때
+              <>
+                <article className={`${styles.contArea} ${styles.limited}`}>
+                  {postData?.articleInfo.content && (
+                    <article style={{ maxHeight: "500px", overflow: "hidden" }}>
+                      {editor && <EditorContent readOnly editor={editor} height={"100%"} />}
+                    </article>
+                  )}
+                  <div className={styles.overlayBox}>
+                    <button
+                      className={classNames(
+                        styles.favBtn,
+                        !!postData?.articleInfo.interest && styles.on,
+                      )}
+                      onClick={() =>
+                        mutateBookmark({
+                          articleId: Number(articleId),
+                          bookmarking: !postData?.articleInfo.interest,
+                        })
+                      }
+                      data-testid={!!postData?.articleInfo.interest ? "thumbRed" : "thumbGrey"}
+                    >
+                      {!!postData?.articleInfo.interest ? <HeartRedO /> : <HeartGrey />}
+
+                      <p>찜하기</p>
+                    </button>
+
+                    <p className={styles.plzBuy}>전체글을 보려면 구매해주세요.</p>
+                  </div>
+                </article>
+
+                {/* NOTE 비구매글일 때 댓글 */}
+                <article className={styles.replyArea}>
+                  <div className={styles.inputCont}>
+                    <div className={styles.represent_comment_container}>
+                      <p className="p1 bold color-black1">대표댓글</p>
+                    </div>
+
+                    {/* 대표 댓글이 없을경우 */}
+                    {comments?.pages[0].totalElements === 0 ? (
+                      <div className={styles.represent_no_comment_container}>
+                        <p className="p1 color-gray1">대표 댓글이 없습니다.</p>
+                      </div>
+                    ) : (
+                      <ul className={styles.replyList}>
+                        {comments?.pages.map((page) =>
+                          page.contents
+                            .filter((item) => !item.parentCommentId)
+                            .slice(0, 3)
+                            .map((props) => (
+                              <li key={props.commentId}>
+                                <Reply
+                                  isMyComment={!!(currentUserData?.id === props.userId)}
+                                  hasOwnership={hasOwnership}
+                                  data={props}
+                                  nested={!!(props.parentCommentId != null)}
+                                  onClickLikeComment={() => null}
+                                  onClickUpdateComment={onClickUpdateComment}
+                                  onClickDeleteComment={onClickDeleteComment}
+                                  onClickCreateComment={onClickCreateComment}
+                                />
+                              </li>
+                            )),
+                        )}
+                      </ul>
+                    )}
+                  </div>
+                </article>
+              </>
+            )}
+          </section>
+          {/* !SECTION */}
+
+          {/* SECTION 우측 영역 */}
+          <aside>
+            {/* NOTE 비상장글 이거나 구매글일 때 */}
+            {hasOwnership ? (
+              <>
+                <article className={styles.creatorArea}>
+                  <div className={styles.profImgBox} onClick={onMoveUserPage}>
+                    <Image
+                      src={postData?.userInfo.image || DefaultProfImg.src}
+                      loader
+                      width={48}
+                      height={48}
+                      alt=""
+                    />
+                  </div>
+
+                  <div className={styles.nicknameBar} onClick={onMoveUserPage}>
+                    <h1 className={styles.nickname}>{postData?.userInfo.nickname}</h1>
                     <>
                       {!!(postData?.userInfo.gradeType === "MASTER") && <Gold />}
                       {!!(postData?.userInfo.gradeType === "SEMI") && <Silver />}
                     </>
-
-                    <p onClick={onMoveUserPage} className={styles.cursor}>
-                      {postData?.userInfo.nickname}
-                    </p>
                   </div>
 
-                  {hasOwnership ? (
-                    // NOTE 비상장글 이거나 구매한 글일 때 - 조회수
-                    <div className={`${styles.creatorBox} ${styles.contBox}`}>
-                      <Eye />
+                  <p className={styles.profMsg}>{postData?.userInfo.description}</p>
+                </article>
 
-                      <p>
-                        {new Intl.NumberFormat().format(postData?.articleInfo.totalViewNum || 0)}
-                      </p>
-                    </div>
-                  ) : (
-                    // NOTE 비구매 글일 때 - 작성일
-                    <div className={`${styles.creatorBox} ${styles.contBox}`}>
-                      <p>
-                        작성일{" "}
-                        {moment(new Date(postData?.articleInfo.versionCreatedAt || "")).format(
-                          "YYYY.MM.DD",
-                        )}
-                      </p>
-                    </div>
-                  )}
-                </div>
+                {/* NOTE 작성자의 다른 글 목록 */}
+                {!!articlesByUser.length && (
+                  <article className={`${styles.otherPostArea} ${styles.postListArea}`}>
+                    <p className={styles.areaTitle}>{postData?.userInfo.nickname}님의 다른 글</p>
 
-                <div className={styles.rightCont}>
-                  <button className={styles.urlCopyBtn} onClick={urlCopy}>
-                    URL 복사
-                  </button>
-                  {/* NOTE 로그인 && (비상장 || 구매한 글)인 유저만 볼 수 있는 더보기 메뉴 */}
-                  {hasOwnership && (
-                    <div className={styles.btnBox}>
-                      {isLogin && hasOwnership && (
-                        <button className={styles.moreBtn} onClick={() => hook.setMorePopup(true)}>
-                          <Dot3 />
-                        </button>
-                      )}
-
-                      {hook.morePopup && (
-                        <>
-                          <PostMorePopup
-                            isMyPost={!!(currentUserData?.id === userId)}
-                            isListed={postData?.articleInfo.isListed}
-                            UsePost={hook}
-                            onClickSetPrivate={() => {
-                              hook.setMorePopup(false);
-                              setOpenConfirmPrivate(true);
-                            }}
-                            onClickEdit={() => {
-                              hook.setMorePopup(false);
-                              setOpenConfirmEdit(true);
-                            }}
-                            onClickDelete={() => {
-                              hook.setMorePopup(false);
-                              setOpenConfirmDelete(true);
-                            }}
-                          />
-                          <PopupBg off={() => hook.setMorePopup(false)} />
-                        </>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          </article>
-          {/* !SECTION */}
-
-          {/* SECTION 글 내용 영역 */}
-          {/* NOTE 비상장글 이거나 구매한 글일 때 */}
-          {hasOwnership ? (
-            <>
-              <article className={styles.contArea}>
-                {editor && <EditorContent readOnly editor={editor} height={"100%"} />}
-              </article>
-
-              {/* NOTE 좋아요 */}
-              <article className={styles.likeArea}>
-                {!postData?.articleInfo.isListed ? (
-                  // NOTE 비상장글일 때
-                  <div
-                    className={`${
-                      postData?.priceInfo.isLike ? styles.like : ""
-                    } ${styles.innerCont} ${styles.notListed}`}
-                    onClick={() => onClickSetValue({ type: "like" })}
-                  >
-                    <Image
-                      src={
-                        postData?.priceInfo.isLike
-                          ? "/assets/icons/ThumbUpRed.svg"
-                          : "/assets/icons/ThumbUpGrey.svg"
-                      }
-                      width={36}
-                      height={36}
-                      alt=""
-                    />
-
-                    <div
-                      className={`${styles.currentBox} ${
-                        postData?.priceInfo.isLike ? styles.like : ""
-                      }`}
-                    >
-                      <p className={`${postData?.priceInfo.isLike ? styles.like : ""}`}>좋아요</p>
-                      <h2
-                        className={`${styles.price} ${
-                          postData?.priceInfo.isLike ? styles.like : ""
-                        }`}
-                      >
-                        {postData?.priceInfo.likeNum}
-                      </h2>
-                    </div>
-                  </div>
-                ) : (
-                  // NOTE 구매한글일 때
-                  <div
-                    className={`${
-                      postData?.priceInfo.isLike ? styles.up : ""
-                    } ${postData?.priceInfo.isDislike ? styles.dn : ""} ${styles.innerCont}`}
-                  >
-                    <button
-                      className={styles.likeBtn}
-                      onClick={() => onClickSetValue({ type: "like" })}
-                    >
-                      {postData?.priceInfo.isLike ? <ThumbUpRed /> : <ThumbUpGrey />}
-                      <p>+1P</p>
-                    </button>
-
-                    <div className={styles.currentBox}>
-                      <p>현재가</p>
-                      <h2 className={styles.price}>{`${new Intl.NumberFormat().format(
-                        Number(postData?.priceInfo.price),
-                      )}P`}</h2>
-                      <p className={styles.percent}>
-                        {formatRate(postData?.priceInfo.changeRate || 0)}%
-                      </p>
-                    </div>
-
-                    <button
-                      className={styles.likeBtn}
-                      onClick={() => onClickSetValue({ type: "dislike" })}
-                    >
-                      {postData?.priceInfo.isDislike ? <ThumbDnBlue /> : <ThumbDnGrey />}
-                      <p>-1P</p>
-                    </button>
-                  </div>
-                )}
-              </article>
-
-              {/* NOTE 태그 영역 */}
-              <article className={styles.replyArea}>
-                <ul className={styles.tagList}>
-                  {postData?.tagList.map(({ tagName, tagId }) => <li key={tagId}>{tagName}</li>)}
-                </ul>
-
-                {/* NOTE 비상장글/구매한글일 때 댓글 */}
-                <div className={styles.inputCont}>
-                  <div className={styles.wrapper}>
-                    <div className={styles.countBar}>
-                      <Message />
-
-                      <p className={styles.key}>댓글</p>
-                      <p className={styles.value}>{comments?.pages[0].totalElements ?? 0}</p>
-                    </div>
-
-                    <div className={styles.sortBy} onClick={() => setShowCommentSortByPopup(true)}>
-                      <span>{commentSortByInfo[commentSortBy]}</span>
-                      <Image
-                        src={"/assets/icons/SortAscending.svg"}
-                        alt={"sort"}
-                        width={16}
-                        height={16}
-                      />
-
-                      {showCommentSortByPopup && (
-                        <>
-                          <CommentSortByPopup onClickSetCommentSortBy={onClickSetCommentSortBy} />
-                          <PopupBg
-                            off={(e) => {
-                              e.stopPropagation();
-                              setShowCommentSortByPopup(false);
-                            }}
-                          />
-                        </>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* NOTE 로그인한 유저에게만 댓글 입력창 출력 */}
-                  {!!isLogin && (
-                    <div className={styles.inputBox}>
-                      <textarea
-                        ref={(ref) => {
-                          if (ref?.style) {
-                            ref.style.minHeight = "54px";
-                            ref.style.height = "auto";
-                            ref.style.height = `${ref?.scrollHeight}px`;
-                            ref.style.maxHeight = "200px";
-                          }
-                        }}
-                        rows={1}
-                        value={commentContent}
-                        onChange={({ target: { value } }) => onChangeComment(value)}
-                        placeholder="댓글을 입력해주세요"
-                      />
-
-                      <button
-                        className={styles.enrollBtn}
-                        aria-disabled={!isValidComment}
-                        onClick={onSubmit}
-                      >
-                        입력
-                      </button>
-                    </div>
-                  )}
-
-                  {/* NOTE 댓글 목록 */}
-                  <ul className={styles.replyList}>
-                    {comments?.pages.map((page) =>
-                      page.contents.map((props) => (
-                        <li key={props.commentId}>
-                          <Reply
-                            isMyComment={!!(currentUserData?.id === props.userId)}
-                            hasOwnership={hasOwnership}
-                            data={props}
-                            nested={!!(props.parentCommentId != null)}
-                            onClickLikeComment={onClickLikeComment}
-                            onClickUpdateComment={onClickUpdateComment}
-                            onClickDeleteComment={onClickDeleteComment}
-                            onClickCreateComment={onClickCreateComment}
-                          />
-                        </li>
-                      )),
-                    )}
-                    {!!comments?.pages[0].contents.length &&
-                      (!isFetchingNextPage ? (
-                        <InView onChange={(inView) => inView && hasNextPage && fetchNextPage()} />
-                      ) : (
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "center",
-                          }}
-                        >
-                          <Image
-                            src={"/assets/icons/loading/threeDots.gif"}
-                            alt={"loading dots"}
-                            width={70}
-                            height={70}
-                          />
-                        </div>
+                    <ul className={styles.postList}>
+                      {articlesByUser.map((props) => (
+                        <ArticleItem
+                          key={props.articleInfo.articleId}
+                          onClickMoveToPost={onClickMoveToPost}
+                          getDiffStyle={getDiffStyle}
+                          {...props}
+                        />
                       ))}
-                  </ul>
-                </div>
-              </article>
-            </>
-          ) : (
-            // NOTE 상장글이면서 비구매 글일 때
-            <>
-              <article className={`${styles.contArea} ${styles.limited}`}>
-                {postData?.articleInfo.content && (
-                  <article style={{ maxHeight: "500px", overflow: "hidden" }}>
-                    {editor && <EditorContent readOnly editor={editor} height={"100%"} />}
+                    </ul>
                   </article>
                 )}
-                <div className={styles.overlayBox}>
-                  <button
-                    className={classNames(
-                      styles.favBtn,
-                      !!postData?.articleInfo.interest && styles.on,
-                    )}
-                    onClick={() =>
-                      mutateBookmark({
-                        articleId: Number(articleId),
-                        bookmarking: !postData?.articleInfo.interest,
-                      })
-                    }
-                    data-testid={!!postData?.articleInfo.interest ? "thumbRed" : "thumbGrey"}
-                  >
-                    {!!postData?.articleInfo.interest ? <HeartRedO /> : <HeartGrey />}
 
-                    <p>찜하기</p>
-                  </button>
-
-                  <p className={styles.plzBuy}>전체글을 보려면 구매해주세요.</p>
-                </div>
-              </article>
-
-              {/* NOTE 비구매글일 때 댓글 */}
-              <article className={styles.replyArea}>
-                <div className={styles.inputCont}>
-                  <div className={styles.represent_comment_container}>
-                    <p className="p1 bold color-black1">대표댓글</p>
-                  </div>
-
-                  {/* 대표 댓글이 없을경우 */}
-                  {comments?.pages[0].totalElements === 0 ? (
-                    <div className={styles.represent_no_comment_container}>
-                      <p className="p1 color-gray1">대표 댓글이 없습니다.</p>
-                    </div>
-                  ) : (
-                    <ul className={styles.replyList}>
-                      {comments?.pages.map((page) =>
-                        page.contents
-                          .filter((item) => !item.parentCommentId)
-                          .slice(0, 3)
-                          .map((props) => (
-                            <li key={props.commentId}>
-                              <Reply
-                                isMyComment={!!(currentUserData?.id === props.userId)}
-                                hasOwnership={hasOwnership}
-                                data={props}
-                                nested={!!(props.parentCommentId != null)}
-                                onClickLikeComment={() => null}
-                                onClickUpdateComment={onClickUpdateComment}
-                                onClickDeleteComment={onClickDeleteComment}
-                                onClickCreateComment={onClickCreateComment}
-                              />
-                            </li>
-                          )),
-                      )}
-                    </ul>
-                  )}
-                </div>
-              </article>
-            </>
-          )}
-        </section>
-        {/* !SECTION */}
-
-        {/* SECTION 우측 영역 */}
-        <aside>
-          {/* NOTE 비상장글 이거나 구매글일 때 */}
-          {hasOwnership ? (
-            <>
-              <article className={styles.creatorArea}>
-                <div className={styles.profImgBox} onClick={onMoveUserPage}>
-                  <Image
-                    src={postData?.userInfo.image || DefaultProfImg.src}
-                    loader
-                    width={48}
-                    height={48}
-                    alt=""
-                  />
-                </div>
-
-                <div className={styles.nicknameBar} onClick={onMoveUserPage}>
-                  <h1 className={styles.nickname}>{postData?.userInfo.nickname}</h1>
-                  <>
-                    {!!(postData?.userInfo.gradeType === "MASTER") && <Gold />}
-                    {!!(postData?.userInfo.gradeType === "SEMI") && <Silver />}
-                  </>
-                </div>
-
-                <p className={styles.profMsg}>{postData?.userInfo.description}</p>
-              </article>
-
-              {/* NOTE 작성자의 다른 글 목록 */}
-              {!!articlesByUser.length && (
-                <article className={`${styles.otherPostArea} ${styles.postListArea}`}>
-                  <p className={styles.areaTitle}>{postData?.userInfo.nickname}님의 다른 글</p>
+                {/* NOTE 현재 카테고리 인기글 목록 */}
+                <article className={`${styles.categoryPopularPostList} ${styles.postListArea}`}>
+                  <p className={styles.areaTitle}>{postData?.boardInfo.description}의 인기글</p>
 
                   <ul className={styles.postList}>
-                    {articlesByUser.map((props) => (
-                      <ArticleItem
-                        key={props.articleInfo.articleId}
-                        onClickMoveToPost={onClickMoveToPost}
-                        getDiffStyle={getDiffStyle}
-                        {...props}
-                      />
-                    ))}
+                    {popularArticles?.length ? (
+                      popularArticles.map((props) => (
+                        <ArticleItem
+                          key={props.articleInfo.articleId}
+                          onClickMoveToPost={onClickMoveToPost}
+                          getDiffStyle={getDiffStyle}
+                          {...props}
+                        />
+                      ))
+                    ) : (
+                      <div className={styles.emptyArea}>
+                        <div>
+                          <Image src="/assets/icons/Warn.svg" width={48} height={48} alt="" />
+                          <p className={styles.emptyDesc}>인기글이 없습니다</p>
+                          <button onClick={() => router.push("/popular")}>
+                            <p>전체 인기글 보러가기</p>
+
+                            <Image
+                              src="/assets/icons/BlackArrowRight.svg"
+                              height={20}
+                              width={20}
+                              alt=""
+                            />
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </ul>
                 </article>
-              )}
-
-              {/* NOTE 현재 카테고리 인기글 목록 */}
-              <article className={`${styles.categoryPopularPostList} ${styles.postListArea}`}>
-                <p className={styles.areaTitle}>{postData?.boardInfo.description}의 인기글</p>
-
-                <ul className={styles.postList}>
-                  {popularArticles?.length ? (
-                    popularArticles.map((props) => (
-                      <ArticleItem
-                        key={props.articleInfo.articleId}
-                        onClickMoveToPost={onClickMoveToPost}
-                        getDiffStyle={getDiffStyle}
-                        {...props}
-                      />
-                    ))
-                  ) : (
-                    <div className={styles.emptyArea}>
-                      <div>
-                        <Image src="/assets/icons/Warn.svg" width={48} height={48} alt="" />
-                        <p className={styles.emptyDesc}>인기글이 없습니다</p>
-                        <button onClick={() => router.push("/popular")}>
-                          <p>전체 인기글 보러가기</p>
-
-                          <Image
-                            src="/assets/icons/BlackArrowRight.svg"
-                            height={20}
-                            width={20}
-                            alt=""
-                          />
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </ul>
-              </article>
-            </>
-          ) : (
-            // NOTE 상장글이면서 비구매글일 때
-            <article className={styles.buyArea}>
-              <div className={styles.viewCont}>
-                <strong className={styles.icon}>👀</strong>
-                <br />
-                {postData?.articleInfo.totalViewNum || 0}명이 이 글을 봤어요!
-              </div>
-
-              <div className={styles.contCont}>
-                <div className={styles.priceCont}>
-                  <div className={`${styles.diffBox} ${getDiffStyle(1 || 0)}`}>
-                    <p>
-                      +{formatRate(postData?.priceInfo.changeRate || 0)}% (
-                      {postData?.priceInfo.changeAmount || 0})
-                    </p>
-                  </div>
-
-                  <div className={`${styles.priceBox} ${getDiffStyle(1 || 0)}`}>
-                    <p className={styles.key}>현재가</p>
-                    <p className={styles.value}>
-                      {Intl.NumberFormat().format(postData?.priceInfo.price || 0)} P
-                    </p>
-                  </div>
-
-                  <div className={styles.noticeBox}>
-                    <NoticeCircleGrey />
-
-                    <p>실시간으로 가격이 변동될 수 있습니다</p>
-                  </div>
+              </>
+            ) : (
+              // NOTE 상장글이면서 비구매글일 때
+              <article className={styles.buyArea}>
+                <div className={styles.viewCont}>
+                  <strong className={styles.icon}>👀</strong>
+                  <br />
+                  {postData?.articleInfo.totalViewNum || 0}명이 이 글을 봤어요!
                 </div>
 
-                <button className={styles.buyBtn} onClick={onClickBuy}>
-                  구매하기
-                </button>
-              </div>
-            </article>
-          )}
-        </aside>
-        {/* !SECTION */}
+                <div className={styles.contCont}>
+                  <div className={styles.priceCont}>
+                    <div className={`${styles.diffBox} ${getDiffStyle(1 || 0)}`}>
+                      <p>
+                        +{formatRate(postData?.priceInfo.changeRate || 0)}% (
+                        {postData?.priceInfo.changeAmount || 0})
+                      </p>
+                    </div>
+
+                    <div className={`${styles.priceBox} ${getDiffStyle(1 || 0)}`}>
+                      <p className={styles.key}>현재가</p>
+                      <p className={styles.value}>
+                        {Intl.NumberFormat().format(postData?.priceInfo.price || 0)} P
+                      </p>
+                    </div>
+
+                    <div className={styles.noticeBox}>
+                      <NoticeCircleGrey />
+
+                      <p>실시간으로 가격이 변동될 수 있습니다</p>
+                    </div>
+                  </div>
+
+                  <button className={styles.buyBtn} onClick={onClickBuy}>
+                    구매하기
+                  </button>
+                </div>
+              </article>
+            )}
+          </aside>
+          {/* !SECTION */}
+        </div>
       </main>
 
       <CommonFooter />
