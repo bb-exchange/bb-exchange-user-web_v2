@@ -66,7 +66,7 @@ const AlertHoverPopup = ({ data: notificationData, refetch }: AlertHoverPopupPro
                     <p className={styles.description}>{content.content}</p>
                   </div>
                 </div>
-                {!!content.landingTargetId && <ArrowRight />}
+                {!!content.landingTargetId && <ArrowRight style={{ minWidth: 24 }} />}
               </li>
             );
           })
