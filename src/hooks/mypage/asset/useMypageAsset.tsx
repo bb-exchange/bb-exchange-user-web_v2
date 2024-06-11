@@ -154,7 +154,7 @@ export default function UseMypageAsset() {
     useForm<BankInfoType>({
       defaultValues: bankInfoForm,
       mode: "onBlur",
-      reValidateMode: "onBlur",
+      reValidateMode: "onSubmit",
     });
 
   const [agreeCheck, setAgreeCheck] = useState<boolean>(false);
