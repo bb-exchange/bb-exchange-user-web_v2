@@ -58,7 +58,7 @@ import { useRecoilValue } from "recoil";
 
 import { isDailyEventSuccess } from "@api/event";
 
-import { SuccessPopup } from "@components/common/popup/SuccessPopup";
+import { CommonPopup } from "@components/common/popup/CommonPopup";
 import BuyPostPopup from "@components/post/buyPostPopup";
 
 import useGetMyProfile from "@hooks/common/useGetProfile";
@@ -324,7 +324,7 @@ export default function Post({
     if (data.data.done) {
       setDailyEventPopupInfo((prev) => ({
         ...prev,
-        title: `${data.data.amount}원 받았어요!`,
+        title: `<span class='color-primary1'>${data.data.amount}원<span> 받았어요!`,
         subTitle: `비법글에 댓글 ${data.data.attainment}개 작성하기`,
         isShow: true,
       }));
@@ -358,7 +358,7 @@ export default function Post({
             if (data.data.done) {
               setDailyEventPopupInfo((prev) => ({
                 ...prev,
-                title: `${data.data.amount}원 받았어요!`,
+                title: `<span class='color-primary1'>${data.data.amount}원</span> 받았어요!`,
                 subTitle: `비법글에 댓글 ${data.data.attainment}개 작성하기`,
                 isShow: true,
               }));
@@ -383,7 +383,7 @@ export default function Post({
       if (data.data.done) {
         setDailyEventPopupInfo((prev) => ({
           ...prev,
-          title: `${data.data.amount}원 받았어요!`,
+          title: `<span class='color-primary1'>${data.data.amount}원</span> 받았어요!`,
           subTitle: `댓글에 좋아요 ${data.data.attainment}개 누르기`,
           isShow: true,
         }));
@@ -418,7 +418,7 @@ export default function Post({
           if (data.data.done) {
             setDailyEventPopupInfo((prev) => ({
               ...prev,
-              title: `${data.data.amount}원 받았어요!`,
+              title: `<span class='color-primary1'>${data.data.amount}원</span> 받았어요!`,
               subTitle: `비법글에 좋아요 ${data.data.attainment}개 누르기`,
               isShow: true,
             }));
@@ -1089,7 +1089,7 @@ export default function Post({
       )}
 
       {hook.changePricePopup && (
-        <SuccessPopup
+        <CommonPopup
           title="가격이 변동되었어요"
           subTitle="다시 결제를 진행해주세요."
           confirmFunc={() => hook.setChangePricePopup(false)}
@@ -1140,7 +1140,7 @@ export default function Post({
       )}
 
       {dailyEventPopupInfo.isShow && (
-        <SuccessPopup
+        <CommonPopup
           title={dailyEventPopupInfo.title}
           subTitle={dailyEventPopupInfo.subTitle}
           iconSrc="/assets/icons/RewardIcon.png"

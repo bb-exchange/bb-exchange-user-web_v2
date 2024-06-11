@@ -1,6 +1,4 @@
-import styles from "./SuccessPopup.module.scss";
-
-import React from "react";
+import styles from "./commonPopup.module.scss";
 
 import Image from "@components/Image";
 import Popup from "@components/Popup";
@@ -19,7 +17,7 @@ interface Iprops {
 // 팝업 가로 크기
 const POPUP_MAX_WIDTH = 280;
 
-export const SuccessPopup = ({
+export const CommonPopup = ({
   title,
   subTitle,
   iconSrc,
@@ -37,17 +35,11 @@ export const SuccessPopup = ({
             <Image src={iconSrc} width={iconWidth} height={iconHeight} alt={"PopupIcon"} />
           )}
 
-          <span className="h3 bold color-black1">
-            {title &&
-              title.split("\\n").map((item, index) => (
-                <React.Fragment key={index}>
-                  {item}
-                  <br />
-                </React.Fragment>
-              ))}
-          </span>
+          <span className="h3 bold color-black1" dangerouslySetInnerHTML={{ __html: title }} />
 
-          <p className="p1 color-gray1">{subTitle}</p>
+          {subTitle && (
+            <p className="p1 color-gray1" dangerouslySetInnerHTML={{ __html: subTitle }} />
+          )}
         </section>
 
         <section className={styles.buttonSection}>
