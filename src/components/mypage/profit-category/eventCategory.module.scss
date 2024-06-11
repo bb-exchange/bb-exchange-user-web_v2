@@ -32,5 +32,12 @@
       @extend .bold;
       color: $Red1;
     }
+
+    .noData {
+      @extend .p1;
+      color: $Black3;
+      text-align: center;
+      flex: 1;
+    }
   }
 }
