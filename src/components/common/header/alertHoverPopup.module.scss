@@ -21,7 +21,7 @@
 
   ul {
     overflow-y: scroll;
-    max-height: 500px;
+    max-height: 710px;
 
     li {
       cursor: pointer;
@@ -88,14 +88,34 @@
 
         .content {
           @extend .h3;
-          @extend .bold;
+          font-weight: bold;
           color: $Black2;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          word-break: break-word;
+
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
         }
         .description {
           @extend .p1;
           color: $Gray1;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          word-break: break-word;
+
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
         }
       }
+    }
+  }
+
+  @media (max-height: 1000px) {
+    ul {
+      max-height: 75dvh;
     }
   }
 
