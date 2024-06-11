@@ -55,7 +55,7 @@ const AlertHoverPopup = ({ data: notificationData, refetch }: AlertHoverPopupPro
                 <div className={styles.mainContainer}>
                   <div className={styles.topSection}>
                     <span className={cn(styles.chip, { [styles.active]: !content.isRead })}>
-                      {NotificationTypeCode[content.templateCode].label}
+                      {NotificationTypeCode[content.templateCode]?.label ?? "WARNING"}
                     </span>
                     <span className={styles.time}>
                       {moment(content.createdAt).format("MM월 DD일 (dd) a hh:mm")}
