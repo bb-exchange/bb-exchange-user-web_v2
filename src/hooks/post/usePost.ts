@@ -2,16 +2,12 @@ import { useState } from "react";
 
 import { useRouter } from "next/router";
 
-import { D_otherPostList, D_replyList } from ".src/data/post/D_post";
-
 export default function UsePost() {
   const router = useRouter();
 
-  const [otherPostList, setOtherPostList] = useState<any[]>(D_otherPostList);
   const [isLike, setIsLike] = useState<boolean>(false);
   const [like, setLike] = useState<1 | 0 | -1>(0);
   const [reply, setReply] = useState<string>("");
-  const [replyList, setReplyList] = useState<Ireply[]>(D_replyList);
   const [postVerPopup, setPostVerPopup] = useState<boolean>(false);
   const [imgPopup, setImgPopup] = useState<string>("");
   const [morePopup, setMorePopup] = useState<boolean>(false);
@@ -70,11 +66,9 @@ export default function UsePost() {
     like,
     reply,
     setReply,
-    replyList,
     postVerPopup,
     setPostVerPopup,
     onClickLikeBtn,
-    otherPostList,
     imgPopup,
     setImgPopup,
     morePopup,
