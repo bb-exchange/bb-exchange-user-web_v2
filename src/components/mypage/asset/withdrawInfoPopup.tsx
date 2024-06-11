@@ -19,6 +19,7 @@ interface WithdrawInfoPopupProps {
 export default function WithdrawInfoPopup({ off, useMypageAsset: prop }: WithdrawInfoPopupProps) {
   useEffect(() => {
     prop.reset();
+    prop.setAgreeCheck(false);
   }, []);
 
   return (
