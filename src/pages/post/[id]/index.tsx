@@ -766,6 +766,7 @@ export default function Post({
                         <li key={props.commentId}>
                           <Reply
                             isMyComment={!!(currentUserData?.id === props.userId)}
+                            hasOwnership={hasOwnership}
                             data={props}
                             nested={!!(props.parentCommentId != null)}
                             onClickLikeComment={onClickLikeComment}
@@ -833,20 +834,38 @@ export default function Post({
               {/* NOTE 비구매글일 때 댓글 */}
               <article className={styles.replyArea}>
                 <div className={styles.inputCont}>
-                  <div className={styles.countBar}>
-                    <Message />
-
-                    <p className={styles.key}>대표댓글</p>
+                  <div className={styles.represent_comment_container}>
+                    <p className="p1 bold color-black1">대표댓글</p>
                   </div>
 
-                  {/* FIXME 실 적용할 때 데이터 다시 확인 필요 */}
-                  {/* <ul className={styles.replyList}>
-                    {hook.replyList.slice(0, 3).map((v, i) => (
-                      <li key={i}>
-                        <Reply data={v} />
-                      </li>
-                    ))}
-                  </ul> */}
+                  {/* 대표 댓글이 없을경우 */}
+                  {comments?.pages[0].totalElements === 0 ? (
+                    <div className={styles.represent_no_comment_container}>
+                      <p className="p1 color-gray1">대표 댓글이 없습니다.</p>
+                    </div>
+                  ) : (
+                    <ul className={styles.replyList}>
+                      {comments?.pages.map((page) =>
+                        page.contents
+                          .filter((item) => !item.parentCommentId)
+                          .slice(0, 3)
+                          .map((props) => (
+                            <li key={props.commentId}>
+                              <Reply
+                                isMyComment={!!(currentUserData?.id === props.userId)}
+                                hasOwnership={hasOwnership}
+                                data={props}
+                                nested={!!(props.parentCommentId != null)}
+                                onClickLikeComment={() => null}
+                                onClickUpdateComment={onClickUpdateComment}
+                                onClickDeleteComment={onClickDeleteComment}
+                                onClickCreateComment={onClickCreateComment}
+                              />
+                            </li>
+                          )),
+                      )}
+                    </ul>
+                  )}
                 </div>
               </article>
             </>
@@ -1156,19 +1175,6 @@ export default function Post({
     </>
   );
 }
-
-const ReactQuill = dynamic(
-  async () => {
-    const { default: RQ } = await import("react-quill");
-
-    const reactQuill = ({ forwardedRef, ...props }: any) => <RQ ref={forwardedRef} {...props} />;
-
-    return reactQuill;
-  },
-  {
-    ssr: false,
-  },
-);
 
 // NOTE 우측 영역 목록 아이템
 const ArticleItem = ({
