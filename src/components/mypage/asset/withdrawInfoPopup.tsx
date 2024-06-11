@@ -1,5 +1,7 @@
 import styles from "./withdrawInfoPopup.module.scss";
 
+import { useEffect } from "react";
+
 import Caution from "@assets/icons/RedCaution.svg";
 import X from "@assets/icons/X.svg";
 
@@ -15,6 +17,10 @@ interface WithdrawInfoPopupProps {
 }
 
 export default function WithdrawInfoPopup({ off, useMypageAsset: prop }: WithdrawInfoPopupProps) {
+  useEffect(() => {
+    prop.reset();
+  }, []);
+
   return (
     <section className={styles.withdrawPopup}>
       <div className={styles.topBar}>
@@ -43,7 +49,7 @@ export default function WithdrawInfoPopup({ off, useMypageAsset: prop }: Withdra
                     onChange: (e) => {
                       const value = e.target.value.replace(/[^0-9]/g, "");
                       prop.setValue("birthDate", value);
-                      if (value.length >= 6) prop.setFocus("genderCode");
+                      if (value.length >= 6) prop.setFocus("genderCode", { shouldSelect: true });
                     },
                   })}
                   placeholder="생년월일 6자리"

@@ -90,7 +90,11 @@ export default function UseMypageAsset() {
     birthDate: "",
     genderCode: "",
   };
-  const { data: bankDetailData, isSuccess: bankDetailIsSuccess } = useQuery({
+  const {
+    data: bankDetailData,
+    isSuccess: bankDetailIsSuccess,
+    refetch,
+  } = useQuery({
     queryKey: ["getBankDetails"],
     queryFn: () => getBankDetails(),
   });
@@ -176,6 +180,7 @@ export default function UseMypageAsset() {
   const { mutate: updateBankDetailsMutate } = useMutation({
     mutationFn: updateBankDetails,
     onSuccess: () => {
+      refetch();
       onRegisterAccountNumberPopupClose();
       setIsRegisterAccountNumberSuccess(true);
     },
@@ -235,6 +240,8 @@ export default function UseMypageAsset() {
     agreeCheck,
     setAgreeCheck,
     formState,
+    bankDetailData,
+    reset,
 
     onRegisterAccountNumberPopupOpen,
     withdrawInfoPopup,
