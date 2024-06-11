@@ -113,6 +113,12 @@
     }
   }
 
+  @media (max-height: 1000px) {
+    ul {
+      max-height: 75dvh;
+    }
+  }
+
   .textButton {
     padding: 16px 24px;
     text-align: center;
