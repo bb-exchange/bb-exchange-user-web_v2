@@ -132,10 +132,7 @@
           justify-content: flex-end;
           align-items: center;
           gap: 12px;
-          background: linear-gradient(
-            rgba(255, 255, 255, 0),
-            rgba(255, 255, 255, 1) 70%
-          );
+          background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 70%);
           top: 0;
           right: 0;
           bottom: 0;
@@ -381,6 +378,16 @@
         .replyList {
           margin: 20px 0 0;
         }
+      }
+
+      .represent_comment_container {
+        padding: 16px 0px;
+      }
+
+      .represent_no_comment_container {
+        display: flex;
+        justify-content: center;
+        padding: 50px 0;
       }
     }
   }

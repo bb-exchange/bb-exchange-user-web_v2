@@ -35,9 +35,8 @@ export default function Asset() {
   const useWithdrawPopup = UseWithdrawPopup();
   const useMyTermIncome = UseMyTermIncome();
 
-  const bankInfo = useMypageAsset.getValues();
   const bankCode = useMypageAsset.banks?.data.filter(
-    ({ code }: { code: string }) => code === bankInfo.bankCode,
+    ({ code }: { code: string }) => code === useMypageAsset.bankDetailData?.data.data.bankCode,
   );
 
   return (
@@ -101,8 +100,9 @@ export default function Asset() {
                 >
                   <p>
                     <strong>출금 계좌</strong>
-                    {bankInfo?.bankAccountNumber && bankInfo?.bankCode
-                      ? `${bankCode[0].name} ${bankInfo?.bankAccountNumber}`
+                    {useMypageAsset.bankDetailData?.data.data.bankAccountNumber &&
+                    useMypageAsset.bankDetailData?.data.data.bankCode
+                      ? `${bankCode[0].name} ${useMypageAsset.bankDetailData?.data.data.bankAccountNumber}`
                       : "미입력"}
                   </p>
                   <ChevronRt />

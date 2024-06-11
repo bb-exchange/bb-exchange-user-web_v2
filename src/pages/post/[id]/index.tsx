@@ -58,7 +58,7 @@ import { useRecoilValue } from "recoil";
 
 import { isDailyEventSuccess } from "@api/event";
 
-import { SuccessPopup } from "@components/common/popup/SuccessPopup";
+import { CommonPopup } from "@components/common/popup/CommonPopup";
 import BuyPostPopup from "@components/post/buyPostPopup";
 
 import useGetMyProfile from "@hooks/common/useGetProfile";
@@ -324,7 +324,7 @@ export default function Post({
     if (data.data.done) {
       setDailyEventPopupInfo((prev) => ({
         ...prev,
-        title: `${data.data.amount}원 받았어요!`,
+        title: `<span class='color-primary1'>${data.data.amount}원<span> 받았어요!`,
         subTitle: `비법글에 댓글 ${data.data.attainment}개 작성하기`,
         isShow: true,
       }));
@@ -358,7 +358,7 @@ export default function Post({
             if (data.data.done) {
               setDailyEventPopupInfo((prev) => ({
                 ...prev,
-                title: `${data.data.amount}원 받았어요!`,
+                title: `<span class='color-primary1'>${data.data.amount}원</span> 받았어요!`,
                 subTitle: `비법글에 댓글 ${data.data.attainment}개 작성하기`,
                 isShow: true,
               }));
@@ -383,7 +383,7 @@ export default function Post({
       if (data.data.done) {
         setDailyEventPopupInfo((prev) => ({
           ...prev,
-          title: `${data.data.amount}원 받았어요!`,
+          title: `<span class='color-primary1'>${data.data.amount}원</span> 받았어요!`,
           subTitle: `댓글에 좋아요 ${data.data.attainment}개 누르기`,
           isShow: true,
         }));
@@ -418,7 +418,7 @@ export default function Post({
           if (data.data.done) {
             setDailyEventPopupInfo((prev) => ({
               ...prev,
-              title: `${data.data.amount}원 받았어요!`,
+              title: `<span class='color-primary1'>${data.data.amount}원</span> 받았어요!`,
               subTitle: `비법글에 좋아요 ${data.data.attainment}개 누르기`,
               isShow: true,
             }));
@@ -766,6 +766,7 @@ export default function Post({
                         <li key={props.commentId}>
                           <Reply
                             isMyComment={!!(currentUserData?.id === props.userId)}
+                            hasOwnership={hasOwnership}
                             data={props}
                             nested={!!(props.parentCommentId != null)}
                             onClickLikeComment={onClickLikeComment}
@@ -833,20 +834,38 @@ export default function Post({
               {/* NOTE 비구매글일 때 댓글 */}
               <article className={styles.replyArea}>
                 <div className={styles.inputCont}>
-                  <div className={styles.countBar}>
-                    <Message />
-
-                    <p className={styles.key}>대표댓글</p>
+                  <div className={styles.represent_comment_container}>
+                    <p className="p1 bold color-black1">대표댓글</p>
                   </div>
 
-                  {/* FIXME 실 적용할 때 데이터 다시 확인 필요 */}
-                  {/* <ul className={styles.replyList}>
-                    {hook.replyList.slice(0, 3).map((v, i) => (
-                      <li key={i}>
-                        <Reply data={v} />
-                      </li>
-                    ))}
-                  </ul> */}
+                  {/* 대표 댓글이 없을경우 */}
+                  {comments?.pages[0].totalElements === 0 ? (
+                    <div className={styles.represent_no_comment_container}>
+                      <p className="p1 color-gray1">대표 댓글이 없습니다.</p>
+                    </div>
+                  ) : (
+                    <ul className={styles.replyList}>
+                      {comments?.pages.map((page) =>
+                        page.contents
+                          .filter((item) => !item.parentCommentId)
+                          .slice(0, 3)
+                          .map((props) => (
+                            <li key={props.commentId}>
+                              <Reply
+                                isMyComment={!!(currentUserData?.id === props.userId)}
+                                hasOwnership={hasOwnership}
+                                data={props}
+                                nested={!!(props.parentCommentId != null)}
+                                onClickLikeComment={() => null}
+                                onClickUpdateComment={onClickUpdateComment}
+                                onClickDeleteComment={onClickDeleteComment}
+                                onClickCreateComment={onClickCreateComment}
+                              />
+                            </li>
+                          )),
+                      )}
+                    </ul>
+                  )}
                 </div>
               </article>
             </>
@@ -1089,7 +1108,7 @@ export default function Post({
       )}
 
       {hook.changePricePopup && (
-        <SuccessPopup
+        <CommonPopup
           title="가격이 변동되었어요"
           subTitle="다시 결제를 진행해주세요."
           confirmFunc={() => hook.setChangePricePopup(false)}
@@ -1140,7 +1159,7 @@ export default function Post({
       )}
 
       {dailyEventPopupInfo.isShow && (
-        <SuccessPopup
+        <CommonPopup
           title={dailyEventPopupInfo.title}
           subTitle={dailyEventPopupInfo.subTitle}
           iconSrc="/assets/icons/RewardIcon.png"
@@ -1156,19 +1175,6 @@ export default function Post({
     </>
   );
 }
-
-const ReactQuill = dynamic(
-  async () => {
-    const { default: RQ } = await import("react-quill");
-
-    const reactQuill = ({ forwardedRef, ...props }: any) => <RQ ref={forwardedRef} {...props} />;
-
-    return reactQuill;
-  },
-  {
-    ssr: false,
-  },
-);
 
 // NOTE 우측 영역 목록 아이템
 const ArticleItem = ({

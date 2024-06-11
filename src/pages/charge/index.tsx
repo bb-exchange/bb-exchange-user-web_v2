@@ -11,6 +11,8 @@ import usePayment from ".src/hooks/payment/usePayment";
 import { RequestPayResponse } from ".src/types/imp";
 import { useMutation } from "@tanstack/react-query";
 
+import { CommonPopup } from "@components/common/popup/CommonPopup";
+
 export default function Charge() {
   const useCharge = UseCharge();
   const { requestPayment } = usePayment();
@@ -34,11 +36,15 @@ export default function Charge() {
 
     // IMPORT 결제 모듈 호출
     requestPayment(paymentTxId, price, (response: RequestPayResponse) =>
-      successCallback(paymentTxId, response),
+      successCallback(paymentTxId, response, price),
     );
   };
 
-  const successCallback = async (paymentTxId: string, response: RequestPayResponse) => {
+  const successCallback = async (
+    paymentTxId: string,
+    response: RequestPayResponse,
+    price: number,
+  ) => {
     const { imp_uid, merchant_uid, error_msg } = response;
 
     let request: ConfirmPaymentsRequest = {
@@ -71,6 +77,22 @@ export default function Charge() {
 
     if (status === "SUCCESS") {
       refetch();
+
+      useCharge.setResultPopupInfo((prev) => ({
+        ...prev,
+        isShow: true,
+        title: `결제가 <span class='color-primary1'>완료</span>되었습니다.`,
+        subTitle: `구매 포인트 <span class='p1 bold color-primary1'>${Intl.NumberFormat().format(price)} P</span>`,
+        confirmText: "계속 이용하기",
+      }));
+    } else {
+      useCharge.setResultPopupInfo((prev) => ({
+        ...prev,
+        isShow: true,
+        title: `결제 승인에 <span class='color-red1'>실패</span>했습니다.`,
+        subTitle: `확인 후 다시 시도해주세요.`,
+        confirmText: "확인",
+      }));
     }
   };
 
@@ -122,6 +144,21 @@ export default function Charge() {
       </main>
 
       <CommonFooter />
+
+      {/* 결제 결과 팝업 */}
+      {useCharge.resultPopupInfo.isShow && (
+        <CommonPopup
+          title={useCharge.resultPopupInfo.title}
+          subTitle={useCharge.resultPopupInfo.subTitle}
+          confirmFunc={() =>
+            useCharge.setResultPopupInfo((prev) => ({
+              ...prev,
+              isShow: false,
+            }))
+          }
+          confirmText={useCharge.resultPopupInfo.confirmText}
+        />
+      )}
     </>
   );
 }

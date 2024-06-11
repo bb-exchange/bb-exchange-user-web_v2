@@ -24,6 +24,7 @@ interface Iprops {
   data: CommentData;
   isMyComment: boolean;
   nested?: boolean;
+  hasOwnership?: boolean;
   onClickLikeComment: (props: { isLike: boolean; commentId: number }) => void;
   onClickUpdateComment: (props: { commentId: number; content: string }) => void;
   onClickDeleteComment: (commentId: number) => void;
@@ -44,6 +45,7 @@ export default function Reply({
     parentCommentId,
   },
   nested,
+  hasOwnership = false,
   onClickLikeComment,
   onClickUpdateComment,
   onClickDeleteComment,
@@ -237,7 +239,7 @@ export default function Reply({
                     {isLike ? <ThumbUpRed /> : <ThumbUpGrey />}
                     <p className={styles.likeCount}>{likeCounts || 0}</p>
                   </button>
-                  {isLogin && (
+                  {isLogin && hasOwnership && (
                     <>
                       <p>・</p>
 
