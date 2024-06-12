@@ -387,6 +387,16 @@
             margin: 20px 0 0;
           }
         }
+
+        .represent_comment_container {
+          padding: 16px 0px;
+        }
+
+        .represent_no_comment_container {
+          display: flex;
+          justify-content: center;
+          padding: 50px 0;
+        }
       }
     }
 
