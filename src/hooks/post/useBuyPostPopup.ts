@@ -52,6 +52,9 @@ export default function UseBuyPostPopup({ usePost, originalPrice, refetchArticle
 
         refetchArticle();
       },
+      onError: () => {
+        usePost.setIsPurchaseErrorPopupShow(true);
+      },
     });
   }
 

@@ -1183,6 +1183,16 @@ export default function Post({
           }
         />
       )}
+
+      {hook.isPurchaseErrorPopupShow && (
+        <CommonPopup
+          subTitle="알 수 없는 오류입니다."
+          iconSrc="/assets/icons/Warning.svg"
+          iconWidth={60}
+          iconHeight={60}
+          confirmFunc={() => hook.setIsPurchaseErrorPopupShow(false)}
+        />
+      )}
     </>
   );
 }
