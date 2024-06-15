@@ -324,7 +324,7 @@ export default function Post({
     if (data.data.done) {
       setDailyEventPopupInfo((prev) => ({
         ...prev,
-        title: `<span class='color-primary1'>${data.data.amount}원<span> 받았어요!`,
+        title: `<span class='color-primary1'>${data.data.amount}원</span> 받았어요!`,
         subTitle: `비법글에 댓글 ${data.data.attainment}개 작성하기`,
         isShow: true,
       }));
