@@ -18,21 +18,26 @@ export default function EventCategory() {
       <ul className={styles.list}>
         {useMyTermIncome?.profitEventLog?.data?.contents &&
         useMyTermIncome?.profitEventLog?.data?.contents.length > 0 ? (
-          useMyTermIncome?.profitEventLog?.data?.contents.map((content: ProfitEventSummary) => {
-            return (
-              <li className={styles.listItem}>
-                <div className={styles.titleWrapper}>
-                  <div className={styles.dateText}>
-                    {moment(content.profitDate).format("YYYY.MM.DD")}
+          useMyTermIncome?.profitEventLog?.data?.contents.map(
+            (content: ProfitEventSummary, index: number) => {
+              return (
+                <li
+                  className={styles.listItem}
+                  key={`${content.profitDate}_${content.eventType}_${content.profitAmount}_${index}`}
+                >
+                  <div className={styles.titleWrapper}>
+                    <div className={styles.dateText}>
+                      {moment(content.profitDate).format("YYYY.MM.DD")}
+                    </div>
+                    <div className={styles.mainText}>
+                      {ProfitCategoryEventTypeCode[content.eventType]?.label}
+                    </div>
                   </div>
-                  <div className={styles.mainText}>
-                    {ProfitCategoryEventTypeCode[content.eventType]?.label}
-                  </div>
-                </div>
-                <div className={styles.subText}>+{content.profitAmount} 원</div>
-              </li>
-            );
-          })
+                  <div className={styles.subText}>+{content.profitAmount} 원</div>
+                </li>
+              );
+            },
+          )
         ) : (
           <li className={styles.listItem}>
             <div className={styles.noData}>데이터가 없습니다.</div>

@@ -53,5 +53,6 @@ export default function UseMyTermIncome() {
     onPrevDate,
     profitEventLog,
     profitLog,
+    month,
   };
 }

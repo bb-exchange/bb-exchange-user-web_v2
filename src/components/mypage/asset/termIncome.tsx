@@ -1,14 +1,20 @@
 import styles from "./termIncome.module.scss";
 
-import ArrowIcon from ".assets/icons/ArrowAsset.svg";
-import UseMyTermIncome from ".src/hooks/mypage/asset/useMytermIncome";
+import moment from "moment";
 
-import UseMypageAsset from "@hooks/mypage/asset/useMypageAsset";
+import ArrowIcon from "@assets/icons/ArrowAsset.svg";
+
+import { ProfitSummary } from "@api/mypage";
+
+import UseMyTermIncome from "@hooks/mypage/asset/useMytermIncome";
 
 export default function TermIncome() {
-  const useMypageAsset = UseMypageAsset();
   const useMyTermIncome = UseMyTermIncome();
 
+  // TODO: pagination, 조회 기간 필터
+  const totalProfitByMonth = useMyTermIncome.profitLog?.data?.contents.reduce(
+    (acc: ProfitSummary, cur: ProfitSummary) => acc.profitAmount + cur.profitAmount,
+  );
   return (
     <article className={styles.termIncome}>
       <div className={styles.topBar}>
@@ -31,23 +37,23 @@ export default function TermIncome() {
         </button>
       </div>
 
-      {useMyTermIncome.revenueList.length ? (
+      {useMyTermIncome.profitLog?.data?.contents.length ? (
         <>
           <div className={styles.totalAsset}>
-            <h2>2023년 10월 총 수익</h2>
-            <p className={styles.strongText}>
-              {Intl.NumberFormat().format(useMypageAsset.totalPoint)}원
-            </p>
+            <h2>{moment(useMyTermIncome.month).format("YYYY년 MM월")} 총 수익</h2>
+            <p className={styles.strongText}>{Intl.NumberFormat().format(totalProfitByMonth)}원</p>
           </div>
           <ul className={styles.revenueList}>
-            {useMyTermIncome.revenueList.map((v, i) => (
-              <li key={i}>
-                <div>{v.date}</div>
-                <strong className={styles.strongText}>
-                  {Intl.NumberFormat().format(v.point)}원
-                </strong>
-              </li>
-            ))}
+            {useMyTermIncome.profitLog?.data?.contents.map(
+              (content: ProfitSummary, index: number) => (
+                <li key={`${content.profitAmount}_${content.profitDate}_${index}`}>
+                  <div>{moment(content.profitDate).format("YYYY.MM.DD")}</div>
+                  <strong className={styles.strongText}>
+                    {Intl.NumberFormat().format(content.profitAmount)}원
+                  </strong>
+                </li>
+              ),
+            )}
           </ul>
         </>
       ) : (
