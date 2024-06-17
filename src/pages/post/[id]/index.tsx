@@ -315,6 +315,11 @@ export default function Post({
           setCommentSortBy("LATEST");
           setCommentContent("");
         },
+        onError: (e: any) => {
+          if (e.code === "CMT003") {
+            return hook.setIsSpamPopupShow(true);
+          }
+        },
       },
     );
 
@@ -329,7 +334,7 @@ export default function Post({
         isShow: true,
       }));
     }
-  }, [articleId, commentContent, isValidComment, newComment, profile?.userId]);
+  }, [articleId, commentContent, hook, isValidComment, newComment, profile?.userId]);
 
   // NOTE 댓글 수정
   const onClickUpdateComment = useCallback(
@@ -1169,6 +1174,7 @@ export default function Post({
         />
       )}
 
+      {/* 보상지급 완료 팝업 */}
       {dailyEventPopupInfo.isShow && (
         <CommonPopup
           title={dailyEventPopupInfo.title}
@@ -1184,6 +1190,7 @@ export default function Post({
         />
       )}
 
+      {/* 결제실패 에러 팝업 */}
       {hook.isPurchaseErrorPopupShow && (
         <CommonPopup
           subTitle="알 수 없는 오류입니다."
@@ -1191,6 +1198,15 @@ export default function Post({
           iconWidth={60}
           iconHeight={60}
           confirmFunc={() => hook.setIsPurchaseErrorPopupShow(false)}
+        />
+      )}
+
+      {/* 댓글 도배 팝업 */}
+      {hook.isSpamPopupShow && (
+        <CommonPopup
+          title="댓글 도배"
+          subTitle="3분 뒤에 다시 작성할 수 있어요."
+          confirmFunc={() => hook.setIsSpamPopupShow(false)}
         />
       )}
     </>
