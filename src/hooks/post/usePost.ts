@@ -22,6 +22,7 @@ export default function UsePost() {
   );
   const [changePricePopup, setChangePricePopup] = useState<boolean>(false);
   const [isPurchaseErrorPopupShow, setIsPurchaseErrorPopupShow] = useState<boolean>(false);
+  const [isSpamPopupShow, setIsSpamPopupShow] = useState<boolean>(false);
 
   function onClickLikeBtn(int: -1 | 0 | 1) {
     if (int === like) setLike(0);
@@ -99,5 +100,7 @@ export default function UsePost() {
     setChangePricePopup,
     isPurchaseErrorPopupShow,
     setIsPurchaseErrorPopupShow,
+    isSpamPopupShow,
+    setIsSpamPopupShow,
   };
 }
