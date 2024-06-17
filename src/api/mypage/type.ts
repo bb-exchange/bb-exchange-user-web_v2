@@ -9,3 +9,12 @@ export type ProfitEventSummary = {
 export type ProfitEventResponse = {
   contents: ProfitEventSummary[];
 };
+
+export type ProfitSummary = {
+  profitDate: string;
+  profitAmount: number;
+};
+
+export type ProfitResponse = {
+  contents: ProfitSummary[];
+};

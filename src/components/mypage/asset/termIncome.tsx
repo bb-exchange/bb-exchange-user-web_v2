@@ -7,7 +7,7 @@ import UseMypageAsset from "@hooks/mypage/asset/useMypageAsset";
 
 export default function TermIncome() {
   const useMypageAsset = UseMypageAsset();
-  const prop = UseMyTermIncome();
+  const useMyTermIncome = UseMyTermIncome();
 
   return (
     <article className={styles.termIncome}>
@@ -17,11 +17,11 @@ export default function TermIncome() {
 
           <div className={styles.dateLayout}>
             <span>
-              <ArrowIcon onClick={prop.onPrevDate} />
+              <ArrowIcon onClick={useMyTermIncome.onPrevDate} />
             </span>
-            <p>{prop.selectedDate}</p>
+            <p>{useMyTermIncome.selectedDate}</p>
             <span>
-              <ArrowIcon onClick={prop.onNextDate} />
+              <ArrowIcon onClick={useMyTermIncome.onNextDate} />
             </span>
           </div>
         </div>
@@ -31,7 +31,7 @@ export default function TermIncome() {
         </button>
       </div>
 
-      {prop.revenueList.length ? (
+      {useMyTermIncome.revenueList.length ? (
         <>
           <div className={styles.totalAsset}>
             <h2>2023년 10월 총 수익</h2>
@@ -40,7 +40,7 @@ export default function TermIncome() {
             </p>
           </div>
           <ul className={styles.revenueList}>
-            {prop.revenueList.map((v, i) => (
+            {useMyTermIncome.revenueList.map((v, i) => (
               <li key={i}>
                 <div>{v.date}</div>
                 <strong className={styles.strongText}>
@@ -51,7 +51,7 @@ export default function TermIncome() {
           </ul>
         </>
       ) : (
-        <p className={styles.noDateText}>검색결과가 없습니다.</p>
+        <p className={styles.noData}>검색결과가 없습니다.</p>
       )}
     </article>
   );
