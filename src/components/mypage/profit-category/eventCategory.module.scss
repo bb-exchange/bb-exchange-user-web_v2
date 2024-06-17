@@ -34,8 +34,8 @@
     }
 
     .noData {
-      @extend .p1;
-      color: $Black3;
+      @extend .p2;
+      color: $PrimaryBG1;
       text-align: center;
       flex: 1;
     }

@@ -6,12 +6,10 @@ import { ProfitEventSummary } from "@api/mypage";
 
 import { ProfitCategoryEventTypeCode } from "@const/common";
 
-import UseMypageAsset from "@hooks/mypage/asset/useMypageAsset";
 import UseMyTermIncome from "@hooks/mypage/asset/useMytermIncome";
 
 export default function EventCategory() {
   const useMyTermIncome = UseMyTermIncome();
-  console.log("ddd ", useMyTermIncome?.profitEventLog?.data?.contents);
 
   // TODO: pagination
 
