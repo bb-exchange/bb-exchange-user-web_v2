@@ -12,9 +12,14 @@ export default function TermIncome() {
   const useMyTermIncome = UseMyTermIncome();
 
   // TODO: pagination, 조회 기간 필터
+
   const totalProfitByMonth = useMyTermIncome.profitLog?.data?.contents.reduce(
-    (acc: ProfitSummary, cur: ProfitSummary) => acc.profitAmount + cur.profitAmount,
+    (acc: number, cur: ProfitSummary) => {
+      return acc + cur.profitAmount;
+    },
+    0,
   );
+
   return (
     <article className={styles.termIncome}>
       <div className={styles.topBar}>

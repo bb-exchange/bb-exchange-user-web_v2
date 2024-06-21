@@ -33,7 +33,9 @@ export default function EventCategory() {
                       {ProfitCategoryEventTypeCode[content.eventType]?.label}
                     </div>
                   </div>
-                  <div className={styles.subText}>+{content.profitAmount} 원</div>
+                  <div className={styles.subText}>
+                    +{Intl.NumberFormat().format(content.profitAmount)} 원
+                  </div>
                 </li>
               );
             },
