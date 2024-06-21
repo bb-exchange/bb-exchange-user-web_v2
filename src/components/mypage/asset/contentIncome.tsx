@@ -1,13 +1,19 @@
 import styles from "./contentIncome.module.scss";
 
-import Swap from ".assets/icons/Swap.svg";
-import PageNav from ".src/components/common/pageNav";
-import UseMyContentIncome from ".src/hooks/mypage/asset/useMyContentIncome";
 import moment from "moment";
 
-export default function ContentIncome() {
-  const useMyContentIncome = UseMyContentIncome();
+import Swap from "@assets/icons/Swap.svg";
 
+import { ProfitContentsSummary } from "@api/mypage";
+
+import PageNav from "@components/common/pageNav";
+
+import UseMyTermIncome from "@hooks/mypage/asset/useMytermIncome";
+
+export default function ContentIncome() {
+  const useMyTermIncome = UseMyTermIncome();
+
+  console.log(useMyTermIncome.profitContentLog);
   return (
     <article className={styles.termIncome}>
       <div className={styles.topBar}>
@@ -15,8 +21,8 @@ export default function ContentIncome() {
           <p className={styles.key}>콘텐츠 제목 조회</p>
 
           <input
-            value={useMyContentIncome.contentTitle}
-            onChange={(e) => useMyContentIncome.setContentTitle(e.target.value)}
+          // value={useMyTermIncome.contentTitle}
+          // onChange={(e) => useMyTermIncome.setContentTitle(e.target.value)}
           />
 
           <button className={styles.submitBtn} onClick={() => {}}>
@@ -37,25 +43,38 @@ export default function ContentIncome() {
 
       <div className={styles.countBar}>
         <p className={styles.count}>
-          총 {useMyContentIncome.dataList.length.toString().padStart(2, "0")}개
+          총 {useMyTermIncome.profitContentLog?.data?.contents?.length}개
         </p>
       </div>
 
       <ul className={styles.dataList}>
-        {useMyContentIncome.dataList.map((v, i) => (
-          <li key={i}>
-            <div className={styles.leftBox}>
-              <p className={styles.title}>{v.title}</p>
+        {useMyTermIncome.profitContentLog?.data?.contents &&
+        useMyTermIncome.profitContentLog?.data?.contents?.length > 0 ? (
+          useMyTermIncome.profitContentLog?.data?.contents?.map(
+            (content: ProfitContentsSummary, index: number) => (
+              <li
+                key={`${content.contentCreatedDate}_${content.category}_${content.contentTitle}_${index}`}
+              >
+                <div className={styles.leftBox}>
+                  <p className={styles.title}>{content.contentTitle}</p>
 
-              <div className={styles.infoBar}>
-                <p className={styles.category}>{v.category}</p>・
-                <p className={styles.createdAt}>{moment(v.createdAt).fromNow()}</p>
-              </div>
-            </div>
+                  <div className={styles.infoBar}>
+                    <p className={styles.category}>{content.category}</p>・
+                    <p className={styles.createdAt}>{content.contentCreatedDate}</p>
+                  </div>
+                </div>
 
-            <p className={styles.amount}>{Intl.NumberFormat().format(v.amount)} 원</p>
+                <p className={styles.amount}>
+                  {Intl.NumberFormat().format(content.profitAmount)} 원
+                </p>
+              </li>
+            ),
+          )
+        ) : (
+          <li className={styles.listItem}>
+            <div className={styles.noData}>검색결과가 없습니다.</div>
           </li>
-        ))}
+        )}
       </ul>
 
       <PageNav />

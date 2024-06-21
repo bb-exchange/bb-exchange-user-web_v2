@@ -2,7 +2,12 @@ import { useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
-import { getProfitByMonth, getProfitEventByMonth } from "@api/mypage/profit";
+import {
+  getProfitByMonth,
+  getProfitContentsByMonth,
+  getProfitEventByMonth,
+  getSettlementWithdrawByMonth,
+} from "@api/mypage/profit";
 
 export default function UseMyTermIncome() {
   const [dateText, setDateText] = useState<Date>(new Date());
@@ -46,6 +51,22 @@ export default function UseMyTermIncome() {
     queryFn: () => getProfitByMonth({ month }),
   });
 
+  /**
+   * 컨텐츠별 수익금
+   */
+  const { data: profitContentLog } = useQuery({
+    queryKey: ["getProfitContentsByMonth"],
+    queryFn: () => getProfitContentsByMonth(),
+  });
+
+  /**
+   * 출금내역
+   */
+  const { data: settlementWithdrawLog } = useQuery({
+    queryKey: ["getSettlementWithdrawByMonth"],
+    queryFn: () => getSettlementWithdrawByMonth({ month }),
+  });
+
   return {
     revenueList,
     selectedDate,
@@ -54,5 +75,7 @@ export default function UseMyTermIncome() {
     profitEventLog,
     profitLog,
     month,
+    profitContentLog,
+    settlementWithdrawLog,
   };
 }

@@ -18,3 +18,10 @@ export type ProfitSummary = {
 export type ProfitResponse = {
   contents: ProfitSummary[];
 };
+
+export type ProfitContentsSummary = {
+  category: string;
+  contentCreatedDate: string;
+  contentTitle: string;
+  profitAmount: number;
+};

@@ -27,13 +27,11 @@ import EventCategory from "@components/mypage/profit-category/eventCategory";
 import { BY_CONTENT, EVENT, MONTHLY, WITHDRAWAL } from "@const/common";
 
 import UseMypageAsset from "@hooks/mypage/asset/useMypageAsset";
-import UseMyTermIncome from "@hooks/mypage/asset/useMytermIncome";
 import UseWithdrawPopup from "@hooks/mypage/asset/useWithdrawPopup";
 
 export default function Asset() {
   const useMypageAsset = UseMypageAsset();
   const useWithdrawPopup = UseWithdrawPopup();
-  const useMyTermIncome = UseMyTermIncome();
 
   const bankCode = useMypageAsset.banks?.data.filter(
     ({ code }: { code: string }) => code === useMypageAsset.bankDetailData?.data.data.bankCode,
