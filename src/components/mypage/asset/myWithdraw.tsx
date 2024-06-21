@@ -1,14 +1,19 @@
 import styles from "./myWithdraw.module.scss";
 
-import ArrowIcon from ".assets/icons/ArrowAsset.svg";
-import CustomDatePicker from ".src/components/common/customDatePicker";
-import PageNav from ".src/components/common/pageNav";
-import UseMyWithdraw from ".src/hooks/mypage/asset/useMyWithdraw";
 import moment from "moment";
 
-export default function MyWithdraw() {
-  const useMyWithdraw = UseMyWithdraw();
+import ArrowIcon from "@assets/icons/ArrowAsset.svg";
 
+import { SettlementWithdrawSummary } from "@api/mypage";
+
+import PageNav from "@components/common/pageNav";
+
+import UseMyTermIncome from "@hooks/mypage/asset/useMytermIncome";
+
+export default function MyWithdraw() {
+  const useMyTermIncome = UseMyTermIncome();
+
+  console.log(useMyTermIncome.settlementWithdrawLog);
   return (
     <article className={styles.myWithdraw}>
       <div className={styles.topBar}>
@@ -16,11 +21,11 @@ export default function MyWithdraw() {
           <p className={styles.key}>조회 기간</p>
           <div className={styles.dateLayout}>
             <span>
-              <ArrowIcon onClick={useMyWithdraw.onPrevDate} />
+              <ArrowIcon onClick={useMyTermIncome.onPrevDate} />
             </span>
-            <p>{useMyWithdraw.selectedDate}</p>
+            <p>{useMyTermIncome.selectedDate}</p>
             <span>
-              <ArrowIcon onClick={useMyWithdraw.onNextDate} />
+              <ArrowIcon onClick={useMyTermIncome.onNextDate} />
             </span>
           </div>
         </div>
@@ -31,21 +36,38 @@ export default function MyWithdraw() {
       </div>
 
       <ul className={styles.dataList}>
-        {useMyWithdraw.dataList.map((v, i) => (
-          <li key={i}>
-            <div className={styles.leftBox}>
-              <p className={styles.createdAt}>{moment(v.createdAt).format("YYYY.MM.DD")}</p>
-            </div>
+        {useMyTermIncome.settlementWithdrawLog?.data?.contents &&
+        useMyTermIncome.settlementWithdrawLog?.data?.contents?.length > 0 ? (
+          useMyTermIncome.settlementWithdrawLog?.data?.contents.map(
+            (content: SettlementWithdrawSummary, index: number) => {
+              return (
+                <li key={`${content.withdrawAmount}_${content.withdrawRequestDate}_${index}`}>
+                  <div className={styles.leftBox}>
+                    <p className={styles.createdAt}>
+                      {moment(content.withdrawRequestDate).format("YYYY.MM.DD")}
+                    </p>
+                  </div>
 
-            <div className={styles.rightBox}>
-              <p className={`${styles.status} ${v.status === "출금 진행중" ? styles.on : ""}`}>
-                {v.status}
-              </p>
+                  <div className={styles.rightBox}>
+                    <p
+                      className={`${styles.status} ${content.status === "출금 진행중" ? styles.on : ""}`}
+                    >
+                      {content.status}
+                    </p>
 
-              <p className={styles.amount}>{Intl.NumberFormat().format(v.amount)} 원</p>
-            </div>
+                    <p className={styles.amount}>
+                      {Intl.NumberFormat().format(content.withdrawAmount)} 원
+                    </p>
+                  </div>
+                </li>
+              );
+            },
+          )
+        ) : (
+          <li className={styles.listItem}>
+            <div className={styles.noData}>검색결과가 없습니다.</div>
           </li>
-        ))}
+        )}
       </ul>
 
       <PageNav />

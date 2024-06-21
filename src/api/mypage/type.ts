@@ -25,3 +25,9 @@ export type ProfitContentsSummary = {
   contentTitle: string;
   profitAmount: number;
 };
+
+export type SettlementWithdrawSummary = {
+  withdrawRequestDate: string;
+  withdrawAmount: number;
+  status: string;
+};
