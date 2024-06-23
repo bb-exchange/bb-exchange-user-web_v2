@@ -122,3 +122,19 @@ export const ProfitCategoryEventTypeCode: CodeType<ProfitCategoryEventType> = {
     value: "ALL_DONE",
   },
 };
+
+export type SettlementWithdrawStatus = "PENDING" | "DENIED" | "COMPLETE";
+export const SettlementWithdrawStatusCode: CodeType<SettlementWithdrawStatus> = {
+  PENDING: {
+    label: "출금 대기",
+    value: "PENDING",
+  },
+  DENIED: {
+    label: "출금 거절",
+    value: "DENIED",
+  },
+  COMPLETE: {
+    label: "출금 완료",
+    value: "COMPLETE",
+  },
+};

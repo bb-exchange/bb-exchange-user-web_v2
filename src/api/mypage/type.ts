@@ -1,4 +1,4 @@
-import { ProfitCategoryEventType } from "@const/common";
+import { ProfitCategoryEventType, SettlementWithdrawStatus } from "@const/common";
 
 export type ProfitEventSummary = {
   eventType: ProfitCategoryEventType;
@@ -29,5 +29,5 @@ export type ProfitContentsSummary = {
 export type SettlementWithdrawSummary = {
   withdrawRequestDate: string;
   withdrawAmount: number;
-  status: string;
+  status: SettlementWithdrawStatus;
 };

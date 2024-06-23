@@ -8,12 +8,13 @@ import { SettlementWithdrawSummary } from "@api/mypage";
 
 import PageNav from "@components/common/pageNav";
 
+import { SettlementWithdrawStatusCode } from "@const/common";
+
 import UseMyTermIncome from "@hooks/mypage/asset/useMytermIncome";
 
 export default function MyWithdraw() {
   const useMyTermIncome = UseMyTermIncome();
 
-  console.log(useMyTermIncome.settlementWithdrawLog);
   return (
     <article className={styles.myWithdraw}>
       <div className={styles.topBar}>
@@ -50,9 +51,9 @@ export default function MyWithdraw() {
 
                   <div className={styles.rightBox}>
                     <p
-                      className={`${styles.status} ${content.status === "출금 진행중" ? styles.on : ""}`}
+                      className={`${styles.status} ${content.status === SettlementWithdrawStatusCode.PENDING.value ? styles.on : ""}`}
                     >
-                      {content.status}
+                      {SettlementWithdrawStatusCode[content.status]?.label ?? "WARNING"}
                     </p>
 
                     <p className={styles.amount}>
