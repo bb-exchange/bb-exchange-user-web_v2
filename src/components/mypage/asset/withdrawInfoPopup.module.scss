@@ -88,10 +88,19 @@
               ::placeholder {
                 color: $Gray1;
               }
+              &:disabled {
+                color: $Black2;
+              }
+              &.disabled {
+                color: $Black2;
+              }
             }
 
             .dot {
               color: #202020;
+            }
+            .dotDisabled {
+              color: $Black2;
             }
             .dash {
               color: #b6b6b6;
@@ -133,11 +142,15 @@
               ::placeholder {
                 color: $Gray1;
               }
+              &.disabled {
+                color: $Black2;
+              }
             }
           }
 
           .disabled {
             background-color: $Primary5;
+            color: $Black2;
           }
         }
       }

@@ -162,7 +162,6 @@ export default function UseMypageAsset() {
   useEffect(() => {
     if (bankDetailIsSuccess) {
       const phoneNumber = onHandlePhoneRegex(bankDetailData.data.data.phoneNumber);
-
       reset({
         ...bankDetailData.data.data,
         phoneNumber: phoneNumber,

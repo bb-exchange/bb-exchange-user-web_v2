@@ -1,6 +1,8 @@
 import styles from "./withdrawInfoPopup.module.scss";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
+import cn from "classnames";
 
 import Caution from "@assets/icons/RedCaution.svg";
 import X from "@assets/icons/X.svg";
@@ -8,8 +10,6 @@ import X from "@assets/icons/X.svg";
 import ContainedBtn from "@components/Buttons/ContainedBtn";
 
 import UseMypageAsset from "@hooks/mypage/asset/useMypageAsset";
-
-import { onHandlePhoneRegex } from "@utils/regex";
 
 interface WithdrawInfoPopupProps {
   off: React.MouseEventHandler<HTMLButtonElement>;
@@ -21,12 +21,19 @@ export default function WithdrawInfoPopup({ off, useMypageAsset: prop }: Withdra
     prop.reset();
     prop.setAgreeCheck(false);
   }, []);
+  const [modeEdit, setModeEdit] = useState(false);
+  useEffect(() => {
+    const validateModeEdit = prop
+      .getValues(["name", "birthDate", "genderCode"])
+      .every((values) => !!values);
+    setModeEdit(validateModeEdit);
+  }, [prop.getValues]);
 
   return (
     <section className={styles.withdrawPopup}>
       <div className={styles.topBar}>
         <span className={styles.blank} />
-        <h1 className={styles.popupTitle}>출금 정보 입력</h1>
+        <h1 className={styles.popupTitle}>출금 정보 {modeEdit ? "변경" : "입력"}</h1>
         <button className={styles.exitBtn} onClick={off}>
           <X />
         </button>
@@ -37,14 +44,22 @@ export default function WithdrawInfoPopup({ off, useMypageAsset: prop }: Withdra
           <ul className={styles.inputList}>
             <li>
               <label className={styles.label}>실명</label>
-              <div className={styles.inputBox}>
-                <input {...prop.register("name", { required: true })} placeholder="이름" />
+              <div className={cn(styles.inputBox, { [styles.disabled]: modeEdit })}>
+                <input
+                  readOnly={modeEdit}
+                  {...prop.register("name", {
+                    required: true,
+                  })}
+                  className={cn({ [styles.disabled]: modeEdit })}
+                  placeholder="이름"
+                />
               </div>
             </li>
             <li>
               <label className={styles.label}>주민등록번호</label>
-              <div className={styles.inputBox}>
+              <div className={cn(styles.inputBox, { [styles.disabled]: modeEdit })}>
                 <input
+                  readOnly={modeEdit}
                   {...prop.register("birthDate", {
                     required: true,
                     onChange: (e) => {
@@ -54,11 +69,12 @@ export default function WithdrawInfoPopup({ off, useMypageAsset: prop }: Withdra
                     },
                   })}
                   placeholder="생년월일 6자리"
-                  className={styles.birthdate}
+                  className={cn(styles.birthdate, { [styles.disabled]: modeEdit })}
                   maxLength={6}
                 />
                 <span className={styles.dash}>-</span>
                 <input
+                  readOnly={modeEdit}
                   {...prop.register("genderCode", {
                     required: true,
                     onChange: (e) => {
@@ -68,39 +84,29 @@ export default function WithdrawInfoPopup({ off, useMypageAsset: prop }: Withdra
                       if (value.length > 0) prop.setFocus("telecomCode");
                     },
                   })}
-                  className={styles.gendercode}
+                  className={cn(styles.gendercode, { [styles.disabled]: modeEdit })}
                   maxLength={1}
                   placeholder="●"
                 />
-                <span className={styles.dot}> ● ● ● ● ● ●</span>
+                <span className={cn(styles.dot, { [styles.dotDisabled]: modeEdit })}>
+                  {" "}
+                  ● ● ● ● ● ●
+                </span>
               </div>
             </li>
             <li>
               <label className={styles.label}>휴대폰 번호</label>
-              <div className={styles.selectBox}>
-                <select {...prop.register("telecomCode", { required: true })}>
-                  <option value="">선택</option>
-                  {prop.telecoms?.data.map(
-                    ({ code, telecom }: { code: string; telecom: string }) => {
-                      return (
-                        <option value={code} key={code}>
-                          {telecom}
-                        </option>
-                      );
-                    },
-                  )}
-                </select>
+              <div className={cn(styles.selectBox, styles.disabled)}>
                 <input
-                  {...prop.register("phoneNumber", {
-                    required: true,
-                    onChange: (e) => {
-                      const value = onHandlePhoneRegex(e.target.value);
-                      prop.setValue("phoneNumber", value);
-                    },
-                  })}
+                  className={styles.disabled}
+                  value={prop.watch("phoneNumber")}
                   placeholder="휴대폰 번호"
                 />
               </div>
+              <span className={styles.subDescription}>
+                <Caution />
+                휴대폰 번호가 변경된 경우 고객센터로 연락주세요.
+              </span>
             </li>
             <li>
               <label className={styles.label}>수익금 출금 계좌</label>

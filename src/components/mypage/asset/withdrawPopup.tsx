@@ -47,7 +47,7 @@ export default function WithdrawPopup({ useMypageAsset, off }: WithdrawPopupProp
                   disabled
                   className={styles.gendercode}
                 />
-                <span className={styles.dot}> ● ● ● ● ● ●</span>
+                <span className={cn(styles.dot, styles.dotDisabled)}> ● ● ● ● ● ●</span>
               </div>
             </li>
 
@@ -66,7 +66,11 @@ export default function WithdrawPopup({ useMypageAsset, off }: WithdrawPopupProp
                     },
                   )}
                 </select>
-                <input value={useMypageAsset.getValues("bankAccountNumber")} disabled />
+                <input
+                  className={styles.disabled}
+                  value={useMypageAsset.getValues("bankAccountNumber")}
+                  disabled
+                />
               </div>
             </li>
             <li>

@@ -24,7 +24,9 @@ export default function PointPopup({ visible, onClose, useMypageAsset }: PointPo
       <div className={styles.settlementPopupContainer}>
         <div className={cn(styles.textWrapper, styles.mb24)}>
           <h3 className={styles.description}>수익금을 포인트로 전환하세요!</h3>
-          <span className={styles.subDescription}>1원은 1p와 동일해요.</span>
+          <span className={styles.subDescription}>
+            출금 가능 수익금 만큼 전환이 가능해요. (1원 = 1p)
+          </span>
         </div>
 
         <div className={styles.textWrapper}>
