@@ -7,15 +7,10 @@
     gap: 16px;
 
     .listItem {
-      display: flex;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: minmax(60px, 100px) minmax(100px, 1fr) minmax(100px, 140px);
       align-items: center;
       gap: 16px;
-    }
-    .titleWrapper {
-      display: flex;
-      align-items: center;
-      gap: 40px;
     }
 
     .dateText {
@@ -31,6 +26,7 @@
       @extend .h3;
       @extend .bold;
       color: $Red1;
+      text-align: right;
     }
 
     .noData {

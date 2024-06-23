@@ -25,13 +25,11 @@ export default function EventCategory() {
                   className={styles.listItem}
                   key={`${content.profitDate}_${content.eventType}_${content.profitAmount}_${index}`}
                 >
-                  <div className={styles.titleWrapper}>
-                    <div className={styles.dateText}>
-                      {moment(content.profitDate).format("YYYY.MM.DD")}
-                    </div>
-                    <div className={styles.mainText}>
-                      {ProfitCategoryEventTypeCode[content.eventType]?.label}
-                    </div>
+                  <div className={styles.dateText}>
+                    {moment(content.profitDate).format("YYYY.MM.DD")}
+                  </div>
+                  <div className={styles.mainText}>
+                    {ProfitCategoryEventTypeCode[content.eventType]?.label}
                   </div>
                   <div className={styles.subText}>
                     +{Intl.NumberFormat().format(content.profitAmount)} 원
@@ -41,7 +39,7 @@ export default function EventCategory() {
             },
           )
         ) : (
-          <li className={styles.listItem}>
+          <li>
             <div className={styles.noData}>데이터가 없습니다.</div>
           </li>
         )}
