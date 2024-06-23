@@ -11,6 +11,7 @@ import { D_cautionList } from "@data/invite/D_invitePopup";
 import useGetMyProfile from "@hooks/common/useGetProfile";
 
 interface Props {
+  maxInviteCount: number;
   onClose: () => void;
 }
 
@@ -24,7 +25,7 @@ const POPUP_STYLE: CSSProperties = {
   boxShadow: "0px 3.19px 3.19px 0px rgba(0, 0, 0, 0.25)",
 };
 
-export const InvitePopup = ({ onClose }: Props) => {
+export const InvitePopup = ({ maxInviteCount = 0, onClose }: Props) => {
   const { profile } = useGetMyProfile();
 
   // 초대코드 복사 완료 팝업 toggle
@@ -62,7 +63,9 @@ export const InvitePopup = ({ onClose }: Props) => {
               받을 수 있어요.
             </h3>
 
-            <p className="p1 color-gray1">초대자는 하루에 5명까지만 포인트를 받아요.</p>
+            <p className="p1 color-gray1">
+              초대자는 하루에 {maxInviteCount}명까지만 포인트를 받아요.
+            </p>
           </section>
 
           <section className={styles.explainSection}>

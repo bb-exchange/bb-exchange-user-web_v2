@@ -4,7 +4,7 @@ import Image from "@components/Image";
 import Popup from "@components/Popup";
 
 interface Iprops {
-  title: string;
+  title?: string;
   subTitle?: string;
   iconSrc?: string;
   iconWidth?: number;
@@ -35,7 +35,9 @@ export const CommonPopup = ({
             <Image src={iconSrc} width={iconWidth} height={iconHeight} alt={"PopupIcon"} />
           )}
 
-          <span className="h3 bold color-black1" dangerouslySetInnerHTML={{ __html: title }} />
+          {title && (
+            <span className="h3 bold color-black1" dangerouslySetInnerHTML={{ __html: title }} />
+          )}
 
           {subTitle && (
             <p className="p1 color-gray1" dangerouslySetInnerHTML={{ __html: subTitle }} />

@@ -25,7 +25,10 @@ const Daily = () => {
   const [formattedEventList, setFormattedEventList] = useState<(D_eventList & DailyEvent)[]>([]);
 
   // 현재 팝업 toggle
-  const [isInvitePopupShow, setIsInvitePopupShow] = useState(false);
+  const [invitePopupInfo, setInvitePopupInfo] = useState({
+    isShow: false,
+    limitPerDay: 0,
+  });
 
   useEffect(() => {
     if (dailyEvent?.dailyEventList) {
@@ -44,14 +47,14 @@ const Daily = () => {
     }
   }, [dailyEvent?.dailyEventList]);
 
-  const onClickEvent = (eventName: string, eventTargetPath?: string) => {
+  const onClickEvent = (event: D_eventList & DailyEvent) => {
     // 초대하기의 경우 초대하기 POPUP SHOW
-    if (eventName === "INVITE") {
-      setIsInvitePopupShow(true);
+    if (event.name === "INVITE") {
+      setInvitePopupInfo((prev) => ({ ...prev, isShow: true, limitPerDay: event.limitPerDay }));
       return;
-    } else if (eventTargetPath) {
+    } else if (event.path) {
       // 그 이외의 경우 router 이동
-      router.push(eventTargetPath);
+      router.push(event.path);
     }
   };
 
@@ -132,7 +135,7 @@ const Daily = () => {
                   <div
                     key={event.id}
                     className={styles.eventRowSection}
-                    onClick={() => onClickEvent(event.name, event.path)}
+                    onClick={() => onClickEvent(event)}
                   >
                     <div className={styles.row}>
                       <Image src={event.image || ""} width={70} height={70} alt={event.name} />
@@ -170,7 +173,12 @@ const Daily = () => {
       <CommonFooter />
 
       {/* 친구 초대하기 팝업 */}
-      {isInvitePopupShow && <InvitePopup onClose={() => setIsInvitePopupShow(false)} />}
+      {invitePopupInfo.isShow && (
+        <InvitePopup
+          maxInviteCount={invitePopupInfo.limitPerDay}
+          onClose={() => setInvitePopupInfo((prev) => ({ ...prev, isShow: false }))}
+        />
+      )}
     </>
   );
 };

@@ -18,7 +18,6 @@ import RegisterAccountNumberNecessityPopup from "@components/mypage/asset/regist
 import RegisterAccountNumberSuccessPopup from "@components/mypage/asset/registerAccountNumberSuccessPopup";
 import SettlementSuccessPopup from "@components/mypage/asset/settlementSuccessPopup";
 import SwitchPointSuccessPopup from "@components/mypage/asset/switchPointSuccessPopup";
-import TermIncome from "@components/mypage/asset/termIncome";
 import WithdrawInfoPopup from "@components/mypage/asset/withdrawInfoPopup";
 import WithdrawPopup from "@components/mypage/asset/withdrawPopup";
 import MypageNavAside from "@components/mypage/mypageNavAside";
