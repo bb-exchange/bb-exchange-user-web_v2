@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import ChevronRtBlue from ".assets/icons/ChevronRtBlue.svg";
 import Gold from ".assets/icons/tier/Gold.svg";
 import Profile from ".assets/images/img_profile.svg";
+import Image from ".src/components/Image";
 import useGetMyProfile from ".src/hooks/common/useGetProfile";
 import UseMypageNavAside from ".src/hooks/mypage/useMypageNavAside";
 
@@ -17,7 +18,19 @@ export default function MypageNavAside() {
     <aside className={styles.mypageNavAside}>
       <section className={styles.profSec}>
         <article className={styles.infoArea}>
-          <Profile className={styles.defaultProfImgBox} />
+          {profile?.profileImage ? (
+            <Image
+              src={profile?.profileImage}
+              width={80}
+              height={80}
+              loader
+              alt="profile image"
+              className={styles.defaultProfImgBox}
+            />
+          ) : (
+            <Profile className={styles.defaultProfImgBox} />
+          )}
+
           <div className={styles.nicknameBar}>
             <p>{profile?.nickname}</p>
             <Gold />
