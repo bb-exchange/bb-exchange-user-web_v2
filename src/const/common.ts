@@ -11,7 +11,10 @@ export type NotificationInteraction =
   | "PROFIT_SETTLEMENT_DONE"
   | "TAX_INVOICE_ISSUE_DONE"
   | "ARTICLE_LIKED"
-  | "COMMENT_LIKED";
+  | "COMMENT_LIKED"
+  | "DAILY_EVENT_WRITE_ARTICLE_WITH_LIKES_DONE"
+  | "DAILY_EVENT_INVITE_DONE"
+  | "DAILY_EVENT_ALL_DONE";
 export const NotificationTypeCode: CodeType<NotificationInteraction> = {
   ARTICLE_STOCK_LISTED: {
     label: "게시글 상장",
@@ -56,5 +59,17 @@ export const NotificationTypeCode: CodeType<NotificationInteraction> = {
   COMMENT_LIKED: {
     label: "댓글 좋아요",
     value: "COMMENT_LIKED",
+  },
+  DAILY_EVENT_WRITE_ARTICLE_WITH_LIKES_DONE: {
+    label: "일일보상",
+    value: "DAILY_EVENT_WRITE_ARTICLE_WITH_LIKES_DONE",
+  },
+  DAILY_EVENT_INVITE_DONE: {
+    label: "일일보상",
+    value: "DAILY_EVENT_INVITE_DONE",
+  },
+  DAILY_EVENT_ALL_DONE: {
+    label: "일일보상",
+    value: "DAILY_EVENT_ALL_DONE",
   },
 };
