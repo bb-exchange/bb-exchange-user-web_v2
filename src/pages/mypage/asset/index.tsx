@@ -11,18 +11,18 @@ import CommonHeader from "@components/common/header/commonHeader";
 import ErrorMsgPopup from "@components/common/popup/errorMsgPopup";
 import PopupBg from "@components/common/popupBg";
 import ScrollTopBtn from "@components/common/scrollTopBtn";
-import ContentIncome from "@components/mypage/asset/contentIncome";
-import MyWithdraw from "@components/mypage/asset/myWithdraw";
 import PointPopup from "@components/mypage/asset/pointPopup";
 import RegisterAccountNumberNecessityPopup from "@components/mypage/asset/registerAccountNumberNecessityPopup";
 import RegisterAccountNumberSuccessPopup from "@components/mypage/asset/registerAccountNumberSuccessPopup";
 import SettlementSuccessPopup from "@components/mypage/asset/settlementSuccessPopup";
 import SwitchPointSuccessPopup from "@components/mypage/asset/switchPointSuccessPopup";
-import TermIncome from "@components/mypage/asset/termIncome";
 import WithdrawInfoPopup from "@components/mypage/asset/withdrawInfoPopup";
 import WithdrawPopup from "@components/mypage/asset/withdrawPopup";
 import MypageNavAside from "@components/mypage/mypageNavAside";
-import EventCategory from "@components/mypage/profit-category/eventCategory";
+import ByContent from "@components/mypage/profit-category/byContent";
+import Event from "@components/mypage/profit-category/event";
+import Monthly from "@components/mypage/profit-category/monthly";
+import Withdraw from "@components/mypage/profit-category/withdraw";
 
 import { BY_CONTENT, EVENT, MONTHLY, WITHDRAWAL } from "@const/common";
 
@@ -121,10 +121,10 @@ export default function Asset() {
             ))}
           </ul>
 
-          {useMypageAsset.selectedCategory === EVENT && <EventCategory />}
-          {useMypageAsset.selectedCategory === MONTHLY && <TermIncome />}
-          {useMypageAsset.selectedCategory === BY_CONTENT && <ContentIncome />}
-          {useMypageAsset.selectedCategory === WITHDRAWAL && <MyWithdraw />}
+          {useMypageAsset.selectedCategory === EVENT && <Event />}
+          {useMypageAsset.selectedCategory === MONTHLY && <Monthly />}
+          {useMypageAsset.selectedCategory === BY_CONTENT && <ByContent />}
+          {useMypageAsset.selectedCategory === WITHDRAWAL && <Withdraw />}
         </section>
       </main>
       <ScrollTopBtn />

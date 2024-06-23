@@ -1,4 +1,4 @@
-import styles from "./contentIncome.module.scss";
+import styles from "./byContent.module.scss";
 
 import moment from "moment";
 
@@ -10,7 +10,7 @@ import PageNav from "@components/common/pageNav";
 
 import UseMyTermIncome from "@hooks/mypage/asset/useMytermIncome";
 
-export default function ContentIncome() {
+export default function ByContent() {
   const useMyTermIncome = UseMyTermIncome();
 
   console.log(useMyTermIncome.profitContentLog);

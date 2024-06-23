@@ -1,4 +1,4 @@
-import styles from "./myWithdraw.module.scss";
+import styles from "./withdraw.module.scss";
 
 import moment from "moment";
 
@@ -12,7 +12,7 @@ import { SettlementWithdrawStatusCode } from "@const/common";
 
 import UseMyTermIncome from "@hooks/mypage/asset/useMytermIncome";
 
-export default function MyWithdraw() {
+export default function Withdraw() {
   const useMyTermIncome = UseMyTermIncome();
 
   return (

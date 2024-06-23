@@ -1,4 +1,4 @@
-import styles from "./termIncome.module.scss";
+import styles from "./monthly.module.scss";
 
 import moment from "moment";
 
@@ -8,7 +8,7 @@ import { ProfitSummary } from "@api/mypage";
 
 import UseMyTermIncome from "@hooks/mypage/asset/useMytermIncome";
 
-export default function TermIncome() {
+export default function Monthly() {
   const useMyTermIncome = UseMyTermIncome();
 
   // TODO: pagination, 조회 기간 필터

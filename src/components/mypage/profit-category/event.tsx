@@ -1,4 +1,4 @@
-import styles from "./eventCategory.module.scss";
+import styles from "./event.module.scss";
 
 import moment from "moment";
 
@@ -8,7 +8,7 @@ import { ProfitCategoryEventTypeCode } from "@const/common";
 
 import UseMyTermIncome from "@hooks/mypage/asset/useMytermIncome";
 
-export default function EventCategory() {
+export default function Event() {
   const useMyTermIncome = UseMyTermIncome();
 
   // TODO: pagination
