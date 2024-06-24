@@ -10,7 +10,7 @@ export const D_mypageNavList: mypageNavs[] = [
     details: [
       {
         label: "내가 쓴 글",
-        url: "/mypage/write",
+        url: "/mypage",
       },
       {
         label: "내가 구매한 글",

@@ -370,7 +370,7 @@ export default function Index() {
       <li
         onClick={() =>
           push({
-            pathname: "/mypage/write",
+            pathname: "/mypage",
           })
         }
       >

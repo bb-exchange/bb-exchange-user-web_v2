@@ -1172,7 +1172,7 @@ export default function Post({
       {openConfirmDeleteComplete && (
         <ConfirmTitlePopup
           title="글이 삭제되었습니다."
-          confirmFunc={() => router.push(`/mypage/write`)}
+          confirmFunc={() => router.push(`/mypage`)}
         />
       )}
 

@@ -221,7 +221,7 @@ export default function EnrollScreen() {
             msg="글 수정이 완료되었습니다."
             confirmFunc={() => {
               useEnrollHook.setEditPopup(false);
-              router.push("/mypage/write");
+              router.push("/mypage");
             }}
           />
           <PopupBg bg off={() => useEnrollHook.setEditPopup(false)} />

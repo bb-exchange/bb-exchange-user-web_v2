@@ -1,18 +1,31 @@
 import styles from "./mypage.module.scss";
 
-import BtnSqrChk from ".assets/icons/BtnSqrChk.svg";
-import BtnSqrChkOn from ".assets/icons/BtnSqrChkOn.svg";
-import Swap from ".assets/icons/Swap.svg";
-import CommonFooter from ".src/components/common/commonFooter";
-import CommonHeader from ".src/components/common/header/commonHeader";
-import PageNav from ".src/components/common/pageNav";
-import ScrollTopBtn from ".src/components/common/scrollTopBtn";
-import ProfSec from ".src/components/mypage/profSec";
-import WritePost from ".src/components/mypage/write/writePost";
-import UseMyPageWrite from ".src/hooks/mypage/useMypageWrite";
+import { useRouter } from "next/router";
+
+import BtnSqrChk from "@assets/icons/BtnSqrChk.svg";
+import BtnSqrChkOn from "@assets/icons/BtnSqrChkOn.svg";
+import Swap from "@assets/icons/Swap.svg";
+
+import CommonFooter from "@components/common/commonFooter";
+import CommonHeader from "@components/common/header/commonHeader";
+import PageNav from "@components/common/pageNav";
+import ScrollTopBtn from "@components/common/scrollTopBtn";
+import ProfSec from "@components/mypage/profSec";
+import WritePost from "@components/mypage/write/writePost";
+
+import UseMyPageWrite from "@hooks/mypage/useMypageWrite";
 
 export default function MypageWrite() {
+  const router = useRouter();
   const useMypageWrite = UseMyPageWrite();
+
+  // NOTE 페이지 변경 함수
+  const onChangePage = (pageIndex: number) =>
+    pageIndex === 0
+      ? router.push(router.pathname)
+      : router.push({
+          query: { page: pageIndex },
+        });
 
   return (
     <>
@@ -32,7 +45,11 @@ export default function MypageWrite() {
                     onClick={() => useMypageWrite.onClickCategoryBtn(v.url)}
                   >
                     <p>
-                      {v.label} {v.count || 0}
+                      {v.label}
+                      {/* 컴포넌트 구조 이상함... 정보가 겹침 */}
+                      {/* {v.label === "작성한 글"
+                        ? useMypageWrite.postList?.totalElements
+                        : 0} */}
                     </p>
                   </li>
                 ))}
@@ -59,12 +76,16 @@ export default function MypageWrite() {
           </article>
 
           <ul className={styles.postList}>
-            {useMypageWrite.postList?.contents?.map((v: any, i: number) => (
+            {useMypageWrite.postList?.contents.map((v: mypageWritePosts, i: number) => (
               <WritePost data={v} key={i} />
             ))}
           </ul>
 
-          <PageNav />
+          <PageNav
+            totalPages={useMypageWrite.postList?.totalPages}
+            currentPage={useMypageWrite.postList?.pageNumber}
+            onChangePage={onChangePage}
+          />
         </section>
       </main>
 
