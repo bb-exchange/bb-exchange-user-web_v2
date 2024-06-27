@@ -9,7 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import BtnSqrChk from "@assets/icons/BtnSqrChk.svg";
 import BtnSqrChkOn from "@assets/icons/BtnSqrChkOn.svg";
 import Dot3 from "@assets/icons/Dot3.svg";
-import Swap from "@assets/icons/Swap.svg";
+import SortAscending from "@assets/icons/SortAscending.svg";
 import Gold from "@assets/icons/tier/Gold.svg";
 import Profile from "@assets/images/img_profile.svg";
 
@@ -101,21 +101,15 @@ const Seller = () => {
         <section className={styles.listHeader}>
           <div>총 {hook.list?.totalElements ?? 0}개</div>
           <div className={styles.rightOpt}>
-            <button
-              className={`${styles.filterOnSaleBtn} ${styles.utilBtn}`}
-              onClick={hook.onClickFilterOnSaleBtn}
-            >
+            <button onClick={hook.onClickFilterOnSaleBtn}>
               {hook.filterOnSale === "Y" ? <BtnSqrChkOn /> : <BtnSqrChk />}
 
               <p>상장된 글만 보기</p>
             </button>
 
-            <button
-              className={`${styles.sortBtn} ${styles.utilBtn}`}
-              onClick={() => setShowCommentSortByPopup(true)}
-            >
-              <Swap />
+            <button onClick={() => setShowCommentSortByPopup(true)}>
               <p>{hook.commentSortByInfo[hook.sort]}</p>
+              <SortAscending />
             </button>
             {showCommentSortByPopup && (
               <>
