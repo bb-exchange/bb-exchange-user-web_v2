@@ -11,6 +11,7 @@ import { useArticles } from "@hooks/posts/useArticles";
 
 import { queryKeys } from "@recoil/query-keys";
 
+export type CommentSortByType = "PRICE" | "LATEST";
 export default function UseSeller() {
   // const [list, setList] = useState<[]>([]);
   const [moreMenu, setMoreMenu] = useState<boolean>(false);
@@ -28,7 +29,13 @@ export default function UseSeller() {
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [showMore, setShowMore] = useState<boolean>(true);
   const [filterOnSale, setFilterOnSale] = useState<string>("N");
-  const [sort, setSort] = useState<string>("LATEST");
+
+  const [sort, setSort] = useState<CommentSortByType>("LATEST");
+
+  const commentSortByInfo: { [key in CommentSortByType]: string } = {
+    LATEST: "최신순",
+    PRICE: "가격순",
+  };
 
   const { register, setValue, watch, formState, handleSubmit } = useForm<IuserReport>();
 
@@ -158,5 +165,6 @@ export default function UseSeller() {
     setSort,
     onSortList,
     sort,
+    commentSortByInfo,
   };
 }

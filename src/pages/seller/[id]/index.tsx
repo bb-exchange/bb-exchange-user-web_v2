@@ -1,5 +1,7 @@
 import styles from "./seller.module.scss";
 
+import { useState } from "react";
+
 import { useRouter } from "next/router";
 
 import { useQuery } from "@tanstack/react-query";
@@ -25,7 +27,7 @@ import Image from "@components/Image";
 import ReportSellerPopup from "@components/seller/reportSellerPopup";
 import SellerPost from "@components/seller/sellerPost";
 
-import UseSeller from "@hooks/seller/useSeller";
+import UseSeller, { CommentSortByType } from "@hooks/seller/useSeller";
 
 import { queryKeys } from "@recoil/query-keys";
 
@@ -39,7 +41,14 @@ const Seller = () => {
     queryKey: [queryKeys.userById, id],
     queryFn: () => getProfile(Number(id)),
     select: (res) => res?.data.data,
+    enabled: !!id,
   });
+
+  const [showCommentSortByPopup, setShowCommentSortByPopup] = useState(false);
+  const onClickSetCommentSortBy = (sortBy: CommentSortByType) => {
+    hook.setSort(sortBy);
+    setShowCommentSortByPopup(false);
+  };
 
   return (
     <>
@@ -101,10 +110,37 @@ const Seller = () => {
               <p>상장된 글만 보기</p>
             </button>
 
-            <button className={`${styles.sortBtn} ${styles.utilBtn}`} onClick={hook.onSortList}>
+            <button
+              className={`${styles.sortBtn} ${styles.utilBtn}`}
+              onClick={() => setShowCommentSortByPopup(true)}
+            >
               <Swap />
-              <p>{hook.sort === "LATEST" ? "가격순" : "최신순"}</p>
+              <p>{hook.commentSortByInfo[hook.sort]}</p>
             </button>
+            {showCommentSortByPopup && (
+              <>
+                <section className={styles.commentPopup}>
+                  {Object.entries(hook.commentSortByInfo).map(([key, label]) => (
+                    <button
+                      key={key}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onClickSetCommentSortBy(key as CommentSortByType);
+                      }}
+                    >
+                      <p>{label}</p>
+                    </button>
+                  ))}
+                </section>
+
+                <PopupBg
+                  off={(e) => {
+                    e.stopPropagation();
+                    setShowCommentSortByPopup(false);
+                  }}
+                />
+              </>
+            )}
           </div>
         </section>
         <section className={styles.postList}>
@@ -133,6 +169,7 @@ const Seller = () => {
       </main>
       <ScrollTopBtn />
       <CommonFooter />
+
       {hook.reportPopup && (
         <>
           <ReportSellerPopup

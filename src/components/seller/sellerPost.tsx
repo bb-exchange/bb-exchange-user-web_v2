@@ -17,8 +17,6 @@ interface Iprops {
 }
 
 export default function SellerPost({ data }: Iprops) {
-  console.log("data", data);
-
   function getDiffStyle(diff: number) {
     if (diff > 0) return styles.up;
     else if (diff < 0) return styles.dn;
