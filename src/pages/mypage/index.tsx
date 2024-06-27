@@ -15,7 +15,7 @@ import WritePost from "@components/mypage/write/writePost";
 
 import UseMyPageWrite from "@hooks/mypage/useMypageWrite";
 
-export default function MypageWrite() {
+export default function Mypage() {
   const router = useRouter();
   const useMypageWrite = UseMyPageWrite();
 
@@ -44,13 +44,7 @@ export default function MypageWrite() {
                     className={v.label === useMypageWrite.category.label ? styles.on : ""}
                     onClick={() => useMypageWrite.onClickCategoryBtn(v.url)}
                   >
-                    <p>
-                      {v.label}
-                      {/* 컴포넌트 구조 이상함... 정보가 겹침 */}
-                      {/* {v.label === "작성한 글"
-                        ? useMypageWrite.postList?.totalElements
-                        : 0} */}
-                    </p>
+                    <p>{v.label}</p>
                   </li>
                 ))}
               </ul>

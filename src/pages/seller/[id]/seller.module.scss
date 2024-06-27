@@ -15,11 +15,13 @@
   background: $Primary4;
   border-radius: 12px;
 
-  .emptyProfile {
+  .defaultProfImgBox {
     width: 80px;
     height: 80px;
+    overflow: hidden;
+    border-radius: 50%;
+    object-fit: cover;
   }
-
   .sellerInfo {
     margin-left: 24px;
     h1 {
@@ -133,4 +135,10 @@
 
 .pointer {
   cursor: pointer;
+}
+.blockPopupContent {
+  color: $Gray1;
+  padding: 0 16px;
+  @extend .p1;
+  text-align: center;
 }

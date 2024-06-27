@@ -1,9 +1,15 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-import { userArticles } from ".src/api/articles/articles";
-import { queryKeys } from ".src/recoil/query-keys";
+import { useRouter } from "next/router";
+
 import { useQuery } from "@tanstack/react-query";
+
+import { userArticles } from "@api/articles/articles";
+
+import { useArticles } from "@hooks/posts/useArticles";
+
+import { queryKeys } from "@recoil/query-keys";
 
 export default function UseSeller() {
   // const [list, setList] = useState<[]>([]);
@@ -21,25 +27,18 @@ export default function UseSeller() {
   const [disabledCancelConfirmPopup, setDisabledCancelConfirmPopup] = useState<boolean>(false);
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [showMore, setShowMore] = useState<boolean>(true);
+  const [filterOnSale, setFilterOnSale] = useState<string>("N");
+  const [sort, setSort] = useState<string>("LATEST");
 
   const { register, setValue, watch, formState, handleSubmit } = useForm<IuserReport>();
 
-  // 타인 글 목록 리스트
-  // TODO 아이디 연결 필요
-  // useQuery(
-  //   queryKeys.articleById("writeByUser"),
-  //   () => userArticles(`31?sortBy=LATEST&page=0`),
-  //   {
-  //     onSuccess: (data) => {
-  //       setList(data?.data.data.contents);
-  //     },
-  //     retry: false,
-  //   }
-  // );
+  const router = useRouter();
+
   const { data: list } = useQuery({
-    queryKey: queryKeys.articleById("writeByUser"),
-    queryFn: () => userArticles(`31?sortBy=LATEST&page=0`),
-    select: (res) => res.data.data.contents ?? [],
+    queryKey: [queryKeys.articleById("writeByUser"), sort],
+    queryFn: () => userArticles(`${router?.query?.id}?sortBy=${sort}&page=0`),
+    select: (res) => res.data.data ?? [],
+    enabled: !!router.query.id,
   });
 
   useEffect(() => {
@@ -47,6 +46,10 @@ export default function UseSeller() {
       required: true,
     });
   }, [register]);
+
+  const onClickFilterOnSaleBtn = () => setFilterOnSale((prev) => (prev === "Y" ? "N" : "Y"));
+
+  const onSortList = () => setSort((prev) => (prev === "LATEST" ? "PRICE" : "LATEST"));
 
   const onClickReportBtn = () => {
     setMoreMenu(false);
@@ -149,5 +152,11 @@ export default function UseSeller() {
     onClickBlock,
     onClickDisabled,
     isBlocked,
+
+    filterOnSale,
+    onClickFilterOnSaleBtn,
+    setSort,
+    onSortList,
+    sort,
   };
 }
