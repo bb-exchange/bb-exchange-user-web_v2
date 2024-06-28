@@ -11,6 +11,8 @@ interface Iprops {
   iconHeight?: number;
   confirmText?: string;
   confirmFunc: Function;
+  leftButtonText?: string;
+  leftButonClick?: Function;
   zIndex?: number;
 }
 
@@ -25,6 +27,8 @@ export const CommonPopup = ({
   iconHeight = 70,
   confirmText = "확인",
   confirmFunc,
+  leftButtonText,
+  leftButonClick,
   zIndex,
 }: Iprops) => {
   return (
@@ -45,6 +49,11 @@ export const CommonPopup = ({
         </section>
 
         <section className={styles.buttonSection}>
+          {leftButtonText && leftButonClick && (
+            <button className="p1 bold bg-gray2 color-gray1" onClick={() => leftButonClick()}>
+              {leftButtonText}
+            </button>
+          )}
           <button className="p1 bold bg-primary1 color-white1" onClick={() => confirmFunc()}>
             {confirmText}
           </button>
