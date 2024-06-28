@@ -1047,9 +1047,10 @@ export default function Post({
         </>
       )}
 
-      {hook.reportUserPopup && (
+      {hook.reportUserPopup && postData?.userInfo.userId && (
         <>
           <ReportUserPopup
+            userId={postData?.userInfo.userId}
             off={() => hook.setReportUserPopup(false)}
             confirmFunc={hook.onSuccessReportUser}
           />
@@ -1070,13 +1071,10 @@ export default function Post({
       )}
 
       {hook.compReportPopup && (
-        <>
-          <ErrorMsgPopup
-            msg="신고가 접수되었습니다."
-            confirmFunc={() => hook.setCompReportPopup(false)}
-          />
-          <PopupBg bg off={() => hook.setCompReportPopup(false)} />
-        </>
+        <CommonPopup
+          title="신고가 접수되었습니다."
+          confirmFunc={() => hook.setCompReportPopup(false)}
+        />
       )}
 
       {hook.compHideUserPostPopup && (

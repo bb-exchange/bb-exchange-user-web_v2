@@ -75,3 +75,8 @@ interface IpostArticle {
   articleTagList: string[];
   thumbnailImage: string;
 }
+
+interface IreportCategory {
+  key: string;
+  value: string;
+}
