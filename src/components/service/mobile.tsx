@@ -27,8 +27,6 @@ import classNames from "classnames";
 const DesktopPage = ({ isClient, isAndroid }: { isClient: boolean; isAndroid: boolean }) => {
   const router = useRouter();
 
-  const [preparePopup, setPreparePopup] = useState<boolean>(false);
-
   const onClickMoveToHome = () => {
     // TODO 작성하기 이동
     if (isClient) {
@@ -54,9 +52,11 @@ const DesktopPage = ({ isClient, isAndroid }: { isClient: boolean; isAndroid: bo
   };
 
   const onClickAppLink = () => {
-    if (isAndroid) {
-      setPreparePopup(true);
-    } else window.location.assign(`${process.env.NEXT_PUBLIC_APPLE_APP_STORE}`);
+    let url = "";
+    if (isAndroid) url = `${process.env.NEXT_PUBLIC_ANDROID_PLAY_STORE}`;
+    else url = `${process.env.NEXT_PUBLIC_APPLE_APP_STORE}`;
+
+    window.location.assign(url);
   };
 
   return (
@@ -226,19 +226,6 @@ const DesktopPage = ({ isClient, isAndroid }: { isClient: boolean; isAndroid: bo
               앱으로 이용하기
             </p>
           </div>
-        )}
-        {preparePopup && (
-          <>
-            <ConfirmTitlePopup
-              title="안드로이드 앱 심사중!"
-              content={`안드로이드 앱은 아직 심사중입니다.
-PC를 통해 비법거래소를 만나보세요!`}
-              confirmText="확인"
-              confirmFunc={() => setPreparePopup(false)}
-              zIndex={80}
-            />
-            <PopupBg bg zIndex={70} off={() => setPreparePopup(false)} />
-          </>
         )}
       </main>
     </>
