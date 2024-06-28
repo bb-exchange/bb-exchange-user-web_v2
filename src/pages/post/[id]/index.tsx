@@ -181,7 +181,7 @@ export default function Post({
       editor?.commands.setContent(json);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editor]);
+  }, [editor, postData]);
 
   const userId = postData?.userInfo.userId;
 

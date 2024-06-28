@@ -38,8 +38,7 @@ basicInstance.interceptors.response.use(
       // Access Token was expired
       if (error.response?.status === 401 && !originalConfig._retry) {
         originalConfig._retry = true;
-        const refreshToken =
-          error.config.headers.refreshToken || getCookie("refreshToken");
+        const refreshToken = error.config.headers.refreshToken || getCookie("refreshToken");
         const isRefreshTokenValid = validateTimeRefreshToken(refreshToken);
 
         if (isRefreshTokenValid) {
