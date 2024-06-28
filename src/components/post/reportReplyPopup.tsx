@@ -12,11 +12,12 @@ interface Iprops {
 }
 
 export default function ReportReplyPopup({ off }: Iprops) {
-  const useCustomHook = UsePostReport();
+  // 하드코딩된 값 이므로 추후 수정해야함
+  const useCustomHook = UsePostReport(0);
   const useScrollBar = UseScrollBar();
 
   function onSubmit() {
-    useCustomHook.onSubmit();
+    // useCustomHook.onSubmit();
     off();
   }
 
@@ -46,12 +47,12 @@ export default function ReportReplyPopup({ off }: Iprops) {
                 {useCustomHook.reportCategory.map((v, i) => (
                   <li
                     key={i}
-                    className={`${v === useCustomHook.watch("category") ? styles.on : ""}`}
-                    onClick={() => useCustomHook.setValue("category", v)}
+                    className={`${v.key === useCustomHook.watch("category") ? styles.on : ""}`}
+                    onClick={() => useCustomHook.setValue("category", v.key)}
                   >
                     <CheckCircle className={styles.offSvg} />
                     <CheckCircleBlueO className={styles.onSvg} />
-                    <p>{v}</p>
+                    <p>{v.value}</p>
                   </li>
                 ))}
               </ul>
