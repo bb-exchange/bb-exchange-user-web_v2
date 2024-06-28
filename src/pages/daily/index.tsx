@@ -34,7 +34,7 @@ const Daily = () => {
     maxAmount: 0,
   });
 
-  const [isLoginPopupShow, setIsLoginPopupShow] = useState<boolean>(true);
+  const [isLoginPopupShow, setIsLoginPopupShow] = useState<boolean>(false);
 
   useEffect(() => {
     if (dailyEvent?.dailyEventList) {
