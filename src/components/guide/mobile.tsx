@@ -18,8 +18,6 @@ const MobilePage = ({ isClient, isAndroid }: { isClient: boolean; isAndroid: boo
 
   const getImgPath = (name: string) => `/assets/images/${name}_mobile.png`;
 
-  const [preparePopup, setPreparePopup] = useState<boolean>(false);
-
   const onClickMoveToNewPost = () => {
     if (!isClient) {
       onClickMoveToApp();
@@ -41,9 +39,11 @@ const MobilePage = ({ isClient, isAndroid }: { isClient: boolean; isAndroid: boo
   };
 
   const onClickMoveToApp = () => {
-    if (isAndroid) {
-      setPreparePopup(true);
-    } else window.location.assign(`${process.env.NEXT_PUBLIC_APPLE_APP_STORE}`);
+    let url = "";
+    if (isAndroid) url = `${process.env.NEXT_PUBLIC_ANDROID_PLAY_STORE}`;
+    else url = `${process.env.NEXT_PUBLIC_APPLE_APP_STORE}`;
+
+    window.location.assign(url);
   };
 
   return (
@@ -291,19 +291,6 @@ const MobilePage = ({ isClient, isAndroid }: { isClient: boolean; isAndroid: boo
             </div>
             <button onClick={onClickMoveToApp}>앱으로 이용하기</button>
           </footer>
-        )}
-        {preparePopup && (
-          <>
-            <ConfirmTitlePopup
-              title="안드로이드 앱 심사중!"
-              content={`안드로이드 앱은 아직 심사중입니다.
-PC를 통해 비법거래소를 만나보세요!`}
-              confirmText="확인"
-              confirmFunc={() => setPreparePopup(false)}
-              zIndex={80}
-            />
-            <PopupBg bg zIndex={70} off={() => setPreparePopup(false)} />
-          </>
         )}
       </section>
     </main>
