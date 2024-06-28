@@ -3,14 +3,17 @@ import styles from "./compPayPopup.module.scss";
 import X from ".assets/icons/X.svg";
 import UseCompPayPopup from ".src/hooks/post/useCompPayPopup";
 import UsePost from ".src/hooks/post/usePost";
+import { QueryObserverResult } from "@tanstack/react-query";
+
+import { PostData } from "@api/interface";
 
 interface Iprops {
   usePost: ReturnType<typeof UsePost>;
-  off: () => void;
+  refetchArticle: () => Promise<QueryObserverResult<PostData, Error>>;
 }
 
-export default function CompPayPopup({ usePost, off }: Iprops) {
-  const useCompPayPopup = UseCompPayPopup({ usePost });
+export default function CompPayPopup({ usePost, refetchArticle }: Iprops) {
+  const useCompPayPopup = UseCompPayPopup({ usePost, refetchArticle });
 
   return (
     <section className={styles.compPayPopup}>

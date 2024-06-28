@@ -1110,8 +1110,8 @@ export default function Post({
 
       {hook.compPayPopup && (
         <>
-          <CompPayPopup usePost={hook} off={() => hook.setCompPayPopup(false)} />
-          <PopupBg bg off={() => hook.setCompPayPopup(false)} />
+          <CompPayPopup usePost={hook} refetchArticle={refetchPostData} />
+          <PopupBg bg />
         </>
       )}
 
