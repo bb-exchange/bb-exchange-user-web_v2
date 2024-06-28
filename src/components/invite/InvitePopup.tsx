@@ -12,6 +12,7 @@ import useGetMyProfile from "@hooks/common/useGetProfile";
 
 interface Props {
   maxInviteCount: number;
+  maxAmount: number;
   onClose: () => void;
 }
 
@@ -25,7 +26,7 @@ const POPUP_STYLE: CSSProperties = {
   boxShadow: "0px 3.19px 3.19px 0px rgba(0, 0, 0, 0.25)",
 };
 
-export const InvitePopup = ({ maxInviteCount = 0, onClose }: Props) => {
+export const InvitePopup = ({ maxInviteCount = 0, maxAmount = 0, onClose }: Props) => {
   const { profile } = useGetMyProfile();
 
   // 초대코드 복사 완료 팝업 toggle
@@ -59,7 +60,8 @@ export const InvitePopup = ({ maxInviteCount = 0, onClose }: Props) => {
         <main>
           <section className={styles.titleSection}>
             <h3 className="h3 bold">
-              비법거래소에 친구를 초대하면 최대 <span className="color-primary1">5,000원</span>을
+              비법거래소에 친구를 초대하면 최대{" "}
+              <span className="color-primary1">{Intl.NumberFormat().format(maxAmount)}원</span>을
               받을 수 있어요.
             </h3>
 
