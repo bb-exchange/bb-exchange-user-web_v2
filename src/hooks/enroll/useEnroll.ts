@@ -96,14 +96,6 @@ export default function useEnroll(editor: Editor | null) {
     enabled: false,
   });
 
-  //NOTE - [API] 불러온 임시저장 글 수정하기
-  const updateTempMutation = useMutation({
-    mutationFn: patchArticleTemp,
-    onSuccess: () => {
-      setSuccessTempUpdatePopup(true);
-    },
-  });
-
   //NOTE - [API] 내 게시글 수정하기
   const updateMutation = useMutation({
     mutationFn: updateArticle,
@@ -145,10 +137,7 @@ export default function useEnroll(editor: Editor | null) {
 
   //NOTE - 게시글 등록되면 버킷에 이미지 업로드
   useEffect(() => {
-    if (
-      isSuccessEnroll.current &&
-      (btnName === "게시하기" || (btnName === "수정하기" && !tempArticleId))
-    ) {
+    if (isSuccessEnroll.current && (btnName === "게시하기" || !!tempArticleId)) {
       [...files.values()].map((file) => {
         imgUploadMutation.mutate({
           presignedUrl: file.presignedUrl,
@@ -184,7 +173,7 @@ export default function useEnroll(editor: Editor | null) {
   //NOTE - 파일 업로드 시, MD5 해시값 생성 & Presigned url 발급
   useEffect(() => {
     if (!uploadFiles) return;
-    if (btnName === "게시하기" || (btnName === "수정하기" && !tempArticleId)) {
+    if (btnName === "게시하기" || !!tempArticleId) {
       [...uploadFiles].map((file) => {
         const reader = new FileReader();
 
@@ -324,31 +313,24 @@ export default function useEnroll(editor: Editor | null) {
 
     let editorJson = editor?.getJSON();
 
-    if (btnName === "수정하기" && tempArticleId) {
-      editorJson = {
-        ...editorJson,
-        content: editorJson?.content?.filter((item: any) => item.type !== "figure"),
-      };
-    } else {
-      editorJson = {
-        ...editorJson,
-        content: editorJson?.content?.map((item: any, i: number) => {
-          let chagnedItem = item;
-          if (item.type === "figure" && files.has(item.attrs.fileName)) {
-            chagnedItem = {
-              ...item,
-              attrs: {
-                ...item.attrs,
-                src: fileImgUrls[0],
-              },
-            };
-            fileImgUrls.shift();
-          }
+    editorJson = {
+      ...editorJson,
+      content: editorJson?.content?.map((item: any, i: number) => {
+        let chagnedItem = item;
+        if (item.type === "figure" && files.has(item.attrs.fileName)) {
+          chagnedItem = {
+            ...item,
+            attrs: {
+              ...item.attrs,
+              src: fileImgUrls[0],
+            },
+          };
+          fileImgUrls.shift();
+        }
 
-          return chagnedItem;
-        }),
-      };
-    }
+        return chagnedItem;
+      }),
+    };
 
     const thumb = editorJson.content?.filter(
       (item: any) => item.type === "figure" && item.attrs.isThumb,
@@ -370,44 +352,16 @@ export default function useEnroll(editor: Editor | null) {
       thumbnailImage: thumbNail,
     };
 
-    // console.log("body, editorJson", body, editorJson);
-    // console.log("thumbNail", thumbNail, myArticleId);
-
     // 임시저장글 -> 수정하기
     if (btnName === "작성하기" && tempArticleId) {
       enrollPostMutation.mutate(body);
       onDeleteTemp();
       return;
     }
-    // 내글 수정하기
-    if (btnName === "수정하기" && !tempArticleId) {
-      console.log(`tempArticleId ${tempArticleId}`);
-      updateThumbMutation.mutate({
-        articleId: myArticleId,
-        body: {
-          thumbnail: thumbNail,
-        },
-      });
-      updateTagMutation.mutate({
-        articleId: myArticleId,
-        body: {
-          articleTagList: watch("tagList") ?? [],
-        },
-      });
-      updateMutation.mutate({
-        articleId: myArticleId,
-        body: {
-          title: watch("title"),
-          category: watch("category").category,
-          content: editor ? JSON.stringify({ ...editorJson }) : ``,
-        },
-      });
-      return;
-    }
 
     enrollPostMutation.mutate(body);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [btnName, editor, files, setError, tempArticleId, updateTempMutation, watch]);
+  }, [btnName, editor, files, setError, tempArticleId, watch]);
 
   //NOTE - 임시저장 클릭 시
   const onClickEnrollTemp = () => {
