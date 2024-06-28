@@ -49,8 +49,6 @@ export default function UseBuyPostPopup({ usePost, originalPrice, refetchArticle
       onSuccess: () => {
         usePost.setBuyPopup(false);
         usePost.setCompPayPopup(true);
-
-        refetchArticle();
       },
       onError: () => {
         usePost.setIsPurchaseErrorPopupShow(true);
