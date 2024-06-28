@@ -28,6 +28,7 @@ const Daily = () => {
   const [invitePopupInfo, setInvitePopupInfo] = useState({
     isShow: false,
     limitPerDay: 0,
+    maxAmount: 0,
   });
 
   useEffect(() => {
@@ -50,7 +51,12 @@ const Daily = () => {
   const onClickEvent = (event: D_eventList & DailyEvent) => {
     // 초대하기의 경우 초대하기 POPUP SHOW
     if (event.name === "INVITE") {
-      setInvitePopupInfo((prev) => ({ ...prev, isShow: true, limitPerDay: event.limitPerDay }));
+      setInvitePopupInfo((prev) => ({
+        ...prev,
+        isShow: true,
+        limitPerDay: event.limitPerDay,
+        maxAmount: event.amount * event.limitPerDay,
+      }));
       return;
     } else if (event.path) {
       // 그 이외의 경우 router 이동
@@ -176,6 +182,7 @@ const Daily = () => {
       {invitePopupInfo.isShow && (
         <InvitePopup
           maxInviteCount={invitePopupInfo.limitPerDay}
+          maxAmount={invitePopupInfo.maxAmount}
           onClose={() => setInvitePopupInfo((prev) => ({ ...prev, isShow: false }))}
         />
       )}
