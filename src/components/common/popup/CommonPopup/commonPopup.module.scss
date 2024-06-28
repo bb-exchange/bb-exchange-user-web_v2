@@ -16,16 +16,12 @@
 
   .buttonSection {
     display: flex;
+    gap: 8px;
 
     button {
       flex: 1;
       padding: 14px 16px;
       border-radius: 8px;
-
-      &.confirmBtn {
-        color: $White1;
-        background: $Primary1;
-      }
     }
   }
 }

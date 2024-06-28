@@ -11,12 +11,11 @@ import { useGetDailyEvent } from "@api/event/useGetDailyEvent";
 
 import CommonFooter from "@components/common/commonFooter";
 import CommonHeader from "@components/common/header/commonHeader";
+import { CommonPopup } from "@components/common/popup/CommonPopup";
 import Image from "@components/Image";
 import { InvitePopup } from "@components/invite/InvitePopup";
 
 import { D_eventFooterList, D_eventList } from "@data/event/D_event";
-
-import useGetMyProfile from "@hooks/common/useGetProfile";
 
 import { isLoginState } from "@recoil/index";
 
@@ -34,6 +33,8 @@ const Daily = () => {
     limitPerDay: 0,
     maxAmount: 0,
   });
+
+  const [isLoginPopupShow, setIsLoginPopupShow] = useState<boolean>(true);
 
   useEffect(() => {
     if (dailyEvent?.dailyEventList) {
@@ -53,10 +54,20 @@ const Daily = () => {
   }, [dailyEvent?.dailyEventList]);
 
   const onClickEvent = (event: D_eventList & DailyEvent) => {
+    const authRequiredEventList = [
+      "ARTICLE_COMMENT",
+      "COMMENT_LIKE",
+      "WRITE_ARTICLE_WITH_LIKES",
+      "INVITE",
+    ];
+
+    // 로그인이 필요한 이벤트일 경우 로그인 팝업 SHOW
+    if (!isSignedIn && authRequiredEventList.includes(event.name)) {
+      return setIsLoginPopupShow(true);
+    }
+
     // 초대하기의 경우 초대하기 POPUP SHOW
     if (event.name === "INVITE") {
-      if (!isSignedIn) return router.push("/auth/signin");
-
       setInvitePopupInfo((prev) => ({
         ...prev,
         isShow: true,
@@ -190,6 +201,17 @@ const Daily = () => {
           maxInviteCount={invitePopupInfo.limitPerDay}
           maxAmount={invitePopupInfo.maxAmount}
           onClose={() => setInvitePopupInfo((prev) => ({ ...prev, isShow: false }))}
+        />
+      )}
+
+      {isLoginPopupShow && (
+        <CommonPopup
+          title="로그인 후 매일 보상 받으세요"
+          subTitle="해당 기능은 로그인이 필요해요"
+          leftButtonText="취소"
+          leftButonClick={() => setIsLoginPopupShow(false)}
+          confirmFunc={() => router.push("/auth/signin")}
+          confirmText="로그인"
         />
       )}
     </>
