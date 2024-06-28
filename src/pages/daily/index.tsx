@@ -5,6 +5,8 @@ import { useCallback, useEffect, useState } from "react";
 
 import { useRouter } from "next/router";
 
+import { useRecoilValue } from "recoil";
+
 import { useGetDailyEvent } from "@api/event/useGetDailyEvent";
 
 import CommonFooter from "@components/common/commonFooter";
@@ -16,11 +18,13 @@ import { D_eventFooterList, D_eventList } from "@data/event/D_event";
 
 import useGetMyProfile from "@hooks/common/useGetProfile";
 
+import { isLoginState } from "@recoil/index";
+
 const Daily = () => {
   const router = useRouter();
 
-  const { profile: myProfile } = useGetMyProfile();
-  const { dailyEvent } = useGetDailyEvent(myProfile && myProfile.userId);
+  const isSignedIn = useRecoilValue(isLoginState);
+  const { dailyEvent } = useGetDailyEvent();
 
   const [formattedEventList, setFormattedEventList] = useState<(D_eventList & DailyEvent)[]>([]);
 
@@ -51,6 +55,8 @@ const Daily = () => {
   const onClickEvent = (event: D_eventList & DailyEvent) => {
     // 초대하기의 경우 초대하기 POPUP SHOW
     if (event.name === "INVITE") {
+      if (!isSignedIn) return router.push("/auth/signin");
+
       setInvitePopupInfo((prev) => ({
         ...prev,
         isShow: true,
