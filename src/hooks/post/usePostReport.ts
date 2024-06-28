@@ -1,24 +1,53 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-import { D_postReportCaategoryList } from ".src/data/post/D_postReport";
+import { D_postReportCategoryList } from ".src/data/post/D_postReport";
 
-export default function UsePostReport() {
-  const [reportCategory, setReportCategory] = useState<string[]>(D_postReportCaategoryList);
+import { usePostArticleReport } from "@api/post";
 
-  const { register, watch, setValue, formState, resetField, handleSubmit } = useForm<IpostReport>();
+import { allowScroll, preventScroll } from "@utils/modal";
+
+export default function UsePostReport(articleId: number) {
+  const [reportCategory, setReportCategory] = useState<IreportCategory[]>(D_postReportCategoryList);
+
+  const { register, watch, getValues, setValue, formState, resetField, handleSubmit } =
+    useForm<IpostReport>();
+
+  const { reportArticle } = usePostArticleReport();
+
+  // 백그라운드 스크롤 고정 로직
+  useEffect(() => {
+    const prevScrollY = preventScroll();
+    return () => {
+      allowScroll(prevScrollY);
+    };
+  }, []);
 
   useEffect(() => {
     register("category", {
       required: true,
     });
-  }, []);
+  }, [register]);
 
-  function onSubmit() {}
+  const onSubmit = async (form: IpostReport, callback: Function) => {
+    await reportArticle(
+      {
+        articleId,
+        reason: form.category,
+        content: form.detail,
+      },
+      {
+        onSuccess: () => {
+          callback();
+        },
+      },
+    );
+  };
 
   return {
     register,
     watch,
+    getValues,
     setValue,
     formState,
     handleSubmit,

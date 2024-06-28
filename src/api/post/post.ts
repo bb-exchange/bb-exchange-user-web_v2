@@ -94,3 +94,28 @@ export const articleHistoryByVersion = async ({
     .catch((error) => {
       throw error.response.data;
     });
+
+interface ReportArticleRequest {
+  articleId: number;
+  reason: string;
+  content: string;
+}
+
+// 게시글 신고
+export const reportArticle = async ({ articleId, reason, content }: ReportArticleRequest) =>
+  await basicInstance.post(`/v1/articles/${articleId}/report`, {
+    reason,
+    content,
+  });
+
+interface ReportUserRequest {
+  userId: number;
+  reason: string;
+  content: string;
+}
+// 사용자 신고
+export const reportUser = async ({ userId, reason, content }: ReportUserRequest) =>
+  await basicInstance.post(`/v1/users/${userId}/report`, {
+    reason,
+    content,
+  });

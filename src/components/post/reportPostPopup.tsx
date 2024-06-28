@@ -1,23 +1,34 @@
 import styles from "./reportPostPopup.module.scss";
 
+import { useRouter } from "next/router";
+
 import CheckCircle from ".assets/icons/CheckCircle.svg";
 import CheckCircleBlueO from ".assets/icons/CheckCircleBlueO.svg";
 import X from ".assets/icons/X.svg";
 import UseScrollBar from ".src/hooks/common/useScrollBar";
 import UsePostReport from ".src/hooks/post/usePostReport";
 
+import { CommonPopup } from "@components/common/popup/CommonPopup";
+
 interface Iprops {
   off: Function;
   confirmFunc: Function;
 }
 
-export default function ReportPostPopup({ off }: Iprops) {
-  const useCustomHook = UsePostReport();
+export default function ReportPostPopup({ off, confirmFunc }: Iprops) {
+  const router = useRouter();
+  const articleId = Number(router.query.id);
+
+  const useCustomHook = UsePostReport(articleId);
   const useScrollBar = UseScrollBar();
 
-  function onSubmit() {
-    useCustomHook.onSubmit();
-    off();
+  const { category, detail } = useCustomHook.watch();
+  const isValidForm = (!!category && category !== "ETC") || (category === "ETC" && !!detail);
+
+  function onSubmit(form: IpostReport) {
+    useCustomHook.onSubmit(form, () => {
+      confirmFunc();
+    });
   }
 
   return (
@@ -46,29 +57,24 @@ export default function ReportPostPopup({ off }: Iprops) {
                 {useCustomHook.reportCategory.map((v, i) => (
                   <li
                     key={i}
-                    className={`${v === useCustomHook.watch("category") ? styles.on : ""}`}
-                    onClick={() => useCustomHook.setValue("category", v)}
+                    className={`${v.key === category ? styles.on : ""}`}
+                    onClick={() => useCustomHook.setValue("category", v.key)}
                   >
                     <CheckCircle className={styles.offSvg} />
                     <CheckCircleBlueO className={styles.onSvg} />
-                    <p>{v}</p>
+                    <p>{v.value}</p>
                   </li>
                 ))}
               </ul>
-
-              <div
-                ref={useScrollBar.scrollBarRef}
-                className={styles.scrollBar}
-                style={{ top: useScrollBar.scrollTop }}
-              />
             </div>
 
             <textarea
               placeholder="신고 내용을 입력해주세요"
-              {...useCustomHook.register("detail", { required: true })}
+              {...useCustomHook.register("detail", { required: false })}
+              disabled={category !== "ETC"}
             />
 
-            <button className={styles.submitBtn} disabled={!useCustomHook.formState.isValid}>
+            <button type="submit" className={styles.submitBtn} disabled={!isValidForm}>
               <p>신고하기</p>
             </button>
           </form>
