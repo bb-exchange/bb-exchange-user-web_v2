@@ -45,7 +45,8 @@ export default function CommonHeader({ commonSort }: HeaderProps) {
 
   const onClickTab = (url: string, label: string) => {
     // 인증이 필요한 탭 List
-    const authRequiredLabelList = ["일일보상"];
+    // const authRequiredLabelList = ["일일보상"];
+    const authRequiredLabelList = [""];
 
     if (authRequiredLabelList.includes(label) && !isSignedIn) {
       router.push("/auth/signin");
