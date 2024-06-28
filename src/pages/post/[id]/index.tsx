@@ -122,6 +122,7 @@ const commentSortByInfo: { [key in CommentSortByType]: string } = {
 export default function Post({
   postData: _postData,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  console.log(_postData);
   const hook = UsePost();
   const router = useRouter();
   const { id: articleId } = router.query as { id: string };
@@ -664,7 +665,8 @@ export default function Post({
                             postData?.priceInfo.isLike ? styles.like : ""
                           }`}
                         >
-                          {postData?.priceInfo.likeNum}
+                          {(postData?.priceInfo.likeNum || 0) -
+                            (postData?.priceInfo.dislikeNum || 0)}
                         </h2>
                       </div>
                     </div>
