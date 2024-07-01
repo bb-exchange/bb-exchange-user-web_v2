@@ -28,7 +28,7 @@ export default function UseSeller() {
   const [disabledCancelConfirmPopup, setDisabledCancelConfirmPopup] = useState<boolean>(false);
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [showMore, setShowMore] = useState<boolean>(true);
-  const [filterOnSale, setFilterOnSale] = useState<string>("N");
+  const [stockListed, setStockListed] = useState<boolean>(false);
 
   const [sort, setSort] = useState<CommentSortByType>("LATEST");
 
@@ -42,8 +42,9 @@ export default function UseSeller() {
   const router = useRouter();
 
   const { data: list } = useQuery({
-    queryKey: [queryKeys.articleById("writeByUser"), sort],
-    queryFn: () => userArticles(`${router?.query?.id}?sortBy=${sort}&page=0`),
+    queryKey: [queryKeys.articleById("writeByUser"), sort, stockListed],
+    queryFn: () =>
+      userArticles(`${router?.query?.id}?sortBy=${sort}&page=0&stockListed=${stockListed}`),
     select: (res) => res.data.data ?? [],
     enabled: !!router.query.id,
   });
@@ -54,7 +55,7 @@ export default function UseSeller() {
     });
   }, [register]);
 
-  const onClickFilterOnSaleBtn = () => setFilterOnSale((prev) => (prev === "Y" ? "N" : "Y"));
+  const onClickstockListedBtn = () => setStockListed((prev) => !prev);
 
   const onSortList = () => setSort((prev) => (prev === "LATEST" ? "PRICE" : "LATEST"));
 
@@ -160,8 +161,8 @@ export default function UseSeller() {
     onClickDisabled,
     isBlocked,
 
-    filterOnSale,
-    onClickFilterOnSaleBtn,
+    stockListed,
+    onClickstockListedBtn,
     setSort,
     onSortList,
     sort,

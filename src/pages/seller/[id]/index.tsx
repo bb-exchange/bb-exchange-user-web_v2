@@ -101,8 +101,8 @@ const Seller = () => {
         <section className={styles.listHeader}>
           <div>총 {hook.list?.totalElements ?? 0}개</div>
           <div className={styles.rightOpt}>
-            <button onClick={hook.onClickFilterOnSaleBtn}>
-              {hook.filterOnSale === "Y" ? <BtnSqrChkOn /> : <BtnSqrChk />}
+            <button onClick={hook.onClickstockListedBtn}>
+              {hook.stockListed ? <BtnSqrChkOn /> : <BtnSqrChk />}
 
               <p>상장된 글만 보기</p>
             </button>
