@@ -84,6 +84,9 @@ export const getServerSideProps: GetServerSideProps<{
   try {
     const postData = await postById(articleId);
 
+    basicInstance.defaults.headers.common.Authorization = "";
+    basicInstance.defaults.headers.common.refreshToken = "";
+
     return {
       props: {
         postData,
