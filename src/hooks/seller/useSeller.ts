@@ -4,16 +4,22 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 
 import { useQuery } from "@tanstack/react-query";
+import { useRecoilValue } from "recoil";
 
 import { userArticles } from "@api/articles/articles";
+import { useGetReportReasons } from "@api/users/useGetReportReasons";
+import { usePostReportByUserId } from "@api/users/usePostReportByUserId";
 
-import { useArticles } from "@hooks/posts/useArticles";
-
+import { profileState } from "@recoil/index";
 import { queryKeys } from "@recoil/query-keys";
 
+export type ReportProps = {
+  reason: string;
+  content?: string;
+};
 export type CommentSortByType = "PRICE" | "LATEST";
+
 export default function UseSeller() {
-  // const [list, setList] = useState<[]>([]);
   const [moreMenu, setMoreMenu] = useState<boolean>(false);
   const [reportPopup, setReportPopup] = useState<boolean>(false);
   const [reportConfirmPopup, setReportConfirmPopup] = useState<boolean>(false);
@@ -29,6 +35,7 @@ export default function UseSeller() {
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [showMore, setShowMore] = useState<boolean>(true);
   const [stockListed, setStockListed] = useState<boolean>(false);
+  const profile = useRecoilValue(profileState);
 
   const [sort, setSort] = useState<CommentSortByType>("LATEST");
 
@@ -37,7 +44,8 @@ export default function UseSeller() {
     PRICE: "가격순",
   };
 
-  const { register, setValue, watch, formState, handleSubmit } = useForm<IuserReport>();
+  const onClickstockListedBtn = () => setStockListed((prev) => !prev);
+  const onSortList = () => setSort((prev) => (prev === "LATEST" ? "PRICE" : "LATEST"));
 
   const router = useRouter();
 
@@ -49,20 +57,43 @@ export default function UseSeller() {
     enabled: !!router.query.id,
   });
 
-  useEffect(() => {
-    register("category", {
-      required: true,
-    });
-  }, [register]);
+  const { register, setValue, watch, formState, handleSubmit } = useForm<ReportProps>();
 
-  const onClickstockListedBtn = () => setStockListed((prev) => !prev);
-
-  const onSortList = () => setSort((prev) => (prev === "LATEST" ? "PRICE" : "LATEST"));
+  /*
+  report: 사용자 신고하기
+  */
+  const { reportReasons } = useGetReportReasons();
+  const reportForm = useForm<ReportProps>();
 
   const onClickReportBtn = () => {
     setMoreMenu(false);
     setReportPopup(true);
   };
+
+  const onSuccessReportPopup = () => {
+    setReportPopup(false);
+    setReportConfirmPopup(true);
+  };
+
+  const { postReportByUserIdMutate } = usePostReportByUserId();
+
+  const onReportSubmit = (data: ReportProps) => {
+    console.log("on report submit data: ", data);
+    onSuccessReportPopup();
+    postReportByUserIdMutate({ userId: Number(router?.query?.id), author: profile.userId, data });
+  };
+  useEffect(() => {
+    reportForm.register("reason", {
+      required: true,
+    });
+  }, [reportForm.register]);
+
+  /*
+  hide: 이 사용자의 글 보지않기
+  */
+  /*
+  block: 사용자 차단하기
+  */
 
   const onClickBlock = () => {
     setMoreMenu(false);
@@ -72,11 +103,6 @@ export default function UseSeller() {
   const onClickDisabled = () => {
     setMoreMenu(false);
     setDisabledPopup(true);
-  };
-
-  const onSuccessReportPopup = () => {
-    setReportPopup(false);
-    setReportConfirmPopup(true);
   };
 
   const onSuccessBlockBtn = () => {
@@ -122,7 +148,9 @@ export default function UseSeller() {
     showMore,
     moreMenu,
     setMoreMenu,
+    reportForm,
     reportPopup,
+    onReportSubmit,
     setReportPopup,
     reportConfirmPopup,
     setReportConfirmPopup,
@@ -167,5 +195,6 @@ export default function UseSeller() {
     onSortList,
     sort,
     commentSortByInfo,
+    reportReasons,
   };
 }

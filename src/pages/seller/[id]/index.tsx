@@ -166,10 +166,7 @@ const Seller = () => {
 
       {hook.reportPopup && (
         <>
-          <ReportSellerPopup
-            off={() => hook.setReportPopup(false)}
-            confirmFunc={hook.onSuccessReportPopup}
-          />
+          <ReportSellerPopup off={() => hook.setReportPopup(false)} />
           <PopupBg bg off={() => hook.setReportPopup(false)} />
         </>
       )}

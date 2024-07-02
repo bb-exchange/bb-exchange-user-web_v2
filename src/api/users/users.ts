@@ -1,5 +1,7 @@
 import { basicInstance } from "../instance";
 
+import { ReportProps } from "@hooks/seller/useSeller";
+
 export const editMyProfile = async (data: any) => {
   return await basicInstance.patch("/v1/users/profile", data);
 };
@@ -43,8 +45,24 @@ export const checkNickname = async (nickname: string) =>
     .get(`/v1/users/nickname/${nickname}/exists`)
     .then(({ data: { data } }) => data);
 
-//NOTE - 추천인 코드 존재여부 체크
+// NOTE - 추천인 코드 존재여부 체크
 export const checkRecommendCode = async (recommendCode: string) =>
   await basicInstance
     .get(`/v1/users/recommend-code/${recommendCode}/exists`)
     .then(({ data: { data } }) => data);
+
+// NOTE 유저 신고 API (author: 작성자, userId: 신고 대상)
+export const postReportByUserId = async ({
+  author,
+  userId,
+  data,
+}: {
+  author: number;
+  userId: number;
+  data: ReportProps;
+}) => await basicInstance.post(`/v1/users/${userId}/report?currentUserId=${author}`, data);
+
+// NOTE 유저 신고 사유 리스트 조회 API
+export const getReportReasons = async () => {
+  await basicInstance.get(`/v1/users/report/reasons`).then(({ data }) => data);
+};
