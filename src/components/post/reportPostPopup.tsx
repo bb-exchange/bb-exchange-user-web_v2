@@ -8,8 +8,6 @@ import X from ".assets/icons/X.svg";
 import UseScrollBar from ".src/hooks/common/useScrollBar";
 import UsePostReport from ".src/hooks/post/usePostReport";
 
-import { CommonPopup } from "@components/common/popup/CommonPopup";
-
 interface Iprops {
   off: Function;
   confirmFunc: Function;
@@ -71,7 +69,6 @@ export default function ReportPostPopup({ off, confirmFunc }: Iprops) {
             <textarea
               placeholder="신고 내용을 입력해주세요"
               {...useCustomHook.register("detail", { required: false })}
-              disabled={category !== "ETC"}
             />
 
             <button type="submit" className={styles.submitBtn} disabled={!isValidForm}>
