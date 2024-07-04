@@ -51,11 +51,13 @@ const SignIn = () => {
         <p>적은 비용으로 어디에도 없던 숨은 비법을 즐기세요!</p>
         <div className={styles.imgWrap}>
           <Image
-            src="/assets/images/splash_badge.svg"
+            src="/assets/images/splash_badge.png"
             alt="스플래시 이미지"
             width={119}
             height={171}
             className={styles.badge}
+            quality={100}
+            priority
           />
         </div>
 
