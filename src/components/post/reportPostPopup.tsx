@@ -8,8 +8,6 @@ import X from ".assets/icons/X.svg";
 import UseScrollBar from ".src/hooks/common/useScrollBar";
 import UsePostReport from ".src/hooks/post/usePostReport";
 
-import { CommonPopup } from "@components/common/popup/CommonPopup";
-
 interface Iprops {
   off: Function;
   confirmFunc: Function;
