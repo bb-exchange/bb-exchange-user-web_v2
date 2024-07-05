@@ -68,7 +68,7 @@ const Daily = () => {
         title: "로그인 후 매일 보상 받으세요",
         subTitle: "해당 기능은 로그인이 필요해요",
         nagativeButtonText: "취소",
-        onNagativeButtonClick: closeModal,
+        onNagativeButtonClick: () => closeModal(modals.common),
         positiveButtonText: "로그인",
         onPositiveButtonClick: () => {
           router.push("/auth/signin");
