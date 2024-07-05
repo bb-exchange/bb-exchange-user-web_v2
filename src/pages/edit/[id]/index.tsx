@@ -1,5 +1,4 @@
 import styles from "./index.module.scss";
-import "react-quill/dist/quill.snow.css";
 
 import { useEffect, useState } from "react";
 
