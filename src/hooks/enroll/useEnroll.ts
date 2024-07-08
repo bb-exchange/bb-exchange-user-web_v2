@@ -378,12 +378,15 @@ export default function useEnroll(editor: Editor | null) {
     }
     // 내글 수정하기
     if (btnName === "수정하기") {
-      await updateThumbMutation.mutateAsync({
-        articleId: myArticleId,
-        body: {
-          thumbnail: thumbNail,
-        },
-      });
+      if (!!thumbNail) {
+        await updateThumbMutation.mutateAsync({
+          articleId: myArticleId,
+          body: {
+            thumbnail: thumbNail,
+          },
+        });
+      }
+
       await updateTagMutation.mutateAsync({
         articleId: myArticleId,
         body: {
