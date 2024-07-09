@@ -1,5 +1,7 @@
 import styles from "./readPost.module.scss";
 
+import { useRouter } from "next/router";
+
 import HeartGrey from ".assets/icons/HeartGrey.svg";
 import HeartRedO from ".assets/icons/HeartRedO.svg";
 import UseMyPageRead from ".src/hooks/mypage/useMypageRead";
@@ -17,6 +19,15 @@ export default function ReadPost({ data, index, useMypageRead }: Iprops) {
     if (diff > 0) return styles.up;
     else if (diff < 0) return styles.dn;
   }
+
+  const router = useRouter();
+  // NOTE 유저프로필 클릭 시 유저상세페이지로 연결
+  const onMoveUserPage = () => {
+    router.push({
+      pathname: `/seller/${data.userInfo.userId}`,
+      query: { userId: data.userInfo.userId },
+    });
+  };
 
   return (
     <li className={styles.readPost}>
@@ -42,8 +53,10 @@ export default function ReadPost({ data, index, useMypageRead }: Iprops) {
                 </span>
               )}
               <p className={styles.category}>{data.boardInfo.description}</p>・
-              <p className={styles.creator}>{data.userInfo.nickname}</p>・
-              <p className={styles.createdAt}>{moment(data.articleInfo.createdAt).fromNow()}</p>
+              <p className={styles.creator} onClick={onMoveUserPage}>
+                {data.userInfo.nickname}
+              </p>
+              ・<p className={styles.createdAt}>{moment(data.articleInfo.createdAt).fromNow()}</p>
             </div>
           </div>
 

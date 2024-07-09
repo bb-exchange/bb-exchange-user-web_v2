@@ -9,6 +9,8 @@ import styles from "./reply.module.scss";
 
 import { useMemo, useState } from "react";
 
+import { useRouter } from "next/router";
+
 import Dot3 from ".assets/icons/Dot3.svg";
 import ThumbUpGrey from ".assets/icons/ThumbUpGrey.svg";
 import ThumbUpRed from ".assets/icons/ThumbUpRed.svg";
@@ -53,7 +55,7 @@ export default function Reply({
   onClickCreateComment,
 }: Iprops) {
   const useReply = UseReply();
-
+  const router = useRouter();
   const isLogin = useRecoilValue(isLoginState);
 
   // NOTE 댓글 수정 여부
@@ -143,6 +145,14 @@ export default function Reply({
     setNewComment("");
   };
 
+  // NOTE 유저프로필 클릭 시 유저상세페이지로 연결
+  const onMoveUserPage = () => {
+    router.push({
+      pathname: `/seller/${userId}`,
+      query: { userId },
+    });
+  };
+
   return (
     <>
       <div className={`${styles.replyBox} ${nested ? styles.nested : ""}`}>
@@ -157,7 +167,9 @@ export default function Reply({
                 {/* NOTE 회원 등급 */}
                 {gradeType === "MASTER" && <Gold />}
                 {gradeType === "SEMI" && <Silver />}
-                <p className={styles.nickname}>{nickname}</p>
+                <p className={styles.nickname} onClick={onMoveUserPage}>
+                  {nickname}
+                </p>
               </div>
 
               <div className={styles.rightBox}>
