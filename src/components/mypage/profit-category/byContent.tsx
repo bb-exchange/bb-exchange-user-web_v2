@@ -16,7 +16,7 @@ export default function ByContent() {
   console.log(useMyTermIncome.profitContentLog);
   return (
     <article className={styles.termIncome}>
-      <div className={styles.topBar}>
+      {/* <div className={styles.topBar}>
         <div className={styles.filterCont}>
           <p className={styles.key}>콘텐츠 제목 조회</p>
 
@@ -39,7 +39,7 @@ export default function ByContent() {
 
           <p>수익순</p>
         </button>
-      </div>
+      </div> */}
 
       <div className={styles.countBar}>
         <p className={styles.count}>
@@ -71,9 +71,7 @@ export default function ByContent() {
             ),
           )
         ) : (
-          <li className={styles.listItem}>
-            <div className={styles.noData}>검색결과가 없습니다.</div>
-          </li>
+          <div className={styles.noData}>검색결과가 없습니다.</div>
         )}
       </ul>
 

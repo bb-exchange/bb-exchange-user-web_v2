@@ -24,16 +24,12 @@ export default function Withdraw() {
             <span>
               <ArrowIcon onClick={useMyTermIncome.onPrevDate} />
             </span>
-            <p>{useMyTermIncome.selectedDate}</p>
+            <p>{moment(useMyTermIncome.month).format("YYYY.MM")}</p>
             <span>
               <ArrowIcon onClick={useMyTermIncome.onNextDate} />
             </span>
           </div>
         </div>
-
-        <button className={styles.excelBtn} onClick={() => {}}>
-          엑셀 다운로드
-        </button>
       </div>
 
       <ul className={styles.dataList}>
@@ -65,9 +61,7 @@ export default function Withdraw() {
             },
           )
         ) : (
-          <li className={styles.listItem}>
-            <div className={styles.noData}>검색결과가 없습니다.</div>
-          </li>
+          <div className={styles.noData}>검색결과가 없습니다.</div>
         )}
       </ul>
 

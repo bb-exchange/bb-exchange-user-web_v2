@@ -19,7 +19,7 @@ export default function UseMypageAsset() {
     };
   });
 
-  const [selectedCategory, setSelectedCategory] = useState<string>(categoryList[3].value);
+  const [selectedCategory, setSelectedCategory] = useState<string>(categoryList[0].value);
 
   const [isPointPopupOpen, setIsPointPopup] = useState<boolean>(false);
   const onOpenPointPopup = () => {

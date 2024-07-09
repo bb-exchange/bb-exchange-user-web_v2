@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
+import moment from "moment";
 
 import {
   getProfitByMonth,
@@ -10,22 +11,16 @@ import {
 } from "@api/mypage/profit";
 
 export default function UseMyTermIncome() {
-  const [dateText, setDateText] = useState<Date>(new Date());
+  const thisMonth = moment().format("YYYYMM");
+  const [month, setMonth] = useState(thisMonth);
 
   const onNextDate = () => {
-    const nextMonth = new Date(dateText);
-    nextMonth.setMonth(nextMonth.getMonth() + 1);
-    setDateText(nextMonth);
+    setMonth(moment(month).add(1, "M").format("YYYYMM"));
   };
 
   const onPrevDate = () => {
-    const nextMonth = new Date(dateText);
-    nextMonth.setMonth(nextMonth.getMonth() - 1);
-    setDateText(nextMonth);
+    setMonth(moment(month).subtract(1, "M").format("YYYYMM"));
   };
-
-  const options: any = { year: "numeric", month: "numeric" };
-  const selectedDate = dateText.toLocaleDateString("ko-KR", options).slice(0, -1);
 
   // 더미데이타
   const revenueList = [
@@ -37,9 +32,8 @@ export default function UseMyTermIncome() {
   /**
    * 이벤트 수익금
    */
-  const [month, setMonth] = useState("202406");
   const { data: profitEventLog } = useQuery({
-    queryKey: ["getProfitEventByMonth"],
+    queryKey: ["getProfitEventByMonth", month],
     queryFn: () => getProfitEventByMonth({ month }),
   });
 
@@ -47,7 +41,7 @@ export default function UseMyTermIncome() {
    * 월별 수익금
    */
   const { data: profitLog } = useQuery({
-    queryKey: ["getProfitByMonth"],
+    queryKey: ["getProfitByMonth", month],
     queryFn: () => getProfitByMonth({ month }),
   });
 
@@ -63,13 +57,12 @@ export default function UseMyTermIncome() {
    * 출금내역
    */
   const { data: settlementWithdrawLog } = useQuery({
-    queryKey: ["getSettlementWithdrawByMonth"],
+    queryKey: ["getSettlementWithdrawByMonth", month],
     queryFn: () => getSettlementWithdrawByMonth({ month }),
   });
 
   return {
     revenueList,
-    selectedDate,
     onNextDate,
     onPrevDate,
     profitEventLog,

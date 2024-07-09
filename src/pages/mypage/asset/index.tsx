@@ -100,7 +100,7 @@ export default function Asset() {
                     <strong>출금 계좌</strong>
                     {useMypageAsset.bankDetailData?.data.data.bankAccountNumber &&
                     useMypageAsset.bankDetailData?.data.data.bankCode
-                      ? `${bankCode[0].name} ${useMypageAsset.bankDetailData?.data.data.bankAccountNumber}`
+                      ? `${bankCode[0]?.name ?? ""} ${useMypageAsset.bankDetailData?.data.data.bankAccountNumber}`
                       : "미입력"}
                   </p>
                   <ChevronRt />
