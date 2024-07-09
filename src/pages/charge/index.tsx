@@ -1,5 +1,7 @@
 import styles from "./charge.module.scss";
 
+import { ComponentProps } from "react";
+
 import PcircleBlue from ".assets/icons/PcircleBlue.svg";
 import { confirmPayments, ConfirmPaymentsRequest, preparePayments } from ".src/api/point";
 import CommonFooter from ".src/components/common/commonFooter";
@@ -11,12 +13,15 @@ import usePayment from ".src/hooks/payment/usePayment";
 import { RequestPayResponse } from ".src/types/imp";
 import { useMutation } from "@tanstack/react-query";
 
-import { CommonPopup } from "@components/common/popup/CommonPopup";
+import { modals } from "@components/Modal";
+
+import { useModals } from "@hooks/modal";
 
 export default function Charge() {
   const useCharge = UseCharge();
   const { requestPayment } = usePayment();
   const { profile, refetch } = useGetMyProfile();
+  const { openModal, closeModal } = useModals();
 
   const { mutateAsync: postConfirmPayments } = useMutation({
     mutationFn: confirmPayments,
@@ -75,25 +80,30 @@ export default function Charge() {
       request,
     });
 
+    let modalData: ComponentProps<(typeof modals)["common"]> = {};
+
     if (status === "SUCCESS") {
       refetch();
 
-      useCharge.setResultPopupInfo((prev) => ({
-        ...prev,
-        isShow: true,
+      modalData = {
         title: `결제가 <span class='color-primary1'>완료</span>되었습니다.`,
         subTitle: `구매 포인트 <span class='p1 bold color-primary1'>${Intl.NumberFormat().format(price)} P</span>`,
-        confirmText: "계속 이용하기",
-      }));
+        positiveButtonText: "계속 이용하기",
+      };
     } else {
-      useCharge.setResultPopupInfo((prev) => ({
-        ...prev,
-        isShow: true,
+      modalData = {
         title: `결제 승인에 <span class='color-red1'>실패</span>했습니다.`,
         subTitle: `확인 후 다시 시도해주세요.`,
-        confirmText: "확인",
-      }));
+        positiveButtonText: "확인",
+      };
     }
+
+    openModal(modals.common, {
+      title: modalData.title,
+      subTitle: modalData.subTitle,
+      positiveButtonText: modalData.positiveButtonText,
+      onPositiveButtonClick: () => closeModal(modals.common),
+    });
   };
 
   return (
@@ -144,21 +154,6 @@ export default function Charge() {
       </main>
 
       <CommonFooter />
-
-      {/* 결제 결과 팝업 */}
-      {useCharge.resultPopupInfo.isShow && (
-        <CommonPopup
-          title={useCharge.resultPopupInfo.title}
-          subTitle={useCharge.resultPopupInfo.subTitle}
-          confirmFunc={() =>
-            useCharge.setResultPopupInfo((prev) => ({
-              ...prev,
-              isShow: false,
-            }))
-          }
-          confirmText={useCharge.resultPopupInfo.confirmText}
-        />
-      )}
     </>
   );
 }

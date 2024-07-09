@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 
 import Layout from ".src/components/layouts/Layout";
 import ".src/lib/recoil";
+import { ModalProvider } from ".src/provider";
 import { init } from "@amplitude/analytics-browser";
 import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -62,16 +63,18 @@ export default function App({ Component, ...rest }: AppProps) {
     <RecoilRoot>
       <CookiesProvider>
         <QueryClientProvider client={queryClient}>
-          <Head>
-            <title>비법거래소</title>
-          </Head>
+          <ModalProvider>
+            <Head>
+              <title>비법거래소</title>
+            </Head>
 
-          <Layout pageProps={rest.pageProps}>
-            <Component {...rest.pageProps} />
-            <GoogleAnalytics gaId={GA_KEY} />
-            <GoogleTagManager gtmId={GTM_KEY} />
-          </Layout>
-          <ReactQueryDevtools />
+            <Layout pageProps={rest.pageProps}>
+              <Component {...rest.pageProps} />
+              <GoogleAnalytics gaId={GA_KEY} />
+              <GoogleTagManager gtmId={GTM_KEY} />
+            </Layout>
+            <ReactQueryDevtools />
+          </ModalProvider>
         </QueryClientProvider>
       </CookiesProvider>
     </RecoilRoot>

@@ -57,7 +57,6 @@ import { useRecoilValue } from "recoil";
 
 import { isDailyEventSuccess } from "@api/event";
 
-import { CommonPopup } from "@components/common/popup/CommonPopup";
 import BuyPostPopup from "@components/post/buyPostPopup";
 import { SubHeader } from "@components/post/SubHeader";
 
@@ -83,6 +82,9 @@ export const getServerSideProps: GetServerSideProps<{
 
   try {
     const postData = await postById(articleId);
+
+    basicInstance.defaults.headers.common.Authorization = "";
+    basicInstance.defaults.headers.common.refreshToken = "";
 
     return {
       props: {
@@ -156,13 +158,6 @@ export default function Post({
   // NOTE - 내 글 삭제 완료 팝업 오픈 여부
   const [openConfirmDeleteComplete, setOpenConfirmDeleteComplete] = useState<boolean>(false);
 
-  // NOTE - 일일보상 지급완료 팝업 오픈 여부
-  const [dailyEventPopupInfo, setDailyEventPopupInfo] = useState({
-    isShow: false,
-    title: "",
-    subTitle: "",
-  });
-
   // NOTE URL 복사 완료 팝업 오픈 여부
   const [copied, setCopied] = useState<boolean>(false);
 
@@ -179,8 +174,9 @@ export default function Post({
       const json = JSON.parse(postData?.articleInfo?.content);
       editor?.commands.setContent(json);
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editor]);
+  }, [editor, postData]);
 
   const userId = postData?.userInfo.userId;
 
@@ -316,8 +312,9 @@ export default function Post({
           setCommentContent("");
         },
         onError: (e: any) => {
+          // 댓글도배코드
           if (e.code === "CMT003") {
-            return hook.setIsSpamPopupShow(true);
+            return hook.openCommentSpamModal();
           }
         },
       },
@@ -327,12 +324,10 @@ export default function Post({
     const { data } = await isDailyEventSuccess(profile?.userId, "ARTICLE_COMMENT");
 
     if (data.data.done) {
-      setDailyEventPopupInfo((prev) => ({
-        ...prev,
-        title: `<span class='color-primary1'>${data.data.amount}원</span> 받았어요!`,
+      hook.openDailyEventRewardModal({
+        title: `<span class='color-primary1'>${Intl.NumberFormat().format(data.data.amount)}원</span> 받았어요!`,
         subTitle: `비법글에 댓글 ${data.data.attainment}개 작성하기`,
-        isShow: true,
-      }));
+      });
     }
   }, [articleId, commentContent, hook, isValidComment, newComment, profile?.userId]);
 
@@ -361,17 +356,17 @@ export default function Post({
             const { data } = await isDailyEventSuccess(profile?.userId, "ARTICLE_COMMENT");
 
             if (data.data.done) {
-              setDailyEventPopupInfo((prev) => ({
-                ...prev,
-                title: `<span class='color-primary1'>${data.data.amount}원</span> 받았어요!`,
+              hook.openDailyEventRewardModal({
+                title: `<span class='color-primary1'>${Intl.NumberFormat().format(data.data.amount)}원</span> 받았어요!`,
                 subTitle: `비법글에 댓글 ${data.data.attainment}개 작성하기`,
-                isShow: true,
-              }));
+              });
             }
           },
         },
       );
     },
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [articleId, newComment, profile?.userId, refetchComments],
   );
 
@@ -386,14 +381,14 @@ export default function Post({
       const { data } = await isDailyEventSuccess(profile?.userId, "COMMENT_LIKE");
 
       if (data.data.done) {
-        setDailyEventPopupInfo((prev) => ({
-          ...prev,
-          title: `<span class='color-primary1'>${data.data.amount}원</span> 받았어요!`,
+        hook.openDailyEventRewardModal({
+          title: `<span class='color-primary1'>${Intl.NumberFormat().format(data.data.amount)}원</span> 받았어요!`,
           subTitle: `댓글에 좋아요 ${data.data.attainment}개 누르기`,
-          isShow: true,
-        }));
+        });
       }
     },
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [profile?.userId, setLikeComment],
   );
 
@@ -421,12 +416,10 @@ export default function Post({
 
           const { data } = await isDailyEventSuccess(profile?.userId, "ARTICLE_LIKE");
           if (data.data.done) {
-            setDailyEventPopupInfo((prev) => ({
-              ...prev,
-              title: `<span class='color-primary1'>${data.data.amount}원</span> 받았어요!`,
+            hook.openDailyEventRewardModal({
+              title: `<span class='color-primary1'>${Intl.NumberFormat().format(data.data.amount)}원</span> 받았어요!`,
               subTitle: `비법글에 좋아요 ${data.data.attainment}개 누르기`,
-              isShow: true,
-            }));
+            });
           }
 
           return;
@@ -438,6 +431,8 @@ export default function Post({
         return mutateSetValue({ type, isTrue: false });
       }
     },
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [isLogin, mutateSetValue, postData, profile?.userId, router],
   );
 
@@ -664,7 +659,8 @@ export default function Post({
                             postData?.priceInfo.isLike ? styles.like : ""
                           }`}
                         >
-                          {postData?.priceInfo.likeNum}
+                          {(postData?.priceInfo.likeNum || 0) -
+                            (postData?.priceInfo.dislikeNum || 0)}
                         </h2>
                       </div>
                     </div>
@@ -1047,9 +1043,10 @@ export default function Post({
         </>
       )}
 
-      {hook.reportUserPopup && (
+      {hook.reportUserPopup && postData?.userInfo.userId && (
         <>
           <ReportUserPopup
+            userId={postData?.userInfo.userId}
             off={() => hook.setReportUserPopup(false)}
             confirmFunc={hook.onSuccessReportUser}
           />
@@ -1066,16 +1063,6 @@ export default function Post({
             cancelFunc={() => hook.setHideUserPostPopup(false)}
           />
           <PopupBg bg off={() => hook.setHideUserPostPopup(false)} />
-        </>
-      )}
-
-      {hook.compReportPopup && (
-        <>
-          <ErrorMsgPopup
-            msg="신고가 접수되었습니다."
-            confirmFunc={() => hook.setCompReportPopup(false)}
-          />
-          <PopupBg bg off={() => hook.setCompReportPopup(false)} />
         </>
       )}
 
@@ -1111,8 +1098,8 @@ export default function Post({
 
       {hook.compPayPopup && (
         <>
-          <CompPayPopup usePost={hook} off={() => hook.setCompPayPopup(false)} />
-          <PopupBg bg off={() => hook.setCompPayPopup(false)} />
+          <CompPayPopup usePost={hook} refetchArticle={refetchPostData} />
+          <PopupBg bg />
         </>
       )}
 
@@ -1121,14 +1108,6 @@ export default function Post({
           <ErrorMsgPopup msg="URL이 복사되었습니다. " confirmFunc={() => setCopied(false)} />
           <PopupBg bg off={() => setCopied(false)} />
         </>
-      )}
-
-      {hook.changePricePopup && (
-        <CommonPopup
-          title="가격이 변동되었어요"
-          subTitle="다시 결제를 진행해주세요."
-          confirmFunc={() => hook.setChangePricePopup(false)}
-        />
       )}
 
       {/* NOTE - 내 글 비공개 전환 확인 팝업 */}
@@ -1171,42 +1150,6 @@ export default function Post({
         <ConfirmTitlePopup
           title="글이 삭제되었습니다."
           confirmFunc={() => router.push(`/mypage/write`)}
-        />
-      )}
-
-      {/* 보상지급 완료 팝업 */}
-      {dailyEventPopupInfo.isShow && (
-        <CommonPopup
-          title={dailyEventPopupInfo.title}
-          subTitle={dailyEventPopupInfo.subTitle}
-          iconSrc="/assets/icons/RewardIcon.png"
-          iconWidth={96}
-          iconHeight={96}
-          confirmFunc={() =>
-            setDailyEventPopupInfo((prev) => {
-              return { ...prev, isShow: false };
-            })
-          }
-        />
-      )}
-
-      {/* 결제실패 에러 팝업 */}
-      {hook.isPurchaseErrorPopupShow && (
-        <CommonPopup
-          subTitle="알 수 없는 오류입니다."
-          iconSrc="/assets/icons/Warning.svg"
-          iconWidth={60}
-          iconHeight={60}
-          confirmFunc={() => hook.setIsPurchaseErrorPopupShow(false)}
-        />
-      )}
-
-      {/* 댓글 도배 팝업 */}
-      {hook.isSpamPopupShow && (
-        <CommonPopup
-          title="댓글 도배"
-          subTitle="3분 뒤에 다시 작성할 수 있어요."
-          confirmFunc={() => hook.setIsSpamPopupShow(false)}
         />
       )}
     </>

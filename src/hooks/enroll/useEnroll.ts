@@ -147,7 +147,7 @@ export default function useEnroll(editor: Editor | null) {
   useEffect(() => {
     if (
       isSuccessEnroll.current &&
-      (btnName === "게시하기" || (btnName === "수정하기" && !tempArticleId))
+      (btnName === "게시하기" || btnName === "수정하기" || !!tempArticleId)
     ) {
       [...files.values()].map((file) => {
         imgUploadMutation.mutate({
@@ -184,7 +184,7 @@ export default function useEnroll(editor: Editor | null) {
   //NOTE - 파일 업로드 시, MD5 해시값 생성 & Presigned url 발급
   useEffect(() => {
     if (!uploadFiles) return;
-    if (btnName === "게시하기" || (btnName === "수정하기" && !tempArticleId)) {
+    if (btnName === "게시하기" || btnName === "수정하기" || !!tempArticleId) {
       [...uploadFiles].map((file) => {
         const reader = new FileReader();
 
@@ -290,7 +290,7 @@ export default function useEnroll(editor: Editor | null) {
   }, [errMsgBusy, formState]);
 
   //NOTE - 게시하기 클릭 시
-  const onClickEnrollBtn = useCallback(() => {
+  const onClickEnrollBtn = useCallback(async () => {
     if (!watch("category.description")) {
       return setError("category", {
         type: "noText",
@@ -324,7 +324,7 @@ export default function useEnroll(editor: Editor | null) {
 
     let editorJson = editor?.getJSON();
 
-    if (btnName === "수정하기" && tempArticleId) {
+    if (btnName === "sadas") {
       editorJson = {
         ...editorJson,
         content: editorJson?.content?.filter((item: any) => item.type !== "figure"),
@@ -370,31 +370,30 @@ export default function useEnroll(editor: Editor | null) {
       thumbnailImage: thumbNail,
     };
 
-    // console.log("body, editorJson", body, editorJson);
-    // console.log("thumbNail", thumbNail, myArticleId);
-
     // 임시저장글 -> 수정하기
-    if (btnName === "작성하기" && tempArticleId) {
+    if (btnName === "작성하기" && !!tempArticleId) {
       enrollPostMutation.mutate(body);
       onDeleteTemp();
       return;
     }
     // 내글 수정하기
-    if (btnName === "수정하기" && !tempArticleId) {
-      console.log(`tempArticleId ${tempArticleId}`);
-      updateThumbMutation.mutate({
-        articleId: myArticleId,
-        body: {
-          thumbnail: thumbNail,
-        },
-      });
-      updateTagMutation.mutate({
+    if (btnName === "수정하기") {
+      if (!!thumbNail) {
+        await updateThumbMutation.mutateAsync({
+          articleId: myArticleId,
+          body: {
+            thumbnail: thumbNail,
+          },
+        });
+      }
+
+      await updateTagMutation.mutateAsync({
         articleId: myArticleId,
         body: {
           articleTagList: watch("tagList") ?? [],
         },
       });
-      updateMutation.mutate({
+      await updateMutation.mutateAsync({
         articleId: myArticleId,
         body: {
           title: watch("title"),
