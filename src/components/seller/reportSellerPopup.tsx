@@ -6,15 +6,13 @@ import X from "@assets/icons/X.svg";
 
 import UseSeller from "@hooks/seller/useSeller";
 
-import { codeToOptions } from "@utils/codeToOptions";
-
 interface IProps {
   off: Function;
 }
 
 const ReportSellerPopup = ({ off }: IProps) => {
   const hook = UseSeller();
-  console.log("reee ", hook?.reportReasons);
+
   return (
     <section className={styles.reportUserPopup}>
       <article className={styles.titleBar}>
@@ -39,7 +37,7 @@ const ReportSellerPopup = ({ off }: IProps) => {
             <div className={styles.scrollBox}>
               <ul className={styles.categoryList}>
                 {hook?.reportReasons?.length > 0 &&
-                  hook?.reportReasons?.map(({ desc, code }) => (
+                  hook?.reportReasons?.map(({ desc, code }: { desc: string; code: string }) => (
                     <li
                       key={code}
                       className={`${code === hook.reportForm.watch("reason") ? styles.on : ""}`}

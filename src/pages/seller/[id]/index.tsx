@@ -78,9 +78,10 @@ const Seller = () => {
               <p>{userInfo?.description}</p>
             </div>
           </div>
-          <button className={styles.pointer} onClick={() => hook.setMoreMenu(true)}>
+          {/* TODO : 리뉴얼 때 다시 진행하기 BB-1341 */}
+          {/* <button className={styles.pointer} onClick={() => hook.setMoreMenu(true)}>
             {hook.showMore && <Dot3 />}
-          </button>
+          </button> */}
           {hook.moreMenu && (
             <>
               <section className={styles.postMorePopup}>
@@ -151,9 +152,13 @@ const Seller = () => {
           ) : (
             <>
               <ul className={styles.postList}>
-                {hook.list?.contents?.map((v: ArticleData, i: number) => (
-                  <SellerPost data={v} key={i} />
-                ))}
+                {hook.list?.contents?.length > 0 ? (
+                  hook.list?.contents?.map((v: ArticleData, i: number) => (
+                    <SellerPost data={v} key={i} />
+                  ))
+                ) : (
+                  <p className={styles.noText}>데이터가 없습니다.</p>
+                )}
               </ul>
 
               <PageNav />

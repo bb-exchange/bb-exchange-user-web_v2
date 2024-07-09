@@ -75,12 +75,8 @@ export default function UseSeller() {
     setReportConfirmPopup(true);
   };
 
-  const { postReportByUserIdMutate } = usePostReportByUserId();
-
   const onReportSubmit = (data: ReportProps) => {
-    console.log("on report submit data: ", data);
     onSuccessReportPopup();
-    postReportByUserIdMutate({ userId: Number(router?.query?.id), author: profile.userId, data });
   };
   useEffect(() => {
     reportForm.register("reason", {
