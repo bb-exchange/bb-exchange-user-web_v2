@@ -5,22 +5,28 @@ import { useCallback, useEffect, useState } from "react";
 
 import { useRouter } from "next/router";
 
+import { useRecoilValue } from "recoil";
+
 import { useGetDailyEvent } from "@api/event/useGetDailyEvent";
 
 import CommonFooter from "@components/common/commonFooter";
 import CommonHeader from "@components/common/header/commonHeader";
 import Image from "@components/Image";
-import { InvitePopup } from "@components/invite/InvitePopup";
+import { modals } from "@components/Modal";
 
 import { D_eventFooterList, D_eventList } from "@data/event/D_event";
 
-import useGetMyProfile from "@hooks/common/useGetProfile";
+import { useModals } from "@hooks/modal";
+
+import { isLoginState } from "@recoil/index";
 
 const Daily = () => {
   const router = useRouter();
+  ``;
+  const isSignedIn = useRecoilValue(isLoginState);
+  const { dailyEvent } = useGetDailyEvent();
 
-  const { profile: myProfile } = useGetMyProfile();
-  const { dailyEvent } = useGetDailyEvent(myProfile && myProfile.userId);
+  const { openModal, closeModal } = useModals();
 
   const [formattedEventList, setFormattedEventList] = useState<(D_eventList & DailyEvent)[]>([]);
 
@@ -28,6 +34,7 @@ const Daily = () => {
   const [invitePopupInfo, setInvitePopupInfo] = useState({
     isShow: false,
     limitPerDay: 0,
+    maxAmount: 0,
   });
 
   useEffect(() => {
@@ -48,10 +55,35 @@ const Daily = () => {
   }, [dailyEvent?.dailyEventList]);
 
   const onClickEvent = (event: D_eventList & DailyEvent) => {
+    const authRequiredEventList = [
+      "ARTICLE_COMMENT",
+      "COMMENT_LIKE",
+      "WRITE_ARTICLE_WITH_LIKES",
+      "INVITE",
+    ];
+
+    // 로그인이 필요한 이벤트일 경우 로그인 팝업 SHOW
+    if (!isSignedIn && authRequiredEventList.includes(event.name)) {
+      return openModal(modals.common, {
+        title: "로그인 후 매일 보상 받으세요",
+        subTitle: "해당 기능은 로그인이 필요해요",
+        nagativeButtonText: "취소",
+        onNagativeButtonClick: () => closeModal(modals.common),
+        positiveButtonText: "로그인",
+        onPositiveButtonClick: () => {
+          router.push("/auth/signin");
+          closeModal(modals.common);
+        },
+      });
+    }
+
     // 초대하기의 경우 초대하기 POPUP SHOW
     if (event.name === "INVITE") {
-      setInvitePopupInfo((prev) => ({ ...prev, isShow: true, limitPerDay: event.limitPerDay }));
-      return;
+      return openModal(modals.invite, {
+        maxInviteCount: event.limitPerDay,
+        maxAmount: event.amount * event.limitPerDay,
+        onClose: () => closeModal(modals.invite),
+      });
     } else if (event.path) {
       // 그 이외의 경우 router 이동
       router.push(event.path);
@@ -171,14 +203,6 @@ const Daily = () => {
       </main>
 
       <CommonFooter />
-
-      {/* 친구 초대하기 팝업 */}
-      {invitePopupInfo.isShow && (
-        <InvitePopup
-          maxInviteCount={invitePopupInfo.limitPerDay}
-          onClose={() => setInvitePopupInfo((prev) => ({ ...prev, isShow: false }))}
-        />
-      )}
     </>
   );
 };

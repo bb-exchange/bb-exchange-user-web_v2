@@ -41,19 +41,16 @@ export default function UseBuyPostPopup({ usePost, originalPrice, refetchArticle
 
     // 결제중 가격 변동이 발생했을경우
     if (originalPrice !== data?.priceInfo.price) {
-      usePost.setChangePricePopup(true);
-      return;
+      return usePost.openChangePriceModal();
     }
 
     postPurchase(Number(router.query.id), {
       onSuccess: () => {
         usePost.setBuyPopup(false);
         usePost.setCompPayPopup(true);
-
-        refetchArticle();
       },
       onError: () => {
-        usePost.setIsPurchaseErrorPopupShow(true);
+        usePost.openPurchaseErrorModal();
       },
     });
   }

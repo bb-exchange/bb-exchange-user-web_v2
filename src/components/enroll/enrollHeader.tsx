@@ -115,16 +115,14 @@ export default function EnrollHeader({ editor, isEdit, useEnrollHook }: Iprops) 
           </button>
         </article>
         <article className={styles.rightArea}>
-          {useEnrollHook.btnName === "게시하기" ? (
-            <div className={styles.tempSaveBox}>
-              <button className={styles.tempSaveBtn2} onClick={useEnrollHook.openDraftsPopup}>
-                임시 {useEnrollHook.articleTempList?.data.length ?? 0}
-              </button>
-              <button className={styles.tempSaveBtn1} onClick={useEnrollHook.onClickEnrollTemp}>
-                임시저장
-              </button>
-            </div>
-          ) : null}
+          <div className={styles.tempSaveBox}>
+            <button className={styles.tempSaveBtn2} onClick={useEnrollHook.openDraftsPopup}>
+              임시 {useEnrollHook.articleTempList?.data.length ?? 0}
+            </button>
+            <button className={styles.tempSaveBtn1} onClick={useEnrollHook.onClickEnrollTemp}>
+              임시저장
+            </button>
+          </div>
           {useEnrollHook.isDisabledBtn ? (
             <button
               type="button"

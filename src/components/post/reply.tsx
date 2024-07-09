@@ -34,6 +34,7 @@ interface Iprops {
 export default function Reply({
   isMyComment,
   data: {
+    userId,
     isDeleted,
     nickname,
     createdAt,
@@ -300,6 +301,7 @@ export default function Reply({
       {useReply.reportUserPopup && (
         <>
           <ReportUserPopup
+            userId={userId}
             off={() => useReply.setReportUserPopup(false)}
             confirmFunc={useReply.onSuccessReportUser}
           />

@@ -1,11 +1,10 @@
 import { getDailyEvent } from ".";
 import { useQuery } from "@tanstack/react-query";
 
-export const useGetDailyEvent = (userId: number) => {
+export const useGetDailyEvent = () => {
   const { data, refetch } = useQuery({
     queryKey: [getDailyEvent.name],
-    queryFn: () => getDailyEvent(userId),
-    enabled: !!userId,
+    queryFn: () => getDailyEvent(),
   });
 
   return {

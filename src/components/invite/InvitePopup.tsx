@@ -1,17 +1,19 @@
 import styles from "./InvitePopup.module.scss";
 
-import { CSSProperties, useCallback, useState } from "react";
+import { CSSProperties, useCallback } from "react";
 
-import { CommonPopup } from "@components/common/popup/CommonPopup";
 import Image from "@components/Image";
+import { modals } from "@components/Modal";
 import Popup from "@components/Popup";
 
 import { D_cautionList } from "@data/invite/D_invitePopup";
 
 import useGetMyProfile from "@hooks/common/useGetProfile";
+import { useModals } from "@hooks/modal";
 
 interface Props {
   maxInviteCount: number;
+  maxAmount: number;
   onClose: () => void;
 }
 
@@ -25,13 +27,10 @@ const POPUP_STYLE: CSSProperties = {
   boxShadow: "0px 3.19px 3.19px 0px rgba(0, 0, 0, 0.25)",
 };
 
-export const InvitePopup = ({ maxInviteCount = 0, onClose }: Props) => {
+const InvitePopup = ({ maxInviteCount = 0, maxAmount = 0, onClose }: Props) => {
   const { profile } = useGetMyProfile();
 
-  // 초대코드 복사 완료 팝업 toggle
-  const [isInviteCodeCopySuccessPopupShow, setIsInviteCodeCopySuccessPopupShow] = useState(false);
-  // 이벤트 공유링크 복사 완료 팝업 toggle
-  const [isShareLinkCopySuccessPopupShow, setIsShareLinkCopySuccessPopupShow] = useState(false);
+  const { openModal, closeModal } = useModals();
 
   // 초대코드 클립보드 복사
   const onClickRecommendCodeCopy = useCallback(() => {
@@ -40,16 +39,25 @@ export const InvitePopup = ({ maxInviteCount = 0, onClose }: Props) => {
     // 초대코드 클립보드 복사
     navigator.clipboard.writeText(profile.recommendCode);
     // 복사 완료 팝업 Show
-    setIsInviteCodeCopySuccessPopupShow(true);
-  }, [profile?.recommendCode]);
+    openModal(modals.common, {
+      title: "초대코드를 복사했어요.",
+      onPositiveButtonClick: () => closeModal(modals.common),
+    });
+  }, [closeModal, openModal, profile.recommendCode]);
 
   // 초대링크 복사 && Success Popup Show
   const onClickShare = useCallback(() => {
+    const inviteLink = `${window.location.host}/invite/${profile?.recommendCode}`;
+
     // 초대링크 클립보드 복사
-    navigator.clipboard.writeText(`${window.location.host}/invite/${profile?.recommendCode}`);
+    navigator.clipboard.writeText(inviteLink);
     // 복사 완료 팝업 Show
-    setIsShareLinkCopySuccessPopupShow(true);
-  }, [profile?.recommendCode]);
+    openModal(modals.common, {
+      title: "링크를 복사했어요.<br/>이 링크를 공유해주세요.",
+      iconSrc: "/assets/icons/Attendance.svg",
+      onPositiveButtonClick: () => closeModal(modals.common),
+    });
+  }, [closeModal, openModal, profile?.recommendCode]);
 
   if (!profile?.recommendCode) return null;
 
@@ -59,7 +67,8 @@ export const InvitePopup = ({ maxInviteCount = 0, onClose }: Props) => {
         <main>
           <section className={styles.titleSection}>
             <h3 className="h3 bold">
-              비법거래소에 친구를 초대하면 최대 <span className="color-primary1">5,000원</span>을
+              비법거래소에 친구를 초대하면 최대{" "}
+              <span className="color-primary1">{Intl.NumberFormat().format(maxAmount)}원</span>을
               받을 수 있어요.
             </h3>
 
@@ -107,21 +116,8 @@ export const InvitePopup = ({ maxInviteCount = 0, onClose }: Props) => {
           이벤트 공유하기
         </button>
       </div>
-
-      {isInviteCodeCopySuccessPopupShow && (
-        <CommonPopup
-          title="초대코드를 복사했어요."
-          confirmFunc={() => setIsInviteCodeCopySuccessPopupShow(false)}
-        />
-      )}
-
-      {isShareLinkCopySuccessPopupShow && (
-        <CommonPopup
-          title="링크를 복사했어요.<br/>이 링크를 공유해주세요."
-          iconSrc="/assets/icons/Attendance.svg"
-          confirmFunc={() => setIsShareLinkCopySuccessPopupShow(false)}
-        />
-      )}
     </Popup>
   );
 };
+
+export default InvitePopup;

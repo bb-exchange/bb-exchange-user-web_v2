@@ -7,17 +7,22 @@ import UseScrollBar from ".src/hooks/common/useScrollBar";
 import UseUserReport from ".src/hooks/post/useUserReport";
 
 interface Iprops {
+  userId: number;
   off: Function;
   confirmFunc: Function;
 }
 
-export default function ReportUserPopup({ off, confirmFunc }: Iprops) {
-  const useCustomHook = UseUserReport();
+export default function ReportUserPopup({ userId, off, confirmFunc }: Iprops) {
+  const useCustomHook = UseUserReport(userId);
   const useScrollBar = UseScrollBar();
 
-  function onSubmit() {
-    useCustomHook.onSubmit();
-    confirmFunc();
+  const { category, detail } = useCustomHook.watch();
+  const isValidForm = (!!category && category !== "ETC") || (category === "ETC" && !!detail);
+
+  function onSubmit(form: IpostReport) {
+    useCustomHook.onSubmit(form, () => {
+      confirmFunc();
+    });
   }
 
   return (
@@ -46,29 +51,23 @@ export default function ReportUserPopup({ off, confirmFunc }: Iprops) {
                 {useCustomHook.reportCategory.map((v, i) => (
                   <li
                     key={i}
-                    className={`${v === useCustomHook.watch("category") ? styles.on : ""}`}
-                    onClick={() => useCustomHook.setValue("category", v)}
+                    className={`${v.key === category ? styles.on : ""}`}
+                    onClick={() => useCustomHook.setValue("category", v.key)}
                   >
                     <CheckCircle className={styles.offSvg} />
                     <CheckCircleBlueO className={styles.onSvg} />
-                    <p>{v}</p>
+                    <p>{v.value}</p>
                   </li>
                 ))}
               </ul>
-
-              <div
-                ref={useScrollBar.scrollBarRef}
-                className={styles.scrollBar}
-                style={{ top: useScrollBar.scrollTop }}
-              />
             </div>
 
             <textarea
               placeholder="신고 내용을 입력해주세요"
-              {...useCustomHook.register("detail", { required: true })}
+              {...useCustomHook.register("detail", { required: false })}
             />
 
-            <button className={styles.submitBtn} disabled={!useCustomHook.formState.isValid}>
+            <button type="submit" className={styles.submitBtn} disabled={!isValidForm}>
               <p>신고하기</p>
             </button>
           </form>
