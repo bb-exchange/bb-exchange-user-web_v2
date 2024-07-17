@@ -187,8 +187,9 @@ export default function useEnroll(editor: Editor | null) {
     if (btnName === "게시하기" || btnName === "수정하기" || !!tempArticleId) {
       [...uploadFiles].map((file) => {
         const reader = new FileReader();
+        reader.readAsArrayBuffer(file);
 
-        reader.onload = (e) => {
+        reader.onload = async (e) => {
           if (reader.readyState === 2) {
             const arrayBuffer: any = e.target?.result;
 
@@ -196,7 +197,7 @@ export default function useEnroll(editor: Editor | null) {
             const md5 = CryptoJS.MD5(wordArray);
             const base64Incod = md5.toString(CryptoJS.enc.Base64);
 
-            presignedUrlMutation.mutate({
+            await presignedUrlMutation.mutateAsync({
               contentType: file.type,
               md5: base64Incod,
               file: file,
@@ -204,7 +205,6 @@ export default function useEnroll(editor: Editor | null) {
             });
           }
         };
-        reader.readAsArrayBuffer(file);
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -316,39 +316,25 @@ export default function useEnroll(editor: Editor | null) {
       });
     }
 
-    //NOTE - 이미지 주소 치환 작업
-    const fileImgUrls: string[] = [];
-    if (files.size) {
-      [...files.values()].map((file) => fileImgUrls.push(file.imgPath));
-    }
-
     let editorJson = editor?.getJSON();
 
-    if (btnName === "sadas") {
-      editorJson = {
-        ...editorJson,
-        content: editorJson?.content?.filter((item: any) => item.type !== "figure"),
-      };
-    } else {
-      editorJson = {
-        ...editorJson,
-        content: editorJson?.content?.map((item: any, i: number) => {
-          let chagnedItem = item;
-          if (item.type === "figure" && files.has(item.attrs.fileName)) {
-            chagnedItem = {
-              ...item,
-              attrs: {
-                ...item.attrs,
-                src: fileImgUrls[0],
-              },
-            };
-            fileImgUrls.shift();
-          }
+    editorJson = {
+      ...editorJson,
+      content: editorJson?.content?.map((item: any, i: number) => {
+        let chagnedItem = item;
+        if (item.type === "figure" && files.get(item.attrs.fileName)) {
+          chagnedItem = {
+            ...item,
+            attrs: {
+              ...item.attrs,
+              src: files.get(item.attrs.fileName)?.imgPath,
+            },
+          };
+        }
 
-          return chagnedItem;
-        }),
-      };
-    }
+        return chagnedItem;
+      }),
+    };
 
     const thumb = editorJson.content?.filter(
       (item: any) => item.type === "figure" && item.attrs.isThumb,
@@ -500,7 +486,7 @@ export default function useEnroll(editor: Editor | null) {
     editor?.getText() &&
     editor?.getText()?.length > 100 &&
     watch("title") &&
-    watch("title").length < 40 &&
+    watch("title").length <= 40 &&
     watch("category")
       ? false
       : true;

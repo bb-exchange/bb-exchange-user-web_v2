@@ -40,6 +40,14 @@
     margin-right: 60px;
   }
 
+  .colorBtn {
+    &:hover {
+      div {
+        display: flex;
+      }
+    }
+  }
+
   button {
     margin-right: 8px;
   }

@@ -15,7 +15,7 @@ import LoadingPopup from ".src/components/common/popup/loadingPopup";
 import SelImgPopup from ".src/components/common/popup/selImgPopup";
 import PopupBg from ".src/components/common/popupBg";
 import DraftsPopup from ".src/components/enroll/draftsPopup";
-import EnrollHeader from ".src/components/enroll/enrollHeader";
+import EnrollHeader, { EDITOR_FONT_CLASS } from ".src/components/enroll/enrollHeader";
 import RecentTagPopup from ".src/components/enroll/recentTagPopup";
 import SelCategoryPopup from ".src/components/enroll/selCategoryPopup";
 import useEnroll from ".src/hooks/enroll/useEnroll";
@@ -23,6 +23,9 @@ import { useMakeEditor } from ".src/hooks/enroll/useMakeEditor";
 import UseRecentTagPopup from ".src/hooks/enroll/useRecentTagPopup";
 import { useQuery } from "@tanstack/react-query";
 import { EditorContent } from "@tiptap/react";
+import { useRecoilValue } from "recoil";
+
+import { headingAtom } from "@recoil/enroll";
 
 export default function EnrollScreen() {
   const router = useRouter();
@@ -30,6 +33,7 @@ export default function EnrollScreen() {
   const { editor } = useMakeEditor({ isEdit: true });
   const useEnrollHook = useEnroll(editor ?? null);
   const tagHook = UseRecentTagPopup({ useEnrollHook });
+  const headingInfo = useRecoilValue(headingAtom);
 
   const [guideTooltip, setGuideTooltip] = useState(false);
 
@@ -68,6 +72,12 @@ export default function EnrollScreen() {
       window.removeEventListener("popstate", preventGoBack);
     };
   }, []);
+
+  const handleChange = () => {
+    const className = EDITOR_FONT_CLASS[headingInfo.key];
+    if (!editor || !className) return;
+    editor.chain().focus().setClassName(className).run();
+  };
 
   return (
     <>
@@ -114,18 +124,31 @@ export default function EnrollScreen() {
               <div className={styles.titleBox}>
                 <input
                   {...useEnrollHook.register("title", {
-                    maxLength: {
-                      value: 40,
-                      message: "제목은 최대 40자까지 입력 가능합니다.",
-                    },
+                    // maxLength: {
+                    //   value: 40,
+                    //   message: "제목은 최대 40자까지 입력 가능합니다.",
+                    // },
                   })}
                   placeholder="제목을 입력해주세요. (최대 40자)"
+                  maxLength={40}
                 />
               </div>
             </div>
 
-            <div className={styles.editorBox} onClick={(e) => useEnrollHook.onClickEditor(e)}>
-              {editor && <EditorContent editor={editor} height={"100%"} />}
+            <div
+              className={styles.editorBox}
+              onClick={(e) => useEnrollHook.onClickEditor(e)}
+              onKeyDown={handleChange}
+            >
+              {editor && (
+                <EditorContent
+                  editor={editor}
+                  style={{
+                    minHeight: "900px",
+                  }}
+                  onChange={() => handleChange()}
+                />
+              )}
             </div>
 
             <div className={styles.tagBar}>

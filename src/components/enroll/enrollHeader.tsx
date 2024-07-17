@@ -1,5 +1,6 @@
 // import AlignCategoryPopup from "./alignCategoryPopup";
 import PopupBg from "../common/popupBg";
+import ColorMenu from "./colorMenu";
 import HeadingCategoryPopup from "./headingCategoryPopup";
 
 import styles from "./enrollHeader.module.scss";
@@ -7,9 +8,7 @@ import styles from "./enrollHeader.module.scss";
 import { useCallback, useEffect, useState } from "react";
 
 import BoldActive from ".assets/images/tiptap/bold-active.svg";
-import Bold from ".assets/images/tiptap/bold.svg";
 import Align from ".assets/images/tiptap/center.svg";
-import Color from ".assets/images/tiptap/color.svg";
 import ItalicActive from ".assets/images/tiptap/italic-active.svg";
 import Italic from ".assets/images/tiptap/italic.svg";
 import Li from ".assets/images/tiptap/li.svg";
@@ -24,26 +23,50 @@ import Underline from ".assets/images/tiptap/underline.svg";
 import Undo from ".assets/images/tiptap/undo.svg";
 import LogoBlue from ".assets/logos/LogoBlue.svg";
 import useEnroll from ".src/hooks/enroll/useEnroll";
+import { useEditor } from "@tiptap/react";
+import { useRecoilState, useSetRecoilState } from "recoil";
+
+import Bold from "@assets/images/tiptap/bold";
+import Color from "@assets/images/tiptap/color";
+
+import { D_headingList, Heading } from "@data/enroll/D_heading";
+
+import { headingAtom } from "@recoil/enroll";
 
 interface Iprops {
-  editor: any;
+  editor: ReturnType<typeof useEditor>;
   isEdit: boolean;
   useEnrollHook: ReturnType<typeof useEnroll>;
 }
 
+interface EDITOR_FONT_CLASS_TYPE {
+  [index: string]: string;
+}
+
+export const EDITOR_FONT_CLASS: EDITOR_FONT_CLASS_TYPE = {
+  TITLE_1: "title_1",
+  TITLE_2: "title_2",
+  TITLE_3: "title_3",
+  MAIN_1: "main_1",
+  MAIN_2: "main_2",
+  MAIN_3: "main_3",
+};
+
 export default function EnrollHeader({ editor, isEdit, useEnrollHook }: Iprops) {
   const [isLink, setIsLink] = useState<boolean>(true);
   const [isHeadingSelector, setIsHeadingSelector] = useState<boolean>(false);
-  const [headingValue, setHeadingValue] = useState<string>("본문 1");
+  const [color, setColor] = useState<string>("#000000");
+
   const [isAlignSelector, setIsAlignSelector] = useState<boolean>(false);
   const [alignValue, setAlignValue] = useState<string>("left");
+  const [headingInfo, setHeadingInfo] = useRecoilState(headingAtom);
 
   const onToggleHeading = () => {
     setIsHeadingSelector(!isHeadingSelector);
   };
 
   const setLink = useCallback(() => {
-    const previousUrl = editor.getAttributes("link").href;
+    const previousUrl = editor?.getAttributes("link").href;
     const url = window.prompt("URL", previousUrl);
 
     // cancelled
@@ -53,43 +76,32 @@ export default function EnrollHeader({ editor, isEdit, useEnrollHook }: Iprops) 
 
     // empty
     if (url === "") {
-      editor.chain().focus().extendMarkRange("link").unsetLink().run();
+      editor?.chain().focus().extendMarkRange("link").unsetLink().run();
 
       return;
     }
 
     // update link
-    editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
+    editor?.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
     setIsLink(false);
   }, [editor]);
 
   const unsetLink = useCallback(() => {
-    editor.chain().focus().unsetLink().run();
+    editor?.chain().focus().unsetLink().run();
     setIsLink(true);
   }, [editor]);
 
   useEffect(() => {
-    if (!editor) return;
-
-    if (headingValue === "제목 1") {
-      editor.chain().focus().toggleHeading({ level: 1 }).run();
-    } else if (headingValue === "제목 2") {
-      editor.chain().focus().toggleHeading({ level: 2 }).run();
-    } else if (headingValue === "제목 3") {
-      editor.chain().focus().toggleHeading({ level: 3 }).run();
-    } else if (headingValue === "본문 1") {
-      editor.chain().focus().toggleHeading({ level: 4 }).run();
-    } else if (headingValue === "본문 2") {
-      editor.chain().focus().toggleHeading({ level: 5 }).run();
-    } else if (headingValue === "본문 3") {
-      editor.chain().focus().toggleHeading({ level: 6 }).run();
-    }
-  }, [editor, headingValue]);
+    const className = EDITOR_FONT_CLASS[headingInfo.key];
+    if (!editor || !className) return;
+    editor.chain().focus().setClassName(className).run();
+  }, [editor, headingInfo]);
 
   const onToggleAlignMenu = () => {
     setAlignValue((prev) => (prev === "left" ? "center" : prev === "center" ? "right" : "left"));
     // setIsAlignSelector(!isAlignSelector);
   };
+
   useEffect(() => {
     if (!editor) return;
 
@@ -101,6 +113,15 @@ export default function EnrollHeader({ editor, isEdit, useEnrollHook }: Iprops) 
       editor.chain().focus().setTextAlign("right").run();
     }
   }, [editor, alignValue]);
+
+  useEffect(() => {
+    if (!editor) return;
+    editor.chain().focus().setColor(color).run();
+  }, [color, editor]);
+
+  if (!editor) {
+    return null;
+  }
 
   return (
     <header className={styles.enrollHeader}>
@@ -148,7 +169,7 @@ export default function EnrollHeader({ editor, isEdit, useEnrollHook }: Iprops) 
             <div id="heading" className={styles.toolbarLeft}>
               <div className={styles.selectHeading} onClick={onToggleHeading}>
                 <span id="heading-value" className={styles.selectValue}>
-                  {headingValue}
+                  {headingInfo.value}
                 </span>
                 <SelectArrow />
               </div>
@@ -156,8 +177,8 @@ export default function EnrollHeader({ editor, isEdit, useEnrollHook }: Iprops) 
               {isHeadingSelector && (
                 <>
                   <HeadingCategoryPopup
-                    categoryList={["제목 1", "제목 2", "제목 3", "본문 1", "본문 2", "본문 3"]}
-                    setValue={(v: any) => setHeadingValue(v)}
+                    categoryList={D_headingList}
+                    setValue={(heading: Heading) => setHeadingInfo(heading)}
                     off={() => setIsHeadingSelector(false)}
                   />
                   <PopupBg off={() => setIsHeadingSelector(false)} />
@@ -192,21 +213,20 @@ export default function EnrollHeader({ editor, isEdit, useEnrollHook }: Iprops) 
                 </>
               )} */}
               <button id="bold" onClick={() => editor.chain().focus().toggleBold().run()}>
-                <Bold />
+                {editor.isActive("bold") ? <BoldActive /> : <Bold />}
               </button>
               <button id="italic" onClick={() => editor.chain().focus().toggleItalic().run()}>
-                <Italic />
+                {editor.isActive("italic") ? <ItalicActive /> : <Italic />}
               </button>
-              <button
-                className={styles.colorBtn}
-                id="underline"
-                onClick={() => editor.chain().focus().toggleUnderline().run()}
-              >
-                <Underline />
+              <button id="underline" onClick={() => editor.chain().focus().toggleUnderline().run()}>
+                {editor.isActive("underline") ? <UnderlineActive /> : <Underline />}
               </button>
-              {/* <button id="color" className={styles.colorBtn}>
-                <Color />
-              </button> */}
+              <div className={styles.colorBtn}>
+                <button id="color">
+                  <Color color={editor.getAttributes("textStyle").color || "#000000"} />
+                </button>
+                <ColorMenu color={color} onClickColor={(_color: string) => setColor(_color)} />
+              </div>
 
               <button onClick={isLink ? setLink : unsetLink}>
                 <Link />
