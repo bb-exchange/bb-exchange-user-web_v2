@@ -10,7 +10,7 @@ import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { useSetRecoilState } from "recoil";
 
-import { CustomClassName } from "@pages/enroll/lib/CustomClassName";
+import { CustomClassName } from "@lib/tiptap";
 
 const inputRegex = /!\[(.+|:?)]\((\S+)(?:(?:\s+)["'](\S+)["'])?\)/;
 
