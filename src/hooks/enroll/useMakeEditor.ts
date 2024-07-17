@@ -1,34 +1,16 @@
-import useEnroll from ".src/hooks/enroll/useEnroll";
 import { selectedEditorNodeState } from ".src/recoil";
 import { findChildren, mergeAttributes, Node, nodeInputRule } from "@tiptap/core";
-import Blockquote from "@tiptap/extension-blockquote";
-import Bold from "@tiptap/extension-bold";
-import BulletList from "@tiptap/extension-bullet-list";
-import CodeBlock from "@tiptap/extension-code-block";
 import Color from "@tiptap/extension-color";
-import Document from "@tiptap/extension-document";
-import Dropcursor from "@tiptap/extension-dropcursor";
-import Heading from "@tiptap/extension-heading";
-import History from "@tiptap/extension-history";
-import Image from "@tiptap/extension-image";
-import Italic from "@tiptap/extension-italic";
 import Link from "@tiptap/extension-link";
-import ListItem from "@tiptap/extension-list-item";
-import OrderedList from "@tiptap/extension-ordered-list";
-import Paragraph from "@tiptap/extension-paragraph";
 import Placeholder from "@tiptap/extension-placeholder";
-import Text from "@tiptap/extension-text";
 import TextAlign from "@tiptap/extension-text-align";
 import TextStyle from "@tiptap/extension-text-style";
 import Underline from "@tiptap/extension-underline";
-import {
-  // findChildren,
-  // mergeAttributes,
-  // nodeInputRule,
-  useEditor,
-} from "@tiptap/react";
+import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { useSetRecoilState } from "recoil";
+
+import { CustomClassName } from "@pages/enroll/lib/CustomClassName";
 
 const inputRegex = /!\[(.+|:?)]\((\S+)(?:(?:\s+)["'](\S+)["'])?\)/;
 
@@ -45,6 +27,7 @@ declare module "@tiptap/core" {
 interface IProps {
   isEdit: boolean;
 }
+
 export const useMakeEditor = ({ isEdit }: IProps) => {
   const setEditorNodePos = useSetRecoilState(selectedEditorNodeState);
 
@@ -224,50 +207,25 @@ export const useMakeEditor = ({ isEdit }: IProps) => {
   const editor = useEditor({
     editable: isEdit,
     extensions: [
-      CodeBlock,
-      Blockquote.configure({
-        HTMLAttributes: {
-          class: "t-blockquote",
+      StarterKit.configure({
+        orderedList: {
+          keepMarks: true,
         },
       }),
-      BulletList,
-      ListItem,
-      OrderedList,
-      Heading.configure({
-        levels: [1, 2, 3, 4, 5],
-      }),
-      Bold.configure({
-        HTMLAttributes: {
-          class: "bold",
-        },
-      }),
-      Italic.configure({
-        HTMLAttributes: {
-          class: "italic",
-        },
-      }),
-      Paragraph,
-      // History,
-      Underline.configure({
-        HTMLAttributes: {
-          class: "underline",
-        },
-      }),
-      Document,
-      Link.configure({
-        openOnClick: true,
-      }),
-      Text,
-      TextAlign.configure({
-        types: ["heading", "paragraph"],
-      }),
-      TextStyle,
-      Color,
-      Figure,
       Placeholder.configure({
         placeholder: "나누고 싶은 나만의 비법을 적어주세요. (100자 이상)",
       }),
-      StarterKit,
+      TextAlign.configure({
+        types: ["heading", "paragraph"],
+      }),
+      Color.configure({
+        types: ["textStyle"],
+      }),
+      TextStyle,
+      CustomClassName,
+      Underline,
+      Figure,
+      Link,
     ],
   });
 
