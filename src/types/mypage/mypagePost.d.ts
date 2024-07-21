@@ -3,6 +3,7 @@ interface mypageCategory {
   label: string;
   path?: string;
   count?: number;
+  key: string;
 }
 
 type postState = "판매중" | "비공개" | "일시판매중지" | "영구판매중지";

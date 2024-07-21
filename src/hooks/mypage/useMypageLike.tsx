@@ -1,23 +1,14 @@
 import { useState } from "react";
 
-import { useRouter } from "next/router";
-
-import { interestsArticles } from ".src/api/articles/articles";
-import { D_mypagePostCategoryList } from ".src/data/mypage/D_mypage";
-import { D_filterCategoryList } from ".src/data/mypage/D_mypageRead";
 import { useQuery } from "@tanstack/react-query";
 
-export default function UseMyPageLike() {
-  const router = useRouter();
-  const pageNum = Number(router.query.page ?? 0);
+import { interestsArticles } from "@api/articles/articles";
 
-  const categoryList: mypageCategory[] = D_mypagePostCategoryList;
-  const category: mypageCategory = categoryList[2];
-  const filterCategoryList: string[] = D_filterCategoryList;
-  const [filterCategroy, setFilterCategory] = useState<string>(D_filterCategoryList[0]);
+export default function UseMyPageLike() {
   const [editMode, setEditMode] = useState<boolean>(false);
   const [postList, setPostList] = useState<mypageLikePosts[]>([]);
   const [sort, setSort] = useState<string>("LATEST");
+  const [pageNum, setPageNum] = useState(0);
 
   const { data: interestsList } = useQuery({
     queryKey: ["purchaseArticles", sort, pageNum],
@@ -25,10 +16,6 @@ export default function UseMyPageLike() {
     placeholderData: (prev) => prev,
     select: (res) => res.data,
   });
-
-  function onClickCategoryBtn(url: string) {
-    router.push(`/mypage/${url}`);
-  }
 
   function onClickSelAllBtn() {
     let _postList = postList;
@@ -51,13 +38,13 @@ export default function UseMyPageLike() {
 
   const onSortList = () => setSort((prev) => (prev === "LATEST" ? "PRICE" : "LATEST"));
 
+  // NOTE 페이지 변경 함수
+  const onChangePage = (pageIndex: number) => {
+    setPageNum(pageIndex);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return {
-    categoryList,
-    category,
-    filterCategoryList,
-    filterCategroy,
-    setFilterCategory,
-    onClickCategoryBtn,
     editMode,
     setEditMode,
     postList,
@@ -66,5 +53,6 @@ export default function UseMyPageLike() {
     onClickSelBtn,
     interestsList,
     onSortList,
+    onChangePage,
   };
 }

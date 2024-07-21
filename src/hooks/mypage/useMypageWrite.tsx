@@ -26,10 +26,6 @@ export default function UseMyPageWrite() {
     select: (res) => res.data,
   });
 
-  function onClickCategoryBtn(url: string) {
-    router.push(`/mypage/${url}`);
-  }
-
   const onClickTab = (key: string) => {
     setSelectedTab(key);
   };
@@ -48,7 +44,6 @@ export default function UseMyPageWrite() {
     categoryList,
     category,
     filterOnSale,
-    onClickCategoryBtn,
     onClickFilterOnSaleBtn,
     postList,
     setSort,
