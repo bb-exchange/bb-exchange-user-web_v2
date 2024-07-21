@@ -102,12 +102,9 @@
   font-weight: 700;
 }
 
-.noDateText {
-  display: flex;
-  justify-content: center;
-
-  font-size: 14px;
+.noData {
+  @extend .p2;
   color: $PrimaryBG1;
-
-  margin-top: 78px;
+  text-align: center;
+  flex: 1;
 }

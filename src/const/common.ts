@@ -73,3 +73,83 @@ export const NotificationTypeCode: CodeType<NotificationInteraction> = {
     value: "DAILY_EVENT_ALL_DONE",
   },
 };
+
+export const EVENT = "EVENT";
+export const MONTHLY = "MONTHLY";
+export const BY_CONTENT = "BY_CONTENT";
+export const WITHDRAWAL = "WITHDRAWAL";
+export type ProfitCategory = typeof EVENT | typeof MONTHLY | typeof BY_CONTENT | typeof WITHDRAWAL;
+export const ProfitCategoryTypeCode: CodeType<ProfitCategory> = {
+  [EVENT]: {
+    label: "이벤트 수익금",
+    value: EVENT,
+  },
+  [MONTHLY]: {
+    label: "월별 수익금",
+    value: MONTHLY,
+  },
+  [BY_CONTENT]: {
+    label: "콘텐츠별 수익금",
+    value: BY_CONTENT,
+  },
+  [WITHDRAWAL]: {
+    label: "출금내역",
+    value: WITHDRAWAL,
+  },
+};
+
+export type ProfitCategoryEventType =
+  | "ATTENDANCE"
+  | "ARTICLE_LIKE"
+  | "ARTICLE_COMMENT"
+  | "COMMENT_LIKE"
+  | "WRITE_ARTICLE_WITH_LIKES"
+  | "INVITE"
+  | "ALL_DONE";
+
+export const ProfitCategoryEventTypeCode: CodeType<ProfitCategoryEventType> = {
+  ATTENDANCE: {
+    label: "출석",
+    value: "ATTENDANCE",
+  },
+  ARTICLE_LIKE: {
+    label: "게시글 좋아요",
+    value: "ARTICLE_LIKE",
+  },
+  ARTICLE_COMMENT: {
+    label: "게시글 댓글",
+    value: "ARTICLE_COMMENT",
+  },
+  COMMENT_LIKE: {
+    label: "댓글 좋아요",
+    value: "COMMENT_LIKE",
+  },
+  WRITE_ARTICLE_WITH_LIKES: {
+    label: "게시글 작성 후 좋아요받기",
+    value: "WRITE_ARTICLE_WITH_LIKES",
+  },
+  INVITE: {
+    label: "친구초대",
+    value: "INVITE",
+  },
+  ALL_DONE: {
+    label: "전체완료",
+    value: "ALL_DONE",
+  },
+};
+
+export type SettlementWithdrawStatus = "PENDING" | "DENIED" | "COMPLETE";
+export const SettlementWithdrawStatusCode: CodeType<SettlementWithdrawStatus> = {
+  PENDING: {
+    label: "출금 대기",
+    value: "PENDING",
+  },
+  DENIED: {
+    label: "출금 거절",
+    value: "DENIED",
+  },
+  COMPLETE: {
+    label: "출금 완료",
+    value: "COMPLETE",
+  },
+};

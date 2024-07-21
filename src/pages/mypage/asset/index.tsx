@@ -19,15 +19,19 @@ import SwitchPointSuccessPopup from "@components/mypage/asset/switchPointSuccess
 import WithdrawInfoPopup from "@components/mypage/asset/withdrawInfoPopup";
 import WithdrawPopup from "@components/mypage/asset/withdrawPopup";
 import MypageNavAside from "@components/mypage/mypageNavAside";
+import ByContent from "@components/mypage/profit-category/byContent";
+import Event from "@components/mypage/profit-category/event";
+import Monthly from "@components/mypage/profit-category/monthly";
+import Withdraw from "@components/mypage/profit-category/withdraw";
+
+import { BY_CONTENT, EVENT, MONTHLY, WITHDRAWAL } from "@const/common";
 
 import UseMypageAsset from "@hooks/mypage/asset/useMypageAsset";
-import UseMyTermIncome from "@hooks/mypage/asset/useMytermIncome";
 import UseWithdrawPopup from "@hooks/mypage/asset/useWithdrawPopup";
 
 export default function Asset() {
   const useMypageAsset = UseMypageAsset();
   const useWithdrawPopup = UseWithdrawPopup();
-  const useMyTermIncome = UseMyTermIncome();
 
   const bankCode = useMypageAsset.banks?.data.filter(
     ({ code }: { code: string }) => code === useMypageAsset.bankDetailData?.data.data.bankCode,
@@ -96,7 +100,7 @@ export default function Asset() {
                     <strong>출금 계좌</strong>
                     {useMypageAsset.bankDetailData?.data.data.bankAccountNumber &&
                     useMypageAsset.bankDetailData?.data.data.bankCode
-                      ? `${bankCode[0].name} ${useMypageAsset.bankDetailData?.data.data.bankAccountNumber}`
+                      ? `${bankCode[0]?.name ?? ""} ${useMypageAsset.bankDetailData?.data.data.bankAccountNumber}`
                       : "미입력"}
                   </p>
                   <ChevronRt />
@@ -106,42 +110,21 @@ export default function Asset() {
           </article>
 
           <ul className={styles.categoryList}>
-            {useMypageAsset.categoryList.map((v, i) => (
+            {useMypageAsset.categoryList.map(({ label, value }) => (
               <li
-                key={i}
-                className={v === useMypageAsset.category ? styles.on : ""}
-                onClick={() => useMypageAsset.setCategory(v)}
+                key={value}
+                className={value === useMypageAsset.selectedCategory ? styles.on : ""}
+                onClick={() => useMypageAsset.setSelectedCategory(value)}
               >
-                <p>{v}</p>
+                <p>{label}</p>
               </li>
             ))}
           </ul>
 
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              marginTop: 30,
-            }}
-          >
-            <div
-              style={{
-                textAlign: "center",
-                padding: "18px 24px",
-                color: "#9F9F9F",
-                width: 300,
-              }}
-            >
-              해당 기능은 아직 개발중입니다.
-              <br />
-              빠른 시일내에 업데이트 하겠습니다.
-            </div>
-          </div>
-          {/* {useMypageAsset.category === "이벤트 수익금" && <TermIncome />}
-          {useMypageAsset.category === "월별 수익금" && <TermIncome />}
-          {useMypageAsset.category === "콘텐츠별 수익금" && <ContentIncome />}
-          {useMypageAsset.category === "출금내역" && <MyWithdraw />} */}
+          {useMypageAsset.selectedCategory === EVENT && <Event />}
+          {useMypageAsset.selectedCategory === MONTHLY && <Monthly />}
+          {useMypageAsset.selectedCategory === BY_CONTENT && <ByContent />}
+          {useMypageAsset.selectedCategory === WITHDRAWAL && <Withdraw />}
         </section>
       </main>
       <ScrollTopBtn />

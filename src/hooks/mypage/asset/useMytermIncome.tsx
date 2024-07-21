@@ -1,22 +1,26 @@
 import { useState } from "react";
 
+import { useQuery } from "@tanstack/react-query";
+import moment from "moment";
+
+import {
+  getProfitByMonth,
+  getProfitContentsByMonth,
+  getProfitEventByMonth,
+  getSettlementWithdrawByMonth,
+} from "@api/mypage/profit";
+
 export default function UseMyTermIncome() {
-  const [dateText, setDateText] = useState<Date>(new Date());
+  const thisMonth = moment().format("YYYYMM");
+  const [month, setMonth] = useState(thisMonth);
 
   const onNextDate = () => {
-    const nextMonth = new Date(dateText);
-    nextMonth.setMonth(nextMonth.getMonth() + 1);
-    setDateText(nextMonth);
+    setMonth(moment(month).add(1, "M").format("YYYYMM"));
   };
 
   const onPrevDate = () => {
-    const nextMonth = new Date(dateText);
-    nextMonth.setMonth(nextMonth.getMonth() - 1);
-    setDateText(nextMonth);
+    setMonth(moment(month).subtract(1, "M").format("YYYYMM"));
   };
-
-  const options: any = { year: "numeric", month: "numeric" };
-  const selectedDate = dateText.toLocaleDateString("ko-KR", options).slice(0, -1);
 
   // 더미데이타
   const revenueList = [
@@ -25,10 +29,46 @@ export default function UseMyTermIncome() {
     // { date: "2023.11.13", point: 12000 },
   ];
 
+  /**
+   * 이벤트 수익금
+   */
+  const { data: profitEventLog } = useQuery({
+    queryKey: ["getProfitEventByMonth", month],
+    queryFn: () => getProfitEventByMonth({ month }),
+  });
+
+  /**
+   * 월별 수익금
+   */
+  const { data: profitLog } = useQuery({
+    queryKey: ["getProfitByMonth", month],
+    queryFn: () => getProfitByMonth({ month }),
+  });
+
+  /**
+   * 컨텐츠별 수익금
+   */
+  const { data: profitContentLog } = useQuery({
+    queryKey: ["getProfitContentsByMonth"],
+    queryFn: () => getProfitContentsByMonth(),
+  });
+
+  /**
+   * 출금내역
+   */
+  const { data: settlementWithdrawLog } = useQuery({
+    queryKey: ["getSettlementWithdrawByMonth", month],
+    queryFn: () => getSettlementWithdrawByMonth({ month }),
+  });
+
   return {
     revenueList,
-    selectedDate,
     onNextDate,
     onPrevDate,
+    profitEventLog,
+    profitLog,
+    month,
+    profitContentLog,
+    settlementWithdrawLog,
   };
 }
