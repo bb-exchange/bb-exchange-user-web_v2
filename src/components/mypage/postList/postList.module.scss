@@ -1,0 +1,33 @@
+@import "/src/styles/variable";
+
+.writtenContainer {
+  .filterContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+
+    margin-bottom: 20px;
+
+    .countText {
+      @extend .p1;
+      color: $Black2;
+
+      strong {
+        color: $PrimaryBG2;
+      }
+    }
+
+    .filterButton {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: $Black2;
+    }
+  }
+
+  .pageNav {
+    display: flex;
+    margin: 30px 0;
+  }
+}

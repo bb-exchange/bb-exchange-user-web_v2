@@ -1,8 +1,8 @@
 export const D_mypagePostCategoryList: mypageCategory[] = [
-  { url: "", label: "작성한 글", path: "/mypage" },
-  { url: "buy", label: "구매한 글", path: "/mypage/buy" },
-  { url: "free", label: "무료 획득 글", path: "/mypage/free" },
-  { url: "like", label: "찜한 글", path: "/mypage/like" },
+  { url: "", label: "작성한 글", path: "/mypage", key: "written" },
+  { url: "buy", label: "구매한 글", path: "/mypage/buy", key: "buy" },
+  { url: "free", label: "무료 획득 글", path: "/mypage/free", key: "free" },
+  { url: "like", label: "찜한 글", path: "/mypage/like", key: "like" },
 ];
 
 export const D_mypageNavList: mypageNavs[] = [
