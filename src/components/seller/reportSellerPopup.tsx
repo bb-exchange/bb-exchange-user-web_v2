@@ -1,22 +1,17 @@
 import styles from "./reportSellerPopup.module.scss";
 
-import CheckCircle from ".assets/icons/CheckCircle.svg";
-import CheckCircleBlueO from ".assets/icons/CheckCircleBlueO.svg";
-import X from ".assets/icons/X.svg";
-import { D_sellerReportCategoryList } from ".src/data/seller/D_seller";
-import UseSeller from ".src/hooks/seller/useSeller";
+import CheckCircle from "@assets/icons/CheckCircle.svg";
+import CheckCircleBlueO from "@assets/icons/CheckCircleBlueO.svg";
+import X from "@assets/icons/X.svg";
+
+import UseSeller from "@hooks/seller/useSeller";
 
 interface IProps {
   off: Function;
-  confirmFunc: Function;
 }
-const ReportSellerPopup = ({ off, confirmFunc }: IProps) => {
-  const hook = UseSeller();
 
-  const onSubmit = () => {
-    hook.onSubmit();
-    confirmFunc();
-  };
+const ReportSellerPopup = ({ off }: IProps) => {
+  const hook = UseSeller();
 
   return (
     <section className={styles.reportUserPopup}>
@@ -38,29 +33,34 @@ const ReportSellerPopup = ({ off, confirmFunc }: IProps) => {
         </div>
 
         <div className={styles.reportCont}>
-          <form onSubmit={hook.handleSubmit(onSubmit)}>
+          <form onSubmit={hook.reportForm.handleSubmit(hook.onReportSubmit)}>
             <div className={styles.scrollBox}>
               <ul className={styles.categoryList}>
-                {D_sellerReportCategoryList.map((v, i) => (
-                  <li
-                    key={i}
-                    className={`${v === hook.watch("category") ? styles.on : ""}`}
-                    onClick={() => hook.setValue("category", v)}
-                  >
-                    <CheckCircle className={styles.offSvg} />
-                    <CheckCircleBlueO className={styles.onSvg} />
-                    <p>{v}</p>
-                  </li>
-                ))}
+                {hook?.reportReasons?.length > 0 &&
+                  hook?.reportReasons?.map(({ desc, code }: { desc: string; code: string }) => (
+                    <li
+                      key={code}
+                      className={`${code === hook.reportForm.watch("reason") ? styles.on : ""}`}
+                      onClick={() => hook.reportForm.setValue("reason", code)}
+                    >
+                      <CheckCircle className={styles.offSvg} />
+                      <CheckCircleBlueO className={styles.onSvg} />
+                      <p>{desc}</p>
+                    </li>
+                  ))}
               </ul>
             </div>
 
             <textarea
               placeholder="신고 내용을 입력해주세요"
-              {...hook.register("detail", { required: true })}
+              {...hook.reportForm.register("content", { required: true })}
             />
 
-            <button className={styles.submitBtn} disabled={!hook.formState.isValid}>
+            <button
+              className={styles.submitBtn}
+              disabled={!hook.reportForm.formState.isValid}
+              type="submit"
+            >
               <p>신고하기</p>
             </button>
           </form>

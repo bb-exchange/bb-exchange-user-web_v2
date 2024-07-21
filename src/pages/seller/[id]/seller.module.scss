@@ -15,11 +15,13 @@
   background: $Primary4;
   border-radius: 12px;
 
-  .emptyProfile {
+  .defaultProfImgBox {
     width: 80px;
     height: 80px;
+    overflow: hidden;
+    border-radius: 50%;
+    object-fit: cover;
   }
-
   .sellerInfo {
     margin-left: 24px;
     h1 {
@@ -87,7 +89,7 @@
     display: flex;
     align-items: center;
     gap: 28px;
-
+    position: relative;
     button {
       display: flex;
       align-items: center;
@@ -124,6 +126,11 @@
       border-radius: 8px;
     }
   }
+  .noText {
+    text-align: center;
+    color: $Gray1;
+    margin-bottom: 32px;
+  }
 }
 
 .flex {
@@ -133,4 +140,40 @@
 
 .pointer {
   cursor: pointer;
+}
+.blockPopupContent {
+  color: $Gray1;
+  padding: 0 16px;
+  @extend .p1;
+  text-align: center;
+}
+
+.commentPopup {
+  display: flex;
+  flex-direction: column;
+  width: 160px;
+  background: $White1;
+  box-shadow: 0px 1px 8px 0px #00000014;
+  border-radius: 8px;
+  top: 32px;
+  right: 0;
+  position: absolute;
+  z-index: 60;
+
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 36px;
+
+    &:nth-of-type(n + 2) {
+      border-top: 1px solid $Gray2;
+    }
+
+    p {
+      font-size: 13px;
+      text-align: center;
+      color: $Black2;
+    }
+  }
 }

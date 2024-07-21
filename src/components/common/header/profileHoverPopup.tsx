@@ -35,7 +35,7 @@ const ProfileHoverPopup = () => {
             </div>
           </span>
         </li>
-        <li onClick={() => router.push("/mypage/write")}>마이페이지</li>
+        <li onClick={() => router.push("/mypage")}>마이페이지</li>
         <li onClick={() => router.push("/setting")}>설정</li>
         <li onClick={logOut}>로그아웃</li>
       </ul>

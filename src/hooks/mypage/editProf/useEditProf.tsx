@@ -159,7 +159,7 @@ export default function UseEditProf() {
         md5: fileInfo.md5,
       });
       isSuccessEdit.current = false;
-      router.push("/mypage/write");
+      router.push("/mypage");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccessEdit.current, fileInfo]);

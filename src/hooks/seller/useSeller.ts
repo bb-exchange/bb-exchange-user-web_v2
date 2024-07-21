@@ -1,12 +1,25 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-import { userArticles } from ".src/api/articles/articles";
-import { queryKeys } from ".src/recoil/query-keys";
+import { useRouter } from "next/router";
+
 import { useQuery } from "@tanstack/react-query";
+import { useRecoilValue } from "recoil";
+
+import { userArticles } from "@api/articles/articles";
+import { useGetReportReasons } from "@api/users/useGetReportReasons";
+import { usePostReportByUserId } from "@api/users/usePostReportByUserId";
+
+import { profileState } from "@recoil/index";
+import { queryKeys } from "@recoil/query-keys";
+
+export type ReportProps = {
+  reason: string;
+  content?: string;
+};
+export type CommentSortByType = "PRICE" | "LATEST";
 
 export default function UseSeller() {
-  // const [list, setList] = useState<[]>([]);
   const [moreMenu, setMoreMenu] = useState<boolean>(false);
   const [reportPopup, setReportPopup] = useState<boolean>(false);
   const [reportConfirmPopup, setReportConfirmPopup] = useState<boolean>(false);
@@ -21,37 +34,62 @@ export default function UseSeller() {
   const [disabledCancelConfirmPopup, setDisabledCancelConfirmPopup] = useState<boolean>(false);
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [showMore, setShowMore] = useState<boolean>(true);
+  const [stockListed, setStockListed] = useState<boolean>(false);
+  const profile = useRecoilValue(profileState);
 
-  const { register, setValue, watch, formState, handleSubmit } = useForm<IuserReport>();
+  const [sort, setSort] = useState<CommentSortByType>("LATEST");
 
-  // 타인 글 목록 리스트
-  // TODO 아이디 연결 필요
-  // useQuery(
-  //   queryKeys.articleById("writeByUser"),
-  //   () => userArticles(`31?sortBy=LATEST&page=0`),
-  //   {
-  //     onSuccess: (data) => {
-  //       setList(data?.data.data.contents);
-  //     },
-  //     retry: false,
-  //   }
-  // );
+  const commentSortByInfo: { [key in CommentSortByType]: string } = {
+    LATEST: "최신순",
+    PRICE: "가격순",
+  };
+
+  const onClickstockListedBtn = () => setStockListed((prev) => !prev);
+  const onSortList = () => setSort((prev) => (prev === "LATEST" ? "PRICE" : "LATEST"));
+
+  const router = useRouter();
+
   const { data: list } = useQuery({
-    queryKey: queryKeys.articleById("writeByUser"),
-    queryFn: () => userArticles(`31?sortBy=LATEST&page=0`),
-    select: (res) => res.data.data.contents ?? [],
+    queryKey: [queryKeys.articleById("writeByUser"), sort, stockListed],
+    queryFn: () =>
+      userArticles(`${router?.query?.id}?sortBy=${sort}&page=0&stockListed=${stockListed}`),
+    select: (res) => res.data.data ?? [],
+    enabled: !!router.query.id,
   });
 
-  useEffect(() => {
-    register("category", {
-      required: true,
-    });
-  }, [register]);
+  const { register, setValue, watch, formState, handleSubmit } = useForm<ReportProps>();
+
+  /*
+  report: 사용자 신고하기
+  */
+  const { reportReasons } = useGetReportReasons();
+  const reportForm = useForm<ReportProps>();
 
   const onClickReportBtn = () => {
     setMoreMenu(false);
     setReportPopup(true);
   };
+
+  const onSuccessReportPopup = () => {
+    setReportPopup(false);
+    setReportConfirmPopup(true);
+  };
+
+  const onReportSubmit = (data: ReportProps) => {
+    onSuccessReportPopup();
+  };
+  useEffect(() => {
+    reportForm.register("reason", {
+      required: true,
+    });
+  }, [reportForm.register]);
+
+  /*
+  hide: 이 사용자의 글 보지않기
+  */
+  /*
+  block: 사용자 차단하기
+  */
 
   const onClickBlock = () => {
     setMoreMenu(false);
@@ -61,11 +99,6 @@ export default function UseSeller() {
   const onClickDisabled = () => {
     setMoreMenu(false);
     setDisabledPopup(true);
-  };
-
-  const onSuccessReportPopup = () => {
-    setReportPopup(false);
-    setReportConfirmPopup(true);
   };
 
   const onSuccessBlockBtn = () => {
@@ -111,7 +144,9 @@ export default function UseSeller() {
     showMore,
     moreMenu,
     setMoreMenu,
+    reportForm,
     reportPopup,
+    onReportSubmit,
     setReportPopup,
     reportConfirmPopup,
     setReportConfirmPopup,
@@ -149,5 +184,13 @@ export default function UseSeller() {
     onClickBlock,
     onClickDisabled,
     isBlocked,
+
+    stockListed,
+    onClickstockListedBtn,
+    setSort,
+    onSortList,
+    sort,
+    commentSortByInfo,
+    reportReasons,
   };
 }
