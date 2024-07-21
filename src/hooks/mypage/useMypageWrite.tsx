@@ -2,20 +2,22 @@ import { useState } from "react";
 
 import { useRouter } from "next/router";
 
-import { getMyArticles } from ".src/api/articles/articles";
-import { D_mypagePostCategoryList } from ".src/data/mypage/D_mypage";
 import { useQuery } from "@tanstack/react-query";
+
+import { getMyArticles } from "@api/articles/articles";
+
+import { D_mypagePostCategoryList } from "@data/mypage/D_mypage";
 
 export default function UseMyPageWrite() {
   const router = useRouter();
 
   const categoryList: mypageCategory[] = D_mypagePostCategoryList;
   const category: mypageCategory = categoryList[0];
-
+  const [selectedTab, setSelectedTab] = useState<string>("written");
   const [filterOnSale, setFilterOnSale] = useState<string>("N");
   const [sort, setSort] = useState<string>("LATEST");
+  const [pageNum, setPageNum] = useState(0);
 
-  const pageNum = Number(router.query.page ?? 0);
   const { data: postList } = useQuery({
     queryKey: ["writeByUser", sort, filterOnSale, pageNum],
     queryFn: () =>
@@ -28,9 +30,19 @@ export default function UseMyPageWrite() {
     router.push(`/mypage/${url}`);
   }
 
+  const onClickTab = (key: string) => {
+    setSelectedTab(key);
+  };
+
   const onClickFilterOnSaleBtn = () => setFilterOnSale((prev) => (prev === "Y" ? "N" : "Y"));
 
   const onSortList = () => setSort((prev) => (prev === "LATEST" ? "PRICE" : "LATEST"));
+
+  // NOTE 페이지 변경 함수
+  const onChangePage = (pageIndex: number) => {
+    setPageNum(pageIndex);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return {
     categoryList,
@@ -41,5 +53,9 @@ export default function UseMyPageWrite() {
     postList,
     setSort,
     onSortList,
+    selectedTab,
+    setSelectedTab,
+    onClickTab,
+    onChangePage,
   };
 }

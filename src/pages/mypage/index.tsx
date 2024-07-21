@@ -1,32 +1,22 @@
 import styles from "./mypage.module.scss";
 
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-
-import BtnSqrChk from "@assets/icons/BtnSqrChk.svg";
-import BtnSqrChkOn from "@assets/icons/BtnSqrChkOn.svg";
-import Swap from "@assets/icons/Swap.svg";
 
 import CommonFooter from "@components/common/commonFooter";
 import CommonHeader from "@components/common/header/commonHeader";
-import PageNav from "@components/common/pageNav";
 import ScrollTopBtn from "@components/common/scrollTopBtn";
 import ProfSec from "@components/mypage/profSec";
-import Tab from "@components/mypage/tab";
-import WritePost from "@components/mypage/write/writePost";
 
 import UseMyPageWrite from "@hooks/mypage/useMypageWrite";
 
 export default function Mypage() {
   const router = useRouter();
   const useMypageWrite = UseMyPageWrite();
-
-  // NOTE 페이지 변경 함수
-  const onChangePage = (pageIndex: number) =>
-    pageIndex === 0
-      ? router.push(router.pathname)
-      : router.push({
-          query: { page: pageIndex },
-        });
+  const DynamicComponent = dynamic(
+    () => import(`@components/mypage/postList/${useMypageWrite.selectedTab}`),
+    { loading: () => <div>loading...</div> },
+  );
 
   return (
     <>
@@ -36,39 +26,25 @@ export default function Mypage() {
         <ProfSec />
 
         <section className={styles.postSec}>
-          <article className={styles.toolBar}>
-            <Tab />
-
-            <div className={styles.rightCont}>
-              <button
-                className={`${styles.filterOnSaleBtn} ${styles.utilBtn}`}
-                onClick={useMypageWrite.onClickFilterOnSaleBtn}
-              >
-                {useMypageWrite.filterOnSale === "Y" ? <BtnSqrChkOn /> : <BtnSqrChk />}
-
-                <p>상장된 글만 보기</p>
-              </button>
-              <button
-                className={`${styles.sortBtn} ${styles.utilBtn}`}
-                onClick={useMypageWrite.onSortList}
-              >
-                <Swap />
-                <p>최신순</p>
-              </button>
-            </div>
-          </article>
-
-          <ul className={styles.postList}>
-            {useMypageWrite.postList?.contents.map((v: mypageWritePosts, i: number) => (
-              <WritePost data={v} key={i} />
-            ))}
+          <ul className={styles.categoryList}>
+            {useMypageWrite.categoryList.map((v, i) => {
+              return (
+                <li
+                  key={i}
+                  className={useMypageWrite.selectedTab === v.key ? styles.on : ""}
+                  onClick={() => useMypageWrite.onClickTab(v.key)}
+                >
+                  <p>{v.label}</p>
+                </li>
+              );
+            })}
           </ul>
 
-          <PageNav
-            totalPages={useMypageWrite.postList?.totalPages}
-            currentPage={useMypageWrite.postList?.pageNumber}
-            onChangePage={onChangePage}
-          />
+          {useMypageWrite.categoryList.map((category) => {
+            if (category.key === useMypageWrite.selectedTab) {
+              return <DynamicComponent key={category.key} />;
+            }
+          })}
         </section>
       </main>
 
