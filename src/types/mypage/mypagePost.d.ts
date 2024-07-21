@@ -1,6 +1,7 @@
 interface mypageCategory {
   url: string;
   label: string;
+  path?: string;
   count?: number;
 }
 

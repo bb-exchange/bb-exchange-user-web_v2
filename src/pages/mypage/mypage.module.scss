@@ -16,36 +16,6 @@
       justify-content: space-between;
       align-items: center;
 
-      .leftCont {
-        .categoryList {
-          display: flex;
-          align-items: center;
-          gap: 20px;
-
-          li {
-            display: flex;
-            align-items: center;
-            height: 52px;
-            padding: 0 4px;
-            border-bottom: 2px solid transparent;
-            cursor: pointer;
-
-            &.on {
-              border-color: $Primary1;
-
-              p {
-                font-weight: 700;
-                color: $Primary1;
-              }
-            }
-
-            p {
-              color: $Black2;
-            }
-          }
-        }
-      }
-
       .rightCont {
         display: flex;
         align-items: center;

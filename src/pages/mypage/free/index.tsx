@@ -1,4 +1,4 @@
-import styles from "./buy.module.scss";
+import styles from "./free.module.scss";
 
 import { useRouter } from "next/router";
 

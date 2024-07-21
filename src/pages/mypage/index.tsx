@@ -11,6 +11,7 @@ import CommonHeader from "@components/common/header/commonHeader";
 import PageNav from "@components/common/pageNav";
 import ScrollTopBtn from "@components/common/scrollTopBtn";
 import ProfSec from "@components/mypage/profSec";
+import Tab from "@components/mypage/tab";
 import WritePost from "@components/mypage/write/writePost";
 
 import UseMyPageWrite from "@hooks/mypage/useMypageWrite";
@@ -36,19 +37,7 @@ export default function Mypage() {
 
         <section className={styles.postSec}>
           <article className={styles.toolBar}>
-            <div className={styles.leftCont}>
-              <ul className={styles.categoryList}>
-                {useMypageWrite.categoryList.map((v, i) => (
-                  <li
-                    key={i}
-                    className={v.label === useMypageWrite.category.label ? styles.on : ""}
-                    onClick={() => useMypageWrite.onClickCategoryBtn(v.url)}
-                  >
-                    <p>{v.label}</p>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <Tab />
 
             <div className={styles.rightCont}>
               <button

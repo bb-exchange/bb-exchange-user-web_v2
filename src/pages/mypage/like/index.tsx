@@ -2,14 +2,17 @@ import styles from "./like.module.scss";
 
 import { useRouter } from "next/router";
 
-import Swap from ".assets/icons/Swap.svg";
-import CommonFooter from ".src/components/common/commonFooter";
-import CommonHeader from ".src/components/common/header/commonHeader";
-import PageNav from ".src/components/common/pageNav";
-import ScrollTopBtn from ".src/components/common/scrollTopBtn";
-import LikePost from ".src/components/mypage/like/likePost";
-import ProfSec from ".src/components/mypage/profSec";
-import UseMyPageLike from ".src/hooks/mypage/useMypageLike";
+import Swap from "@assets/icons/Swap.svg";
+
+import CommonFooter from "@components/common/commonFooter";
+import CommonHeader from "@components/common/header/commonHeader";
+import PageNav from "@components/common/pageNav";
+import ScrollTopBtn from "@components/common/scrollTopBtn";
+import LikePost from "@components/mypage/like/likePost";
+import ProfSec from "@components/mypage/profSec";
+import Tab from "@components/mypage/tab";
+
+import UseMyPageLike from "@hooks/mypage/useMypageLike";
 
 export default function MypageWrite() {
   const router = useRouter();
@@ -28,19 +31,7 @@ export default function MypageWrite() {
 
         <section className={styles.postSec}>
           <article className={styles.toolBar}>
-            <div className={styles.leftCont}>
-              <ul className={styles.categoryList}>
-                {useMypageLike.categoryList.map((v, i) => (
-                  <li
-                    key={i}
-                    className={v.label === useMypageLike.category.label ? styles.on : ""}
-                    onClick={() => useMypageLike.onClickCategoryBtn(v.url)}
-                  >
-                    <p>{v.label}</p>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <Tab />
 
             <div className={styles.rightCont}>
               {useMypageLike.editMode ? (
