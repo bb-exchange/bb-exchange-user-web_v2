@@ -1,0 +1,33 @@
+@import "/src/styles/variable";
+
+.leftCont {
+  .categoryList {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    li {
+      display: flex;
+      align-items: center;
+      padding: 10px 16px;
+      border: 1px solid $Gray2;
+      border-radius: 8px;
+      box-sizing: border-box;
+      cursor: pointer;
+
+      &.on {
+        border-color: $PrimaryBG2;
+        background-color: $PrimaryBG2;
+
+        p {
+          font-weight: 700;
+          color: white;
+        }
+      }
+
+      p {
+        color: $Black2;
+      }
+    }
+  }
+}
