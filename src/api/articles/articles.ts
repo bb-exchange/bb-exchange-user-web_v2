@@ -108,7 +108,7 @@ export const deleteArticleTemp = async (articleId: number) =>
 
 //NOTE - 구매한 글 조회
 export const purchaseArticles = async (query: string) =>
-  (await basicInstance.get(`/v1/articles/purchase/${query}`)).data;
+  (await basicInstance.get(`/v2/articles/purchase${query}`)).data;
 
 //NOTE - 찜한글 조회
 export const interestsArticles = async (query: string) =>
