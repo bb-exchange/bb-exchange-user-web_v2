@@ -1,1 +1,0 @@
-export { CustomClassName } from "./CustomClassName";

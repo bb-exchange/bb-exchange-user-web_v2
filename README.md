@@ -1,29 +1,36 @@
-# 비법거래소 웹 서비스
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Commit Convention
+## Getting Started
 
----
+First, run the development server:
 
-### Commit type
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-- Feat: 기능 작업
-- Refactor: 리팩토링
-- Fix: 버그 수정
-- Hotfix: 긴급 내용
-- Docs: 문서 관련
-- Test: 테스트(테스트 코드 추가, 수정, 삭제, 비즈니스 로직에 변경이 없는 경우)
-- Build: 빌드 관련
-- Revert: 롤백
-- Style: CSS 등 사용자 UI 작업
-- Chore: 위에서 언급한 것 이외의 작업
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-### Rule
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-- Commit type은 [ ]를 이용하여 작성
-- 내용은 간결하게 작성
-- 한 작업 할 때마다 commit
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-### Example
+## Learn More
 
-- [Feat] 로그인 API 연동
-- [Style] 로그인 화면
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
