@@ -1,0 +1,88 @@
+.custom-calendar {
+  // padding: 0.75rem;
+
+  .months {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .caption {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .caption_label {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+    position: relative;
+    top: 0.7rem;
+    background-color: aquamarine;
+  }
+  .nav_button {
+    width: 1.75rem;
+    height: 1.75rem;
+    background-color: transparent;
+    padding: 0;
+    opacity: 0.5;
+    &:hover {
+      opacity: 1;
+    }
+  }
+  .button_previous {
+    position: absolute;
+    left: 0.25rem;
+    height: 1.5rem;
+    width: 1.5rem;
+    cursor: pointer;
+  }
+  .button_next {
+    position: absolute;
+    right: 0.25rem;
+    height: 1.5rem;
+    width: 1.5rem;
+    cursor: pointer;
+  }
+
+  .weekdays {
+    font-weight: normal;
+    font-size: 0.8rem;
+    width: 2.25rem;
+  }
+  .weekday {
+    padding: 1rem 0;
+  }
+
+  .day {
+    height: 2.25rem;
+    width: 2.25rem;
+    text-align: center;
+    vertical-align: middle;
+    padding: 0;
+
+    button {
+      height: 2.25rem;
+      width: 2.25rem;
+      padding: 0;
+    }
+  }
+
+  .day_button {
+    height: 2.25rem;
+    width: 2.25rem;
+    padding: 0;
+    font-weight: normal;
+    background-color: transparent;
+  }
+
+  .outside {
+    opacity: 0.5;
+  }
+  .hidden {
+    visibility: hidden;
+  }
+}
