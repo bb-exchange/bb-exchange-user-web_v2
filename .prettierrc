@@ -14,8 +14,11 @@
     "^react",
     "^next",
     "<THIRD_PARTY_MODULES>",
-    "@/components/.*$",
-    "@/lib/.*$"
+    "@/app/.*$",
+    "@/assets/.*$",
+    "@/core/.*$",
+    "@/shared/.*$",
+    "@/styles/.*$"
   ],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true,
