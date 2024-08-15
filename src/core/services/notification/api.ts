@@ -3,15 +3,15 @@ import { NotificationResponse } from "./type";
 import api from "@/shared/lib/api";
 
 export const GET_notifications = async (): Promise<NotificationResponse> => {
-  const { data } = await api.get("/v1/notifications");
+  const { data } = await api.get("/v1/notifications", { requireToken: true });
   return data;
 };
 
 export const PUT_notification_by_id = async (id: number) => {
-  const { data } = await api.put(`/v1/notifications/${id}`);
+  const { data } = await api.put(`/v1/notifications/${id}`, { requireToken: true });
   return data;
 };
 export const PUT_notification_all = async () => {
-  const { data } = await api.put(`/v1/notifications/all`);
+  const { data } = await api.put(`/v1/notifications/all`, { requireToken: true });
   return data;
 };

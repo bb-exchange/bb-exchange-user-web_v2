@@ -1,12 +1,9 @@
-import axios, { InternalAxiosRequestConfig } from "axios";
+import axios, { AxiosInstance } from "axios";
 import { deleteCookie, getCookie, setCookie } from "cookies-next";
 
-interface requestConfig {
-  requireToken?: boolean;
-}
 const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
 
-const api = axios.create({
+const api: AxiosInstance = axios.create({
   baseURL,
 });
 
@@ -28,7 +25,7 @@ const processQueue = (error: any, token: string | null = null) => {
 };
 
 api.interceptors.request.use(
-  (config: InternalAxiosRequestConfig & requestConfig) => {
+  (config) => {
     // 토큰이 필요한지 여부를 요청 별 설정으로 판단
     if (config?.requireToken) {
       const accessToken = getCookie("accessToken");
