@@ -1,4 +1,4 @@
-import { NotificationResponse } from "./type";
+import { NotificationResponse } from "@/core/types/notificationType";
 
 import api from "@/shared/lib/api";
 
