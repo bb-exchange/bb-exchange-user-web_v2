@@ -11,6 +11,7 @@ export type NotificationSummary = {
   landingTargetId: number;
 };
 
+/** [GET] /v1/notifications : 유저 최근 알림 조회 */
 export type NotificationResponse = {
   data: {
     contents: NotificationSummary[];
