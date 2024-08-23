@@ -1,9 +1,9 @@
-import { Flex, Grid } from "@/shared/components/layouts";
+import { Flex, Grid, Section } from "@/shared/components/layouts";
 import { Skeleton } from "@/shared/components/ui/skeleton";
 
 export default function Home() {
   return (
-    <section>
+    <Section>
       <Flex direction="column" gap="2">
         <Flex>
           <Skeleton height="60px" width="100%">
@@ -22,6 +22,6 @@ export default function Home() {
           <Skeleton height="160px"></Skeleton>
         </Grid>
       </Flex>
-    </section>
+    </Section>
   );
 }
