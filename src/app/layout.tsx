@@ -6,6 +6,7 @@ import { Inter } from "next/font/google";
 
 import { Theme } from "@radix-ui/themes";
 
+import { Container } from "@/shared/components/layouts";
 import Footer from "@/shared/components/layouts/footer";
 import Header from "@/shared/components/layouts/header";
 
@@ -26,7 +27,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Theme>
           <Header />
-          {children}
+          <Container>{children}</Container>
           <Footer />
         </Theme>
       </body>
