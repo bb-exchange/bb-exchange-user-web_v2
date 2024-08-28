@@ -2,9 +2,11 @@
 
 import { toast } from "sonner";
 
-import { Flex, Grid, Section } from "@/shared/components/layouts";
+import { Box, Flex, Grid, Section } from "@/shared/components/layouts";
+import { Text } from "@/shared/components/typography";
 import { Button } from "@/shared/components/ui/button";
 import { Skeleton } from "@/shared/components/ui/skeleton";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
 import { Toaster } from "@/shared/components/ui/toast";
 
 export default function Home() {
@@ -27,6 +29,29 @@ export default function Home() {
       >
         Show Toast
       </Button>
+
+      <Tabs defaultValue="account">
+        <TabsList>
+          <TabsTrigger value="account">비법글</TabsTrigger>
+          <TabsTrigger value="documents">크리에이터</TabsTrigger>
+          <TabsTrigger value="settings">abcd</TabsTrigger>
+        </TabsList>
+
+        <Box pt="3">
+          <TabsContent value="account">
+            <Text size="2">Make changes to your account.</Text>
+          </TabsContent>
+
+          <TabsContent value="documents">
+            <Text size="2">Access and update your documents.</Text>
+          </TabsContent>
+
+          <TabsContent value="settings">
+            <Text size="2">Edit your profile or update contact information.</Text>
+          </TabsContent>
+        </Box>
+      </Tabs>
+
       <Flex direction="column" gap="2">
         <Flex>
           <Skeleton height="60px" width="100%">
