@@ -115,6 +115,21 @@ body {
   --green-a060: rgba(6, 138, 67, 0.5);
   --green-a070: rgba(5, 92, 45, 0.6);
   --green-a080: rgba(5, 61, 28, 0.7);
+
+  /* * * * * * * * * * * * * * * * * * * */
+  /*                                     */
+  /*              Cursors                */
+  /*                                     */
+  /* * * * * * * * * * * * * * * * * * * */
+  --cursor-button: pointer;
+  --cursor-checkbox: pointer;
+  --cursor-disabled: default;
+  --cursor-link: pointer;
+  --cursor-menu-item: pointer;
+  --cursor-radio: pointer;
+  --cursor-slider-thumb: grab;
+  --cursor-slider-thumb-active: grabbing;
+  --cursor-switch: pointer;
 }
 
 :is(.dark, .dark-theme),
