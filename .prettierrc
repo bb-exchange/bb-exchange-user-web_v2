@@ -9,8 +9,6 @@
   "orderedImports": true,
   "jsxSingleQuote": false,
   "importOrder": [
-    "^(\\.|\\.\\.)/(.(?!.(css|scss)))*$",
-    "\\.(css|scss)$",
     "^react",
     "^next",
     "<THIRD_PARTY_MODULES>",
