@@ -33,8 +33,8 @@ export const POST_hide_user = async (userId: number) => {
 };
 
 /** 사용자 게시글 숨김 (IF RequestBody, ResponseBody가 있을경우 (DELETE, PUT 동일)) */
-export const POST_hide_user_req_res_temp = async (userId: number, request: PostHideUserRequest) => {
-  const { data } = await Post<PostHideUserResponse>(`/v1/users/${userId}/hide`, request, {
+export const POST_hide_user_req_res_temp = async (request: PostHideUserRequest) => {
+  const { data } = await Post<PostHideUserResponse>(`/v1/users/${request.userId}/hide`, request, {
     requireToken: true,
   });
   return data.data;
