@@ -15,8 +15,8 @@ export const Post = async <T, D = any>(
   url: string,
   data?: D,
   config?: AxiosRequestConfig,
-): Promise<AxiosResponse<T>> => {
-  const response = await api.post<T>(url, data, config);
+): Promise<CommonResponse<AxiosResponse<T>>> => {
+  const response = await api.post(url, data, config);
   return response;
 };
 
