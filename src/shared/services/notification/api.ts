@@ -1,6 +1,5 @@
-import { NotificationResponse } from "@/core/types/notificationType";
-
 import api from "@/shared/lib/api";
+import { NotificationResponse } from "@/shared/types/notificationType";
 
 export const GET_notifications = async (): Promise<NotificationResponse> => {
   const { data } = await api.get("/v1/notifications", { requireToken: true });

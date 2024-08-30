@@ -1,6 +1,5 @@
-import { CommentListResponse, CommentRequest } from "@/core/types/commentType";
-
 import api from "@/shared/lib/api";
+import { CommentListResponse, CommentRequest } from "@/shared/types/commentType";
 
 /** 댓글 리스트 조회 */
 export const GET_comments_by_article_id = async ({

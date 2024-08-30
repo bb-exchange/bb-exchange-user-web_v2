@@ -1,12 +1,12 @@
 import { Delete, Get, Post } from "../services";
 
-import { PageResponse } from "@/core/types/commonType";
+import { PageResponse } from "@/shared/types/commonType";
 import {
   BlockedUser,
   HiddenUser,
   PostHideUserRequest,
   PostHideUserResponse,
-} from "@/core/types/settingType";
+} from "@/shared/types/settingType";
 
 /** 숨김 사용자 목록 조회 */
 export const GET_hidden_users = async () => {

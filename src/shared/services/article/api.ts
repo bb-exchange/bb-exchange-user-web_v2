@@ -1,6 +1,5 @@
-import { ArticleListResponse, ArticleRequest } from "@/core/types/articleType";
-
 import api from "@/shared/lib/api";
+import { ArticleListResponse, ArticleRequest } from "@/shared/types/articleType";
 
 /** 게시글 조회 */
 export const GET_articles_by_id = async ({
