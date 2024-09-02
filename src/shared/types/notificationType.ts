@@ -1,5 +1,4 @@
-import { NotificationType } from "@/shared/constants/codes";
-import { PageData } from "@/shared/constants/enums";
+import { NotificationType, PageData } from "@/shared/constants/enums";
 
 export type NotificationSummary = {
   id: number;
