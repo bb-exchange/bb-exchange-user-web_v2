@@ -99,6 +99,21 @@
 * style : 코드 의미에 영향을 주지 않는 변경사항 타입 (공백, 포맷팅)
 * refactor : 코드 리팩토링에 대한 타입
 
-## 4. 코드작성 참고사항
+## 4. 프로젝트 세팅
+```
+git clone https://github.com/bb-exchange/bb-exchange-user-web_v2.git
+yarn install
+```
+### vscode 사용시
+[링크](https://yarnpkg.com/getting-started/editor-sdks#vscode) 참고 후 아래 절차 진행
+1. Press ctrl+shift+p in a TypeScript file
+2. Choose "Select TypeScript Version"
+3. Pick "Use Workspace Version"
+4. 라이브러리 내부 확인하시려면 [ZipFS](https://marketplace.visualstudio.com/items?itemName=arcanis.vscode-zipfs) 익스텐션 다운 받으셔야 합니다!!
+
+
+
+
+## 5. 코드작성 참고사항
 
 
