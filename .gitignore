@@ -35,8 +35,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# we use npm
-yarn.lock
+# we use yarn v1
+package-lock.json
 
 # environment
 *.local
