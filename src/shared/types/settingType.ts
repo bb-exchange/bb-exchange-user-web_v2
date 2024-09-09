@@ -16,3 +16,7 @@ export interface PostHideUserResponse {
   code: number;
   message: string;
 }
+
+export interface DeleteRemoveUserRequest {
+  reason: string;
+}
