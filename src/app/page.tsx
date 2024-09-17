@@ -3,13 +3,29 @@
 import { toast } from "sonner";
 
 import { Box, Flex, Grid, Section } from "@/shared/components/layouts";
-import { Text } from "@/shared/components/typography";
 import { Button } from "@/shared/components/ui/button";
 import { Skeleton } from "@/shared/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
+import { Text } from "@/shared/components/ui/text";
 import { Toaster } from "@/shared/components/ui/toast";
 
 export default function Home() {
+  const test = [
+    "display1",
+    "display2",
+    "headline1",
+    "title1",
+    "title2",
+    "title2",
+    "body1_normal",
+    "body1_reading",
+    "body2_normal",
+    "body2_reading",
+    "label1_normal",
+    "label1_reading",
+    "caption1",
+    "caption2",
+  ];
   return (
     <Section>
       <Toaster />
@@ -39,15 +55,31 @@ export default function Home() {
 
         <Box pt="3">
           <TabsContent value="account">
-            <Text size="2">Make changes to your account.</Text>
+            <Flex direction="column">
+              {test.map((t: any) => {
+                return (
+                  <Flex direction="column" key={t} style={{ border: "3px solid pink" }}>
+                    <Text variant={t} weight="bold">
+                      스포카 한 산스 네오 ({t} / bold)
+                    </Text>
+                    <Text variant={t} weight="medium">
+                      스포카 한 산스 네오 ({t} / medium)
+                    </Text>
+                    <Text variant={t} weight="regular">
+                      스포카 한 산스 네오 ({t} / regular)
+                    </Text>
+                  </Flex>
+                );
+              })}
+            </Flex>
           </TabsContent>
 
           <TabsContent value="documents">
-            <Text size="2">Access and update your documents.</Text>
+            <Text>Access and update your documents.</Text>
           </TabsContent>
 
           <TabsContent value="settings">
-            <Text size="2">Edit your profile or update contact information.</Text>
+            <Text>Edit your profile or update contact information.</Text>
           </TabsContent>
         </Box>
       </Tabs>
