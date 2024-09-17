@@ -1,14 +1,14 @@
 module.exports = {
-  "singleQuote": false,
-  "semi": true,
-  "useTabs": false,
-  "tabWidth": 2,
-  "trailingComma": "all",
-  "printWidth": 100,
-  "arrowParens": "always",
-  "orderedImports": true,
-  "jsxSingleQuote": false,
-  "importOrder": [
+  singleQuote: false,
+  semi: true,
+  useTabs: false,
+  tabWidth: 2,
+  trailingComma: "all",
+  printWidth: 100,
+  arrowParens: "always",
+  orderedImports: true,
+  jsxSingleQuote: false,
+  importOrder: [
     "^react",
     "^next",
     "<THIRD_PARTY_MODULES>",
@@ -16,10 +16,10 @@ module.exports = {
     "@/assets/.*$",
     "@/core/.*$",
     "@/shared/.*$",
-    "@/styles/.*$"
+    "@/styles/.*$",
   ],
-  "importOrderSeparation": true,
-  "importOrderSortSpecifiers": true,
-  "importOrderCaseInsensitive": true,
-  "plugins": [require.resolve("@trivago/prettier-plugin-sort-imports")],
-}
+  importOrderSeparation: true,
+  importOrderSortSpecifiers: true,
+  importOrderCaseInsensitive: true,
+  plugins: [require.resolve("@trivago/prettier-plugin-sort-imports")],
+};
