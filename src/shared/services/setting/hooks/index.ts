@@ -4,4 +4,6 @@ export * from "./useDeleteHideUser";
 
 export * from "./useGetBlockedUsers";
 export * from "./usePostBlockUser";
-export * from "./usePostBlockUser";
+export * from "./useDeleteBlockUser";
+
+export * from "./useDeleteRemoveUser";
