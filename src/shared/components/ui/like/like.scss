@@ -1,0 +1,32 @@
+.like {
+  border-radius: 60px;
+  background-color: var(--gray-020);
+}
+
+.like-button {
+  border-radius: 100%;
+  border: 2px solid var(--gray-030);
+  box-sizing: border-box;
+  width: 90px;
+  height: 90px;
+  background-color: var(--gray-010);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: center;
+  justify-content: center;
+}
+
+.like-status--off {
+  color: var(--gray-050);
+}
+.like-status--up {
+  border: 3px solid var(--red-050);
+  color: var(--red-050);
+  filter: drop-shadow(0px 0px 10px rgba(255, 63, 37, 0.2));
+}
+.like-status--down {
+  border: 3px solid var(--green-050);
+  color: var(--green-050);
+  filter: drop-shadow(0px 0px 10px rgba(12, 219, 107, 0.2));
+}

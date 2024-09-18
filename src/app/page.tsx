@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { Box, Flex, Grid, Section } from "@/shared/components/layouts";
 import { Text } from "@/shared/components/typography";
 import { Button } from "@/shared/components/ui/button";
+import Like from "@/shared/components/ui/like";
 import { Skeleton } from "@/shared/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
 import { Toaster } from "@/shared/components/ui/toast";
@@ -12,6 +13,7 @@ import { Toaster } from "@/shared/components/ui/toast";
 export default function Home() {
   return (
     <Section>
+      <Like />
       <Toaster />
 
       <Button
