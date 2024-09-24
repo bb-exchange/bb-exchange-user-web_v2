@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
-import { Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 
 import { Container } from "@/shared/components/layouts";
 import Footer from "@/shared/components/layouts/footer";
 import Header from "@/shared/components/layouts/header";
+import ThemeProvider from "@/shared/providers/theme-provider";
 
 import "@/styles/globals.css";
 import "@/styles/variables.css";
@@ -26,11 +26,11 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={inter.className}>
-        <Theme appearance="light" accentColor="purple">
+        <ThemeProvider>
           <Header />
           <Container>{children}</Container>
           <Footer />
-        </Theme>
+        </ThemeProvider>
       </body>
     </html>
   );
