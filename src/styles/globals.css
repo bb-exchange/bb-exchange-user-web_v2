@@ -1,5 +1,35 @@
+@font-face {
+  font-family: "SpoqaHanSansNeo";
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src:
+    url("/fonts/SpoqaHanSansNeo-Regular.woff") format("woff"),
+    url("/fonts/SpoqaHanSansNeo-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "SpoqaHanSansNeo";
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src:
+    url("/fonts/SpoqaHanSansNeo-Medium.woff") format("woff"),
+    url("/fonts/SpoqaHanSansNeo-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "SpoqaHanSansNeo";
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src:
+    url("/fonts/SpoqaHanSansNeo-Bold.woff") format("woff"),
+    url("/fonts/SpoqaHanSansNeo-Bold.ttf") format("truetype");
+}
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: SpoqaHanSansNeo, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -15,6 +45,15 @@
 
 body {
   margin-top: 48px;
+}
+
+.radix-themes {
+  --default-font-family: SpoqaHanSansNeo;
+  --heading-font-family: SpoqaHanSansNeo;
+  --code-font-family: SpoqaHanSansNeo;
+  --strong-font-family: SpoqaHanSansNeo;
+  --em-font-family: SpoqaHanSansNeo;
+  --quote-font-family: SpoqaHanSansNeo;
 }
 
 .radix-themes {
