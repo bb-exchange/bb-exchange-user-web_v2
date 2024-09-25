@@ -17,7 +17,6 @@ export default function Home() {
     "headline1",
     "title1",
     "title2",
-    "title2",
     "body1_normal",
     "body1_reading",
     "body2_normal",
