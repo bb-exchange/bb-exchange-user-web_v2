@@ -1,0 +1,11 @@
+.SeparatorRoot {
+  background-color: var(--gray-040);
+}
+.SeparatorRoot[data-orientation="horizontal"] {
+  height: 1px;
+  width: 100%;
+}
+.SeparatorRoot[data-orientation="vertical"] {
+  height: 16px;
+  width: 1px;
+}
