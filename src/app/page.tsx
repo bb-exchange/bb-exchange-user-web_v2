@@ -3,6 +3,7 @@
 import { toast } from "sonner";
 
 import { Box, Flex, Grid, Section } from "@/shared/components/layouts";
+import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components/ui/avatar";
 import { Button } from "@/shared/components/ui/button";
 import { Skeleton } from "@/shared/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
@@ -28,6 +29,19 @@ export default function Home() {
   ];
   return (
     <Section>
+      <Avatar size="sm">
+        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+        <AvatarFallback>CN</AvatarFallback>
+      </Avatar>
+      <Avatar size="md">
+        {/* <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" /> */}
+        <AvatarFallback>CN</AvatarFallback>
+      </Avatar>
+      <Avatar size="lg">
+        {/* <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" /> */}
+        <AvatarFallback>CN</AvatarFallback>
+      </Avatar>
+
       <Toaster />
 
       <Button
