@@ -567,7 +567,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@radix-ui/react-avatar@npm:1.1.0":
+"@radix-ui/react-avatar@npm:1.1.0, @radix-ui/react-avatar@npm:^1.1.0":
   version: 1.1.0
   resolution: "@radix-ui/react-avatar@npm:1.1.0"
   dependencies:
@@ -4261,6 +4261,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "my-app@workspace:."
   dependencies:
+    "@radix-ui/react-avatar": "npm:^1.1.0"
     "@radix-ui/react-slot": "npm:^1.1.0"
     "@radix-ui/react-tabs": "npm:^1.1.0"
     "@radix-ui/themes": "npm:^3.1.3"
