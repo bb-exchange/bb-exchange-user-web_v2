@@ -10,6 +10,12 @@ import { Switch } from "@/shared/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
 import { Text } from "@/shared/components/ui/text";
 import { Toaster } from "@/shared/components/ui/toast";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/shared/components/ui/tooltip";
 
 export default function Home() {
   const test = [
@@ -17,7 +23,6 @@ export default function Home() {
     "display2",
     "headline1",
     "title1",
-    "title2",
     "title2",
     "body1_normal",
     "body1_reading",
@@ -30,6 +35,16 @@ export default function Home() {
   ];
   return (
     <Section>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger>Hover</TooltipTrigger>
+          <TooltipContent align="center">
+            판매 대금 확정 여부에 따라 ‘수익금’과
+            <br /> ‘출금 가능 수익금’에 차이가 있을 수 있어요.
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+
       <Switch />
       <Avatar size="sm">
         <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
@@ -43,9 +58,7 @@ export default function Home() {
         {/* <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" /> */}
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
-
       <Toaster />
-
       <Button
         variant="outline"
         onClick={() =>
@@ -61,7 +74,6 @@ export default function Home() {
       >
         Show Toast
       </Button>
-
       <Tabs defaultValue="account">
         <TabsList>
           <TabsTrigger value="account">비법글</TabsTrigger>
@@ -99,7 +111,6 @@ export default function Home() {
           </TabsContent>
         </Box>
       </Tabs>
-
       <Flex direction="column" gap="2">
         <Flex>
           <Skeleton height="60px" width="100%">
