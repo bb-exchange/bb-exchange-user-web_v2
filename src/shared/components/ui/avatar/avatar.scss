@@ -3,7 +3,7 @@
   display: flex;
   flex-shrink: 0;
   overflow: hidden;
-  border-radius: 100%;
+  border-radius: 9999px;
 
   &--sm {
     width: 24px;
@@ -31,6 +31,6 @@
   width: 100%;
   align-items: center;
   justify-content: center;
-  border-radius: 100%;
+  border-radius: 9999px;
   background-color: var(--accent-2);
 }
