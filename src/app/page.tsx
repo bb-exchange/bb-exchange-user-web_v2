@@ -6,6 +6,7 @@ import { Box, Flex, Grid, Section } from "@/shared/components/layouts";
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components/ui/avatar";
 import { Button } from "@/shared/components/ui/button";
 import { Skeleton } from "@/shared/components/ui/skeleton";
+import { Switch } from "@/shared/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
 import { Text } from "@/shared/components/ui/text";
 import { Toaster } from "@/shared/components/ui/toast";
@@ -29,6 +30,7 @@ export default function Home() {
   ];
   return (
     <Section>
+      <Switch />
       <Avatar size="sm">
         <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
         <AvatarFallback>CN</AvatarFallback>
