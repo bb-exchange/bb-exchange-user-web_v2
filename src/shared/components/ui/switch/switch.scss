@@ -1,0 +1,47 @@
+.switch {
+  display: inline-flex;
+  height: 28px;
+  width: 46px;
+  flex-shrink: 0;
+  cursor: pointer;
+  align-items: center;
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: 150ms;
+  transition-timing-function: ease-in-out;
+  outline: none;
+}
+
+.switch:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.switch[data-state="checked"] {
+  background-color: var(--accent-5);
+}
+
+.switch[data-state="unchecked"] {
+  background-color: var(--gray-020);
+}
+
+.switch-thumb {
+  pointer-events: none;
+  display: block;
+  height: 24px;
+  width: 24px;
+  border-radius: 9999px;
+  background-color: #ffffff;
+
+  transition-property: transform;
+  transition-duration: 150ms;
+  transition-timing-function: ease-in-out;
+
+  &[data-state="checked"] {
+    transform: translateX(18px);
+  }
+  &[data-state="unchecked"] {
+    transform: translateX(0);
+  }
+}
