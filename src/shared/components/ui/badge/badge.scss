@@ -1,0 +1,32 @@
+.bb-badge {
+  width: fit-content;
+  display: inline-flex;
+  padding: 4px 8px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border-radius: 12px;
+  font-weight: 500;
+}
+.bb-badge-color {
+  &-grey {
+    background-color: #ffffff;
+    color: var(--gray-050);
+  }
+  &-blue {
+    background-color: var(--purple-040);
+    color: #ffffff;
+  }
+  &-main {
+    background-color: var(--purple-010);
+    color: var(--purple-040);
+  }
+  &-red {
+    background-color: var(--red-020);
+    color: var(--red-050);
+  }
+  &-green {
+    background-color: var(--green-010);
+    color: var(--green-040);
+  }
+}

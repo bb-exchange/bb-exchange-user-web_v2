@@ -4,6 +4,7 @@ import { toast } from "sonner";
 
 import { Box, Flex, Grid, Section } from "@/shared/components/layouts";
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components/ui/avatar";
+import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
 import { Skeleton } from "@/shared/components/ui/skeleton";
 import { Switch } from "@/shared/components/ui/switch";
@@ -33,8 +34,26 @@ export default function Home() {
     "caption1",
     "caption2",
   ];
+  const badges = ["grey", "blue", "main", "red", "green"];
   return (
     <Section>
+      <Flex direction="column">
+        {badges.map((badge) => {
+          return (
+            <Box key={badge}>
+              <Badge color={badge} size="lg">
+                {/* {badge}, lg */}
+                태그
+              </Badge>
+              <Badge color={badge} size="md">
+                {/* {badge}, md */}
+                태그
+              </Badge>
+            </Box>
+          );
+        })}
+      </Flex>
+
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger>Hover</TooltipTrigger>
