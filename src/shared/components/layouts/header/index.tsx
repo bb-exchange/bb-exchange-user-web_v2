@@ -7,7 +7,7 @@ import "./header.scss";
 import { Button } from "@/shared/components/ui/button";
 import { themeStore } from "@/shared/stores/theme-store";
 
-const URLS = ["/", "login", "mypage", "event", "point", "setting"];
+const URLS = ["/", "login", "mypage", "event", "point", "setting", "article/123"];
 export default function Header() {
   const theme = themeStore((state) => state);
   return (
