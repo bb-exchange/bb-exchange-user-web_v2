@@ -4,10 +4,6 @@ import { Inter } from "next/font/google";
 import { Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 
-import { Container } from "@/shared/components/layouts";
-import Footer from "@/shared/components/layouts/footer";
-import Header from "@/shared/components/layouts/header";
-
 import "@/styles/globals.css";
 import "@/styles/variables.css";
 
@@ -27,9 +23,7 @@ export default function RootLayout({
     <html lang="ko">
       <body className={inter.className}>
         <Theme appearance="light" accentColor="purple">
-          <Header />
-          <Container>{children}</Container>
-          <Footer />
+          {children}
         </Theme>
       </body>
     </html>
