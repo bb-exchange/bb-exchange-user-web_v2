@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
-import { Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
+
+import ThemeProvider from "@/shared/providers/theme-provider";
 
 import "@/styles/globals.css";
 import "@/styles/variables.css";
@@ -22,9 +23,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={inter.className}>
-        <Theme appearance="light" accentColor="purple">
-          {children}
-        </Theme>
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );

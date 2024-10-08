@@ -1,7 +1,19 @@
-import { Switch as RadixSwitch } from '@radix-ui/themes';
+"use client";
 
-const Switch = RadixSwitch;
+import * as React from "react";
 
-Switch.displayName = 'Switch';
+import "./switch.scss";
+import * as SwitchPrimitives from "@radix-ui/react-switch";
+import cn from "classnames";
+
+const Switch = React.forwardRef<
+  React.ElementRef<typeof SwitchPrimitives.Root>,
+  React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>
+>(({ className, ...props }, ref) => (
+  <SwitchPrimitives.Root className={cn("switch", className)} {...props} ref={ref}>
+    <SwitchPrimitives.Thumb className={cn("switch-thumb")} />
+  </SwitchPrimitives.Root>
+));
+Switch.displayName = SwitchPrimitives.Root.displayName;
 
 export { Switch };

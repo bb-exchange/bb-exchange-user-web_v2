@@ -1,0 +1,97 @@
+body {
+  font-family: var(--default-font-family);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--heading-font-family);
+}
+
+code {
+  font-family: var(--code-font-family);
+}
+
+strong {
+  font-family: var(--strong-font-family);
+  font-weight: bold;
+}
+
+em {
+  font-family: var(--em-font-family);
+  font-style: italic;
+}
+
+blockquote {
+  font-family: var(--quote-font-family);
+  font-style: italic;
+}
+
+.bb-display1 {
+  font-size: 52px;
+  line-height: 4.75rem;
+  letter-spacing: -0.17rem;
+}
+.bb-display2 {
+  font-size: 32px;
+  line-height: 2.75rem;
+  letter-spacing: -0.17rem;
+}
+.bb-headline1 {
+  font-size: 24px;
+  line-height: 2.13rem;
+  letter-spacing: -0.13rem;
+}
+.bb-title1 {
+  font-size: 20px;
+  line-height: 1.75rem;
+  letter-spacing: -0.13rem;
+}
+.bb-title2 {
+  font-size: 18px;
+  line-height: 1.63rem;
+  letter-spacing: -0.11rem;
+}
+.bb-body1_normal {
+  font-size: 16px;
+  line-height: 1.5rem;
+  letter-spacing: -0.1rem;
+}
+.bb-body1_reading {
+  font-size: 16px;
+  line-height: 1.75rem;
+  letter-spacing: -0.06rem;
+}
+.bb-body2_normal {
+  font-size: 15px;
+  line-height: 1.38rem;
+  letter-spacing: -0.04rem;
+}
+.bb-body2_reading {
+  font-size: 15px;
+  line-height: 1.63rem;
+  letter-spacing: -0.01rem;
+}
+.bb-label1_normal {
+  font-size: 14px;
+  line-height: 1.25rem;
+  letter-spacing: -0.01rem;
+}
+.bb-label1_reading {
+  font-size: 14px;
+  line-height: 1.5rem;
+  letter-spacing: -0.03rem;
+}
+.bb-caption1 {
+  font-size: 12px;
+  line-height: 1rem;
+  letter-spacing: 0rem;
+}
+.bb-caption2 {
+  font-size: 11px;
+  line-height: 0.88rem;
+  letter-spacing: 0.01rem;
+}
