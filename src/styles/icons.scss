@@ -1,0 +1,271 @@
+.radix-themes:where(.dark, .dark-theme) {
+  $stroke-color: #bfccdc;
+
+  :is(
+      .copy_svg,
+      .arrow_right_svg,
+      .close_svg,
+      .view_svg,
+      .thumb_up_svg,
+      .thumb_down_svg,
+      .lock_svg,
+      .share_svg,
+      .return_svg,
+      .shop_svg,
+      .edit_svg,
+      .camera_svg,
+      .txt_bold_svg,
+      .txt_italic_svg,
+      .txt_underline_svg,
+      .txt_number_svg,
+      .txt_list_svg,
+      .link_svg,
+      .txt_leftalign_svg,
+      .txt_centeralign_svg,
+      .txt_rightalign_svg
+    )
+    > path {
+    stroke: $stroke-color;
+  }
+
+  :is(
+      .check_svg,
+      .arrow_left_svg,
+      .arrow_down_svg,
+      .slider_svg,
+      .noti_svg,
+      .noti_off_svg,
+      .user_minus_svg,
+      .filter_svg,
+      .noti_pc_svg,
+      .user_pc_svg,
+      .txt_arrow_svg
+    )
+    > path {
+    fill: $stroke-color;
+  }
+
+  :is(.plus_svg, .like_svg) > path {
+    stroke: $stroke-color;
+    fill: $stroke-color;
+  }
+
+  :is(.feedback1_svg, .feedback2_svg) > g {
+    stroke: $stroke-color;
+  }
+
+  :is(.caution_svg, .question_svg, .setting_svg, .user_svg) > g {
+    fill: $stroke-color;
+  }
+
+  :is(.setting_svg) > g {
+    stroke: $stroke-color;
+    fill: $stroke-color;
+  }
+
+  .check_fill_svg > circle {
+    fill: #7176ff;
+  }
+
+  .point_fill_svg {
+    circle {
+      fill: #303c4a;
+    }
+    path {
+      fill: #9095ff;
+    }
+  }
+
+  .arrow_right_fill_svg {
+    rect {
+      fill: #455568;
+    }
+    path {
+      stroke: $stroke-color;
+    }
+  }
+
+  .close_fill_svg {
+    rect {
+      fill: #455568;
+    }
+    path {
+      fill: $stroke-color;
+    }
+  }
+
+  .heart_fill_svg {
+    circle {
+      fill: #ffdddb;
+    }
+    path {
+      fill: #f94b33;
+    }
+  }
+
+  .refresh_svg {
+    circle {
+      stroke: #455568;
+      fill: transparent;
+    }
+    path {
+      fill: #455568;
+    }
+  }
+
+  .dots_svg > circle {
+    fill: $stroke-color;
+  }
+
+  .message_svg {
+    path,
+    circle {
+      fill: $stroke-color;
+    }
+  }
+
+  .like_fill_svg > path {
+    fill: #f94b33;
+  }
+
+  .up_fill_svg > path {
+    fill: #f94b33;
+  }
+
+  .down_fill_svg > path {
+    fill: #0cdb6b;
+  }
+
+  :is(.star_fill_svg, .comment_fill_svg) > path {
+    fill: #7176ff;
+  }
+
+  .shop_fill_svg > path {
+    &:nth-child(-n + 4) {
+      stroke: $stroke-color;
+      fill: $stroke-color;
+    }
+    &:nth-child(5) {
+      fill: $stroke-color;
+    }
+    &:nth-child(6) {
+      fill: #7176ff;
+    }
+  }
+
+  .user_fill_svg > path {
+    fill: #7176ff;
+    &:first-child {
+      fill: $stroke-color;
+    }
+  }
+
+  .level_silver_svg {
+    path {
+      fill: #455568;
+    }
+    g > path {
+      fill: #303c4a;
+    }
+    :nth-child(4) {
+      fill: #ffffff;
+    }
+  }
+
+  .label_new_svg > path {
+    &:first-child {
+      fill: #7176ff;
+    }
+  }
+
+  .view_fill_svg {
+    path {
+      fill: #455568;
+    }
+    circle {
+      fill: #7176ff;
+    }
+  }
+
+  .question_grey_svg > path {
+    &:nth-child(1) {
+      fill: #61738a;
+    }
+  }
+
+  .question_red_svg > path {
+    fill: #f94b33;
+    &:nth-child(1) {
+      fill: #6d0a03;
+    }
+  }
+
+  .ai_svg > path {
+    &:nth-child(-n + 2) {
+      fill: #303c4a;
+      stroke: #303c4a;
+    }
+    &:nth-child(3) {
+      fill: #7176ff;
+    }
+    &:nth-child(4) {
+      fill: #ffc52f;
+    }
+  }
+
+  :is(.comment_svg, .view_gray_svg) > path {
+    fill: #61738a;
+  }
+
+  .search_svg {
+    circle {
+      stroke: $stroke-color;
+    }
+    path {
+      fill: $stroke-color;
+    }
+  }
+
+  .txt_quotes_svg > path {
+    &:nth-child(1) {
+      stroke: $stroke-color;
+    }
+    &:nth-child(2) {
+      fill: $stroke-color;
+    }
+  }
+
+  .txt_color_svg {
+    path {
+      stroke: $stroke-color;
+    }
+    circle {
+      fill: $stroke-color;
+    }
+  }
+
+  .img_svg {
+    path,
+    rect {
+      stroke: $stroke-color;
+    }
+  }
+
+  .warning_fill_svg {
+    circle {
+      fill: #303c4a;
+    }
+    path {
+      fill: #bfccdc;
+    }
+  }
+
+  :is(.warning_angle_svg, .shield_fill_svg) > path {
+    &:nth-child(1) {
+      fill: #3c41b3;
+    }
+    &:nth-child(2) {
+      stroke: #7176ff;
+    }
+  }
+}

@@ -1,7 +1,15 @@
 import * as React from "react";
 import type { SVGProps } from "react";
 const SvgHeartFill = (props: SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} fill="none" {...props}>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={20}
+    height={20}
+    fill="none"
+    className="heart_fill_svg"
+    viewBox="0 0 20 20"
+    {...props}
+  >
     <circle cx={10.002} cy={9.995} r={8.125} fill="#FFDDDB" />
     <path
       fill="#F1351C"

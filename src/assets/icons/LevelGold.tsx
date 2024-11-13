@@ -1,13 +1,21 @@
 import * as React from "react";
 import type { SVGProps } from "react";
 const SvgLevelGold = (props: SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none" {...props}>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={24}
+    height={24}
+    fill="none"
+    className="level_gold_svg"
+    viewBox="0 0 24 24"
+    {...props}
+  >
     <path
       fill="#FFC52F"
       d="m12 3.101 6.23 2.67L20.899 12l-2.67 6.23L12 20.899l-6.23-2.67L3.101 12l2.67-6.23z"
     />
     <mask
-      id="level_gold_svg__a"
+      id="a"
       width={18}
       height={18}
       x={3}
@@ -22,7 +30,7 @@ const SvgLevelGold = (props: SVGProps<SVGSVGElement>) => (
         d="m12 3.101 6.23 2.67L20.899 12l-2.67 6.23L12 20.899l-6.23-2.67L3.101 12l2.67-6.23z"
       />
     </mask>
-    <g mask="url(#level_gold_svg__a)">
+    <g mask="url(#a)">
       <path fill="#fff" d="m12.494 12 5.933-6.427L12 2.607 5.079 5.079 2.607 12z" opacity={0.25} />
     </g>
     <path

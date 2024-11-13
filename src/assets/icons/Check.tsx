@@ -1,16 +1,27 @@
 import * as React from "react";
 import type { SVGProps } from "react";
 const SvgCheck = (props: SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} fill="none" {...props}>
-    <g fill="#233142" fillRule="evenodd" clipPath="url(#check_svg__a)" clipRule="evenodd">
-      <path d="M10 17.083a7.083 7.083 0 1 0 0-14.167 7.083 7.083 0 0 0 0 14.167m0 1.25a8.333 8.333 0 1 0 0-16.666 8.333 8.333 0 0 0 0 16.666" />
-      <path d="M14.17 7.454a.625.625 0 0 1 .043.883l-3.873 4.26c-.4.44-1.087.457-1.508.036l-2.607-2.608a.625.625 0 1 1 .884-.884l2.453 2.454 3.726-4.099a.625.625 0 0 1 .882-.042" />
-    </g>
-    <defs>
-      <clipPath id="check_svg__a">
-        <path fill="#fff" d="M0 0h20v20H0z" />
-      </clipPath>
-    </defs>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={16}
+    height={16}
+    fill="none"
+    className="check_svg"
+    viewBox="0 0 16 16"
+    {...props}
+  >
+    <path
+      fill="#233142"
+      fillRule="evenodd"
+      d="M8 13.667A5.667 5.667 0 1 0 8 2.333a5.667 5.667 0 0 0 0 11.334m0 1A6.667 6.667 0 1 0 8 1.333a6.667 6.667 0 0 0 0 13.334"
+      clipRule="evenodd"
+    />
+    <path
+      fill="#233142"
+      fillRule="evenodd"
+      d="M11.336 5.963a.5.5 0 0 1 .034.707l-3.098 3.408a.833.833 0 0 1-1.206.028L4.98 8.02a.5.5 0 1 1 .707-.707l1.962 1.963 2.981-3.279a.5.5 0 0 1 .706-.034"
+      clipRule="evenodd"
+    />
   </svg>
 );
 export default SvgCheck;

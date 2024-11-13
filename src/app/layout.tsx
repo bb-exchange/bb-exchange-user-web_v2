@@ -9,6 +9,7 @@ import Header from "@/shared/components/layouts/header";
 import ThemeProvider from "@/shared/providers/theme-provider";
 
 import "@/styles/globals.css";
+import "@/styles/icons.scss";
 import "@/styles/variables.css";
 
 const inter = Inter({ subsets: ["latin"] });

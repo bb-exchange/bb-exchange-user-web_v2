@@ -81,16 +81,24 @@ export default function Home() {
       </Avatar>
       <Toaster />
 
-      <TooltipProvider delayDuration={100}>
-        {iconMap.map((map, index) => (
-          <Tooltip key={index}>
-            <TooltipTrigger>
-              <map.comp />
-            </TooltipTrigger>
-            <TooltipContent align="center">{map.name}</TooltipContent>
-          </Tooltip>
-        ))}
-      </TooltipProvider>
+      <Box>
+        <TooltipProvider delayDuration={100}>
+          {iconMap.map((map, index) => {
+            if (map.name === "Divider") {
+              return <br key={index} />;
+            } else {
+              return (
+                <Tooltip key={index}>
+                  <TooltipTrigger>
+                    <map.comp key={index} />
+                  </TooltipTrigger>
+                  <TooltipContent align="center">{map.name}</TooltipContent>
+                </Tooltip>
+              );
+            }
+          })}
+        </TooltipProvider>
+      </Box>
 
       <Button
         variant="outline"

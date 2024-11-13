@@ -1,9 +1,90 @@
+import Ai from "./Ai";
+import ArrowDown from "./ArrowDown";
+import ArrowLeft from "./ArrowLeft";
+import ArrowRight from "./ArrowRight";
+import ArrowRightFill from "./ArrowRightFill";
+import Camera from "./Camera";
+import Caution from "./Caution";
+import Check from "./Check";
+import CheckFill from "./CheckFill";
+import Close from "./Close";
+import CloseFill from "./CloseFill";
+import Comment from "./Comment";
+import CommentFill from "./CommentFill";
+import Copy from "./Copy";
+import Dots from "./Dots";
+import DownFill from "./DownFill";
+import Edit from "./Edit";
+import Feedback1 from "./Feedback1";
+import Feedback2 from "./Feedback2";
+import Filter from "./Filter";
+import HeartFill from "./HeartFill";
+import Img from "./Img";
+import LabelBest from "./LabelBest";
+import LabelNew from "./LabelNew";
+import LevelGold from "./LevelGold";
+import LevelSilver from "./LevelSilver";
+import Like from "./Like";
+import LikeFill from "./LikeFill";
+import LikeFillWhite from "./LikeFillWhite";
+import Link from "./Link";
+import Lock from "./Lock";
+import Message from "./Message";
+import Noti from "./Noti";
+import NotiOff from "./NotiOff";
+import NotiPc from "./NotiPc";
+import Plus from "./Plus";
+import PointFill from "./PointFill";
+import Question from "./Question";
+import QuestionGrey from "./QuestionGrey";
+import QuestionRed from "./QuestionRed";
+import Refresh from "./Refresh";
+import Return from "./Return";
+import Search from "./Search";
+import Setting from "./Setting";
+import Share from "./Share";
+import ShieldFill from "./ShieldFill";
+import Shop from "./Shop";
+import ShopFill from "./ShopFill";
+import Slider from "./Slider";
+import StarFill from "./StarFill";
+import ThumbDown from "./ThumbDown";
+import ThumbDownGray from "./ThumbDownGray";
+import ThumbDownGreen from "./ThumbDownGreen";
+import ThumbDownRed from "./ThumbDownRed";
+import ThumbUp from "./ThumbUp";
+import ThumbUpGray from "./ThumbUpGray";
+import ThumbUpGreen from "./ThumbUpGreen";
+import ThumbUpRed from "./ThumbUpRed";
+import TxtArrow from "./TxtArrow";
+import TxtBold from "./TxtBold";
+import TxtCenteralign from "./TxtCenteralign";
+import TxtColor from "./TxtColor";
+import TxtItalic from "./TxtItalic";
+import TxtLeftalign from "./TxtLeftalign";
+import TxtList from "./TxtList";
+import TxtNumber from "./TxtNumber";
+import TxtQuotes from "./TxtQuotes";
+import TxtRightalign from "./TxtRightalign";
+import TxtUnderline from "./TxtUnderline";
+import UpFill from "./UpFill";
+import User from "./User";
+import UserFill from "./UserFill";
+import UserMinus from "./UserMinus";
+import UserPc from "./UserPc";
+import View from "./View";
+import ViewFill from "./ViewFill";
+import ViewGray from "./ViewGray";
+import WarningAngle from "./WarningAngle";
+import WarningFill from "./WarningFill";
+
 export { default as AiIcon } from "./Ai";
 export { default as ArrowDownIcon } from "./ArrowDown";
 export { default as ArrowLeftIcon } from "./ArrowLeft";
 export { default as ArrowRightIcon } from "./ArrowRight";
+export { default as ArrowRightFillIcon } from "./ArrowRightFill";
 export { default as CameraIcon } from "./Camera";
-export { default as CancelFillIcon } from "./CancelFill";
+export { default as CautionIcon } from "./Caution";
 export { default as CheckIcon } from "./Check";
 export { default as CheckFillIcon } from "./CheckFill";
 export { default as CloseIcon } from "./Close";
@@ -29,12 +110,10 @@ export { default as LikeFillWhiteIcon } from "./LikeFillWhite";
 export { default as LinkIcon } from "./Link";
 export { default as LockIcon } from "./Lock";
 export { default as MessageIcon } from "./Message";
-export { default as MinusFillIcon } from "./MinusFill";
 export { default as NotiIcon } from "./Noti";
 export { default as NotiOffIcon } from "./NotiOff";
 export { default as NotiPcIcon } from "./NotiPc";
 export { default as PlusIcon } from "./Plus";
-export { default as PlusFillIcon } from "./PlusFill";
 export { default as PointFillIcon } from "./PointFill";
 export { default as QuestionIcon } from "./Question";
 export { default as QuestionGreyIcon } from "./QuestionGrey";
@@ -50,6 +129,9 @@ export { default as ShopFillIcon } from "./ShopFill";
 export { default as SliderIcon } from "./Slider";
 export { default as StarFillIcon } from "./StarFill";
 export { default as ThumbDownIcon } from "./ThumbDown";
+export { default as ThumbDownGrayIcon } from "./ThumbDownGray";
+export { default as ThumbDownGreenIcon } from "./ThumbDownGreen";
+export { default as ThumbDownRedIcon } from "./ThumbDownRed";
 export { default as ThumbUpIcon } from "./ThumbUp";
 export { default as ThumbUpGrayIcon } from "./ThumbUpGray";
 export { default as ThumbUpGreenIcon } from "./ThumbUpGreen";
@@ -76,161 +158,124 @@ export { default as ViewGrayIcon } from "./ViewGray";
 export { default as WarningIcon } from "./Warning";
 export { default as WarningAngleIcon } from "./WarningAngle";
 export { default as WarningFillIcon } from "./WarningFill";
-import Ai from "./Ai";
-import ArrowDown from "./ArrowDown";
-import ArrowLeft from "./ArrowLeft";
-import ArrowRight from "./ArrowRight";
-import Camera from "./Camera";
-import CancelFill from "./CancelFill";
-import Check from "./Check";
-import CheckFill from "./CheckFill";
-import Close from "./Close";
-import CloseFill from "./CloseFill";
-import Comment from "./Comment";
-import CommentFill from "./CommentFill";
-import Copy from "./Copy";
-import Dots from "./Dots";
-import DownFill from "./DownFill";
-import Edit from "./Edit";
-import Feedback1 from "./Feedback1";
-import Feedback2 from "./Feedback2";
-import Filter from "./Filter";
-import HeartFill from "./HeartFill";
-import Img from "./Img";
-import LabelBest from "./LabelBest";
-import LabelNew from "./LabelNew";
-import LevelGold from "./LevelGold";
-import LevelSilver from "./LevelSilver";
-import Like from "./Like";
-import LikeFill from "./LikeFill";
-import LikeFillWhite from "./LikeFillWhite";
-import Link from "./Link";
-import Lock from "./Lock";
-import Message from "./Message";
-import MinusFill from "./MinusFill";
-import Noti from "./Noti";
-import NotiOff from "./NotiOff";
-import NotiPc from "./NotiPc";
-import Plus from "./Plus";
-import PlusFill from "./PlusFill";
-import PointFill from "./PointFill";
-import Question from "./Question";
-import QuestionGrey from "./QuestionGrey";
-import QuestionRed from "./QuestionRed";
-import Refresh from "./Refresh";
-import Return from "./Return";
-import Search from "./Search";
-import Setting from "./Setting";
-import Share from "./Share";
-import ShieldFill from "./ShieldFill";
-import Shop from "./Shop";
-import ShopFill from "./ShopFill";
-import Slider from "./Slider";
-import StarFill from "./StarFill";
-import ThumbDown from "./ThumbDown";
-import ThumbUp from "./ThumbUp";
-import ThumbUpGray from "./ThumbUpGray";
-import ThumbUpGreen from "./ThumbUpGreen";
-import ThumbUpRed from "./ThumbUpRed";
-import TxtArrow from "./TxtArrow";
-import TxtBold from "./TxtBold";
-import TxtCenteralign from "./TxtCenteralign";
-import TxtColor from "./TxtColor";
-import TxtItalic from "./TxtItalic";
-import TxtLeftalign from "./TxtLeftalign";
-import TxtList from "./TxtList";
-import TxtNumber from "./TxtNumber";
-import TxtQuotes from "./TxtQuotes";
-import TxtRightalign from "./TxtRightalign";
-import TxtUnderline from "./TxtUnderline";
-import UpFill from "./UpFill";
-import User from "./User";
-import UserFill from "./UserFill";
-import UserMinus from "./UserMinus";
-import UserPc from "./UserPc";
-import View from "./View";
-import ViewFill from "./ViewFill";
-import ViewGray from "./ViewGray";
-import Warning from "./Warning";
-import WarningAngle from "./WarningAngle";
-import WarningFill from "./WarningFill";
+
 export const iconMap = [
-  { comp: Ai, name: "AiIcon" },
-  { comp: ArrowDown, name: "ArrowDownIcon" },
-  { comp: ArrowLeft, name: "ArrowLeftIcon" },
-  { comp: ArrowRight, name: "ArrowRightIcon" },
-  { comp: Camera, name: "CameraIcon" },
-  { comp: CancelFill, name: "CancelFillIcon" },
+  { comp: ThumbUpRed, name: "ThumbUpRedIcon" },
+  { comp: ThumbDownRed, name: "ThumbDownRedIcon" },
+  { comp: () => null, name: "Divider" },
+  { comp: ThumbUpGray, name: "ThumbUpGrayIcon" },
+  { comp: ThumbDownGray, name: "ThumbDownGrayIcon" },
+  { comp: () => null, name: "Divider" },
+  { comp: ThumbUpGreen, name: "ThumbUpGreenIcon" },
+  { comp: ThumbDownGreen, name: "ThumbDownGreenIcon" },
+  { comp: () => null, name: "Divider" },
+
+  { comp: Copy, name: "CopyIcon" },
   { comp: Check, name: "CheckIcon" },
   { comp: CheckFill, name: "CheckFillIcon" },
+  { comp: PointFill, name: "PointFillIcon" },
+  { comp: ArrowRightFill, name: "ArrowRightFillIcon" },
+
+  { comp: () => null, name: "Divider" },
+  { comp: ArrowLeft, name: "ArrowLeftIcon" },
+  { comp: ArrowRight, name: "ArrowRightIcon" },
+  { comp: ArrowDown, name: "ArrowDownIcon" },
   { comp: Close, name: "CloseIcon" },
   { comp: CloseFill, name: "CloseFillIcon" },
-  { comp: Comment, name: "CommentIcon" },
-  { comp: CommentFill, name: "CommentFillIcon" },
-  { comp: Copy, name: "CopyIcon" },
-  { comp: Dots, name: "DotsIcon" },
-  { comp: DownFill, name: "DownFillIcon" },
-  { comp: Edit, name: "EditIcon" },
-  { comp: Feedback1, name: "Feedback1Icon" },
-  { comp: Feedback2, name: "Feedback2Icon" },
-  { comp: Filter, name: "FilterIcon" },
+
+  { comp: () => null, name: "Divider" },
+  { comp: () => null, name: "Divider" },
+
   { comp: HeartFill, name: "HeartFillIcon" },
-  { comp: Img, name: "ImgIcon" },
-  { comp: LabelBest, name: "LabelBestIcon" },
-  { comp: LabelNew, name: "LabelNewIcon" },
-  { comp: LevelGold, name: "LevelGoldIcon" },
-  { comp: LevelSilver, name: "LevelSilverIcon" },
+  { comp: Refresh, name: "RefreshIcon" },
+  { comp: () => null, name: "Divider" },
+  { comp: ArrowLeft, name: "ArrowLeftIcon" },
+  { comp: ArrowRight, name: "ArrowRightIcon" },
+  { comp: ArrowDown, name: "ArrowDownIcon" },
+  { comp: Close, name: "CloseIcon" },
+  { comp: Check, name: "CheckIcon" },
+  { comp: CheckFill, name: "CheckFillIcon" },
+  { comp: CloseFill, name: "CloseFillIcon" },
+
+  { comp: () => null, name: "Divider" },
+  { comp: () => null, name: "Divider" },
+
+  { comp: Dots, name: "DotsIcon" },
+  { comp: ArrowLeft, name: "ArrowLeftIcon" },
+  { comp: ArrowRight, name: "ArrowRightIcon" },
+  { comp: ArrowDown, name: "ArrowDownIcon" },
+  { comp: Close, name: "CloseIcon" },
+  { comp: Message, name: "MessageIcon" },
+  { comp: Slider, name: "SliderIcon" },
+  { comp: Plus, name: "PlusIcon" },
+  { comp: View, name: "ViewIcon" },
+  { comp: ThumbUp, name: "ThumbUpIcon" },
+  { comp: ThumbDown, name: "ThumbDownIcon" },
   { comp: Like, name: "LikeIcon" },
   { comp: LikeFill, name: "LikeFillIcon" },
   { comp: LikeFillWhite, name: "LikeFillWhiteIcon" },
-  { comp: Link, name: "LinkIcon" },
-  { comp: Lock, name: "LockIcon" },
-  { comp: Message, name: "MessageIcon" },
-  { comp: MinusFill, name: "MinusFillIcon" },
+  { comp: CloseFill, name: "CloseFillIcon" },
+  { comp: () => null, name: "Divider" },
+  { comp: UpFill, name: "UpFillIcon" },
+  { comp: DownFill, name: "DownFillIcon" },
+  { comp: StarFill, name: "StarFillIcon" },
   { comp: Noti, name: "NotiIcon" },
-  { comp: NotiOff, name: "NotiOffIcon" },
-  { comp: NotiPc, name: "NotiPcIcon" },
-  { comp: Plus, name: "PlusIcon" },
-  { comp: PlusFill, name: "PlusFillIcon" },
-  { comp: PointFill, name: "PointFillIcon" },
-  { comp: Question, name: "QuestionIcon" },
-  { comp: QuestionGrey, name: "QuestionGreyIcon" },
-  { comp: QuestionRed, name: "QuestionRedIcon" },
-  { comp: Refresh, name: "RefreshIcon" },
-  { comp: Return, name: "ReturnIcon" },
-  { comp: Search, name: "SearchIcon" },
-  { comp: Setting, name: "SettingIcon" },
+  { comp: Lock, name: "LockIcon" },
   { comp: Share, name: "ShareIcon" },
-  { comp: ShieldFill, name: "ShieldFillIcon" },
+  { comp: Caution, name: "CautionIcon" },
+  { comp: Question, name: "QuestionIcon" },
+  { comp: Check, name: "CheckIcon" },
+  { comp: CheckFill, name: "CheckFillIcon" },
+  { comp: Return, name: "ReturnIcon" },
+  { comp: Setting, name: "SettingIcon" },
   { comp: Shop, name: "ShopIcon" },
   { comp: ShopFill, name: "ShopFillIcon" },
-  { comp: Slider, name: "SliderIcon" },
-  { comp: StarFill, name: "StarFillIcon" },
-  { comp: ThumbDown, name: "ThumbDownIcon" },
-  { comp: ThumbUp, name: "ThumbUpIcon" },
-  { comp: ThumbUpGray, name: "ThumbUpGrayIcon" },
-  { comp: ThumbUpGreen, name: "ThumbUpGreenIcon" },
-  { comp: ThumbUpRed, name: "ThumbUpRedIcon" },
-  { comp: TxtArrow, name: "TxtArrowIcon" },
-  { comp: TxtBold, name: "TxtBoldIcon" },
-  { comp: TxtCenteralign, name: "TxtCenteralignIcon" },
-  { comp: TxtColor, name: "TxtColorIcon" },
-  { comp: TxtItalic, name: "TxtItalicIcon" },
-  { comp: TxtLeftalign, name: "TxtLeftalignIcon" },
-  { comp: TxtList, name: "TxtListIcon" },
-  { comp: TxtNumber, name: "TxtNumberIcon" },
-  { comp: TxtQuotes, name: "TxtQuotesIcon" },
-  { comp: TxtRightalign, name: "TxtRightalignIcon" },
-  { comp: TxtUnderline, name: "TxtUnderlineIcon" },
-  { comp: UpFill, name: "UpFillIcon" },
   { comp: User, name: "UserIcon" },
+  { comp: () => null, name: "Divider" },
   { comp: UserFill, name: "UserFillIcon" },
+  { comp: CloseFill, name: "CloseFillIcon" },
+  { comp: Feedback1, name: "Feedback1Icon" },
+  { comp: Feedback2, name: "Feedback2Icon" },
+  { comp: NotiOff, name: "NotiOffIcon" },
   { comp: UserMinus, name: "UserMinusIcon" },
-  { comp: UserPc, name: "UserPcIcon" },
-  { comp: View, name: "ViewIcon" },
+  { comp: Filter, name: "FilterIcon" },
+  { comp: LevelGold, name: "LevelGoldIcon" },
+  { comp: LevelSilver, name: "LevelSilverIcon" },
+  { comp: LabelNew, name: "LabelNewIcon" },
+  { comp: LabelBest, name: "LabelBestIcon" },
   { comp: ViewFill, name: "ViewFillIcon" },
+  { comp: QuestionGrey, name: "QuestionGreyIcon" },
+  { comp: QuestionRed, name: "QuestionRedIcon" },
+  { comp: () => null, name: "Divider" },
+  { comp: Ai, name: "AiIcon" },
+  { comp: Comment, name: "CommentIcon" },
+  { comp: CommentFill, name: "CommentFillIcon" },
   { comp: ViewGray, name: "ViewGrayIcon" },
-  { comp: Warning, name: "WarningIcon" },
-  { comp: WarningAngle, name: "WarningAngleIcon" },
+  { comp: NotiPc, name: "NotiPcIcon" },
+  { comp: UserPc, name: "UserPcIcon" },
+  { comp: Search, name: "SearchIcon" },
+  { comp: Edit, name: "EditIcon" },
+  { comp: Camera, name: "CameraIcon" },
+  { comp: TxtBold, name: "TxtBoldIcon" },
+  { comp: TxtQuotes, name: "TxtQuotesIcon" },
+  { comp: TxtItalic, name: "TxtItalicIcon" },
+  { comp: TxtArrow, name: "TxtArrowIcon" },
+  { comp: TxtUnderline, name: "TxtUnderlineIcon" },
+  { comp: TxtNumber, name: "TxtNumberIcon" },
+  { comp: () => null, name: "Divider" },
+  { comp: TxtList, name: "TxtListIcon" },
+  { comp: TxtColor, name: "TxtColorIcon" },
+  { comp: Link, name: "LinkIcon" },
+  { comp: TxtLeftalign, name: "TxtLeftalignIcon" },
+  { comp: TxtCenteralign, name: "TxtCenteralignIcon" },
+  { comp: TxtRightalign, name: "TxtRightalignIcon" },
+  { comp: Img, name: "ImgIcon" },
+  { comp: PointFill, name: "PointFillIcon" },
+
+  { comp: () => null, name: "Divider" },
+  { comp: () => null, name: "Divider" },
+
   { comp: WarningFill, name: "WarningFillIcon" },
+  { comp: ShieldFill, name: "ShieldFillIcon" },
+  { comp: WarningAngle, name: "WarningAngleIcon" },
 ];

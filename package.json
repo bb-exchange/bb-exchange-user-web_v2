@@ -7,7 +7,7 @@
     "build:dev": "next build",
     "build": "next build",
     "start": "next start",
-    "svgr:generator": "npx @svgr/cli --typescript --template svgr.template.js --index-template svgr.index.template --out-dir src/assets/icons -- src/assets/svgs"
+    "svgr:generator": "npx @svgr/cli --typescript --no-index --template svgr.template.js --index-template svgr.index.template --out-dir src/assets/icons -- src/assets/svgs"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.0",
