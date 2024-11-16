@@ -2,6 +2,8 @@
 
 import { toast } from "sonner";
 
+import { iconMap } from "@/assets/icons";
+
 import { Box, Flex, Grid, Section } from "@/shared/components/layouts";
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components/ui/avatar";
 import { Badge } from "@/shared/components/ui/badge";
@@ -78,6 +80,26 @@ export default function Home() {
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
       <Toaster />
+
+      <Box>
+        <TooltipProvider delayDuration={100}>
+          {iconMap.map((map, index) => {
+            if (map.name === "Divider") {
+              return <br key={index} />;
+            } else {
+              return (
+                <Tooltip key={index}>
+                  <TooltipTrigger>
+                    <map.comp key={index} />
+                  </TooltipTrigger>
+                  <TooltipContent align="center">{map.name}</TooltipContent>
+                </Tooltip>
+              );
+            }
+          })}
+        </TooltipProvider>
+      </Box>
+
       <Button
         variant="outline"
         onClick={() =>
