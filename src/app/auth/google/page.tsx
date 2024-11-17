@@ -1,99 +1,105 @@
+"use client";
+
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 
 import Image from "next/image";
-import { useRouter } from "next/router";
+import { useRouter, useSearchParams } from "next/navigation";
 
-import styles from "../loadingLayout.module.scss";
+import styles from "../authLoading.module.scss";
 
-import { LoginResponse, SignUpResponse, TokenDataType } from "@/shared/types/signInType";
-
-const [_, setCookie] = useCookies(["oauthId", "oauthType", "accessToken", "refreshToken"]);
+import { usePostGoogleLogin } from "@/shared/services/auth/hooks/usePostGoogleLogin";
+import { usePostServiceLogin } from "@/shared/services/auth/hooks/usePostServiceLogin";
+import { usePostSignUp } from "@/shared/services/auth/hooks/usePostSignUp";
+import { useMyData, useUserProfile } from "@/shared/services/user/hooks";
+import { TokenDataType } from "@/shared/types/signInType";
 
 const GoogleAuth = () => {
-  const { query, push } = useRouter();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [_, setCookie] = useCookies(["accessToken", "refreshToken", "oauthId", "oauthType"]);
+  const { mutateAsync: googleLoginRequest } = usePostGoogleLogin();
+  const { mutateAsync: serviceLoginRequest } = usePostServiceLogin();
+  const { mutateAsync: signUpRequest } = usePostSignUp();
 
   useEffect(() => {
-    if (query?.code) {
-      (async () => {
-        // 1. 소셜 로그인 provider에 요청
-        const idToken = await socialLogin();
-        if (!idToken) {
-          return;
-        }
-        // 2. idToken 정보와 함께 BE 서버에 요청을 보내 토큰을 받아옴
-        const { isNewUser, accessToken, refreshToken } = await getAuthToken(idToken);
-        if (isNewUser) {
-          // 2-1. 회원가입
-          await signUpProcess(idToken);
-        } else if (accessToken && refreshToken) {
-          // 2-2. 로그인
-          setMyProfileData();
-          storeTokenData(accessToken, refreshToken);
-          push("/");
-        }
-      })();
+    const code = searchParams.get("code");
+    if (!code) {
+      return;
     }
-  }, [query?.code]);
 
-  const socialLogin = async (): Promise<string | null> => {
-    const { data } = await axios.post(
-      `https://www.googleapis.com/oauth2/v4/token`,
-      {
-        code: query?.code,
-        grant_type: "authorization_code",
-        client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
-        client_secret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET,
-        redirect_uri: process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI,
-      },
-      { headers: { "content-type": "application/x-www-form-urlencoded" } },
-    );
-    const idToken = data.id_token;
-    if (!idToken) {
+    (async () => {
+      // 1. 소셜 로그인 provider에 인증 요청
+      const socialResult = await googleLogin(code);
+      if (!socialResult) {
+        return;
+      }
+
+      // 2. idToken 정보와 함께 BE 서버에 요청을 보내 토큰을 받아옴
+      const { isNewUser, accessToken, refreshToken } = await serviceLogin(socialResult);
+      if (isNewUser) {
+        // 2-1. 회원가입
+        await signUpProcess(socialResult.idToken);
+      } else if (accessToken && refreshToken) {
+        // 2-2. 로그인
+        //setMyProfileData();
+        console.log("로그인 성공!");
+        storeTokenData(accessToken, refreshToken);
+        router.push("/");
+      }
+    })();
+  }, [searchParams]);
+
+  const googleLogin = async (
+    code: string,
+  ): Promise<{ idToken: string; accessToken: string } | null> => {
+    const result = await googleLoginRequest({ code });
+    const idToken = result.id_token;
+    const accessToken = result.access_token;
+    if (!idToken || !accessToken) {
       return null;
     }
-    return idToken;
+    return { idToken, accessToken };
   };
 
-  const getAuthToken = async (idToken: string): Promise<TokenDataType> => {
-    const { data }: { data: LoginResponse } = await axios.post("/v1/auth/oidc/login", {
-      idToken,
-      oauthType: "GOOGLE",
-    });
+  const serviceLogin = async ({
+    idToken,
+    accessToken,
+  }: {
+    idToken: string;
+    accessToken: string;
+  }): Promise<TokenDataType> => {
+    const { code, data } = await serviceLoginRequest({ idToken, accessToken, oauthType: "GOOGLE" });
     return {
-      isNewUser: data.message === "등록되지 않은 유저입니다.",
-      accessToken: data.data.accessToken,
-      refreshToken: data.data.refreshToken,
+      isNewUser: code === "USR000", // 등록되지 않은 유저
+      accessToken: data?.accessToken,
+      refreshToken: data?.refreshToken,
     };
   };
 
   const signUpProcess = async (idToken: string) => {
-    const { data }: { data: SignUpResponse } = await axios.post("/v1/auth/register/verify ", {
-      oauthType: "GOOGLE",
-      idToken,
-      kakaoAccessToken: null,
-    });
-
+    const { data } = await signUpRequest({ idToken, oauthType: "GOOGLE" });
     if (data.status === "OAUTH_VERIFIED") {
       storeOauthData(data.oauthId, data.oauthType);
-      push({
-        pathname: "/auth/onboarding",
-      });
+      router.push("/auth/onboarding");
     }
   };
 
   const setMyProfileData = async () => {
-    const { data: userData } = await axios.get(`/v1/users/me`); // TODO: 토큰 필요한 아이,,,
-    const userId = userData?.data.id;
+    const { data } = useMyData();
+    const userId = data?.data.id;
     if (userId) {
-      const { data: profileData } = await axios.get(`/v1/users/profile/${userId}`);
+      const { data: profileData } = useUserProfile(userId);
       // TODO: profile storage 구현 필요
-      // setProfile({
-      //   userId: profileData.data.userId,
-      //   profileImage: profileData.data.profileImage,
-      //   nickname: profileData.data.nickname,
-      //   description: profileData.data.description,
-      // });
+      if (profileData) {
+        console.log(profileData);
+        // setProfile({
+        //   userId: profileData.data.userId,
+        //   profileImage: profileData.data.profileImage,
+        //   nickname: profileData.data.nickname,
+        //   description: profileData.data.description,
+        // });
+      }
     }
   };
 
@@ -116,9 +122,9 @@ const GoogleAuth = () => {
   };
 
   return (
-    <div className={styles.loadingLayout}>
+    <div className={styles.authLoadingLayout}>
       <Image
-        src={"/assets/icons/loading/threeDots.gif"}
+        src={"/assets/images/three_dots_loading.gif"}
         alt={"loading dots"}
         width={150}
         height={150}

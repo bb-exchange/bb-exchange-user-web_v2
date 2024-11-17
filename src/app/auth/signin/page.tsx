@@ -11,17 +11,45 @@ import { Text } from "@/shared/components/ui/text";
 
 export default function Login() {
   useEffect(() => {
-    // 로그인 화면 진입 시 쿠키에 저장된 토큰 전부 삭제 및 로그아웃 처리
+    // 로그인 화면 진입 시 쿠키에 저장된 토큰 전부 삭제 및 로그아웃 처리?
   }, []);
 
   const kakaoLoginHandler = () => {
-    // window.location.assign(KAKAO_AUTH_URL);
+    const kakaoAuthUrl = "https://kauth.kakao.com/oauth/authorize";
+    const queryString = getQueryString({
+      client_id: `${process.env.NEXT_PUBLIC_KAKAO_JS_KEY}`,
+      redirect_uri: `${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}`,
+      response_type: "code",
+      scope: "openid",
+    });
+    window.location.assign(`${kakaoAuthUrl}${queryString}`);
   };
   const googleLoginHandler = () => {
-    // window.location.assign(GOOGLE_AUTH_URL);
+    const googleAuthUrl = "https://accounts.google.com/o/oauth2/v2/auth";
+    const queryString = getQueryString({
+      client_id: `${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}`,
+      redirect_uri: `${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI}`,
+      response_type: "code",
+      scope: "https://www.googleapis.com/auth/userinfo.email&access_type=offline",
+    });
+    window.location.assign(`${googleAuthUrl}${queryString}`);
   };
   const appleLoginHandler = () => {
-    // window.location.assign(APPLE_AUTH_URL);
+    const appleAuthUrl = "https://appleid.apple.com/auth/authorize";
+    const queryString = getQueryString({
+      client_id: `${process.env.NEXT_PUBLIC_APPLE_CLIENT_ID}`,
+      redirect_uri: `${process.env.NEXT_PUBLIC_APPLE_REDIRECT_URI}`,
+      response_type: "code",
+    });
+    window.location.assign(`${appleAuthUrl}${queryString}`);
+  };
+
+  const getQueryString = (queryParams: { [key: string]: any }) => {
+    let queryString = "?";
+    Object.keys(queryParams).forEach((key) => {
+      queryString += `${key}=${queryParams[key]}&`;
+    });
+    return queryString.slice(0, -1);
   };
 
   return (

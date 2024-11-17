@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 
 import "@radix-ui/themes/styles.css";
 
+import QueryClientProvider from "@/shared/providers/react-query-provider";
 import ThemeProvider from "@/shared/providers/theme-provider";
 
 import "@/styles/globals.css";
@@ -23,7 +24,9 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={inter.className}>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <QueryClientProvider>{children}</QueryClientProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

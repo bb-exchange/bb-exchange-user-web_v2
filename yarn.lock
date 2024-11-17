@@ -1779,6 +1779,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/react-query-next-experimental@npm:^5.60.5":
+  version: 5.60.5
+  resolution: "@tanstack/react-query-next-experimental@npm:5.60.5"
+  peerDependencies:
+    "@tanstack/react-query": ^5.60.5
+    next: ^13 || ^14 || ^15
+    react: ^18 || ^19
+  checksum: 10c0/a4e81af9be3edf3d79cc2dafbbadba359b9bc0990ad7f61fe2b4ed43d4d3cd61e1d028205e8b984a2db618451b75b6a07787b7443fa1259a556c23075790ce57
+  languageName: node
+  linkType: hard
+
 "@tanstack/react-query@npm:^5.51.23":
   version: 5.59.0
   resolution: "@tanstack/react-query@npm:5.59.0"
@@ -2389,6 +2400,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"commander@npm:^4.0.0":
+  version: 4.1.1
+  resolution: "commander@npm:4.1.1"
+  checksum: 10c0/84a76c08fe6cc08c9c93f62ac573d2907d8e79138999312c92d4155bc2325d487d64d13f669b2000c9f8caf70493c1be2dac74fec3c51d5a04f8bc3ae1830bab
+  languageName: node
+  linkType: hard
+
 "concat-map@npm:0.0.1":
   version: 0.0.1
   resolution: "concat-map@npm:0.0.1"
@@ -2644,6 +2662,18 @@ __metadata:
     graceful-fs: "npm:^4.2.4"
     tapable: "npm:^2.2.0"
   checksum: 10c0/81a0515675eca17efdba2cf5bad87abc91a528fc1191aad50e275e74f045b41506167d420099022da7181c8d787170ea41e4a11a0b10b7a16f6237daecb15370
+  languageName: node
+  linkType: hard
+
+"env-cmd@npm:^10.1.0":
+  version: 10.1.0
+  resolution: "env-cmd@npm:10.1.0"
+  dependencies:
+    commander: "npm:^4.0.0"
+    cross-spawn: "npm:^7.0.0"
+  bin:
+    env-cmd: bin/env-cmd.js
+  checksum: 10c0/8ea5f4205bed83f39ea0ef0eb94d52a47bc815302c55779fb6c38346ca9284df1855f0847c8f5c702554f7f01e3575d171f12cffd13a1bada01961815842abe3
   languageName: node
   linkType: hard
 
@@ -4089,6 +4119,7 @@ __metadata:
     "@radix-ui/react-tooltip": "npm:^1.1.2"
     "@radix-ui/themes": "npm:^3.1.3"
     "@tanstack/react-query": "npm:^5.51.23"
+    "@tanstack/react-query-next-experimental": "npm:^5.60.5"
     "@trivago/prettier-plugin-sort-imports": "npm:^4.3.0"
     "@types/node": "npm:^20"
     "@types/react": "npm:^18"
@@ -4098,6 +4129,7 @@ __metadata:
     classnames: "npm:^2.5.1"
     cookies-next: "npm:^4.2.1"
     dayjs: "npm:^1.11.12"
+    env-cmd: "npm:^10.1.0"
     eslint: "npm:^8"
     eslint-config-next: "npm:14.2.5"
     next: "npm:14.2.5"

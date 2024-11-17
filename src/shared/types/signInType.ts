@@ -7,6 +7,7 @@ export interface GoogleLoginResponse {
 }
 
 export interface LoginResponse {
+  code?: string;
   message?: string;
   data?: {
     accessToken: string;
@@ -16,9 +17,11 @@ export interface LoginResponse {
 }
 
 export interface SignUpResponse {
-  status: string;
-  oauthId: string;
-  oauthType: string;
+  data: {
+    status: string;
+    oauthId: string;
+    oauthType: string;
+  };
 }
 
 export interface TokenDataType {
@@ -26,3 +29,5 @@ export interface TokenDataType {
   accessToken?: string;
   refreshToken?: string;
 }
+
+export type SocialLoginType = "GOOGLE" | "KAKAO" | "APPLE";
