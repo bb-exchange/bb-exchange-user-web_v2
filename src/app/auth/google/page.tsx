@@ -43,7 +43,6 @@ const GoogleAuth = () => {
       } else if (accessToken && refreshToken) {
         // 2-2. 로그인
         //setMyProfileData();
-        console.log("로그인 성공!");
         storeTokenData(accessToken, refreshToken);
         router.push("/");
       }
@@ -70,6 +69,7 @@ const GoogleAuth = () => {
     accessToken: string;
   }): Promise<TokenDataType> => {
     const { code, data } = await serviceLoginRequest({ idToken, accessToken, oauthType: "GOOGLE" });
+    // TODO: duplicate-social-account 확인 필요
     return {
       isNewUser: code === "USR000", // 등록되지 않은 유저
       accessToken: data?.accessToken,
