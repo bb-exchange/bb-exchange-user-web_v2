@@ -1,0 +1,63 @@
+.loginPage {
+  display: flex;
+  justify-content: center;
+  height: calc(100vh - var(--gnb-height));
+  background-color: var(--gray-010);
+  overflow: auto;
+  padding: 64px 40px;
+
+  .contentBox {
+    width: 560px;
+    height: fit-content;
+    padding: 64px 0px 52px;
+    background: var(--white);
+    border: 1px solid var(--gray-040);
+    border-radius: 20px;
+    margin: auto;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .imgWrap {
+      width: 200px;
+      height: 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 32px;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 40px;
+      color: var(--gray-080);
+      margin-bottom: 12px;
+      letter-spacing: -0.08rem;
+    }
+    .titleText {
+      font-size: 16px;
+      letter-spacing: -0.04rem;
+      white-space: nowrap;
+      color: var(--gray-050);
+      margin-bottom: 32px;
+    }
+    .orText {
+      font-size: 16px;
+      color: var(--gray-050);
+      margin: 24px 0;
+    }
+
+    .loginButton {
+      cursor: pointer;
+    }
+    .btnGroup {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+    }
+  }
+}

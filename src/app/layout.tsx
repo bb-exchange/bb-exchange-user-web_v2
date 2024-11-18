@@ -3,9 +3,7 @@ import { Inter } from "next/font/google";
 
 import "@radix-ui/themes/styles.css";
 
-import { Container } from "@/shared/components/layouts";
-import Footer from "@/shared/components/layouts/footer";
-import Header from "@/shared/components/layouts/header";
+import QueryClientProvider from "@/shared/providers/react-query-provider";
 import ThemeProvider from "@/shared/providers/theme-provider";
 
 import "@/styles/globals.css";
@@ -28,9 +26,7 @@ export default function RootLayout({
     <html lang="ko">
       <body className={inter.className}>
         <ThemeProvider>
-          <Header />
-          <Container>{children}</Container>
-          <Footer />
+          <QueryClientProvider>{children}</QueryClientProvider>
         </ThemeProvider>
       </body>
     </html>

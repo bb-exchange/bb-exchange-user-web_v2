@@ -44,7 +44,7 @@
 }
 
 body {
-  margin-top: 48px;
+  margin-top: 0px;
 }
 
 .radix-themes {
@@ -57,6 +57,7 @@ body {
 }
 
 .radix-themes {
+  --white: #fff;
   /* * * * * * * * * * * * * * * * * * * */
   /*                                     */
   /*         Primary-Purple color        */
@@ -173,6 +174,7 @@ body {
 
 :is(.dark, .dark-theme),
 :is(.dark, .dark-theme) :where(.radix-themes:not(.light, .light-theme)) {
+  --white: #1d242d;
   /* * * * * * * * * * * * * * * * * * * */
   /*                                     */
   /*         Primary-Purple color        */
