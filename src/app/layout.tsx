@@ -7,6 +7,7 @@ import QueryClientProvider from "@/shared/providers/react-query-provider";
 import ThemeProvider from "@/shared/providers/theme-provider";
 
 import "@/styles/globals.css";
+import "@/styles/icons.scss";
 import "@/styles/variables.css";
 
 const inter = Inter({ subsets: ["latin"] });
