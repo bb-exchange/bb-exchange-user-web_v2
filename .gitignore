@@ -47,3 +47,4 @@ package-lock.json
 
 # environment
 *.local
+.env
