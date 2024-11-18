@@ -1,4 +1,4 @@
-@import './globals.css';
+@import "./globals.css";
 
 /* * * * * * * * * * * * * * * * * * * */
 /*                                     */
@@ -140,37 +140,37 @@
 /* * * * * * * * * * * * * * * * * * * */
 
 [data-accent-color="purple"] {
-    --accent-1: var(--purple-005);
-    --accent-2: var(--purple-010);
-    --accent-3: var(--purple-020);
-    --accent-4: var(--purple-030);
-    --accent-5: var(--purple-040);
-    --accent-6: var(--purple-050);
-    --accent-7: var(--purple-060);
-    --accent-8: var(--purple-070);
-    --accent-9: var(--purple-080);
-    --accent-10: var(--purple-090);
-    /* --accent-11: var(--purple-005);
+  --accent-1: var(--purple-005);
+  --accent-2: var(--purple-010);
+  --accent-3: var(--purple-020);
+  --accent-4: var(--purple-030);
+  --accent-5: var(--purple-040);
+  --accent-6: var(--purple-050);
+  --accent-7: var(--purple-060);
+  --accent-8: var(--purple-070);
+  --accent-9: var(--purple-080);
+  --accent-10: var(--purple-090);
+  /* --accent-11: var(--purple-005);
     --accent-12: var(--purple-005); */
-  
-    --accent-a1: var(--purple-a005);
-    --accent-a2: var(--purple-a010);
-    --accent-a3: var(--purple-a020);
-    --accent-a4: var(--purple-a030);
-    --accent-a5: var(--purple-a040);
-    --accent-a6: var(--purple-a050);
-    --accent-a7: var(--purple-a060);
-    --accent-a8: var(--purple-a070);
-    --accent-a9: var(--purple-a080);
-    --accent-a10: var(--purple-a090);
-    /* --accent-a11: var(--purple-a005);
+
+  --accent-a1: var(--purple-a005);
+  --accent-a2: var(--purple-a010);
+  --accent-a3: var(--purple-a020);
+  --accent-a4: var(--purple-a030);
+  --accent-a5: var(--purple-a040);
+  --accent-a6: var(--purple-a050);
+  --accent-a7: var(--purple-a060);
+  --accent-a8: var(--purple-a070);
+  --accent-a9: var(--purple-a080);
+  --accent-a10: var(--purple-a090);
+  /* --accent-a11: var(--purple-a005);
     --accent-a12: var(--purple-a005); */
-  
-    --accent-contrast: var(--purple-contrast);
-    --accent-surface: var(--purple-surface);
-    --accent-indicator: var(--purple-indicator);
-    --accent-track: var(--purple-track);
-  }
+
+  --accent-contrast: var(--purple-contrast);
+  --accent-surface: var(--purple-surface);
+  --accent-indicator: var(--purple-indicator);
+  --accent-track: var(--purple-track);
+}
 
 [data-accent-color="gray"] {
   --accent-1: var(--gray-010);
@@ -205,7 +205,6 @@
   --accent-track: var(--gray-track);
 }
 
-
 [data-accent-color="red"] {
   --accent-1: var(--red-010);
   --accent-2: var(--red-020);
@@ -239,37 +238,39 @@
   --accent-track: var(--red-track);
 }
 
-
 [data-accent-color="green"] {
-    --accent-1: var(--green-010);
-    --accent-2: var(--green-020);
-    --accent-3: var(--green-030);
-    --accent-4: var(--green-040);
-    --accent-5: var(--green-050);
-    --accent-6: var(--green-060);
-    --accent-7: var(--green-070);
-    --accent-8: var(--green-080);
-    /* --accent-9: var(--green-9);
+  --accent-1: var(--green-010);
+  --accent-2: var(--green-020);
+  --accent-3: var(--green-030);
+  --accent-4: var(--green-040);
+  --accent-5: var(--green-050);
+  --accent-6: var(--green-060);
+  --accent-7: var(--green-070);
+  --accent-8: var(--green-080);
+  /* --accent-9: var(--green-9);
     --accent-10: var(--green-10);
     --accent-11: var(--green-11);
     --accent-12: var(--green-12); */
-  
-    --accent-a1: var(--green-a010);
-    --accent-a2: var(--green-a020);
-    --accent-a3: var(--green-a030);
-    --accent-a4: var(--green-a040);
-    --accent-a5: var(--green-a050);
-    --accent-a6: var(--green-a060);
-    --accent-a7: var(--green-a070);
-    --accent-a8: var(--green-a080);
-    /* --accent-a9: var(--green-a9);
+
+  --accent-a1: var(--green-a010);
+  --accent-a2: var(--green-a020);
+  --accent-a3: var(--green-a030);
+  --accent-a4: var(--green-a040);
+  --accent-a5: var(--green-a050);
+  --accent-a6: var(--green-a060);
+  --accent-a7: var(--green-a070);
+  --accent-a8: var(--green-a080);
+  /* --accent-a9: var(--green-a9);
     --accent-a10: var(--green-a10);
     --accent-a11: var(--green-a11);
     --accent-a12: var(--green-a12);
    */
-    --accent-contrast: var(--green-contrast);
-    --accent-surface: var(--green-surface);
-    --accent-indicator: var(--green-indicator);
-    --accent-track: var(--green-track);
-  }
-  
+  --accent-contrast: var(--green-contrast);
+  --accent-surface: var(--green-surface);
+  --accent-indicator: var(--green-indicator);
+  --accent-track: var(--green-track);
+}
+
+:root {
+  --gnb-height: 80px;
+}

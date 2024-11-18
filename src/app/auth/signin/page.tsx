@@ -9,6 +9,8 @@ import styles from "./signin.module.scss";
 import Header from "@/shared/components/layouts/header";
 import { Text } from "@/shared/components/ui/text";
 
+const imageSize = 56;
+
 export default function Login() {
   useEffect(() => {
     // 로그인 화면 진입 시 쿠키에 저장된 토큰 전부 삭제 및 로그아웃 처리?
@@ -79,7 +81,7 @@ export default function Login() {
             src="/assets/images/kakao_login.svg"
             alt="카카오 로그인"
             width={384}
-            height={60}
+            height={imageSize}
             quality={100}
             className={styles.loginButton}
             onClick={kakaoLoginHandler}
@@ -91,8 +93,8 @@ export default function Login() {
             <Image
               src="/assets/images/google_logo.svg"
               alt="구글 로그인"
-              width={56}
-              height={56}
+              width={imageSize}
+              height={imageSize}
               quality={100}
               className={styles.loginButton}
               onClick={googleLoginHandler}
@@ -100,8 +102,8 @@ export default function Login() {
             <Image
               src="/assets/images/apple_logo.svg"
               alt="애플 로그인"
-              width={56}
-              height={56}
+              width={imageSize}
+              height={imageSize}
               quality={100}
               className={styles.loginButton}
               onClick={appleLoginHandler}
